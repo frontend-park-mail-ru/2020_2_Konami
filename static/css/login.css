@@ -1,0 +1,105 @@
+.login body {
+    font-family: monospace, Helvetica, sans-serif;
+}
+
+.login input {
+    font-family: monospace, Helvetica, sans-serif;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.login wrapper-form {
+    margin: auto;
+}
+
+.login form {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+
+    box-shadow: 1px 2px 10px 0px #c5c5c5;
+    padding: 12px 20px 20px;
+}
+
+.login form input{
+    margin: 12px 10px 20px 0;
+    padding: 5px 8px;
+    font-weight: 500;
+    width: 90%;
+
+    height: 38px;
+    font-size: 15px;
+    font-family: monospace;
+    background: #f1f1f1;
+
+    border-radius: 3px;
+    border: none;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+.login form input:focus {
+    box-shadow: 0 0 0 1000px #edf8f6 inset,
+    0 0 0px 2px #edf8f6;
+    outline: none;
+}
+
+.login form label {
+    color: #648880;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.login form button {
+    height: 44px;
+    width: 120px;
+    font-size: 15px;
+    padding: 0 16px;
+    font-family: monospace;
+
+    border-radius: 5px;
+    background: #f1f1f1;
+    color: #4b4a4a;
+    cursor: pointer;
+}
+
+.login form button:hover {
+    background-color: #c7c6c6;
+}
+
+.login form main {
+    margin-left: 12px;
+}
+
+.login form footer {
+    display: flex;
+    flex-direction: column;
+    justify-items: right;
+    /*margin-top: 12px;*/
+    margin-left: 12px;
+}
+
+.login form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+.login form .message a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
