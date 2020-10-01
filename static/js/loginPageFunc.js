@@ -1,31 +1,20 @@
 function createLoginFormLayout() {
-    const form = document.createElement('form');
-    form.classList.add('vertical-center');
-    const main = document.createElement('main');
-    const footer = document.createElement('footer');
-
     const loginInput = createLabeledElements('Логин',
         createInput({type: 'text', placeholder: 'телефон или email', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
         createInput({type: 'password', placeholder: 'пароль', name: 'password'}));
-    main.appendChild(loginInput);
-    main.appendChild(pwdInput);
 
-    const submitBtn = document.createElement('button');
-    const p = document.createElement('p');
-    submitBtn.type = 'submit';
-    submitBtn.textContent = 'Войти';
-    p.innerHTML =
+    const submitBtn = createBtn('Войти',
+        {type: ' submit', classList: ['stdBtn', 'activable']});
+    const message = document.createElement('p');
+    message.innerHTML =
         `Нету аккаунта? 
         <a href="${appConfig.registration.href}" data-section="registration">
             Зарегестрироваться
         </a>`;
-    p.classList.add('message');
-    footer.appendChild(submitBtn);
-    footer.appendChild(p);
+    message.classList.add('message');
 
-    form.appendChild(main);
-    form.appendChild(footer);
+    const form = createAuthForm([loginInput, pwdInput], [submitBtn, message]);
 
     return form;
 }
@@ -37,7 +26,7 @@ function loginPage(application) {
     const form = createLoginFormLayout();
 
     const div = document.createElement('div');
-    div.classList.add('login');
+    div.classList.add('authForm');
 
     div.appendChild(form);
 

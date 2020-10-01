@@ -19,15 +19,6 @@ function createLabeledElements(labelName, ...elements) {
     return label;
 }
 
-function createBtn(text, options) {
-    const btn = document.createElement('button');
-    btn.textContent = text;
-
-    applyOptionsTo(btn, options);
-
-    return btn;
-}
-
 function applyOptionsTo(el, options) {
     Object.keys(options).forEach((opt) => {
         switch (opt) {
@@ -47,23 +38,16 @@ function applyOptionsTo(el, options) {
     });
 }
 
-function createLineSeparator(text, options) {
-    const sep = document.createElement('div');
-    sep.classList.add('separator');
-
-    if (Object.keys(options).length > 0) {
-        applyOptionsTo(sep, options);
+function createRadioBtn(btnId, text, name, value, options, checked = false) {
+    const div = document.createElement('div');
+    applyOptionsTo(div, options);
+    const input = createInput(
+        {type:'radio', id: btnId, value: value, name: name, required: 'true'});
+    if (checked) {
+        input.checked = true;
     }
 
-    sep.textContent = text;
-    return sep;
-}
-
-function createRadioBtn(btnId, text, name, value, options) {
-    const div = document.createElement('div');
-    applyOptionsTo(div, options)
-    div.appendChild(createInput(
-        {type:'radio', id: btnId, value: value, name: name, required: 'true'}));
+    div.appendChild(input);
     const lbl = document.createElement('label');
     lbl.htmlFor = btnId;
     lbl.textContent = text;

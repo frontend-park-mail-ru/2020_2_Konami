@@ -97,7 +97,7 @@ const userSessions = {};
 const userLoginPwdIdMap = {
     'lukash@mail.ru': {
         login: 'lukash@mail.ru',
-        password: '123',
+        password: '12345',
         id: '52',
     }
 }
@@ -191,11 +191,17 @@ app.post('/signout', function (req, res) {
     res.status(200);
 });
 
-app.use(formidable());
-
 app.post('/signup', function (req, res) {
-    console.log(req.fields);
-    console.log(req.files);
+    const password = req.body.password;
+    const login = req.body.login;
+    console.log(login, password);
+    res.status(200).send('ok');
+});
+
+app.use(formidable());  //  formdata только с этим мидлвером работает
+app.post('/edit_on_signup', function (req, res) {
+    console.log(req.fields, req.files);
+    res.status(200).send('ok');
 });
 
 const port = process.env.PORT || 8000;

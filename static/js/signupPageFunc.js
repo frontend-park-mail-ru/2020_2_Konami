@@ -1,21 +1,127 @@
-function createSignupFormLayout() {
+function createSignupLayout() {
+    const loginInput = createLabeledElements('Логин', createInput(
+        {type: 'text', placeholder: 'Ваш логин', name: 'login', required: 'true', maxLength: '30'}));
+
+    const passwordInput = createLabeledElements('Придумайте пароль', createInput(
+        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '5'}));
+
+    const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
+        {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));
+
+    const submitBtn = createBtn('Зарегестрироваться',
+        {type: ' submit', classList: ['stdBtn', 'activable']});
+
+    const form = createAuthForm([loginInput, passwordInput, repeatPasswordInput], [submitBtn]);
+
+    return form;
+}
+
+function signUpPage(application) {
+    application.innerHTML = '';
+
+    createHeader(application);
+    createNavigation(application);
+    const form = createSignupLayout();
+    const div = document.createElement('div');
+    div.classList.add('authForm');
+    div.appendChild(form);
+
+    application.appendChild(div);
+
+    form.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+
+        let input = document.getElementsByName('login')[0];
+        const login = input.value.trim();
+
+        input = document.getElementsByName('password')[0];
+        const password = input.value.trim();
+
+        input = document.getElementsByName('repeatPassword')[0];
+        const repeatPassword = input.value.trim();
+
+        //TODO(Валидатор сложности пароля)
+        if (!isValidPassword(password, repeatPassword)) {
+            password.classList.add('invalid');
+            repeatPassword.classList.add('invalid');
+            return
+        }
+
+        // TODO(USE FETCH)
+        ajax('POST',
+            '/signup',
+            (status, response) => {
+                if (status === 200) {
+                    // alert('signup200');
+                    // createProfilePage(application);
+                    ajax('POST',
+                        '/login',
+                        (status, response) => {
+                            if (status === 200) {
+                                onSignupRedirectPage(application);
+                                // createProfilePage(application);
+                            } else {
+                                const {error} = JSON.parse(response);
+                                alert(error);
+                            }
+                        },
+                        {login, password},
+                    )
+                } else {
+                    const {error} = JSON.parse(response);
+                    alert(error);
+                }
+            },
+            {login, password},
+        )
+    })
+}
+
+function onSignupRedirectPage(application) {
+    application.innerHTML = '';
+    createHeader(application);
+    createNavigation(application);
+
+    const form = createSignupEditProfileForm(application);
+    application.appendChild(form);
+
+    showTab(currentTab);
+
+    addInputFileChangeEventListeners();
+    addSubmitFormEventListener();
+    addTagsModalDialogEventListener();
+
+}
+
+function createSignupEditProfileForm() {
     const form = document.createElement('form');
 
-    let createColumn = function (options, ...elements) {
-        let col = document.createElement('div');
-        applyOptionsTo(col, options);
+    const tab1 = createTab1();
+    const tab2 = createTab2();
+    const tab3 = createTab3();
+    const btnsBlock = createButtonsBlock();
 
-        let fieldSet = document.createElement('fieldset');
+    form.append(tab1, tab2, tab3, btnsBlock);
 
-        elements.forEach((el) => {
-            fieldSet.appendChild(el);
-        });
+    return form;
+}
 
-        col.appendChild(fieldSet);
+function createColumn (options, ...elements) {
+    let col = document.createElement('div');
+    applyOptionsTo(col, options);
 
-        return col;
-    }
+    let fieldSet = document.createElement('fieldset');
 
+    elements.forEach((el) => {
+        fieldSet.appendChild(el);
+    });
+
+    col.appendChild(fieldSet);
+
+    return col;
+}
+
+function createTab1() {
     const tab1 = document.createElement('div');
     tab1.classList.add('tab');
 
@@ -26,14 +132,10 @@ function createSignupFormLayout() {
         {type: 'text', placeholder: 'Полное имя', name: 'name', required: 'true', maxLength: '30'}));
 
     const emailInput = createLabeledElements('Адрес электронной почты', createInput(
-        {type: 'email', placeholder: 'Электронная почта', name: 'email', required: 'true', maxLength: '250'}));
+        {type: 'email', placeholder: 'Электронная почта', name: 'email', maxLength: '250'}));
 
     const profilePhotoBtnLabel = createLabeledElements('Фото профиля');
-    const fileUploader = document.createElement('div');
-    fileUploader.innerHTML = '<input type="file" name="photos" id="photos" class="inputfile" data-multiple-caption="{count} files selected" multiple="">'
-    fileUploader.innerHTML += `<label for="photos"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"> 
-        <path d='M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z'>
-        </path></svg> <span>Выберите файл…</span></label>`
+    const fileUploader = createFileUploader('photoFileUploader');
 
     const leftCol = createColumn({classList: ['leftcolumn', 'col-2-3']},
         nameInput, emailInput, profilePhotoBtnLabel, fileUploader);
@@ -44,7 +146,7 @@ function createSignupFormLayout() {
     radioBtnWrapper.classList.add('form_radio_btn_wrapper');
 
     radioBtnWrapper.append(
-        createRadioBtn('male', 'Мужчина', 'gender', 'male', {classList:['form_radio_btn']}),
+        createRadioBtn('male', 'Мужчина', 'gender', 'male', {classList:['form_radio_btn']}, true),
         createRadioBtn('female', 'Женщина',  'gender', 'female', {classList:['form_radio_btn']}));
     const sexSelectorLabel = createLabeledElements('Пол', radioBtnWrapper);
 
@@ -55,19 +157,52 @@ function createSignupFormLayout() {
     );
 
     const cityInput = createLabeledElements('Город',
-        createInput({style: "width: 80%", name: "city", placeholder: "Ваш текущий город", maxLength: '30', required: 'true'}
+        createInput({style: "width: 80%", name: "city", placeholder: "Ваш текущий город", maxLength: '30'}
         ));
 
     const rightCol = createColumn({classList: ['rightcolumn', 'col-1-3']},
         sexSelectorLabel, birthDateLabel, cityInput);
     formsBlock.appendChild(rightCol);
 
-    const separator1 = createLineSeparator('Информация о себе', {classList: ['signup']});
+    tab1.appendChild(
+        createLineSeparator('Вы можете заполнить информацию о себе (необязательно)', {classList: ['signup']}))
+    tab1.appendChild(formsBlock);
+    return tab1;
+}
+
+function createTab2() {
+    const tab2 = document.createElement('div');
+    tab2.classList.add('tab');
+
+    let persInfoRow = document.createElement('div');
+
+    persInfoRow.classList.add('pers-info-row');
+    persInfoRow.appendChild(createLabeledElements(
+        'В каких сферах вы бы хотели получать рекоммендации?',
+        createBtn('+ Добавить рекоммендации', {id: 'openModalBtn', type: 'button', classList: ['stdBtn', 'secondary', 'activable']})));
+
+    const selectedTags = document.createElement('div');
+    selectedTags.classList.add('selectedTagsWrapper');
+
+    const persInfoBlock = createColumn({classList: ['signup', 'pers-info-block']}, persInfoRow, selectedTags);
+
+    const modalBlock = createModalDialog();
+
+    tab2.appendChild(
+        createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекоммендации',
+            {classList: ['signup']})
+    )
+    tab2.append(persInfoBlock, modalBlock);
+    return tab2;
+}
+
+function createTab3() {
+    const tab3 = document.createElement('div');
+    tab3.classList.add('tab');
 
     const rowsLbls = {'Ключевые навыки' : 'skills',
         'Основные интересы' : 'interests',
         'Цели' : 'goals'};
-
     let rows = [];
     Object.keys(rowsLbls).forEach((lbl) => {
         let persInfoRow = document.createElement('div');
@@ -84,39 +219,18 @@ function createSignupFormLayout() {
         persInfoRow.appendChild(createLabeledElements(lbl, textAreaWrapper));
         rows.push(persInfoRow);
     });
-    let persInfoRow = document.createElement('div');
-
-    persInfoRow.classList.add('pers-info-row');
-    persInfoRow.appendChild(createLabeledElements(
-        'В каких сферах вы бы хотели получать рекоммендации?',
-        createBtn('+ Добавить рекоммендации', {type: 'button', classList: ['stdBtn', 'secondary', 'activable']})));
-    rows.push(persInfoRow);
 
     const persInfoBlock = createColumn({classList: ['signup', 'pers-info-block']}, ...rows);
 
-    tab1.append(formsBlock, separator1, persInfoBlock);
+    tab3.appendChild(
+        createLineSeparator('Вы можете указать дополнительную информацию о себе (необязательно)',
+            {classList: ['signup']})
+    );
+    tab3.appendChild(persInfoBlock);
+    return tab3;
+}
 
-    const tab2 = document.createElement('div');
-    tab2.classList.add('tab');
-
-    const loginPassBlock = document.createElement('div');
-    loginPassBlock.classList.add('signup', 'center');
-
-    const loginInput = createLabeledElements('Логин', createInput(
-        {type: 'text', placeholder: 'Ваш логин', name: 'login', required: 'true', maxLength: '30'}));
-
-    const passwordInput = createLabeledElements('Придумайте пароль', createInput(
-        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '5'}));
-
-    const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
-        {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));
-
-    const col = createColumn({classList: ['leftcolumn', 'col-2-3']},
-        loginInput, passwordInput, repeatPasswordInput);
-
-    loginPassBlock.appendChild(col);
-    tab2.appendChild(loginPassBlock);
-
+function createButtonsBlock() {
     const signupBtnBlock = document.createElement('div')
     signupBtnBlock.classList.add('center');
 
@@ -130,58 +244,96 @@ function createSignupFormLayout() {
 
     signupBtnBlock.append(prevBtn, nextBtn);
 
-    form.append(tab1,tab2, signupBtnBlock);
-
-    return form;
+    return signupBtnBlock;
 }
 
-function signUpPage(application) {
-    application.innerHTML = '';
+function nextPrev(n) {
+    // This function will figure out which tab to display
+    let x = document.getElementsByClassName("tab");
+    if (n === 1 && !validateSignupInputForm()) {
+        return false;
+    }
+    // Hide the current tab:
+    x[currentTab].style.display = "none";
+    // Increase or decrease the current tab by 1:
+    currentTab = currentTab + n;
+    // if you have reached the end of the Form...
+    if (currentTab >= x.length) {
+        const submBtn = document.getElementById('nextBtn');
+        submBtn.type = 'submit';
+        submBtn.click();
+        currentTab = 0;
+        appConfig.meetings.open();
 
-    createHeader(application);
-    createNavigation(application);
-    const form = createSignupFormLayout();
-
-    application.appendChild(form);
-
+        return false;
+    }
+    // Otherwise, display the correct tab:
     showTab(currentTab);
+}
+
+function showTab(n) {
+    // This function will display the specified tab of the Form...
+    let x = document.getElementsByClassName("tab");
+    x[n].style.display = "block";
+    //... and fix the Previous/Next buttons:
+    if (n === 0) {
+        document.getElementById("prevBtn").style.display = "none";
+    } else {
+        document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n === (x.length - 1)) {
+        document.getElementById("nextBtn").innerHTML = "Применить";
+    } else {
+        document.getElementById("nextBtn").innerHTML = "Далее";
+    }
+}
+
+function addSubmitFormEventListener() {
+    const form = document.forms[0];
 
     form.addEventListener('submit', (evt) => {
         evt.preventDefault();
+
+        const form = document.querySelector('Form');
+        let formData = new FormData(form);
 
         let gender = 'male';
         if (document.getElementById('male').checked) {
             gender = 'male';
         } else if (document.getElementById('female').checked) {
             gender = 'female';
-        }
 
-        const form = document.querySelector('form');
-        let formData = new FormData(form);
+        }
         formData.append('gender', gender);
 
-        const photos = document.getElementById('photos').files;
+        const photos = document.getElementById('photoFileUploader').files;
         let cnt = photos.length;
         for (let i = 0; i < cnt; i++) {
             formData.append(photos[i].name, photos[i]);
         }
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/signup", true);
+        const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
+        const tagValues = selectedTags.map((tag) => {
+            return tag.textContent;
+        });
+
+        formData.append('tags', JSON.stringify(tagValues));
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/edit_on_signup", true);
         xhr.onload = function(oEvent) {
             if (xhr.status == 200) {
                 console.log('200');
-            } else {
-                oOutput.innerHTML = "Error " + xhr.status + " occurred when trying to upload your file.<br \/>";
             }
         };
 
         xhr.send(formData);
     });
+}
 
+function addInputFileChangeEventListeners() {
     const inputs = document.querySelectorAll( '.inputfile' );
-    Array.prototype.forEach.call( inputs, function( input )
-    {
+    Array.prototype.forEach.call( inputs, function( input ) {
         let label	 = input.nextElementSibling,
             labelVal = label.innerHTML;
 
@@ -201,43 +353,43 @@ function signUpPage(application) {
     });
 }
 
-function nextPrev(n) {
-    // This function will figure out which tab to display
-    let x = document.getElementsByClassName("tab");
-    if (n === 1 && !validateSignupForm()) {
-        return false;
-    }
-    // Hide the current tab:
-    x[currentTab].style.display = "none";
-    // Increase or decrease the current tab by 1:
-    currentTab = currentTab + n;
-    // if you have reached the end of the form...
-    if (currentTab >= x.length) {
-        const submBtn = document.getElementById('nextBtn');
-        submBtn.type = 'submit';
-        submBtn.click();
-        currentTab = 0;
-        appConfig.login.open();
+function addTagsModalDialogEventListener() {
+    let modal = document.getElementById("modalTags");
 
-        return false;
-    }
-    // Otherwise, display the correct tab:
-    showTab(currentTab);
-}
+// Get the button that opens the modal
+    let btn = document.getElementById("openModalBtn");
 
-function showTab(n) {
-    // This function will display the specified tab of the form...
-    let x = document.getElementsByClassName("tab");
-    x[n].style.display = "block";
-    //... and fix the Previous/Next buttons:
-    if (n === 0) {
-        document.getElementById("prevBtn").style.display = "none";
-    } else {
-        document.getElementById("prevBtn").style.display = "inline";
+// Get the <span> element that closes the modal
+//     var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
     }
-    if (n === (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Зарегестрироваться!";
-    } else {
-        document.getElementById("nextBtn").innerHTML = "Далее";
+
+// When the user clicks on <span> (x), close the modal
+//     span.onclick = function() {
+//         modal.style.display = "none";
+//     }
+
+// When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+
+            const tags = Array.from(document.getElementsByClassName('btnLike'));
+            const selectedTagValues = []
+            tags.forEach((tag) => {
+                if (tag.checked) {
+                    selectedTagValues.push(tag.value);
+                }
+            });
+
+            const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
+            selectedTagsBlock.innerHTML = '';
+
+            const selectedTags = selectedTagValues.map((tagValue) => createSelectedTag(tagValue));
+            selectedTagsBlock.append(...selectedTags);
+        }
     }
 }
