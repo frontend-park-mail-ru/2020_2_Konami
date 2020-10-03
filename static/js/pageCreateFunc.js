@@ -8,7 +8,7 @@ function createMetPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('GET', '/metings'+`?pageNum=1`, (status, responseText) => {
+    ajax('GET', '/meetings'+`?pageNum=1`, (status, responseText) => {
         if (status !== 200) {
             return;
         }
@@ -30,7 +30,7 @@ function createPeoplesPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('GET', '/peoples'+`?pageNum=1`, (status, responseText) => {
+    ajax('GET', '/people'+`?pageNum=1`, (status, responseText) => {
         if (status !== 200) {
             return;
         }

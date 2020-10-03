@@ -59,7 +59,7 @@ const usersProfiles = {
         city: 'Пертрозаводск',
         telegram: '',
         vk: 'https://vk.com/id241926559',
-        metings: [
+        meetings: [
             {
                 imgSrc: 'assets/vk.png',
                 text: 'Александр Лукашенко',
@@ -102,7 +102,7 @@ const userLoginPwdIdMap = {
     }
 }
 
-app.get('/peoples', function (req, res) {
+app.get('/people', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
 
@@ -113,7 +113,7 @@ app.get('/peoples', function (req, res) {
     res.status(200).json(users);
 });
 
-app.get('/metings', function (req, res) {
+app.get('/meetings', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
 

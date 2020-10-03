@@ -223,19 +223,19 @@ function createSocialNetworks(data) {
 
 
 function createMetings(data) {
-    const metings = document.createElement('div');
-    metings.classList.add('metings');
+    const meetings = document.createElement('div');
+    meetings.classList.add('meetings');
 
-    data.metings.forEach(obj => {
+    data.meetings.forEach(obj => {
         const iconwithtext = createIconWithText();
 
         iconwithtext.appendChild(createMetIcon(obj.imgSrc));
         iconwithtext.appendChild(createLink(obj.text));
         
-        metings.appendChild(iconwithtext);
+        meetings.appendChild(iconwithtext);
     });
 
-    return metings;
+    return meetings;
 }
 
 
