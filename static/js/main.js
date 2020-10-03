@@ -1,6 +1,7 @@
 'use strict';
 
 const application = document.body;
+window.userId = 0;
 
 const appConfig = {
     forMe: {
@@ -79,7 +80,7 @@ function profilePage(application) {
         }
 
         if (isAuthorized) {
-            createProfilePage(application);
+            createProfilePage(application, window.userId);
             return;
         }
 

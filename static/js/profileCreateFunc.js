@@ -1,36 +1,5 @@
 'use strict';
 
-function createIconWithText() {
-    const wrap = document.createElement('div');
-    wrap.classList.add('iconwithtext');
-
-    return wrap;
-}
-
-function createMetIcon(iconSrc) {
-    const icon = document.createElement('img');
-    icon.classList.add('meticon');
-    icon.src = iconSrc;
-
-    return icon;
-}
-
-function createBoldSpan(text) {
-    const nameSpan = document.createElement('span');
-    nameSpan.classList.add('bold');
-    nameSpan.innerHTML = text;
-
-    return nameSpan;
-}
-
-function createLink(href) {
-    const link = document.createElement('a');
-    link.classList.add('link');
-    link.innerHTML = href;
-
-    return link;
-}
-
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
         {
@@ -92,6 +61,7 @@ function fillRightColumn(rightColumn, data) {
     });
 }
 
+
 function createNameField(name) {
     const wrap = createIconWithText();
     const editicon = createEditIcon("assets/pen.svg");
@@ -118,6 +88,7 @@ function createNameField(name) {
 
     return wrap;
 }
+
 
 function createCityField(cityName) {
     const wrap = createIconWithText();
@@ -146,6 +117,7 @@ function createCityField(cityName) {
 
     return wrap;
 }
+
 
 function createAvatarField(imgSrc) {
     const avatarWraper = document.createElement('div');
@@ -200,6 +172,7 @@ function createAvatarField(imgSrc) {
     return avatarWraper;
 }
 
+
 function createSocialNetworks(data) {
     const networksConfig = {
         vk: 'assets/vk.png',
@@ -230,7 +203,7 @@ function createSocialNetworks(data) {
             link.innerHTML = input.value;
 
             editicon.src = 'assets/pen.svg';
-            ajax('POST', '/ajax/editprofile/social', (status, responseText) => {
+            ajax('POST', '/ajax/editprofile', (status, responseText) => {
                 if (status !== 200) {
                     alert('Permission denied');
                 }
@@ -248,6 +221,7 @@ function createSocialNetworks(data) {
     return networkWraper;
 }
 
+
 function createMetings(data) {
     const metings = document.createElement('div');
     metings.classList.add('metings');
@@ -264,6 +238,7 @@ function createMetings(data) {
     return metings;
 }
 
+
 function fillLeftColumn(leftColumn, data) {
     leftColumn.appendChild(createAvatarField(data.imgSrc));
     leftColumn.appendChild(createNameField(data.name));
@@ -279,6 +254,7 @@ function fillLeftColumn(leftColumn, data) {
     leftColumn.appendChild(wrap);
     leftColumn.appendChild(createMetings(data));
 }
+
 
 function createProfile(data) {
     const tmp = document.createElement('div');
@@ -300,15 +276,6 @@ function createProfile(data) {
 }
 
 
-function createEditIcon(imgPath) {
-    const element = document.createElement('img');
-    element.src = imgPath;
-    element.classList.add('editicon');
-
-    return element;
-}
-
-
 function createTextArea(value) {
     const input = document.createElement('textarea');
     input.value = value;
@@ -318,6 +285,7 @@ function createTextArea(value) {
 
     return input;
 }
+
 
 function addListener(actor, mainText, input, action) {
     actor.addEventListener('click', (evt) => {

@@ -41,7 +41,12 @@ function createPeoplesPage(application) {
                 return;
             }
 
-            main.appendChild(createUserCard(cards[i]));
+            const userCard = createUserCard(cards[i]);
+            userCard.addEventListener('click', (event) => {
+                createProfilePage(application, parseInt(userCard.id));
+            });
+
+            main.appendChild(userCard);
         }
     }, {pageNum: 1});
 
@@ -49,7 +54,7 @@ function createPeoplesPage(application) {
 }
 
 
-function createProfilePage(application) {
+function createProfilePage(application, userId) {
     application.innerHTML = '';
     createHeader(application);
     createNavigation(application);
@@ -63,5 +68,15 @@ function createProfilePage(application) {
         let data = JSON.parse(responseText);
         application.appendChild(createProfile(data.userInfo));
 
-    }, {userId: 52});
+        if (window.userId !== userId) {
+            console.log(document.getElementsByClassName('editicon'));
+            Array.from(document.getElementsByClassName('editicon')).forEach(element => {
+                element.remove();
+            });
+            Array.from(document.getElementsByClassName('layout')).forEach(element => {
+                element.remove();
+            });
+        }
+
+    }, {userId: userId});
 }

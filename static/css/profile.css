@@ -22,27 +22,10 @@
     flex-direction: column;
 }
 
-.link {
-    text-decoration: none;
-    color: black
-}
-
 .metings {
     display: flex;
     flex-direction: column;
     margin-left: 20px;
-}
-
-.iconwithtext {
-    display: flex;
-    align-items: center;
-    margin: 5px 0 5px 0;
-}
-
-.meticon {
-    width: 25px;
-    height: 25px;
-    margin-right: 5px;
 }
 
 .rightcolumn {
@@ -50,20 +33,8 @@
     flex-direction: column;
 }
 
-.bold {
-    font-weight: bolder;
-}
-
 .margin10 {
     margin-bottom: 10px;
-}
-
-.editicon {
-    width: 20px;
-    height: 20px;
-    margin-left: 15px;
-    
-    cursor: pointer;
 }
 
 .editicon:hover {

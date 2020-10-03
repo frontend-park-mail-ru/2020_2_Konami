@@ -25,8 +25,8 @@ app.get('/', function(req, res) {
 });
 
 const userCards = {
-    '51': {
-        cardId: 51,
+    '52': {
+        cardId: 52,
         imgSrc: 'assets/luckash.jpeg',
         name: 'Александр',
         job: 'Главный чекист КГБ',
@@ -109,20 +109,13 @@ app.post('/ajax/editprofile', function (req, res) {
     res.status(200).send('ok');
 });
 
-app.post('/ajax/editprofile/social', function (req, res) {
-    console.log(req.body.field);
-    console.log(req.body.text);
-    usersProfiles['52']['networks'][req.body.field] = req.body.text;
-    res.status(200).send('ok');
-})
-
 app.post('/ajax/peoples', function (req, res) {
     const userId = req.cookies['id'];
     const pageNum = req.body.pageNum;
 
     let users = [];
     for (let i = 0; i < 100; i++) {
-        users.push(userCards[51]);
+        users.push(userCards[52]);
     }
     res.status(200).json(users);
 });

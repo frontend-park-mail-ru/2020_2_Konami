@@ -43,7 +43,7 @@ function loginPage(application) {
             '/login',
             (status, response) => {
                 if (status === 200) {
-                    createProfilePage(application);
+                    createProfilePage(application, userId);
                 } else {
                     const {error} = JSON.parse(response);
                     alert(error);
