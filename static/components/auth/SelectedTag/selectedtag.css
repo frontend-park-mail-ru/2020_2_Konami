@@ -1,5 +1,6 @@
 .selectedTagsWrapper {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .selectedTag {
