@@ -98,20 +98,13 @@ const userLoginPwdIdMap = {
     'lukash@mail.ru': {
         login: 'lukash@mail.ru',
         password: '12345',
-        id: '52',
+        id: 52,
     }
 }
 
-app.post('/ajax/editprofile', function (req, res) {
-    console.log(req.body.field);
-    console.log(req.body.text);
-    usersProfiles['52'][req.body.field] = req.body.text;
-    res.status(200).send('ok');
-});
-
-app.post('/ajax/peoples', function (req, res) {
-    const userId = req.cookies['id'];
-    const pageNum = req.body.pageNum;
+app.get('/peoples', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
 
     let users = [];
     for (let i = 0; i < 100; i++) {
@@ -120,9 +113,9 @@ app.post('/ajax/peoples', function (req, res) {
     res.status(200).json(users);
 });
 
-app.post('/ajax/metings', function (req, res) {
-    const userId = req.cookies['id'];
-    const pageNum = req.body.pageNum;
+app.get('/metings', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
 
     let meets = [];
     for (let i = 0; i < 100; i++) {
@@ -131,27 +124,18 @@ app.post('/ajax/metings', function (req, res) {
     res.status(200).json(meets);
 });
 
-app.post('/ajax/user', function(req, res) {
-    const userId = req.body.userId;
-    const ownId = req.cookies['id'];
+app.get('/user', function(req, res) {
+    const userId = req.query.userId;
 
     if (userId in usersProfiles) {
-        res.status(200).json({
-            userInfo: usersProfiles[userId],
-            ownId: ownId,
-        });
+        res.status(200).json(usersProfiles[userId]);
     } else {
-        res.status(404);  
+        res.status(404).send('');  
     }
 });
 
-app.post('/ajax/editprofile/uploadimage', function(req, res) {
-    
-    console.log(req.files);
-    return;
-});
 
-app.get('/ajax/me', function (req, res) {
+app.get('/me', function (req, res) {
     const token = req.cookies['authToken'];
     const userId = userSessions[token];
     if (!userId) {
@@ -159,6 +143,7 @@ app.get('/ajax/me', function (req, res) {
     }
     res.status(200).json(userId);
 });
+
 
 app.post('/login', function (req, res) {
     const password = req.body.password;
@@ -194,6 +179,20 @@ app.post('/signup', function (req, res) {
 app.use(formidable());  //  formdata только с этим мидлвером работает
 app.post('/edit_on_signup', function (req, res) {
     console.log(req.fields, req.files);
+    res.status(200).send('ok');
+});
+
+app.post('/user', function (req, res) {
+    console.log(req.body.field);
+    console.log(req.body.text);
+    console.log(req.files);
+    // Сюда будут иногда файлы без полей field && text прилетать
+
+    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
+    // Тут вместо '52' нужен userId
+    if ('field' in req.body && 'text' in req.body) {
+        usersProfiles['52'][req.body.field] = req.body.text;
+    }
     res.status(200).send('ok');
 });
 

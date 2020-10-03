@@ -8,7 +8,7 @@ function createMetPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('POST', '/ajax/metings', (status, responseText) => {
+    ajax('GET', '/metings'+`?pageNum=1`, (status, responseText) => {
         if (status !== 200) {
             return;
         }
@@ -30,7 +30,7 @@ function createPeoplesPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('POST', '/ajax/peoples', (status, responseText) => {
+    ajax('GET', '/peoples'+`?pageNum=1`, (status, responseText) => {
         if (status !== 200) {
             return;
         }
@@ -48,7 +48,7 @@ function createPeoplesPage(application) {
 
             main.appendChild(userCard);
         }
-    }, {pageNum: 1});
+    });
 
     application.appendChild(main);
 }
@@ -59,17 +59,17 @@ function createProfilePage(application, userId) {
     createHeader(application);
     createNavigation(application);
     addQuitLink();
-
-    ajax('POST', '/ajax/user', (status, responseText) => {
+    console.log('/user'+`?userId=`+userId);
+    ajax('GET', '/user'+`?userId=`+userId, (status, responseText) => {
         if (status !== 200) {
             return;
         }
 
         let data = JSON.parse(responseText);
-        application.appendChild(createProfile(data.userInfo));
+        application.appendChild(createProfile(data));
+        console.log(data);
 
         if (window.userId !== userId) {
-            console.log(document.getElementsByClassName('editicon'));
             Array.from(document.getElementsByClassName('editicon')).forEach(element => {
                 element.remove();
             });
@@ -78,5 +78,5 @@ function createProfilePage(application, userId) {
             });
         }
 
-    }, {userId: userId});
+    });
 }

@@ -52,7 +52,7 @@ function fillRightColumn(rightColumn, data) {
         addListener(editicon, mainText, input, () => {
             mainText.innerHTML = input.value;
 
-            ajax('POST', '/ajax/editprofile', (status, responseText) => {
+            ajax('POST', '/user', (status, responseText) => {
                 if (status !== 200) {
                     alert('Permission denied');
                 }
@@ -79,7 +79,7 @@ function createNameField(name) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        ajax('POST', '/ajax/editprofile', (status, responseText) => {
+        ajax('POST', '/user', (status, responseText) => {
             if (status !== 200) {
                 alert('Permission denied');
             }
@@ -108,7 +108,7 @@ function createCityField(cityName) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        ajax('POST', '/ajax/editprofile', (status, responseText) => {
+        ajax('POST', '/user', (status, responseText) => {
             if (status !== 200) {
                 alert('Permission denied');
             }
@@ -159,7 +159,7 @@ function createAvatarField(imgSrc) {
         formData.append("fileToUpload", blobFile, 'kek.txt');
 
         let request = new XMLHttpRequest();
-        request.open('POST', '/ajax/editprofile/uploadimage');
+        request.open('POST', '/user');
         request.send(formData);
     }
 
@@ -203,7 +203,7 @@ function createSocialNetworks(data) {
             link.innerHTML = input.value;
 
             editicon.src = 'assets/pen.svg';
-            ajax('POST', '/ajax/editprofile', (status, responseText) => {
+            ajax('POST', '/user', (status, responseText) => {
                 if (status !== 200) {
                     alert('Permission denied');
                 }

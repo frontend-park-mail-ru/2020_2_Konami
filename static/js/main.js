@@ -1,7 +1,7 @@
 'use strict';
 
 const application = document.body;
-window.userId = 0;
+window.userId = 52;
 
 const appConfig = {
     forMe: {
@@ -68,7 +68,7 @@ function ajax(method, url, callback, body=null) {
 }
 
 function profilePage(application) {
-    ajax('GET', '/ajax/me', (status, responseText) => {
+    ajax('GET', '/me', (status, responseText) => {
         let isAuthorized = false;
 
         if (status === 200) {
