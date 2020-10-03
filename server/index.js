@@ -52,6 +52,22 @@ const meetCards = {
     },
 };
 
+function createUserProfileTmpl() {
+    return {
+            imgSrc: '',
+            name: '',
+            city: '',
+            telegram: '',
+            vk: '',
+            metings: [],
+            interestings: ``,
+            skills: ``,
+            education: '',
+            job: '',
+            aims: '',
+    }
+}
+
 const usersProfiles = {
     '52': {
         imgSrc: 'assets/luckash.jpeg',
@@ -134,6 +150,22 @@ app.get('/user', function(req, res) {
     }
 });
 
+app.post('/user', function (req, res) {
+    console.log(req.body.field);
+    console.log(req.body.text);
+    console.log(req.files);
+    // Сюда будут иногда файлы без полей field && text прилетать
+
+    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
+    // Тут вместо '52' нужен userId
+    let token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    if ('field' in req.body && 'text' in req.body) {
+        usersProfiles[userId][req.body.field] = req.body.text;
+    }
+    res.status(200).send('ok');
+});
+
 
 app.get('/me', function (req, res) {
     const token = req.cookies['authToken'];
@@ -141,7 +173,7 @@ app.get('/me', function (req, res) {
     if (!userId) {
        return  res.status(401).end();
     }
-    res.status(200).json(userId);
+    res.status(200).json({userId});
 });
 
 
@@ -162,37 +194,34 @@ app.post('/login', function (req, res) {
 });
 
 app.post('/signout', function (req, res) {
-    let cookie = req.cookies['authToken'];
-    delete userSessions[cookie];
+    let token = req.cookies['authToken'];
+    delete userSessions[token];
 
-    res.cookie('authToken', cookie, {expires: new Date(Date.now() - 1000)});
+    res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
     res.status(200);
 });
 
 app.post('/signup', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
-    console.log(login, password);
+
+    // TODO(Расскоменитровать на бэке)
+    // if (login in userLoginPwdIdMap) {
+    //     res.status(400).json({error: 'Такой логин уже существует'});
+    // }
+
+    const Ids = Object.keys(usersProfiles);
+    const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
+
+    usersProfiles[newId] = createUserProfileTmpl();
+    userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
+
     res.status(200).send('ok');
 });
 
 app.use(formidable());  //  formdata только с этим мидлвером работает
 app.post('/edit_on_signup', function (req, res) {
     console.log(req.fields, req.files);
-    res.status(200).send('ok');
-});
-
-app.post('/user', function (req, res) {
-    console.log(req.body.field);
-    console.log(req.body.text);
-    console.log(req.files);
-    // Сюда будут иногда файлы без полей field && text прилетать
-
-    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
-    // Тут вместо '52' нужен userId
-    if ('field' in req.body && 'text' in req.body) {
-        usersProfiles['52'][req.body.field] = req.body.text;
-    }
     res.status(200).send('ok');
 });
 

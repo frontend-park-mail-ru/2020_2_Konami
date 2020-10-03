@@ -1,9 +1,15 @@
 'use strict';
 
-const application = document.body;
-window.userId = 52;
+import {createLoginFormLayout, createSignupFormLayout} from "../components/auth/Form/FormLayout.js";
+import {AjaxModule} from "../modules/ajax.js";
 
-const appConfig = {
+const application = document.body;
+window.userId = 0;
+
+const Ajax = new AjaxModule();
+globalThis.ajax = Ajax.ajax;
+
+globalThis.appConfig = {
     forMe: {
         text: 'Для меня',
         href: '/forme',
@@ -45,28 +51,6 @@ const appConfig = {
     }
 }
 
-var currentTab = 0;
-
-function ajax(method, url, callback, body=null) {
-    const xhr = new XMLHttpRequest();
-    xhr.open(method, url, true);
-    xhr.withCredentials = true;
-
-    xhr.addEventListener('readystatechange', function() {
-        if (xhr.readyState !== XMLHttpRequest.DONE) return;
-
-        callback(xhr.status, xhr.responseText);
-    });
-
-    if (body) {
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf8');
-        xhr.send(JSON.stringify(body));
-        return;
-    }
-
-    xhr.send();
-}
-
 function profilePage(application) {
     ajax('GET', '/me', (status, responseText) => {
         let isAuthorized = false;
@@ -80,6 +64,8 @@ function profilePage(application) {
         }
 
         if (isAuthorized) {
+            const respData = JSON.parse(responseText);
+            window.userId = respData.userId
             createProfilePage(application, window.userId);
             return;
         }
@@ -88,6 +74,22 @@ function profilePage(application) {
     });
 }
 
+function loginPage(application) {
+    application.innerHTML = '';
+    createHeader(application);
+    createNavigation(application);
+    const form = createLoginFormLayout(application);
+    form.render();
+}
+
+globalThis.currentTab = 0;
+function signUpPage(application) {
+    application.innerHTML = '';
+    createHeader(application);
+    createNavigation(application);
+    const form = createSignupFormLayout(application);
+    form.render();
+}
 
 createMetPage(application);
 
