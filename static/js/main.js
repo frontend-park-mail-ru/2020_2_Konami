@@ -80,6 +80,8 @@ function profilePage(application) {
         }
 
         if (isAuthorized) {
+            const respData = JSON.parse(responseText);
+            window.userId = respData.userId
             createProfilePage(application, window.userId);
             return;
         }

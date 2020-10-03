@@ -52,6 +52,22 @@ const meetCards = {
     },
 };
 
+function createUserProfileTmpl() {
+    return {
+            imgSrc: '',
+            name: '',
+            city: '',
+            telegram: '',
+            vk: '',
+            metings: [],
+            interestings: ``,
+            skills: ``,
+            education: '',
+            job: '',
+            aims: '',
+    }
+}
+
 const usersProfiles = {
     '52': {
         imgSrc: 'assets/luckash.jpeg',
@@ -157,7 +173,7 @@ app.get('/ajax/me', function (req, res) {
     if (!userId) {
        return  res.status(401).end();
     }
-    res.status(200).json(userId);
+    res.status(200).json({userId});
 });
 
 app.post('/login', function (req, res) {
@@ -177,17 +193,28 @@ app.post('/login', function (req, res) {
 });
 
 app.post('/signout', function (req, res) {
-    let cookie = req.cookies['authToken'];
-    delete userSessions[cookie];
+    let token = req.cookies['authToken'];
+    delete userSessions[token];
 
-    res.cookie('authToken', cookie, {expires: new Date(Date.now() - 1000)});
+    res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
     res.status(200);
 });
 
 app.post('/signup', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
-    console.log(login, password);
+
+    // TODO(Расскоменитровать на бэке)
+    // if (login in userLoginPwdIdMap) {
+    //     res.status(400).json({error: 'Такой логин уже существует'});
+    // }
+
+    const Ids = Object.keys(usersProfiles);
+    const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
+
+    usersProfiles[newId] = createUserProfileTmpl();
+    userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
+
     res.status(200).send('ok');
 });
 
