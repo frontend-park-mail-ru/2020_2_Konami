@@ -68,6 +68,17 @@ function createUserProfileTmpl() {
     }
 }
 
+function newUserCard(userId) {
+    return {
+        cardId: userId,
+        imgSrc: 'assets/luckash.jpeg',
+        name: '',
+        job: '',
+        interestings: [],
+        skills: [],
+    };
+}
+
 const usersProfiles = {
     '52': {
         imgSrc: 'assets/luckash.jpeg',
@@ -123,9 +134,10 @@ app.get('/people', function (req, res) {
     console.log(pageNum);
 
     let users = [];
-    for (let i = 0; i < 100; i++) {
-        users.push(userCards[52]);
-    }
+    Object.keys(userCards).forEach(item => {
+        users.push(userCards[item]);
+    });
+
     res.status(200).json(users);
 });
 
@@ -214,6 +226,7 @@ app.post('/signup', function (req, res) {
     const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
 
     usersProfiles[newId] = createUserProfileTmpl();
+    userCards[newId] = newUserCard(newId);
     userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
 
     res.status(200).send('ok');
