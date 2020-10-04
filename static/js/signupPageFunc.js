@@ -1,4 +1,14 @@
-function onSignupRedirectPage(application) {
+'use strict';
+
+import {
+    createNavigation,
+} from '../components/header/Navigation/navigation.js';
+
+import {
+    createHeader,
+} from '../components/header/Header/header.js';
+
+export function onSignupRedirectPage(application) {
     application.innerHTML = '';
     createHeader(application);
     createNavigation(application);
@@ -6,7 +16,7 @@ function onSignupRedirectPage(application) {
     const form = createSignupEditProfileForm(application);
     application.appendChild(form);
 
-    showTab(currentTab);
+    showTab(window.CurrentTab);
 
     addInputFileChangeEventListeners();
     addSubmitFormEventListener();
@@ -175,21 +185,21 @@ function nextPrev(n) {
         return false;
     }
     // Hide the current tab:
-    x[currentTab].style.display = "none";
+    x[window.CurrentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
-    currentTab = currentTab + n;
+    window.CurrentTab = window.CurrentTab + n;
     // if you have reached the end of the Form...
-    if (currentTab >= x.length) {
+    if (window.CurrentTab >= x.length) {
         const submBtn = document.getElementById('nextBtn');
         submBtn.type = 'submit';
         submBtn.click();
-        currentTab = 0;
+        window.CurrentTab = 0;
         appConfig.meetings.open();
 
         return false;
     }
     // Otherwise, display the correct tab:
-    showTab(currentTab);
+    showTab(window.CurrentTab);
 }
 
 function showTab(n) {

@@ -1,7 +1,28 @@
 'use strict';
 
-import {createLoginFormLayout, createSignupFormLayout} from "../components/auth/Form/FormLayout.js";
-import {AjaxModule} from "../modules/ajax.js";
+import {
+    createLoginFormLayout, 
+    createSignupFormLayout
+} from "../components/auth/Form/FormLayout.js";
+
+import {
+    AjaxModule
+} from "../modules/ajax.js";
+
+import {
+    createMetPage,
+    createPeoplesPage,
+    createProfilePage,
+} from './pageCreateFunc.js';
+
+import {
+    createNavigation,
+} from '../components/header/Navigation/navigation.js';
+
+import {
+    createHeader,
+} from '../components/header/Header/header.js';
+
 
 const application = document.body;
 window.userId = 0;
@@ -82,7 +103,7 @@ function loginPage(application) {
     form.render();
 }
 
-globalThis.currentTab = 0;
+window.CurrentTab = 0;
 function signUpPage(application) {
     application.innerHTML = '';
     createHeader(application);

@@ -1,6 +1,6 @@
 'use strict';
 
-function createLink(href) {
+export function createLink(href) {
     const link = document.createElement('a');
     link.classList.add('link');
     link.innerHTML = href;

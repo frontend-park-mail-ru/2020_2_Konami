@@ -1,6 +1,10 @@
 'use strict';
 
-function createMetCard(data) {
+import {
+    wrapCreateChipsFunc
+} from '../CardChips/Chips.js';
+
+export function createMetCard(data) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
         <div class="metcard" id="${data.cardId}metcard">

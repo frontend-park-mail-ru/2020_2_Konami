@@ -1,5 +1,33 @@
 'use strict';
 
+import {
+    createProfile,
+    addQuitLink,
+} from './profileCreateFunc.js';
+
+import {
+    getPeople,
+    getMeetings,
+    getUser,
+} from '../api/api.js';
+
+import {
+    createNavigation,
+} from '../components/header/Navigation/navigation.js';
+
+import {
+    createHeader,
+} from '../components/header/Header/header.js';
+
+import {
+    createMetCard,
+} from '../components/cards/MetCard/MetCard.js';
+
+import {
+    createUserCard,
+} from '../components/cards/UserCard/UserCard.js';
+
+
 function createMetPage(application) {
     application.innerHTML = '';
     createHeader(application);
@@ -8,15 +36,16 @@ function createMetPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('GET', '/meetings'+`?pageNum=1`, (status, responseText) => {
-        if (status !== 200) {
-            return;
+    getMeetings(1).then(response => {
+        if (response.statusCode === 200) {
+            // kaef
+        } else {
+            // ne kaef
         }
-        let cards = JSON.parse(responseText);
-        for (let i = 0; i < cards.length; i++) {
-            main.appendChild(createMetCard(cards[i]));
-        }
-    }, {pageNum: 1});
+        response.parsedJson.forEach(item => {
+            main.appendChild(createMetCard(item));
+        });
+    });
 
     application.appendChild(main);
 }
@@ -30,25 +59,23 @@ function createPeoplesPage(application) {
     const main = document.createElement('main');
     main.classList.add('main');
 
-    ajax('GET', '/people'+`?pageNum=1`, (status, responseText) => {
-        if (status !== 200) {
+    getPeople(1).then(response => {
+        if (response.statusCode === 200) {
+            // kaef
+        } else {
+            // ne kaef
             return;
         }
-        
-        const cards = JSON.parse(responseText);
-        for (let i = 0; i < cards.length; i++) {
-            if (status !== 200) {
-                return;
-            }
-
-            const userCard = createUserCard(cards[i]);
+        const cards = response.parsedJson;
+        cards.forEach(item => {
+            const userCard = createUserCard(item);
             userCard.addEventListener('click', (event) => {
                 createProfilePage(application, parseInt(userCard.id));
             });
 
             main.appendChild(userCard);
-        }
-    });
+        });
+    });  
 
     application.appendChild(main);
 }
@@ -59,13 +86,9 @@ function createProfilePage(application, userId) {
     createHeader(application);
     createNavigation(application);
     addQuitLink();
-    console.log('/user'+`?userId=`+userId);
-    ajax('GET', '/user'+`?userId=`+userId, (status, responseText) => {
-        if (status !== 200) {
-            return;
-        }
 
-        let data = JSON.parse(responseText);
+    getUser(userId).then(response => {
+        let data = response.parsedJson;
         application.appendChild(createProfile(data));
         console.log(data);
 
@@ -77,6 +100,11 @@ function createProfilePage(application, userId) {
                 element.remove();
             });
         }
-
     });
+}
+
+export {
+    createPeoplesPage,
+    createMetPage,
+    createProfilePage,
 }

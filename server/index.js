@@ -59,7 +59,7 @@ function createUserProfileTmpl() {
             city: '',
             telegram: '',
             vk: '',
-            metings: [],
+            meetings: [],
             interestings: ``,
             skills: ``,
             education: '',

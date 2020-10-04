@@ -1,6 +1,10 @@
 'use strict';
 
-function createUserCard(data) {
+import {
+    wrapCreateChipsFunc
+} from '../CardChips/Chips.js';
+
+export function createUserCard(data) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
         <div class="usercard" id="${data.cardId}usercard">

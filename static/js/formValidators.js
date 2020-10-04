@@ -1,7 +1,10 @@
+'use strict';
+
 function validateSignupInputForm() {
     let valid = true;
     let x = document.getElementsByClassName("tab");
-    let y = x[currentTab].querySelectorAll('input[required]');
+    console.log(window.CurrentTab);
+    let y = x[window.CurrentTab].querySelectorAll('input[required]');
     for (let i = 0; i < y.length; i++) {
         if (y[i].value === "") {
             y[i].className += " invalid";
@@ -9,7 +12,7 @@ function validateSignupInputForm() {
         }
     }
 
-    switch (currentTab) {
+    switch (window.CurrentTab) {
         case 0: // first tab
             const dayInput = document.getElementsByName('day')[0];
             const monthInput = document.getElementsByName('month')[0];

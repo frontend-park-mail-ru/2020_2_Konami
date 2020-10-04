@@ -1,6 +1,6 @@
 'use strict';
 
-function createNavigation(application) {
+export function createNavigation(application) {
     const navigation = document.createElement('nav');
     navigation.classList.add('navigation');
 

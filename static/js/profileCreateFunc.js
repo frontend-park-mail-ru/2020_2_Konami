@@ -1,5 +1,30 @@
 'use strict';
 
+import {
+    postUser,
+} from '../api/api.js';
+
+import {
+    createBoldSpan,
+} from '../components/profile/BoldSpan/BoldSpan.js';
+
+import {
+    createEditIcon,
+} from '../components/profile/EditIcon/EditIcon.js';
+
+import {
+    createIconWithText,
+} from '../components/profile/IconWithText/IconWithText.js'
+
+import {
+    createLink,
+} from '../components/profile/Link/Link.js';
+
+import {
+    createMetIcon,
+} from '../components/profile/MetIcon/MetIcon.js';
+
+
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
         {
@@ -52,11 +77,11 @@ function fillRightColumn(rightColumn, data) {
         addListener(editicon, mainText, input, () => {
             mainText.innerHTML = input.value;
 
-            ajax('POST', '/user', (status, responseText) => {
-                if (status !== 200) {
+            postUser(id, mainText.innerHTML).then(statusCode =>{
+                if (statusCode !== 200) {
                     alert('Permission denied');
                 }
-            }, {field: id, text: mainText.innerHTML});
+            });
         });
     });
 }
@@ -79,11 +104,11 @@ function createNameField(name) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        ajax('POST', '/user', (status, responseText) => {
-            if (status !== 200) {
+        postUser('name', mainText.innerHTML).then(statusCode =>{
+            if (statusCode !== 200) {
                 alert('Permission denied');
             }
-        }, {field: 'name', text: mainText.innerHTML});
+        });
     });
 
     return wrap;
@@ -108,11 +133,11 @@ function createCityField(cityName) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        ajax('POST', '/user', (status, responseText) => {
-            if (status !== 200) {
+        postUser('city', mainText.innerHTML).then(statusCode =>{
+            if (statusCode !== 200) {
                 alert('Permission denied');
             }
-        }, {field: 'city', text: mainText.innerHTML});
+        });
     });
 
     return wrap;
@@ -203,11 +228,11 @@ function createSocialNetworks(data) {
             link.innerHTML = input.value;
 
             editicon.src = 'assets/pen.svg';
-            ajax('POST', '/user', (status, responseText) => {
-                if (status !== 200) {
+            postUser(key, link.innerHTML).then(statusCode =>{
+                if (statusCode !== 200) {
                     alert('Permission denied');
                 }
-            }, {field: key, text: link.innerHTML});
+            });
         });
 
         const elem = createIconWithText();
@@ -349,4 +374,9 @@ function addQuitLink() {
 
             })
     });
+}
+
+export {
+    addQuitLink,
+    createProfile,
 }

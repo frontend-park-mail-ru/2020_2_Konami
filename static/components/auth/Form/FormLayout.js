@@ -1,4 +1,11 @@
-import {AuthForm} from "./Form.js";
+import {
+    AuthForm,
+} from "./Form.js";
+
+import {
+    onSignupRedirectPage,
+} from '../../../js/signupPageFunc.js';
+
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',

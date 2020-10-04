@@ -1,6 +1,6 @@
 'use strict';
 
-function createIconWithText() {
+export function createIconWithText() {
     const wrap = document.createElement('div');
     wrap.classList.add('iconwithtext');
 

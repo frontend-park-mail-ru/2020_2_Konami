@@ -1,6 +1,6 @@
 'use strict';
 
-function createHeader(application) {
+export function createHeader(application) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
         <header class="header">
