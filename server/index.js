@@ -147,6 +147,7 @@ app.get('/user', function(req, res) {
 });
 
 app.post('/user', function (req, res) {
+    console.log(req.body);
     console.log(req.body.field);
     console.log(req.body.text);
     console.log(req.files);

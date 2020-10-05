@@ -7,6 +7,7 @@ import {
 import {
     createHeader,
 } from '../components/header/Header/header.js';
+import {postPhoto} from "../api/api.js";
 
 export function onSignupRedirectPage(application) {
     application.innerHTML = '';
@@ -225,40 +226,66 @@ function addSubmitFormEventListener() {
     form.addEventListener('submit', (evt) => {
         evt.preventDefault();
 
-        const form = document.querySelector('Form');
-        let formData = new FormData(form);
+        const nameValue = document.getElementsByName('name')[0].value;
+        const emailValue = document.getElementsByName('email')[0].value;
 
-        let gender = 'male';
+        const dayValue = document.getElementsByName('day')[0].value;
+        const monthValue = document.getElementsByName('month')[0].value;
+        const yearValue = document.getElementsByName('year')[0].value;
+
+        const cityValue = document.getElementsByName('city')[0].value;
+
+        let genderValue = 'male';
         if (document.getElementById('male').checked) {
-            gender = 'male';
+            genderValue = 'male';
         } else if (document.getElementById('female').checked) {
-            gender = 'female';
+            genderValue = 'female';
 
         }
-        formData.append('gender', gender);
 
+        const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
+        const tagsValues = selectedTags.map((tag) => {
+            return tag.textContent;
+        });
+
+        const tagsValue =  JSON.stringify(tagsValues);
+
+        const skillsValue = document.getElementsByName('skills')[0].value;
+        const interestsValue = document.getElementsByName('interests')[0].value;
+        const goalsValue = document.getElementsByName('goals')[0].value;
+
+        let bodyFields = {
+            name: nameValue,
+            email: emailValue,
+            day: dayValue,
+            month: monthValue,
+            year: yearValue,
+            city: cityValue,
+            gender: genderValue,
+            tags: tagsValues,
+            skills: skillsValue,
+            interests: interestsValue,
+            aims: goalsValue,
+        }
+
+        let formData = new FormData();
         const photos = document.getElementById('photoFileUploader').files;
         let cnt = photos.length;
         for (let i = 0; i < cnt; i++) {
             formData.append(photos[i].name, photos[i]);
         }
 
-        const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
-        const tagValues = selectedTags.map((tag) => {
-            return tag.textContent;
-        });
-
-        formData.append('tags', JSON.stringify(tagValues));
-
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/edit_on_signup", true);
-        xhr.onload = function(oEvent) {
-            if (xhr.status == 200) {
-                console.log('200');
-            }
-        };
-
-        xhr.send(formData);
+        ajax(
+            'POST',
+            '/user',
+            (status, response) => {
+                if (status === 200) {
+                    postPhoto(formData, 'userId', window.userId);
+                    appConfig.profile.open();
+                }
+            },
+            bodyFields
+            )
     });
 }
 
