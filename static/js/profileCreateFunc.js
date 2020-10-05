@@ -2,6 +2,7 @@
 
 import {
     postUser,
+    postPhoto,
 } from '../api/api.js';
 
 import {
@@ -24,6 +25,32 @@ import {
     createMetIcon,
 } from '../components/profile/MetIcon/MetIcon.js';
 
+function matchTags(value) {
+    let result = Array.from(value.matchAll(/\#(?:([\w]{3,20})|(?:\(([\w\ ]{3,20})\)))/g));
+    let matchArray = [];
+
+    result.forEach(item => {
+        if (item[2] === undefined) {
+            matchArray.push(item[2]);  
+        } else {
+            matchArray.push(item[1]);  
+        }
+    });
+    
+    return matchArray;
+}
+
+function tags(value) {
+    return Array.from(
+        value.matchAll(/\#(?:([\w]{3,20})|(?:\(([\w\ ]{3,20})\)))/g
+    )).map((item) => {
+        if (item[1] != null) {
+            return item[1]
+        } else {
+            return item[2]
+        }
+    });
+}
 
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
@@ -31,26 +58,35 @@ function fillRightColumn(rightColumn, data) {
             iconSrc: 'assets/diamond.svg',
             name: 'Навыки',
             key: 'skills',
+            action: (value) => {
+                postUser('skillsArray', tags(value));
+            },
         },
         {
             iconSrc: 'assets/search.svg',
             name: 'Интересы',
-            key: 'interestings',
+            key: 'interests',
+            action: (value) => {
+                postUser('interestsArray', tags(value));
+            },
         },
         {
             iconSrc: 'assets/education.svg',
             name: 'Образование',
             key: 'education',
+            action: (value) => {},
         },
         {
             iconSrc: 'assets/job.svg',
             name: 'работа',
             key: 'job',
+            action: (value) => {},
         },
         {
             iconSrc: 'assets/aim.svg',
             name: 'Цели',
             key: 'aims',
+            action: (value) => {},
         },
     ];
 
@@ -76,6 +112,7 @@ function fillRightColumn(rightColumn, data) {
 
         addListener(editicon, mainText, input, () => {
             mainText.innerHTML = input.value;
+            item.action(input.value);
 
             postUser(id, mainText.innerHTML).then(statusCode =>{
                 if (statusCode !== 200) {
@@ -181,11 +218,9 @@ function createAvatarField(imgSrc) {
     saveButton.onclick = (event) => {
         let blobFile = fileChoser.files[0];
         let formData = new FormData();
-        formData.append("fileToUpload", blobFile, 'kek.txt');
+        formData.append("fileToUpload", blobFile);
 
-        let request = new XMLHttpRequest();
-        request.open('POST', '/user');
-        request.send(formData);
+        postPhoto(formData, 'userId', window.userId);
     }
 
     overlay.appendChild(fileChoser);

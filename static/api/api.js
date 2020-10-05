@@ -65,9 +65,20 @@ function getPeople(pageNum) {
     }); 
 }
 
+function postPhoto(data, queryName, id) {
+    return fetch('/images?'+queryName+`=${id}`, {
+        method: 'POST',
+        credentials: 'include',
+        body: data,
+    }).then(response => {
+        return response.status;
+    });
+}
+
 export {
     postUser,
     getPeople,
     getUser,
     getMeetings,
+    postPhoto,
 };

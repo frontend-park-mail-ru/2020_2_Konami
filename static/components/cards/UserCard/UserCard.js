@@ -7,7 +7,7 @@ import {
 export function createUserCard(data) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
-        <div class="usercard" id="${data.cardId}usercard">
+        <div class="usercard" id="${data.userId}usercard">
             <img src="${data.imgSrc}" class="overlay">
             <div class="overlay"></div>
             <div class="wraper top">
@@ -23,11 +23,11 @@ export function createUserCard(data) {
         </div>
     `;
 
-    const interestings = tmp.getElementsByClassName('tabels')[0];
-    data.interestings.forEach(wrapCreateChipsFunc(interestings));
+    const interests = tmp.getElementsByClassName('tabels')[0];
+    data.interestsArray.forEach(wrapCreateChipsFunc(interests));
 
     const skills = tmp.getElementsByClassName('tabels')[1];
-    data.skills.forEach(wrapCreateChipsFunc(skills));
+    data.skillsArray.forEach(wrapCreateChipsFunc(skills));
     
     return tmp.firstElementChild;
 }

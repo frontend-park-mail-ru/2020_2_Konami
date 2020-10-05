@@ -24,16 +24,7 @@ app.get('/', function(req, res) {
     });
 });
 
-const userCards = {
-    '52': {
-        cardId: 52,
-        imgSrc: 'assets/luckash.jpeg',
-        name: 'Александр',
-        job: 'Главный чекист КГБ',
-        interestings: ['Картофель', 'Хоккей'],
-        skills: ['Разгон митингов', 'Сбор урожая'],
-    },
-};
+
 
 const meetCards = {
     '52': {
@@ -60,27 +51,19 @@ function createUserProfileTmpl() {
             telegram: '',
             vk: '',
             meetings: [],
-            interestings: ``,
+            interests: ``,
+            interestsArray: [],
             skills: ``,
+            skillsArray: [],
             education: '',
             job: '',
             aims: '',
-    }
-}
-
-function newUserCard(userId) {
-    return {
-        cardId: userId,
-        imgSrc: 'assets/luckash.jpeg',
-        name: '',
-        job: '',
-        interestings: [],
-        skills: [],
     };
 }
 
 const usersProfiles = {
     '52': {
+        userId: 52,
         imgSrc: 'assets/luckash.jpeg',
         name: 'Александр Лукашенко',
         city: 'Пертрозаводск',
@@ -96,7 +79,7 @@ const usersProfiles = {
                 text: 'Александр Лукашенко',
             },
         ],
-        interestings: `
+        interests: `
                 Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 
@@ -106,14 +89,15 @@ const usersProfiles = {
                 laboris nisi ut aliquip ex ea 
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
-                in voluptate velit esse cillum 
-        `,
+                in voluptate velit esse cillum `,
+        interestsArray: ['Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. 
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
+        skillsArray: ['Разгон митингов', 'Сбор урожая'],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
         job: 'MAIL GROUP до 2008',
         aims: 'Хочу от жизни всего',
@@ -134,8 +118,8 @@ app.get('/people', function (req, res) {
     console.log(pageNum);
 
     let users = [];
-    Object.keys(userCards).forEach(item => {
-        users.push(userCards[item]);
+    Object.keys(usersProfiles).forEach(item => {
+        users.push(usersProfiles[item]);
     });
 
     res.status(200).json(users);
@@ -226,7 +210,6 @@ app.post('/signup', function (req, res) {
     const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
 
     usersProfiles[newId] = createUserProfileTmpl();
-    userCards[newId] = newUserCard(newId);
     userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
 
     res.status(200).send('ok');
@@ -236,6 +219,11 @@ app.use(formidable());  //  formdata только с этим мидлвером
 app.post('/edit_on_signup', function (req, res) {
     console.log(req.fields, req.files);
     res.status(200).send('ok');
+});
+
+app.post('/images', function(req, res) {
+    console.log(req.query);
+    console.log(req.fields, req.files);
 });
 
 const port = process.env.PORT || 8000;
