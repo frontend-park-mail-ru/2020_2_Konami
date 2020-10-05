@@ -6,6 +6,7 @@ import {
     onSignupRedirectPage,
 } from '../../../js/signupPageFunc.js';
 
+import {postLogin, postSignUp} from '../../../api/api.js'
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
@@ -32,19 +33,14 @@ export function createLoginFormLayout(application) {
         input = document.getElementsByName('password')[0];
         const password = input.value.trim();
 
-        ajax('POST',
-            '/login',
-            (status, response) => {
-                if (status === 200) {
-                    appConfig.profile.open(application);
-                } else {
-                    const {error} = JSON.parse(response);
-                    alert(error);
-                }
-            },
-            {login, password},
-        )
-    })
+        (async () => {
+            const error = await postLogin(login, password);
+            if (error) {
+
+            }
+        })()
+
+    });
     form.main.append(loginInput, pwdInput);
     form.footer.append(submitBtn, message);
 
@@ -84,30 +80,13 @@ export function createSignupFormLayout(application) {
             return
         }
 
-        // TODO(USE FETCH)
-        ajax('POST',
-            '/signup',
-            (status, response) => {
-                if (status === 200) {
-                    ajax('POST',
-                        '/login',
-                        (status, response) => {
-                            if (status === 200) {
-                                onSignupRedirectPage(application);
-                            } else {
-                                const {error} = JSON.parse(response);
-                                alert(error);
-                            }
-                        },
-                        {login, password},
-                    )
-                } else {
-                    const {error} = JSON.parse(response);
-                    alert(error);
-                }
-            },
-            {login, password},
-        )
+        (async () => {
+            const {status, error} = await postSignUp(login, password);
+            if (status === 200) {
+                onSignupRedirectPage(application);
+            }
+        })();
+
     });
     form.main.append(loginInput, passwordInput, repeatPasswordInput);
     form.footer.append(submitBtn);

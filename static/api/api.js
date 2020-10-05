@@ -65,9 +65,59 @@ function getPeople(pageNum) {
     }); 
 }
 
+const postLogin = async (login, password) => {
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            login,
+            password,
+        }),
+    }).then(
+        response => {
+         if (response.status === 200) {
+             appConfig.profile.open();
+         }
+    }).catch(
+        (error) => {
+            console.log(error);
+            return error;
+        });
+}
+
+function postSignUp(login, password) {
+    return fetch('/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            login,
+            password,
+        }),
+    }).then(
+        (response) => {
+            return {
+                status: response.status,
+            };
+    }).catch(
+        (error) => {
+            console.log(error);
+            return {
+                error: error
+            };
+        });
+}
+
 export {
     postUser,
     getPeople,
     getUser,
     getMeetings,
+    postLogin,
+    postSignUp,
 };
