@@ -2,7 +2,7 @@
 
 import {
     postUser,
-    postPhoto,
+    postPhoto, postSignOut,
 } from '../api/api.js';
 
 import {
@@ -25,50 +25,19 @@ import {
     createMetIcon,
 } from '../components/profile/MetIcon/MetIcon.js';
 
-function matchTags(value) {
-    let result = Array.from(value.matchAll(/\#(?:([\w]{3,20})|(?:\(([\w\ ]{3,20})\)))/g));
-    let matchArray = [];
-
-    result.forEach(item => {
-        if (item[2] === undefined) {
-            matchArray.push(item[2]);  
-        } else {
-            matchArray.push(item[1]);  
-        }
-    });
-    
-    return matchArray;
-}
-
-function tags(value) {
-    return Array.from(
-        value.matchAll(/\#(?:([\w]{3,20})|(?:\(([\w\ ]{3,20})\)))/g
-    )).map((item) => {
-        if (item[1] != null) {
-            return item[1]
-        } else {
-            return item[2]
-        }
-    });
-}
-
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
         {
             iconSrc: 'assets/diamond.svg',
             name: 'Навыки',
             key: 'skills',
-            action: (value) => {
-                postUser('skillsArray', tags(value));
-            },
+            action: (value) => {},
         },
         {
             iconSrc: 'assets/search.svg',
             name: 'Интересы',
             key: 'interests',
-            action: (value) => {
-                postUser('interestsArray', tags(value));
-            },
+            action: (value) => {},
         },
         {
             iconSrc: 'assets/education.svg',
@@ -103,8 +72,8 @@ function fillRightColumn(rightColumn, data) {
 
         const mainText = document.createElement('span');
         mainText.classList.add('margin10');
-        mainText.innerHTML = data[id];
-
+        // mainText.innerHTML = data[id].replace("\n", "<br/>")
+        mainText.innerHTML = data[id]
         const input = createTextArea(mainText.innerHTML);
 
         rightColumn.appendChild(wrap);
@@ -402,12 +371,9 @@ function addQuitLink() {
 
     signout.addEventListener('click', (evt) => {
         evt.preventDefault();
-
-        ajax('POST',
-            '/signout',
-            (status, responseText) => {
-
-            })
+        postSignOut().then(response => {
+            window.userId = NaN
+        })
     });
 }
 

@@ -8,8 +8,7 @@ function postUser(field, text) {
         },
         credentials: 'include',
         body: JSON.stringify({
-            field,
-            text,
+            [field]: text,
         }),
     }).then(response => {
         return response.status;
@@ -65,8 +64,8 @@ function getPeople(pageNum) {
     }); 
 }
 
-function postPhoto(data, queryName, id) {
-    return fetch('/images?' + queryName + `=${id}`, {
+function postPhoto(data) {
+    return fetch('/images', {
         method: 'POST',
         credentials: 'include',
         body: data,
@@ -123,6 +122,15 @@ function postSignUp(login, password) {
         });
 }
 
+function postSignOut() {
+    return fetch('/logout', {
+        method: 'POST',
+        credentials: 'include',
+    }).then(response => {
+        return response.status;
+    });
+}
+
 export {
     postUser,
     getPeople,
@@ -131,4 +139,5 @@ export {
     postPhoto,
     postLogin,
     postSignUp,
+    postSignOut,
 };

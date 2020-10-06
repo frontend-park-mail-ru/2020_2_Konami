@@ -10,7 +10,7 @@ import {postLogin, postSignUp} from '../../../api/api.js'
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', placeholder: 'телефон или email', name: 'login'}));
+        createInput({type: 'text', placeholder: 'логин', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
         createInput({type: 'password', placeholder: 'пароль', name: 'password'}));
 
@@ -20,7 +20,7 @@ export function createLoginFormLayout(application) {
     message.innerHTML =
         `Нету аккаунта? 
         <a href="${appConfig.registration.href}" data-section="registration">
-            Зарегестрироваться
+            Зарегистрироваться
         </a>`;
     message.classList.add('message');
 
@@ -36,7 +36,6 @@ export function createLoginFormLayout(application) {
         (async () => {
             const error = await postLogin(login, password);
             if (error) {
-
             }
         })()
 
@@ -58,7 +57,7 @@ export function createSignupFormLayout(application) {
     const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
         {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));
 
-    const submitBtn = createBtn('Зарегестрироваться',
+    const submitBtn = createBtn('Зарегистрироваться',
         {type: ' submit', classList: ['stdBtn', 'activable']});
 
     const form = new AuthForm(application, (evt) => {

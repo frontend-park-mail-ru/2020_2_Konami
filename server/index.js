@@ -190,7 +190,7 @@ app.post('/login', function (req, res) {
     res.status(200).json({token});
 });
 
-app.post('/signout', function (req, res) {
+app.post('/logout', function (req, res) {
     let token = req.cookies['authToken'];
     delete userSessions[token];
 
