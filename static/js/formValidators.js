@@ -35,8 +35,11 @@ function validateSignupInputForm() {
 }
 
 function isValidPassword(pwd, repeatPwd) {
-    return pwd === repeatPwd;
+    if (pwd !== repeatPwd) {
+        alert('Пароли не совпадают');
+    }
 
+    return pwd === repeatPwd;
 }
 
 function isValidDate(day, month, year) {
