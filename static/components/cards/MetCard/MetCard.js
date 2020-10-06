@@ -7,11 +7,11 @@ import {
 export function createMetCard(data) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
-        <div class="metcard" id="${data.cardId}metcard">
+        <div class="metcard" id="${data.id}metcard">
             <img src="${data.imgSrc}" class="metimg">
             <div class="swimblock top">
                 <span>${data.text}</span>
-                <div class="tabels"></div>  
+                <div class="tags"></div>  
             </div>
             <h3>${data.title}</h3>
             <h4>${data.place}</h4>
@@ -19,8 +19,8 @@ export function createMetCard(data) {
         </div>
     `;
 
-    const labels = tmp.getElementsByClassName('tabels')[0];
-    data.labels.forEach(wrapCreateChipsFunc(labels));
+    const tags = tmp.getElementsByClassName('tags')[0];
+    data.tags.forEach(wrapCreateChipsFunc(tags));
 
     return tmp.firstElementChild;
 }

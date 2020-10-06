@@ -110,8 +110,8 @@ function createTab2() {
 
     persInfoRow.classList.add('pers-info-row');
     persInfoRow.appendChild(createLabeledElements(
-        'В каких сферах вы бы хотели получать рекоммендации?',
-        createBtn('+ Добавить рекоммендации', {id: 'openModalBtn', type: 'button', classList: ['stdBtn', 'secondary', 'activable']})));
+        'В каких сферах вы бы хотели получать рекомендации?',
+        createBtn('+ Добавить рекомендации', {id: 'openModalBtn', type: 'button', classList: ['stdBtn', 'secondary', 'activable']})));
 
     const selectedTags = document.createElement('div');
     selectedTags.classList.add('selectedTagsWrapper');
@@ -121,7 +121,7 @@ function createTab2() {
     const modalBlock = createModalDialog();
 
     tab2.appendChild(
-        createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекоммендации',
+        createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',
             {classList: ['signup']})
     )
     tab2.append(persInfoBlock, modalBlock);
@@ -228,41 +228,39 @@ function addSubmitFormEventListener() {
 
         const nameValue = document.getElementsByName('name')[0].value;
         const emailValue = document.getElementsByName('email')[0].value;
-
         const dayValue = document.getElementsByName('day')[0].value;
         const monthValue = document.getElementsByName('month')[0].value;
         const yearValue = document.getElementsByName('year')[0].value;
 
         const cityValue = document.getElementsByName('city')[0].value;
 
-        let genderValue = 'male';
+        let genderValue = 'M';
         if (document.getElementById('male').checked) {
-            genderValue = 'male';
+            genderValue = 'M';
         } else if (document.getElementById('female').checked) {
-            genderValue = 'female';
-
+            genderValue = 'F';
         }
 
         const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
-        const tagsValues = selectedTags.map((tag) => {
+        const meetTagsValues = selectedTags.map((tag) => {
             return tag.textContent;
         });
 
-        const tagsValue =  JSON.stringify(tagsValues);
 
         const skillsValue = document.getElementsByName('skills')[0].value;
         const interestsValue = document.getElementsByName('interests')[0].value;
         const goalsValue = document.getElementsByName('goals')[0].value;
-
+        let birthday = ""
+        if (yearValue.length && monthValue.length && dayValue.length) {
+            birthday = yearValue + '-' + monthValue + '-' + dayValue
+        }
         let bodyFields = {
             name: nameValue,
             email: emailValue,
-            day: dayValue,
-            month: monthValue,
-            year: yearValue,
+            birthday: birthday,
             city: cityValue,
             gender: genderValue,
-            tags: tagsValues,
+            meetingTags: meetTagsValues,
             skills: skillsValue,
             interests: interestsValue,
             aims: goalsValue,
@@ -271,17 +269,17 @@ function addSubmitFormEventListener() {
         let formData = new FormData();
         const photos = document.getElementById('photoFileUploader').files;
         let cnt = photos.length;
-        for (let i = 0; i < cnt; i++) {
-            formData.append(photos[i].name, photos[i]);
+        if (cnt > 0) {
+            formData.append("fileToUpload", photos[0]);
         }
-
         ajax(
             'POST',
             '/user',
             (status, response) => {
                 if (status === 200) {
-                    postPhoto(formData, 'userId', window.userId);
-                    appConfig.profile.open();
+                    postPhoto(formData).then(response => {
+                        appConfig.profile.open()
+                    });
                 }
             },
             bodyFields

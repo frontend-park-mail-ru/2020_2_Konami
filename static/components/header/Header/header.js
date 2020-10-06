@@ -1,5 +1,7 @@
 'use strict';
 
+import {addQuitLink} from "../../../js/profileCreateFunc.js";
+
 export function createHeader(application) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
@@ -12,6 +14,5 @@ export function createHeader(application) {
 
     const icon = tmp.getElementsByClassName('icon')[0];
     icon.dataset.section = 'profile';
-
     application.appendChild(tmp.firstElementChild);
 }

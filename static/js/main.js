@@ -25,7 +25,7 @@ import {
 
 
 const application = document.body;
-window.userId = 0;
+window.userId = NaN
 
 const Ajax = new AjaxModule();
 globalThis.ajax = Ajax.ajax;

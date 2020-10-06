@@ -85,13 +85,12 @@ function createProfilePage(application, userId) {
     application.innerHTML = '';
     createHeader(application);
     createNavigation(application);
-    addQuitLink();
-
+    if (!isNaN(window.userId)) {
+        addQuitLink();
+    }
     getUser(userId).then(response => {
         let data = response.parsedJson;
         application.appendChild(createProfile(data));
-        console.log(data);
-
         if (window.userId !== userId) {
             Array.from(document.getElementsByClassName('editicon')).forEach(element => {
                 element.remove();
