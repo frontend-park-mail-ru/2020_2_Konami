@@ -89,10 +89,11 @@ const postLogin = async (login, password) => {
         response => {
          if (response.status === 200) {
              appConfig.profile.open();
+         } else {
+             alert('Неправильный логин или пароль');
          }
     }).catch(
         (error) => {
-            console.log(error);
             return error;
         });
 }
