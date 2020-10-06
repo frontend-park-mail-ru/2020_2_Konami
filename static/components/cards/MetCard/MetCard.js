@@ -6,6 +6,13 @@ import {
 
 export function createMetCard(data) {
     const tmp = document.createElement('div');
+    let dateStr = ""
+    const monthNames = ["января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "откября", "ноября", "декабря"];
+    if (data.date !== "") {
+        let date = new Date(data.date);
+        dateStr = date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
+    }
     tmp.innerHTML = `
         <div class="metcard" id="${data.id}metcard">
             <img src="${data.imgSrc}" class="metimg">
@@ -15,7 +22,7 @@ export function createMetCard(data) {
             </div>
             <h3>${data.title}</h3>
             <h4>${data.place}</h4>
-            <h4>${data.date}</h4>
+            <h4>${dateStr}</h4>
         </div>
     `;
 
