@@ -188,8 +188,8 @@ function createAvatarField(imgSrc) {
         let blobFile = fileChoser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
-
         postPhoto(formData, 'userId', window.userId);
+        saveButton.hidden = true;
     }
 
     overlay.appendChild(fileChoser);

@@ -36,7 +36,7 @@ const meetCards = {
                Ut enim ad minim veniam, quis
                nostrud exercitation ullamco labori`,
         imgSrc: 'assets/paris.jpg',
-        labels: ['Rust', 'Забив', 'В падике'],
+        tags: ['Rust', 'Забив', 'В падике'],
         title: 'Забив с++',
         place: 'Дом Пушкина, улица Калатушкина',
         date: '12 сентября 2020',
@@ -52,9 +52,7 @@ function createUserProfileTmpl() {
             vk: '',
             meetings: [],
             interests: ``,
-            interestsArray: [],
-            skills: ``,
-            skillsArray: [],
+            tags: [[], []],
             education: '',
             job: '',
             aims: '',
@@ -63,7 +61,7 @@ function createUserProfileTmpl() {
 
 const usersProfiles = {
     '52': {
-        userId: 52,
+        id: 52,
         imgSrc: 'assets/luckash.jpeg',
         name: 'Александр Лукашенко',
         city: 'Пертрозаводск',
@@ -90,14 +88,14 @@ const usersProfiles = {
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
                 in voluptate velit esse cillum `,
-        interestsArray: ['Картофель', 'Хоккей'],
+        interestTags: ['Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. 
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
-        skillsArray: ['Разгон митингов', 'Сбор урожая'],
+        skillTags: ['Разгон митингов', 'Сбор урожая'],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
         job: 'MAIL GROUP до 2008',
         aims: 'Хочу от жизни всего',
