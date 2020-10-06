@@ -158,6 +158,7 @@ function createAvatarField(imgSrc) {
     overlay.classList.add('layout');
 
     const fileChoser = document.createElement('input');
+    fileChoser.accept = 'image/*';
     fileChoser.type = 'file';
     fileChoser.classList.add('button');
 
