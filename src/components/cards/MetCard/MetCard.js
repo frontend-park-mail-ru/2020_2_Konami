@@ -1,12 +1,11 @@
 'use strict';
 
-import {
+/*import {
     wrapCreateChipsFunc
-} from '../CardChips/Chips.js';
+} from '../CardChips/Chips.js';*/
 
 export function createMetCard(data) {
     const tmp = document.createElement('div');
-    let dateStr = '';
     const monthNames = [
         'января', 
         'февраля', 
@@ -24,10 +23,10 @@ export function createMetCard(data) {
 
     if (data.date !== '') {
         let date = new Date(data.date);
-        dateStr = date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
+        data.dateStr = date.getDate() + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
     }
 
-    tmp.innerHTML = `
+    /*tmp.innerHTML = `
         <div class="metcard" id="${data.id}metcard">
             <img src="${data.imgSrc}" class="metimg">
             <div class="swimblock top">
@@ -41,7 +40,9 @@ export function createMetCard(data) {
     `;
 
     const tags = tmp.getElementsByClassName('tags')[0];
-    data.tags.forEach(wrapCreateChipsFunc(tags));
+    data.tags.forEach(wrapCreateChipsFunc(tags));*/
+
+    tmp.innerHTML = window.template(data);
 
     return tmp.firstElementChild;
 }

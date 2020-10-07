@@ -28,7 +28,7 @@ app.get('/', function(req, res) {
 
 const meetCards = {
     '52': {
-        cardId: 52,
+        id: 52,
         text: `Lorem ipsum dolor sit amet,
                consectetur adipiscing elit, sed
                do eiusmod tempor incididunt ut
@@ -39,7 +39,7 @@ const meetCards = {
         tags: ['Rust', 'Забив', 'В падике'],
         title: 'Забив с++',
         place: 'Дом Пушкина, улица Калатушкина',
-        date: '12 сентября 2020',
+        dateStr: '12 сентября 2020',
     },
 };
 

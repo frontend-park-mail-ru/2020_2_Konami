@@ -6,13 +6,16 @@ import {
 
 export function createUserCard(data) {
     const tmp = document.createElement('div');
+
+    data.job = data.job.replace("\n", "<br/>");
+
     tmp.innerHTML = `
         <div class="usercard" id="${data.id}usercard">
             <img src="${data.imgSrc}" class="overlay">
             <div class="overlay"></div>
             <div class="wraper top">
                 <h2>${data.name}</h2>
-                <span>${data.job.replace("\n", "<br/>")}</span>
+                <span>${data.job}</span>
                 
                 <h3>Интересы</h3>
                 <div class="tags"></div>
@@ -28,6 +31,8 @@ export function createUserCard(data) {
 
     const skills = tmp.getElementsByClassName('tags')[1];
     data.skillTags.forEach(wrapCreateChipsFunc(skills));
+
+    // tmp.innerHTML = window.template(data);
     
     return tmp.firstElementChild;
 }
