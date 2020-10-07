@@ -1,0 +1,130 @@
+.profilemain {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: 'Roboto', sans-serif;
+}
+
+.leftcolumn,
+.rightcolumn {
+    margin: 20px;
+    max-width: 400px;
+}
+
+.avatar {
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+    object-fit:cover;
+}
+
+.socialnetworks {
+    display: flex;
+    flex-direction: column;
+}
+
+.meetings {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.rightcolumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.margin10 {
+    margin-bottom: 10px;
+}
+
+.editicon:hover {
+    width: 25px;
+    height: 25px;
+}
+
+.block {
+    width: 350px;
+}
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.popup .popuptext {
+    visibility: hidden;
+    width: 100px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    margin-left: -50px;
+    top: 100%;
+}
+
+.popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+}
+
+.avatarwraper {
+    position: relative;
+    width: 400px;
+    height: 300px;
+}
+
+.layout {
+    position: absolute;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    border-radius: 10px;
+    background: rgba(0, 0, 0, .3);
+
+    height: 99%;
+    width: 100%;
+
+    object-fit: cover;
+    opacity: 0;
+}
+
+.layout:hover {
+    opacity: 1;
+}
+
+.button {
+    padding: 10px;
+    border-radius: 10px;
+    background:  #ffffff;
+
+    outline: 0;
+}
+
+.button:active {
+    background-color: #eeecec;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}

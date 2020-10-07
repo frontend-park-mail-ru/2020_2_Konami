@@ -1,0 +1,10 @@
+div(class='metcard' id=id)
+    img(src=imgSrc class='metimg')
+    div(class='swimblock top')
+        span #{text}
+        div(class='tags')
+            each val, index in tags
+                span(class='chips')= val
+    h3 #{title}
+    h4 #{place}
+    h5 #{dateStr}

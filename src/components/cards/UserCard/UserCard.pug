@@ -1,0 +1,15 @@
+div(class='usercard' id=id)
+    img(src=imgSrc class='overlay')
+    div(class='overlay')
+    div(class='wraper top')
+        h2 #{name}
+        span #{job}
+        h3 Интересы
+        div(class='tags')
+            each val, index in interestTags
+                span(class='chips')= val
+        h3 Навыки
+        div(class='tags')
+            each val, index in skillTags
+                span(class='chips')= val
+        
