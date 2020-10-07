@@ -69,7 +69,7 @@ function createPeoplesPage(application) {
         const cards = response.parsedJson;
         cards.forEach(item => {
             const userCard = createUserCard(item);
-            userCard.addEventListener('click', (event) => {
+            userCard.addEventListener('click', () => {
                 createProfilePage(application, parseInt(userCard.id));
             });
 

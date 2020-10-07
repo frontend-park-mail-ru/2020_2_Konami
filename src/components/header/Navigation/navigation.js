@@ -11,7 +11,7 @@ export function createNavigation(application) {
     ];
 
     navSettings.forEach(key => {
-        let option = appConfig[key];
+        let option = globalThis.appConfig[key];
 
         const navPoint = document.createElement('a');
         navPoint.innerHTML = option.text;

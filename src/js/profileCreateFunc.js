@@ -31,31 +31,26 @@ function fillRightColumn(rightColumn, data) {
             iconSrc: 'assets/diamond.svg',
             name: 'Навыки',
             key: 'skills',
-            action: (value) => {},
         },
         {
             iconSrc: 'assets/search.svg',
             name: 'Интересы',
             key: 'interests',
-            action: (value) => {},
         },
         {
             iconSrc: 'assets/education.svg',
             name: 'Образование',
             key: 'education',
-            action: (value) => {},
         },
         {
             iconSrc: 'assets/job.svg',
             name: 'работа',
             key: 'job',
-            action: (value) => {},
         },
         {
             iconSrc: 'assets/aim.svg',
             name: 'Цели',
             key: 'aims',
-            action: (value) => {},
         },
     ];
 
@@ -81,7 +76,6 @@ function fillRightColumn(rightColumn, data) {
 
         addListener(editicon, mainText, input, () => {
             mainText.innerHTML = input.value;
-            item.action(input.value);
 
             postUser(id, mainText.innerHTML).then(statusCode =>{
                 if (statusCode !== 200) {
@@ -185,7 +179,7 @@ function createAvatarField(imgSrc) {
         FR.readAsDataURL(file);
     };
 
-    saveButton.onclick = (event) => {
+    saveButton.onclick = () => {
         let blobFile = fileChoser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
@@ -318,11 +312,11 @@ function createTextArea(value) {
 
 
 function addListener(actor, mainText, input, action) {
-    actor.addEventListener('click', (evt) => {
+    actor.addEventListener('click', () => {
         const checkMark = createEditIcon("assets/check-mark.svg");
         const crossMark = createEditIcon("assets/x-mark.svg");
 
-        const returnMainRemoveMarks = (evt) => {
+        const returnMainRemoveMarks = () => {
             input.parentNode.insertBefore(mainText, input.nextSibling);
             checkMark.parentNode.insertBefore(actor, checkMark.nextSibling);
 
@@ -372,7 +366,7 @@ function addQuitLink() {
 
     signout.addEventListener('click', (evt) => {
         evt.preventDefault();
-        postSignOut().then(response => {
+        postSignOut().then(() => {
             window.userId = NaN
         })
     });

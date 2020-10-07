@@ -88,7 +88,7 @@ const postLogin = async (login, password) => {
     }).then(
         response => {
          if (response.status === 200) {
-             appConfig.profile.open();
+             globalThis.appConfig.profile.open();
          } else {
              alert('Неправильный логин или пароль');
          }

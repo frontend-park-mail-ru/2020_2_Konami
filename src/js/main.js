@@ -73,7 +73,7 @@ globalThis.appConfig = {
 }
 
 function profilePage(application) {
-    ajax('GET', '/me', (status, responseText) => {
+    globalThis.ajax('GET', '/me', (status, responseText) => {
         let isAuthorized = false;
 
         if (status === 200) {
@@ -117,8 +117,8 @@ createMetPage(application);
 application.addEventListener('click', (evt) => {
     const {target} = evt;
 
-    if (target.dataset.section in appConfig) {
+    if (target.dataset.section in globalThis.appConfig) {
         evt.preventDefault();
-        appConfig[target.dataset.section].open();
+        globalThis.appConfig[target.dataset.section].open();
     }
 });
