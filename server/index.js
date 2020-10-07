@@ -11,7 +11,7 @@ const app = express();
 const fs = require('fs');
 
 app.use(morgan('dev'));
-app.use(express.static(path.resolve(__dirname, '..', 'static')));
+app.use(express.static(path.resolve(__dirname, '..', 'src')));
 app.use(cookie());
 app.use(body.json());
 
