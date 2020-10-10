@@ -2,14 +2,26 @@
 
 import {
     createNavigation,
-} from '../components/header/Navigation/navigation.js';
+} from '../../components/header/Navigation/navigation.js';
 
 import {
     createHeader,
-} from '../components/header/Header/header.js';
-import {postPhoto} from "../api/api.js";
+} from '../../components/header/Header/header.js';
+import {postPhoto} from "../../api/api.js";
+import {applyOptionsTo} from "../../components/auth/utils.js";
+import {createLabeledElements} from "../../components/auth/LabeledElements/LabeledElements.js";
+import {createInput} from "../../components/auth/Input/Input.js";
+import {createRadioBtn} from "../../components/auth/RadioBtn/RadioBtn.js";
+import {createBtn} from "../../components/auth/Button/button.js";
+import {createLineSeparator} from "../../components/auth/LineSeparator/LineSeparator.js";
+import {createModalDialog} from "../../components/auth/TagsModalDialog/TagsModalDialog.js";
+import {createSelectedTag} from "../../components/auth/SelectedTag/SelectedTag.js";
+import {createFileUploader} from "../../components/auth/FileUploader/FileUploader.js";
+import {validateSignupInputForm} from "./formValidators.js";
 
-export function onSignupRedirectPage(application) {
+export var CurrentTab = 0;
+
+export function onSignupRedirectEditProfile(application) {
     application.innerHTML = '';
     createHeader(application);
     createNavigation(application);
@@ -17,7 +29,7 @@ export function onSignupRedirectPage(application) {
     const form = createSignupEditProfileForm(application);
     application.appendChild(form);
 
-    showTab(window.CurrentTab);
+    showTab(CurrentTab);
 
     addInputFileChangeEventListeners();
     addSubmitFormEventListener();
@@ -186,21 +198,21 @@ function nextPrev(n) {
         return false;
     }
     // Hide the current tab:
-    x[window.CurrentTab].style.display = "none";
+    x[CurrentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
-    window.CurrentTab = window.CurrentTab + n;
+    CurrentTab = CurrentTab + n;
     // if you have reached the end of the Form...
-    if (window.CurrentTab >= x.length) {
+    if (CurrentTab >= x.length) {
         const submBtn = document.getElementById('nextBtn');
         submBtn.type = 'submit';
         submBtn.click();
-        window.CurrentTab = 0;
+        CurrentTab = 0;
         appConfig.meetings.open();
 
         return false;
     }
     // Otherwise, display the correct tab:
-    showTab(window.CurrentTab);
+    showTab(CurrentTab);
 }
 
 function showTab(n) {
@@ -316,7 +328,7 @@ function addTagsModalDialogEventListener() {
     let btn = document.getElementById("openModalBtn");
 
 // Get the <span> element that closes the modal
-//     var span = document.getElementsByClassName("close")[0];
+    const span = document.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
     btn.onclick = function() {
@@ -324,9 +336,9 @@ function addTagsModalDialogEventListener() {
     }
 
 // When the user clicks on <span> (x), close the modal
-//     span.onclick = function() {
-//         modal.style.display = "none";
-//     }
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
 
 // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {

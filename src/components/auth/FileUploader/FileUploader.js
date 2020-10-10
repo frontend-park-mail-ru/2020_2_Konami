@@ -1,4 +1,4 @@
-function createFileUploader(id) {
+export function createFileUploader(id) {
     const fileUploader = document.createElement('div');
     fileUploader.innerHTML = `<input type="file" name="photos" id=${id} class="inputfile" data-multiple-caption="{count} files selected" multiple="">`
     fileUploader.innerHTML += `<label for=${id}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"> 

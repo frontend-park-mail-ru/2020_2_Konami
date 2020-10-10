@@ -1,4 +1,4 @@
-function createSelectedTag(value) {
+export function createSelectedTag(value) {
     const tag = document.createElement('div');
     tag.classList.add('selectedTag');
 

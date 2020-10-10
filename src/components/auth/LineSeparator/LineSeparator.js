@@ -1,4 +1,6 @@
-function createLineSeparator(text, options) {
+import {applyOptionsTo} from "../utils.js";
+
+export function createLineSeparator(text, options) {
     const sep = document.createElement('div');
     sep.classList.add('separator');
 

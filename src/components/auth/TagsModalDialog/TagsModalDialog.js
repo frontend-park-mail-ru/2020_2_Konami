@@ -1,4 +1,6 @@
-function createModalDialog() {
+import {applyOptionsTo} from "../utils.js";
+
+export function createModalDialog() {
     const modalBackground = document.createElement('div');
     applyOptionsTo(modalBackground, {id:'modalTags', classList: ['modal']});
 

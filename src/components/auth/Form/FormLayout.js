@@ -3,22 +3,26 @@ import {
 } from "./Form.js";
 
 import {
-    onSignupRedirectPage,
-} from '../../../js/signupPageFunc.js';
+    onSignupRedirectEditProfile,
+} from '../../../js/auth/onSignupRedirectEditProfile.js';
 
 import {postLogin, postSignUp} from '../../../api/api.js'
+import {createLabeledElements} from "../LabeledElements/LabeledElements.js";
+import {createInput} from "../Input/Input.js";
+import {createBtn} from "../Button/button.js";
+import {isValidPassword} from "../../../js/auth/formValidators.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', placeholder: 'логин', name: 'login'}));
+        createInput({type: 'text', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
-        createInput({type: 'password', placeholder: 'пароль', name: 'password'}));
+        createInput({type: 'password', name: 'password'}));
 
     const submitBtn = createBtn('Войти',
         {type: ' submit', classList: ['stdBtn', 'activable']});
     const message = document.createElement('p');
     message.innerHTML =
-        `Нету аккаунта? 
+        `Нет аккаунта? 
         <a href="${appConfig.registration.href}" data-section="registration">
             Зарегистрироваться
         </a>`;
@@ -82,7 +86,7 @@ export function createSignupFormLayout(application) {
         (async () => {
             const {status, error} = await postSignUp(login, password);
             if (status === 200) {
-                onSignupRedirectPage(application);
+                onSignupRedirectEditProfile(application);
             }
         })();
 

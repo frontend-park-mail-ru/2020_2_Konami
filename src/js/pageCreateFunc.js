@@ -27,6 +27,11 @@ import {
     createUserCard,
 } from '../components/cards/UserCard/UserCard.js';
 
+import {
+    createLoginFormLayout,
+    createSignupFormLayout
+} from "../components/auth/Form/FormLayout.js";
+
 
 function createMetPage(application) {
     application.innerHTML = '';
@@ -80,6 +85,28 @@ function createPeoplesPage(application) {
     application.appendChild(main);
 }
 
+function profilePage(application) {
+    globalThis.ajax('GET', '/me', (status, responseText) => {
+        let isAuthorized = false;
+
+        if (status === 200) {
+            isAuthorized = true;
+        }
+
+        if (status === 401) {
+            isAuthorized = false;
+        }
+
+        if (isAuthorized) {
+            const respData = JSON.parse(responseText);
+            window.userId = respData.userId
+            createProfilePage(application, window.userId);
+            return;
+        }
+
+        loginPage(application);
+    });
+}
 
 function createProfilePage(application, userId) {
     application.innerHTML = '';
@@ -102,8 +129,27 @@ function createProfilePage(application, userId) {
     });
 }
 
+function loginPage(application) {
+    application.innerHTML = '';
+    createHeader(application);
+    createNavigation(application);
+    const form = createLoginFormLayout(application);
+    form.render();
+}
+
+function signUpPage(application) {
+    application.innerHTML = '';
+    createHeader(application);
+    createNavigation(application);
+    const form = createSignupFormLayout(application);
+    form.render();
+}
+
 export {
     createPeoplesPage,
     createMetPage,
     createProfilePage,
+    loginPage,
+    signUpPage,
+    profilePage
 }
