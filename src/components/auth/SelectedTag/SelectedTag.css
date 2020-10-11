@@ -24,6 +24,7 @@
     padding: 4px;
     /* height: 15px; */
     position: relative;
+    left: 0%;
 }
 
 .close:hover,
@@ -37,4 +38,38 @@
     position: relative;
     padding-left: 6px;
     top: -38%;
+}
+
+.btnLike{
+    display : none;
+}
+
+input.btnLike + span {
+    background-color: #DDD;
+    color: #111;
+    display: inline-block;
+    height: 25px;
+    margin: 6px;
+    border-radius: 10px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+input.btnLike:checked + span{
+    background-color : #9cbdb6;
+    color : #FFF;
+}
+
+.recommendationTagsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 500px;
+    margin-top: 15px;
+}
+
+.helpText {
+    color: #8d978d;
+    text-align: center;
+    display: flex;
 }

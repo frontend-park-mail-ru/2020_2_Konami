@@ -19,6 +19,7 @@
     margin: auto;
     padding: 20px 10px 20px 35px;
     width: min-content;
+    border-radius: 10px;
 }
 
 .close {
@@ -29,23 +30,4 @@
     padding: 4px;
     position: relative;
     left: -5%;
-}
-
-.btnLike{
-    display : none;
-}
-
-input.btnLike + span {
-    background-color: #DDD;
-    color: #111;
-    display: inline-block;
-    height: 25px;
-    margin: 6px;
-    border-radius: 10px;
-    padding: 4px;
-}
-
-input.btnLike:checked + span{
-    background-color : #9cbdb6;
-    color : #FFF;
 }

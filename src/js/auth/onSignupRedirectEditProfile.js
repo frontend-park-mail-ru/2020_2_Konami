@@ -132,6 +132,7 @@ function createTab1() {
 
     // TODO (заполнить нормльными тэгами)
     const tags = document.createElement('div');
+    tags.classList.add('recommendationTagsWrapper')
     for (let i = 0; i < 10; i++) {
         let lbl = document.createElement('label');
         let input = document.createElement('input');
@@ -149,7 +150,11 @@ function createTab1() {
         tags.appendChild(lbl);
     }
 
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, tags);
+    const helperText = document.createElement('span');
+    helperText.classList.add('helpText');
+    helperText.textContent = 'Добавьте интересы в свой профиль, чтобы получать персональные рекомендации';
+
+    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags]);
 
     tab2.appendChild(
         createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',
@@ -340,7 +345,7 @@ function addTagsModalDialogEventListener() {
     let btn = document.getElementById("openModalBtn");
 
 // Get the <span> element that closes the modal
-    const span = document.getElementsByClassName("close")[0];
+    const close = modal.getElementsByClassName("close")[0];
 
 // When the user clicks the button, open the modal
     btn.onclick = function() {
@@ -348,28 +353,32 @@ function addTagsModalDialogEventListener() {
     }
 
 // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
+    close.onclick = function() {
         modal.style.display = "none";
+        saveSelectedTags();
     }
 
 // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
-
-            const tags = Array.from(document.getElementsByClassName('btnLike'));
-            const selectedTagValues = []
-            tags.forEach((tag) => {
-                if (tag.checked) {
-                    selectedTagValues.push(tag.value);
-                }
-            });
-
-            const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
-            selectedTagsBlock.innerHTML = '';
-
-            const selectedTags = selectedTagValues.map((tagValue) => createSelectedTag(tagValue));
-            selectedTagsBlock.append(...selectedTags);
+            saveSelectedTags();
         }
     }
+}
+
+function saveSelectedTags() {
+    const tags = Array.from(document.getElementsByClassName('btnLike'));
+    const selectedTagValues = []
+    tags.forEach((tag) => {
+        if (tag.checked) {
+            selectedTagValues.push(tag.value);
+        }
+    });
+
+    const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
+    selectedTagsBlock.innerHTML = '';
+
+    const selectedTags = selectedTagValues.map((tagValue) => createSelectedTag(tagValue));
+    selectedTagsBlock.append(...selectedTags);
 }

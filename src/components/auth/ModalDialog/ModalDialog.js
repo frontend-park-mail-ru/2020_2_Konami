@@ -10,7 +10,7 @@ export function createModalDialog(props, contentElement) {
 
     modalContent.innerHTML = '<span class="close">&times;</span>\n';
 
-    modalContent.append(contentElement);
+    modalContent.append(...contentElement);
     modalBackground.appendChild(modalContent);
     return modalBackground;
 }
@@ -25,7 +25,7 @@ export function placeAuthModal() {
 
     const loginForm = createLoginFormLayout(header);
 
-    modal = createModalDialog({id:'authModal', classList: ['modal']}, loginForm.form);
+    modal = createModalDialog({id:'authModal', classList: ['modal']}, [loginForm.form]);
     header.appendChild(modal);
 }
 

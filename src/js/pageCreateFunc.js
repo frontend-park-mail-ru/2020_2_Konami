@@ -154,7 +154,7 @@ function signUpModal(application) {
 
     const signupForm = createSignupFormLayout(application);
 
-    modal = createModalDialog({id:'authModal', classList: ['modal']}, signupForm.form);
+    modal = createModalDialog({id:'authModal', classList: ['modal']}, [signupForm.form]);
     header.appendChild(modal);
 
     modal.style.display = "block";
