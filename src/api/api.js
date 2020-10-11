@@ -75,7 +75,7 @@ function postPhoto(data) {
 }
 
 const postLogin = async (login, password) => {
-    fetch('/login', {
+    return fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -86,15 +86,15 @@ const postLogin = async (login, password) => {
             password,
         }),
     }).then(
-        response => {
-         if (response.status === 200) {
-             globalThis.appConfig.profile.open();
-         } else {
-             alert('Неправильный логин или пароль');
-         }
+        (response) => {
+            return {
+                status: response.status,
+            };
     }).catch(
         (error) => {
-            return error;
+            return {
+                error: error
+            };
         });
 }
 

@@ -14,7 +14,7 @@ import {createInput} from "../../components/auth/Input/Input.js";
 import {createRadioBtn} from "../../components/auth/RadioBtn/RadioBtn.js";
 import {createBtn} from "../../components/auth/Button/button.js";
 import {createLineSeparator} from "../../components/auth/LineSeparator/LineSeparator.js";
-import {createModalDialog} from "../../components/auth/TagsModalDialog/TagsModalDialog.js";
+import {createModalDialog} from "../../components/auth/ModalDialog/ModalDialog.js";
 import {createSelectedTag} from "../../components/auth/SelectedTag/SelectedTag.js";
 import {createFileUploader} from "../../components/auth/FileUploader/FileUploader.js";
 import {validateSignupInputForm} from "./formValidators.js";
@@ -42,10 +42,9 @@ function createSignupEditProfileForm() {
 
     const tab1 = createTab1();
     const tab2 = createTab2();
-    const tab3 = createTab3();
     const btnsBlock = createButtonsBlock();
 
-    form.append(tab1, tab2, tab3, btnsBlock);
+    form.append(tab1, tab2,  btnsBlock);
 
     return form;
 }
@@ -65,7 +64,7 @@ function createColumn (options, ...elements) {
     return col;
 }
 
-function createTab1() {
+function createTab2() {
     const tab1 = document.createElement('div');
     tab1.classList.add('tab');
 
@@ -73,7 +72,7 @@ function createTab1() {
     formsBlock.classList.add('signup');
 
     const nameInput = createLabeledElements('Имя', createInput(
-        {type: 'text', placeholder: 'Полное имя', name: 'name', required: 'true', maxLength: '30'}));
+        {type: 'text', placeholder: 'Полное имя', name: 'name', maxLength: '30'}));
 
     const emailInput = createLabeledElements('Адрес электронной почты', createInput(
         {type: 'email', placeholder: 'Электронная почта', name: 'email', maxLength: '250'}));
@@ -114,7 +113,7 @@ function createTab1() {
     return tab1;
 }
 
-function createTab2() {
+function createTab1() {
     const tab2 = document.createElement('div');
     tab2.classList.add('tab');
 
@@ -130,7 +129,27 @@ function createTab2() {
 
     const persInfoBlock = createColumn({classList: ['signup', 'pers-info-block']}, persInfoRow, selectedTags);
 
-    const modalBlock = createModalDialog();
+
+    // TODO (заполнить нормльными тэгами)
+    const tags = document.createElement('div');
+    for (let i = 0; i < 10; i++) {
+        let lbl = document.createElement('label');
+        let input = document.createElement('input');
+        input.classList.add('btnLike');
+        input.type = 'checkbox';
+        input.name = 'tags';
+        input.value = 'randomTag' + i;
+
+        let span = document.createElement('span');
+        span.textContent = 'randomTag';
+
+        lbl.appendChild(input);
+        lbl.appendChild(span);
+
+        tags.appendChild(lbl);
+    }
+
+    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, tags);
 
     tab2.appendChild(
         createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',
@@ -233,7 +252,7 @@ function showTab(n) {
 }
 
 function addSubmitFormEventListener() {
-    const form = document.forms[0];
+    const form = document.forms[1];
 
     form.addEventListener('submit', (evt) => {
         evt.preventDefault();
@@ -258,10 +277,6 @@ function addSubmitFormEventListener() {
             return tag.textContent;
         });
 
-
-        const skillsValue = document.getElementsByName('skills')[0].value;
-        const interestsValue = document.getElementsByName('interests')[0].value;
-        const goalsValue = document.getElementsByName('goals')[0].value;
         let birthday = ""
         if (yearValue.length && monthValue.length && dayValue.length) {
             birthday = yearValue + '-' + monthValue + '-' + dayValue
@@ -273,9 +288,6 @@ function addSubmitFormEventListener() {
             city: cityValue,
             gender: genderValue,
             meetingTags: meetTagsValues,
-            skills: skillsValue,
-            interests: interestsValue,
-            aims: goalsValue,
         }
 
         let formData = new FormData();

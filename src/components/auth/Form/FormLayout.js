@@ -6,7 +6,7 @@ import {
     onSignupRedirectEditProfile,
 } from '../../../js/auth/onSignupRedirectEditProfile.js';
 
-import {postLogin, postSignUp} from '../../../api/api.js'
+import {postLogin, postSignUp, postUser} from '../../../api/api.js'
 import {createLabeledElements} from "../LabeledElements/LabeledElements.js";
 import {createInput} from "../Input/Input.js";
 import {createBtn} from "../Button/button.js";
@@ -38,12 +38,19 @@ export function createLoginFormLayout(application) {
         const password = input.value.trim();
 
         (async () => {
-            const error = await postLogin(login, password);
+            const {status, error} = await postLogin(login, password);
             if (error) {
+
+            }
+
+            if (status === 200) {
+                appConfig.profile.open();
             }
         })()
 
     });
+
+
     form.main.append(loginInput, pwdInput);
     form.footer.append(submitBtn, message);
 
@@ -61,6 +68,9 @@ export function createSignupFormLayout(application) {
     const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
         {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));
 
+    const nameInput = createLabeledElements('Имя', createInput(
+        {type: 'text', placeholder: 'Полное имя', name: 'name', required: 'true', maxLength: '30'}));
+
     const submitBtn = createBtn('Зарегистрироваться',
         {type: ' submit', classList: ['stdBtn', 'activable']});
 
@@ -76,6 +86,9 @@ export function createSignupFormLayout(application) {
         input = document.getElementsByName('repeatPassword')[0];
         const repeatPassword = input.value.trim();
 
+        input = document.getElementsByName('name')[0];
+        const name = input.value.trim();
+
         //TODO(Валидатор сложности пароля)
         if (!isValidPassword(password, repeatPassword)) {
             password.classList.add('invalid');
@@ -86,12 +99,18 @@ export function createSignupFormLayout(application) {
         (async () => {
             const {status, error} = await postSignUp(login, password);
             if (status === 200) {
+                const {status, error} = await postLogin(login, password);
+                postUser('name', name).then(statusCode =>{
+                    if (statusCode !== 200) {
+                        alert('Permission denied');
+                    }
+                });
                 onSignupRedirectEditProfile(application);
             }
         })();
 
     });
-    form.main.append(loginInput, passwordInput, repeatPasswordInput);
+    form.main.append(loginInput, passwordInput, repeatPasswordInput, nameInput);
     form.footer.append(submitBtn);
 
     return form;

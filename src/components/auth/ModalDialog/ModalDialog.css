@@ -2,7 +2,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 4; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -17,11 +17,19 @@
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 40%;
+    padding: 20px 10px 20px 35px;
+    width: min-content;
 }
 
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 4px;
+    position: relative;
+    left: -5%;
+}
 
 .btnLike{
     display : none;

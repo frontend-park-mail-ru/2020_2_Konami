@@ -8,8 +8,8 @@ import {
     createMetPage,
     createPeoplesPage,
     profilePage,
-    loginPage,
-    signUpPage
+    loginModal,
+    signUpModal
 } from './pageCreateFunc.js';
 
 
@@ -49,14 +49,14 @@ globalThis.appConfig = {
         text: "Регистрация",
         href: "/registration",
         open: () => {
-            signUpPage(application);
+            signUpModal(application);
         },
     },
     login: {
         text: "Логин",
         href: "/login",
         open: () => {
-            loginPage(application);
+            loginModal(application);
         },
     }
 }

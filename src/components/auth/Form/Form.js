@@ -27,7 +27,7 @@ export class AuthForm {
         return this.#footer;
     }
 
-    render() {
+    get form() {
         const form = document.createElement('form');
         form.classList.add('vertical-center');
 
@@ -41,7 +41,13 @@ export class AuthForm {
 
         form.addEventListener('submit', this.#onSubmit);
 
-        this.#parent.appendChild(formWrapper);
+        return formWrapper
+    }
+
+    render() {
+        const form = this.form
+
+        this.#parent.appendChild(form);
     }
 
 }

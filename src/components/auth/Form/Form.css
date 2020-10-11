@@ -10,7 +10,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
 }
 
 .authForm wrapper-form {
@@ -20,7 +19,7 @@
 .authForm form {
     display: flex;
     flex-direction: column;
-    width: 320px;
+    width: 380px;
 
     box-shadow: 1px 2px 10px 0px #c5c5c5;
     padding: 20px 20px 20px;
@@ -78,10 +77,10 @@
     text-decoration: none;
 }
 
-.vertical-center {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-}
+/*.vertical-center {*/
+/*    margin: 0;*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    -ms-transform: translateY(-50%);*/
+/*    transform: translateY(-50%);*/
+/*}*/

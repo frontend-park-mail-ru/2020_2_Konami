@@ -18,7 +18,7 @@
 }
 
 .inputfile + label {
-    max-width: 80%;
+    /*max-width: 80%;*/
     font-size: 1.15rem;
     font-weight: 550;
     text-overflow: ellipsis;
@@ -30,4 +30,5 @@
     border-radius: 2px;
     box-shadow: 0 0 0 2px #c7c6c6;
     margin: 12px 10px 27px 0;
+    max-width: 220px;
 }
