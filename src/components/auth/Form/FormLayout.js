@@ -17,6 +17,11 @@ export function createLoginFormLayout(application) {
         createInput({type: 'text', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
         createInput({type: 'password', name: 'password'}));
+    const errorMessage = document.createElement('p');
+    errorMessage.innerHTML =
+        'Вы ввели неверный логин или пароль';
+    errorMessage.classList.add('errorMessage');
+    errorMessage.style.display = 'none';
 
     const submitBtn = createBtn('Войти',
         {type: ' submit', classList: ['stdBtn', 'activable']});
@@ -39,8 +44,8 @@ export function createLoginFormLayout(application) {
 
         (async () => {
             const {status, error} = await postLogin(login, password);
-            if (error) {
-
+            if (status === 400) {
+                errorMessage.style.display = 'block';
             }
 
             if (status === 200) {
@@ -51,7 +56,7 @@ export function createLoginFormLayout(application) {
     });
 
 
-    form.main.append(loginInput, pwdInput);
+    form.main.append(loginInput, pwdInput, errorMessage);
     form.footer.append(submitBtn, message);
 
 

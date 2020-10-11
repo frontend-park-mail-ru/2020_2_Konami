@@ -9,7 +9,7 @@ function validateSignupInputForm() {
     let y = x[CurrentTab].querySelectorAll('input[required]');
     for (let i = 0; i < y.length; i++) {
         if (y[i].value === "") {
-            y[i].className += " invalid";
+            y[i].className += 'invalid';
             valid = false;
         }
     }

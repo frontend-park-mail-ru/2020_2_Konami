@@ -77,10 +77,8 @@
     text-decoration: none;
 }
 
-/*.vertical-center {*/
-/*    margin: 0;*/
-/*    position: absolute;*/
-/*    top: 50%;*/
-/*    -ms-transform: translateY(-50%);*/
-/*    transform: translateY(-50%);*/
-/*}*/
+.authForm form .errorMessage {
+    margin: 0px 0px 15px 0px;
+    color: #ea9494;
+    font-size: 14px;
+}
