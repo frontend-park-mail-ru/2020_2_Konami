@@ -113,9 +113,11 @@ function createProfilePage(application, userId) {
     application.innerHTML = '';
     createHeader(application);
     createNavigation(application);
+
     if (!isNaN(window.userId)) {
         addQuitLink();
     }
+
     getUser(userId).then(response => {
         let data = response.parsedJson;
         application.appendChild(createProfile(data));

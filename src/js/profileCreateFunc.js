@@ -25,6 +25,7 @@ import {
     createMetIcon,
 } from '../components/profile/MetIcon/MetIcon.js';
 
+
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
         {
