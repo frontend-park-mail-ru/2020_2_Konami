@@ -98,6 +98,18 @@ const postLogin = async (login, password) => {
         });
 }
 
+function getMe() {
+    return fetch('/me', {
+        method: 'GET',
+        credentials: 'include'
+    }).then(response => {
+        return response.json();
+    }).then(parsedJson => {
+        return parsedJson.userId;
+    });
+
+}
+
 function postSignUp(login, password) {
     return fetch('/signup', {
         method: 'POST',
@@ -139,6 +151,7 @@ export {
     getMeetings,
     postPhoto,
     postLogin,
+    getMe,
     postSignUp,
     postSignOut,
 };

@@ -7,7 +7,7 @@ import {
 import {
     createHeader,
 } from '../../components/header/Header/header.js';
-import {postPhoto} from "../../api/api.js";
+import {postPhoto} from "../services/API/api.js";
 import {applyOptionsTo} from "../../components/auth/utils.js";
 import {createLabeledElements} from "../../components/auth/LabeledElements/LabeledElements.js";
 import {createInput} from "../../components/auth/Input/Input.js";

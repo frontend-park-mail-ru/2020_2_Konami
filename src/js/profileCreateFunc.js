@@ -3,7 +3,7 @@
 import {
     postUser,
     postPhoto, postSignOut,
-} from '../api/api.js';
+} from './services/API/api.js';
 
 import {
     createBoldSpan,

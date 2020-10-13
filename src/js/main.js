@@ -12,12 +12,11 @@ import {
     signUpModal
 } from './pageCreateFunc.js';
 
+import HeaderController from "../components/header/Header/headerController.js";
 
-const application = document.body;
-window.userId = NaN
 
-const Ajax = new AjaxModule();
-globalThis.ajax = Ajax.ajax;
+// const application = document.body;
+// window.userId = NaN
 
 globalThis.appConfig = {
     forMe: {
@@ -61,13 +60,21 @@ globalThis.appConfig = {
     }
 }
 
-createMetPage(application);
+// application.addEventListener('click', (evt) => {
+//     const {target} = evt;
+//
+//     if (target.dataset.section in globalThis.appConfig) {
+//         evt.preventDefault();
+//         globalThis.appConfig[target.dataset.section].open();
+//     }
+// });
 
-application.addEventListener('click', (evt) => {
-    const {target} = evt;
+(() => {
+    const application = document.getElementById('app');
 
-    if (target.dataset.section in globalThis.appConfig) {
-        evt.preventDefault();
-        globalThis.appConfig[target.dataset.section].open();
-    }
-});
+    // const router = new Router();
+    const headerController = new HeaderController(application);
+    headerController.activate();
+
+    // router.register('/', new MeetingsController(application));
+})()

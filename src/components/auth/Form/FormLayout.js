@@ -6,7 +6,7 @@ import {
     onSignupRedirectEditProfile,
 } from '../../../js/auth/onSignupRedirectEditProfile.js';
 
-import {postLogin, postSignUp, postUser} from '../../../api/api.js'
+import {postLogin, postSignUp, postUser} from '../../../js/services/API/api.js'
 import {createLabeledElements} from "../LabeledElements/LabeledElements.js";
 import {createInput} from "../Input/Input.js";
 import {createBtn} from "../Button/button.js";
