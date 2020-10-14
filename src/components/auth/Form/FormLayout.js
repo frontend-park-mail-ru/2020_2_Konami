@@ -11,6 +11,7 @@ import {createLabeledElements} from "../LabeledElements/LabeledElements.js";
 import {createInput} from "../Input/Input.js";
 import {createBtn} from "../Button/button.js";
 import {isValidPassword} from "../../../js/auth/formValidators.js";
+import appConfig from "../../../js/config/appConfig.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',

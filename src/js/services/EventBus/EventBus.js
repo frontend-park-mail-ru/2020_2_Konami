@@ -20,7 +20,7 @@ class EventBus {
      * @param {function} callback - колбэк события
      */
     onEvent(evt, callback) {
-        this.listeners[evt].push(callback);
+        (this.listeners[evt] || (this.listeners[evt] = [])).push(callback);
     }
 
     /**

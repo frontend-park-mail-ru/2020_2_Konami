@@ -1,8 +1,14 @@
 'use strict';
 
-import Controller from "../../../js/basics/Controller/Controller.js";
+import Controller from "../../basics/Controller/Controller.js";
 import HeaderView from "./headerView.js";
 import HeaderModel from "./headerModel.js";
+import EventBus from "../../services/EventBus/EventBus.js";
+
+import {
+    REDIRECT,
+    SHOW_LOGIN_MODAL
+} from "../../services/EventBus/EventTypes.js";
 
 export default class HeaderController extends Controller {
 
@@ -11,8 +17,15 @@ export default class HeaderController extends Controller {
         this.view = new HeaderView(parent, new HeaderModel());
     }
 
+    destructor() {
+
+    }
+
     activate() {
         this.view.render();
+        EventBus.onEvent(SHOW_LOGIN_MODAL, () => {
+
+        })
 
     }
 

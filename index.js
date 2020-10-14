@@ -11,17 +11,23 @@ const app = express();
 const fs = require('fs');
 
 app.use(morgan('dev'));
-app.use(express.static(path.resolve(__dirname, '..', 'src')));
+// app.use(express.static(path.resolve(__dirname, '..', 'src')));
+app.use(express.static(`${__dirname}/src`));
 app.use(cookie());
 app.use(body.json());
 
-app.get('/', function(req, res) {
-    fs.readFile('static/index.html', function (err, html) {
-        if (err) {
-            throw err; 
-        } 
-        res.status(200).send(html);
-    });
+// app.get('/', function(req, res) {
+//     fs.readFile('./index.html', function (err, html) {
+//         if (err) {
+//             throw err;
+//         }
+//         res.status(200).send(html);
+//     });
+// });
+
+app.get('*', (req, res) => {
+    console.log(req.url);
+    res.sendFile(`${__dirname}/src/index.html`);
 });
 
 
@@ -140,7 +146,7 @@ app.get('/user', function(req, res) {
     if (userId in usersProfiles) {
         res.status(200).json(usersProfiles[userId]);
     } else {
-        res.status(404).send('');  
+        res.status(404).send('');
     }
 });
 

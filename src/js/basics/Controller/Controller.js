@@ -6,6 +6,10 @@ export default class Controller {
         this.parent = parent;
     }
 
+    destructor() {
+        this.parent.innerHTML = '';
+    }
+
     activate() {
     }
 

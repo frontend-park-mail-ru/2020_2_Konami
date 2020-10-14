@@ -1,6 +1,6 @@
 'use strict';
 
-import BaseView from "../../../js/basics/BaseView/BaseView.js";
+import BaseView from "../../basics/BaseView/BaseView.js";
 
 export default class HeaderView extends BaseView {
 
