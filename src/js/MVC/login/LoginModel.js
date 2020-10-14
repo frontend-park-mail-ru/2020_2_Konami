@@ -26,7 +26,7 @@ export default class LoginModel {
         if (!(this._user.isAuthenticated)) {
             EventBus.dispatchEvent(INVALID_LOGIN, {});
         }
-        EventBus.dispatchEvent(REDIRECT, {url: '/KEK'});
+        EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
     }
 
 }
