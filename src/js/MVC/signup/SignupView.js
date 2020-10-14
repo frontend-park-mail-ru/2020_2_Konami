@@ -1,17 +1,17 @@
 'use strict';
 
 import BaseView from "../../basics/BaseView/BaseView.js";
+import {createLoginFormLayout, createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import {loginModal} from "../../pageCreateFunc.js";
-import {createLoginFormLayout} from "../../../components/auth/Form/FormLayout.js";
-import Router from "../../services/Router/Router.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {hideModal, closeModalEventHandler} from "../../utils/auth/authModalUtils.js";
+import {isValidPassword} from "../../auth/formValidators.js";
+
 import {
-    HIDE_LOGIN_MODAL, SUBMIT_LOGIN,
+    HIDE_LOGIN_MODAL, SUBMIT_SIGNUP
 } from "../../services/EventBus/EventTypes.js";
 
-export default class LoginView extends BaseView {
+export default class SignupView extends BaseView {
 
     constructor(parent, model) {
         super(parent);
@@ -24,8 +24,8 @@ export default class LoginView extends BaseView {
     render() {
 
         //TODO(Заменить на шаблонизаторы)
-        const loginForm = createLoginFormLayout(document.getElementsByClassName('header')[0]);
-        const modal = createModalDialog({id:'authModal', classList: ['modal']}, [loginForm.form]);
+        const signupForm = createSignupFormLayout(document.getElementsByClassName('header')[0]);
+        const modal = createModalDialog({id:'authModal', classList: ['modal']}, [signupForm.form]);
 
         this.parent.appendChild(modal);
 
@@ -47,7 +47,20 @@ export default class LoginView extends BaseView {
             input = document.getElementsByName('password')[0];
             const password = input.value.trim();
 
-            EventBus.dispatchEvent(SUBMIT_LOGIN, {login: login, password: password});
+            input = document.getElementsByName('repeatPassword')[0];
+            const repeatPassword = input.value.trim();
+
+            input = document.getElementsByName('name')[0];
+            const name = input.value.trim();
+
+            //TODO(Валидатор сложности пароля)
+            if (!isValidPassword(password, repeatPassword)) {
+                password.classList.add('invalid');
+                repeatPassword.classList.add('invalid');
+                return
+            }
+
+            EventBus.dispatchEvent(SUBMIT_SIGNUP, {name: name, login: login, password: password});
         });
 
         window.addEventListener('click', closeModalEventHandler);

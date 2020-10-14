@@ -28,7 +28,7 @@ const appConfig = {
     },
     registration: {
         text: "Регистрация",
-        href: "/registration",
+        href: "/signup",
         open: () => {
             signUpModal(application);
         },

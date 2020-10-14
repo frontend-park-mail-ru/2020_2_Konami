@@ -15,9 +15,9 @@ import appConfig from "../../../js/config/appConfig.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', name: 'login'}));
+        createInput({type: 'text', name: 'login', required: 'true'}));
     const pwdInput = createLabeledElements('Пароль',
-        createInput({type: 'password', name: 'password'}));
+        createInput({type: 'password', name: 'password', required: 'true'}));
     const errorMessage = document.createElement('p');
     errorMessage.innerHTML =
         'Вы ввели неверный логин или пароль';
@@ -34,27 +34,7 @@ export function createLoginFormLayout(application) {
         </a>`;
     message.classList.add('message');
 
-    const form = new AuthForm(application, (evt) => {
-        evt.preventDefault();
-
-        let input = document.getElementsByName('login')[0];
-        const login = input.value.trim();
-
-        input = document.getElementsByName('password')[0];
-        const password = input.value.trim();
-
-        (async () => {
-            const {status, error} = await postLogin(login, password);
-            if (status === 400) {
-                errorMessage.style.display = 'block';
-            }
-
-            if (status === 200) {
-                appConfig.profile.open();
-            }
-        })()
-
-    });
+    const form = new AuthForm(application);
 
 
     form.main.append(loginInput, pwdInput, errorMessage);
@@ -103,9 +83,9 @@ export function createSignupFormLayout(application) {
         }
 
         (async () => {
-            const {status, error} = await postSignUp(login, password);
-            if (status === 200) {
-                const {status, error} = await postLogin(login, password);
+            const {statusCode, error} = await postSignUp(login, password);
+            if (statusCode === 200) {
+                const {statusCode, error} = await postLogin(login, password);
                 postUser('name', name).then(statusCode =>{
                     if (statusCode !== 200) {
                         alert('Permission denied');

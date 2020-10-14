@@ -1,22 +1,18 @@
 'use strict';
 
 import Controller from "../../basics/Controller/Controller.js";
-import LoginView from "./LoginView.js";
-import LoginModel from "./LoginModel.js";
+import SignupView from "./SignupView.js";
+import SignupModel from "./SignupModel.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {hideModal} from "../../utils/auth/authModalUtils.js";
+import {HIDE_LOGIN_MODAL} from "../../services/EventBus/EventTypes.js";
 
-import {
-    HIDE_LOGIN_MODAL,
-    LOGIN_SUCCESS
-} from "../../services/EventBus/EventTypes.js";
-
-export default class LoginController extends Controller {
+export default class SignupController extends Controller {
 
     constructor(parent) {
         super(parent);
-        this.model = new LoginModel()
-        this.view = new LoginView(parent, this.model);
+        this.model = new SignupModel()
+        this.view = new SignupView(parent, this.model);
     }
 
     /** При вызове деструктора модальное окно просто удаляется из application*/
@@ -25,7 +21,6 @@ export default class LoginController extends Controller {
         this.parent.removeChild(modal);
 
         EventBus.offEvent(HIDE_LOGIN_MODAL, hideModal);
-        EventBus.offEvent(LOGIN_SUCCESS, this.model.onLoginSuccess)
     }
 
     activate() {

@@ -1,17 +1,23 @@
 'use strict';
 
-function postUser(field, text) {
+function postUser(editFields) {
     return fetch('/user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
         },
         credentials: 'include',
-        body: JSON.stringify({
-            [field]: text,
-        }),
-    }).then(response => {
-        return response.status;
+        body: JSON.stringify(editFields),
+    }).then(
+        (response) => {
+            return {
+                statusCode: response.status,
+            };
+    }).catch(
+    (error) => {
+        return {
+            error: error
+        };
     });
 }
 
@@ -28,7 +34,7 @@ function getUser(userId) {
             statusCode,
             parsedJson,
         };
-    }); 
+    });
 }
 
 function getMeetings(pageNum) {
@@ -45,7 +51,7 @@ function getMeetings(pageNum) {
             statusCode,
             parsedJson,
         };
-    }); 
+    });
 }
 
 function getPeople(pageNum) {
@@ -61,7 +67,7 @@ function getPeople(pageNum) {
             statusCode,
             parsedJson,
         };
-    }); 
+    });
 }
 
 function postPhoto(data) {
@@ -88,7 +94,7 @@ const postLogin = async (login, password) => {
     }).then(
         (response) => {
             return {
-                status: response.status,
+                statusCode: response.status,
             };
     }).catch(
         (error) => {
@@ -124,7 +130,7 @@ function postSignUp(login, password) {
     }).then(
         (response) => {
             return {
-                status: response.status,
+                statusCode: response.status,
             };
     }).catch(
         (error) => {

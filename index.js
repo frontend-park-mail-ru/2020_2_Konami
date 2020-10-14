@@ -17,13 +17,22 @@ app.use(cookie());
 app.use(body.json());
 
 // app.get('/', function(req, res) {
-//     fs.readFile('./index.html', function (err, html) {
+//     fs.readFile('src/index.html', function (err, html) {
 //         if (err) {
 //             throw err;
 //         }
 //         res.status(200).send(html);
 //     });
 // });
+
+app.get('/me', function (req, res) {
+    const token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    if (!userId) {
+        return  res.status(401).end();
+    }
+    res.status(200).json({userId});
+});
 
 app.get('*', (req, res) => {
     console.log(req.url);
@@ -165,16 +174,6 @@ app.post('/user', function (req, res) {
         usersProfiles[userId][req.body.field] = req.body.text;
     }
     res.status(200).send('ok');
-});
-
-
-app.get('/me', function (req, res) {
-    const token = req.cookies['authToken'];
-    const userId = userSessions[token];
-    if (!userId) {
-       return  res.status(401).end();
-    }
-    res.status(200).json({userId});
 });
 
 

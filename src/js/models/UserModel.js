@@ -1,6 +1,12 @@
 'use strict';
 
-import {postLogin, getMe} from "../services/API/api.js";
+import {postLogin, getMe, postSignUp, postUser} from "../services/API/api.js";
+import EventBus from "../services/EventBus/EventBus.js";
+import {
+    LOGIN_SUCCESS,
+    SIGNUP_SUCCESS,
+    EDIT_SUCCESS
+} from "../services/EventBus/EventTypes.js";
 
 class UserModel {
 
@@ -15,25 +21,49 @@ class UserModel {
         UserModel.__instance = this;
     }
 
-    static get user() {
-        return this.__instance;
+    get user() {
+        return UserModel.__instance;
     }
 
-    static async login(login, password) {
-        const {status, error} = await postLogin(login, password);
-        if (status === 400) {
+    async login(login, password) {
+        const {statusCode, error} = await postLogin(login, password);
+        switch (statusCode) {
+        case 400:
             // TODO(error message)
             // errorMessage.style.display = 'block';
-        }
-
-        if (status === 200) {
+            break;
+        case 200:
             this.isAuthenticated = true;
             this.userId = await getMe();
+            EventBus.dispatchEvent(LOGIN_SUCCESS);
+            break;
         }
     }
 
     static logout() {
 
+    }
+
+    async signup(name, login, password) {
+        const {statusCode, error} = await postSignUp(login, password);
+        switch (statusCode) {
+            case 400:
+                // TODO(error message)
+                // errorMessage.style.display = 'block';
+                break;
+            case 200:
+                EventBus.dispatchEvent(SIGNUP_SUCCESS, {name: name, login: login, password: password});
+                break;
+        }
+    }
+
+    async edit(editFields) {
+        const {statusCode, error} = await postUser(editFields);
+        switch (statusCode) {
+            case 200:
+                EventBus.dispatchEvent(EDIT_SUCCESS, editFields);
+                break;
+        }
     }
 
 }

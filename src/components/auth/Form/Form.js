@@ -14,7 +14,8 @@ export class AuthForm {
         this.#main = document.createElement('main');
         this.#header = document.createElement('header');
         this.#footer = document.createElement('footer');
-        this.#onSubmit = onSubmit;
+        this._form = null;
+        // this.#onSubmit = onSubmit;
     }
 
     get main() {
@@ -39,9 +40,14 @@ export class AuthForm {
         formWrapper.classList.add('authForm');
         formWrapper.appendChild(form);
 
-        form.addEventListener('submit', this.#onSubmit);
+        this._form = form;
+        // form.addEventListener('submit', this.#onSubmit);
 
         return formWrapper
+    }
+
+    getForm() {
+        return this._form;
     }
 
     render() {
