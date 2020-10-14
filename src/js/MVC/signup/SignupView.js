@@ -4,11 +4,11 @@ import BaseView from "../../basics/BaseView/BaseView.js";
 import {createLoginFormLayout, createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import {hideModal, closeModalEventHandler} from "../../utils/auth/authModalUtils.js";
+import { closeModalEventHandler} from "../../utils/auth/authModalUtils.js";
 import {isValidPassword} from "../../auth/formValidators.js";
 
 import {
-    HIDE_LOGIN_MODAL, SUBMIT_SIGNUP
+    SUBMIT_SIGNUP
 } from "../../services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
@@ -35,8 +35,6 @@ export default class SignupView extends BaseView {
     }
 
     _addEventListeners() {
-        EventBus.onEvent(HIDE_LOGIN_MODAL, hideModal);
-
         const form = document.forms[0];
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();

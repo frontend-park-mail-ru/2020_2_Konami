@@ -6,9 +6,9 @@ import {loginModal} from "../../pageCreateFunc.js";
 import {createLoginFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import Router from "../../services/Router/Router.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import {hideModal, closeModalEventHandler} from "../../utils/auth/authModalUtils.js";
+import {closeModalEventHandler} from "../../utils/auth/authModalUtils.js";
 import {
-    HIDE_LOGIN_MODAL, SUBMIT_LOGIN,
+    SUBMIT_LOGIN,
 } from "../../services/EventBus/EventTypes.js";
 
 export default class LoginView extends BaseView {
@@ -35,8 +35,6 @@ export default class LoginView extends BaseView {
     }
 
     _addEventListeners() {
-        EventBus.onEvent(HIDE_LOGIN_MODAL, hideModal);
-
         const form = document.forms[0];
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();

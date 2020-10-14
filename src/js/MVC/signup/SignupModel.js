@@ -17,6 +17,7 @@ export default class SignupModel {
     constructor() {
         this._user = UserModel.user;
 
+
         EventBus.onEvent(SIGNUP_SUCCESS, (data) => {
             const {name, login, password} = data;
             (async () => {

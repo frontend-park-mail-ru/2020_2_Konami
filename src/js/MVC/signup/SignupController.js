@@ -4,8 +4,6 @@ import Controller from "../../basics/Controller/Controller.js";
 import SignupView from "./SignupView.js";
 import SignupModel from "./SignupModel.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import {hideModal} from "../../utils/auth/authModalUtils.js";
-import {HIDE_LOGIN_MODAL} from "../../services/EventBus/EventTypes.js";
 
 export default class SignupController extends Controller {
 
@@ -19,8 +17,6 @@ export default class SignupController extends Controller {
     destructor() {
         const modal = document.getElementById('authModal');
         this.parent.removeChild(modal);
-
-        EventBus.offEvent(HIDE_LOGIN_MODAL, hideModal);
     }
 
     activate() {
