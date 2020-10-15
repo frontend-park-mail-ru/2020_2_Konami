@@ -14,9 +14,9 @@ import {isValidPassword} from "../../../js/auth/formValidators.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', name: 'login'}));
+        createInput({type: 'text', required: 'true', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
-        createInput({type: 'password', name: 'password'}));
+        createInput({type: 'password', required: 'true', name: 'password'}));
     const errorMessage = document.createElement('p');
     errorMessage.innerHTML =
         'Вы ввели неверный логин или пароль';
