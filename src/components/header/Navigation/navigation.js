@@ -1,5 +1,7 @@
 'use strict';
 
+import appConfig from "../../../js/config/appConfig.js";
+
 export function createNavigation(application) {
     const navigation = document.createElement('nav');
     navigation.classList.add('navigation');
@@ -11,7 +13,7 @@ export function createNavigation(application) {
     ];
 
     navSettings.forEach(key => {
-        let option = globalThis.appConfig[key];
+        let option = appConfig[key];
 
         const navPoint = document.createElement('a');
         navPoint.innerHTML = option.text;
@@ -21,6 +23,6 @@ export function createNavigation(application) {
 
         navigation.appendChild(navPoint);
     });
-    
+
     application.appendChild(navigation);
 }

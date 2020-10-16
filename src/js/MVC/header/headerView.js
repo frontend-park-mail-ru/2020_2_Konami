@@ -1,6 +1,7 @@
 'use strict';
 
 import BaseView from "../../basics/BaseView/BaseView.js";
+import {createNavigation} from "../../../components/header/Navigation/navigation.js";
 
 export default class HeaderView extends BaseView {
 
@@ -26,6 +27,7 @@ export default class HeaderView extends BaseView {
         icon.dataset.section = 'profile';
 
         this.parent.appendChild(headerWrapper.firstElementChild);
+        createNavigation(this.parent);
     }
 
 }
