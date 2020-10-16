@@ -14,12 +14,12 @@ export default class LoginModel {
     constructor() {
         this._user = UserModel.user;
 
-        EventBus.onEvent(LOGIN_SUCCESS, this.onLoginSuccess);
-
         EventBus.onEvent(SUBMIT_LOGIN, (data) => {
             const {login, password} = data;
             this._user.login(login, password);
         });
+
+        // EventBus.onEvent(LOGIN_SUCCESS, this.onLoginSuccess);
     }
 
     onLoginSuccess = () => {

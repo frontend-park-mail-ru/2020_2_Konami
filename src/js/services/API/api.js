@@ -75,9 +75,17 @@ function postPhoto(data) {
         method: 'POST',
         credentials: 'include',
         body: data,
-    }).then(response => {
-        return response.status;
-    });
+    }).then(
+        (response) => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(
+        (error) => {
+            return {
+                error: error
+            };
+        });
 }
 
 const postLogin = async (login, password) => {

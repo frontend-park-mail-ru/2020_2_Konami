@@ -49,7 +49,7 @@ export function createSignupFormLayout(application) {
         {type: 'text', placeholder: 'Ваш логин', name: 'login', required: 'true', maxLength: '30'}));
 
     const passwordInput = createLabeledElements('Придумайте пароль', createInput(
-        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '5'}));
+        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '0'}));
 
     const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
         {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));

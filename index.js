@@ -219,15 +219,11 @@ app.post('/signup', function (req, res) {
     res.status(200).send('ok');
 });
 
-app.use(formidable());  //  formdata только с этим мидлвером работает
-app.post('/edit_on_signup', function (req, res) {
-    console.log(req.fields, req.files);
-    res.status(200).send('ok');
-});
-
 app.post('/images', function(req, res) {
     console.log(req.query);
     console.log(req.fields, req.files);
+    res.status(200).send('ok');
+
 });
 
 const port = process.env.PORT || 8000;

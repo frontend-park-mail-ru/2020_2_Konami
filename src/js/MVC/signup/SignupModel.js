@@ -34,12 +34,14 @@ export default class SignupModel {
             this._user.signup(name, login, password);
         });
 
-        EventBus.onEvent(EDIT_SUCCESS, (data) => {
-            if (!(this._user.isAuthenticated)) {
-                EventBus.dispatchEvent(INVALID_LOGIN, {});
-            }
-            EventBus.dispatchEvent(REDIRECT, {url: '/LOL'});
-        });
+        // EventBus.onEvent(EDIT_SUCCESS, this.onEditOnSignupSuccess);
+    }
+
+    onEditOnSignupSuccess = () => {
+        if (!(this._user.isAuthenticated)) {
+            EventBus.dispatchEvent(INVALID_LOGIN, {});
+        }
+        EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
     }
 
 }

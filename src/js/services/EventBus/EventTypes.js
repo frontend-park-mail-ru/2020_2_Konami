@@ -6,4 +6,7 @@ export const LOGIN_SUCCESS = 'loginUserSuccess';
 export const SIGNUP_SUCCESS = 'signupUserSuccess';
 export const SUBMIT_SIGNUP = 'signupUser';
 export const EDIT_SUCCESS = 'editUserSuccess';
-
+export const NOT_AUTHORIZED = 'userNotAuthorized';
+export const SUBMIT_EDIT = 'editUser';
+export const UPDATE_PHOTO_SUCCESS = 'updatePhotoUserSuccess';
+export const SELECT_TAGS = 'selectRecommendationTags';

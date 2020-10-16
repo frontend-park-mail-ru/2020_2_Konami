@@ -26,7 +26,7 @@ export function onSignupRedirectEditProfile(application) {
     createHeader(application);
     createNavigation(application);
 
-    const form = createSignupEditProfileForm(application);
+    const form = createSignupEditProfileForm();
     application.appendChild(form);
 
     showTab(CurrentTab);
@@ -37,7 +37,7 @@ export function onSignupRedirectEditProfile(application) {
 
 }
 
-function createSignupEditProfileForm() {
+export function createSignupEditProfileForm() {
     const form = document.createElement('form');
 
     const tab1 = createTab1();
@@ -215,170 +215,170 @@ function createButtonsBlock() {
     return signupBtnBlock;
 }
 
-function nextPrev(n) {
-    // This function will figure out which tab to display
-    let x = document.getElementsByClassName("tab");
-    if (n === 1 && !validateSignupInputForm()) {
-        return false;
-    }
-    // Hide the current tab:
-    x[CurrentTab].style.display = "none";
-    // Increase or decrease the current tab by 1:
-    CurrentTab = CurrentTab + n;
-    // if you have reached the end of the Form...
-    if (CurrentTab >= x.length) {
-        const submBtn = document.getElementById('nextBtn');
-        submBtn.type = 'submit';
-        submBtn.click();
-        CurrentTab = 0;
-        appConfig.meetings.open();
+// function nextPrev(n) {
+//     // This function will figure out which tab to display
+//     let x = document.getElementsByClassName("tab");
+//     if (n === 1 && !validateSignupInputForm()) {
+//         return false;
+//     }
+//     // Hide the current tab:
+//     x[CurrentTab].style.display = "none";
+//     // Increase or decrease the current tab by 1:
+//     CurrentTab = CurrentTab + n;
+//     // if you have reached the end of the Form...
+//     if (CurrentTab >= x.length) {
+//         const submBtn = document.getElementById('nextBtn');
+//         submBtn.type = 'submit';
+//         submBtn.click();
+//         CurrentTab = 0;
+//         appConfig.meetings.open();
+//
+//         return false;
+//     }
+//     // Otherwise, display the correct tab:
+//     showTab(CurrentTab);
+// }
 
-        return false;
-    }
-    // Otherwise, display the correct tab:
-    showTab(CurrentTab);
-}
+// function showTab(n) {
+//     // This function will display the specified tab of the Form...
+//     let x = document.getElementsByClassName("tab");
+//     x[n].style.display = "block";
+//     //... and fix the Previous/Next buttons:
+//     if (n === 0) {
+//         document.getElementById("prevBtn").style.display = "none";
+//     } else {
+//         document.getElementById("prevBtn").style.display = "inline";
+//     }
+//     if (n === (x.length - 1)) {
+//         document.getElementById("nextBtn").innerHTML = "Применить";
+//     } else {
+//         document.getElementById("nextBtn").innerHTML = "Далее";
+//     }
+// }
 
-function showTab(n) {
-    // This function will display the specified tab of the Form...
-    let x = document.getElementsByClassName("tab");
-    x[n].style.display = "block";
-    //... and fix the Previous/Next buttons:
-    if (n === 0) {
-        document.getElementById("prevBtn").style.display = "none";
-    } else {
-        document.getElementById("prevBtn").style.display = "inline";
-    }
-    if (n === (x.length - 1)) {
-        document.getElementById("nextBtn").innerHTML = "Применить";
-    } else {
-        document.getElementById("nextBtn").innerHTML = "Далее";
-    }
-}
+// function addSubmitFormEventListener() {
+//     const form = document.forms[1];
+//
+//     form.addEventListener('submit', (evt) => {
+//         evt.preventDefault();
+//
+//         const nameValue = document.getElementsByName('name')[0].value;
+//         const emailValue = document.getElementsByName('email')[0].value;
+//         const dayValue = document.getElementsByName('day')[0].value;
+//         const monthValue = document.getElementsByName('month')[0].value;
+//         const yearValue = document.getElementsByName('year')[0].value;
+//
+//         const cityValue = document.getElementsByName('city')[0].value;
+//
+//         let genderValue = 'M';
+//         if (document.getElementById('male').checked) {
+//             genderValue = 'M';
+//         } else if (document.getElementById('female').checked) {
+//             genderValue = 'F';
+//         }
+//
+//         const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
+//         const meetTagsValues = selectedTags.map((tag) => {
+//             return tag.textContent;
+//         });
+//
+//         let birthday = ""
+//         if (yearValue.length && monthValue.length && dayValue.length) {
+//             birthday = yearValue + '-' + monthValue + '-' + dayValue
+//         }
+//         let bodyFields = {
+//             name: nameValue,
+//             email: emailValue,
+//             birthday: birthday,
+//             city: cityValue,
+//             gender: genderValue,
+//             meetingTags: meetTagsValues,
+//         }
+//
+//         let formData = new FormData();
+//         const photos = document.getElementById('photoFileUploader').files;
+//         let cnt = photos.length;
+//         if (cnt > 0) {
+//             formData.append("fileToUpload", photos[0]);
+//         }
+//         ajax(
+//             'POST',
+//             '/user',
+//             (status, response) => {
+//                 if (status === 200) {
+//                     postPhoto(formData).then(response => {
+//                         appConfig.profile.open()
+//                     });
+//                 }
+//             },
+//             bodyFields
+//             )
+//     });
+// }
+//
+// function addInputFileChangeEventListeners() {
+//     const inputs = document.querySelectorAll( '.inputfile' );
+//     Array.prototype.forEach.call( inputs, function( input ) {
+//         let label	 = input.nextElementSibling,
+//             labelVal = label.innerHTML;
+//
+//         input.addEventListener( 'change', function( e )
+//         {
+//             let fileName = '';
+//             if( this.files && this.files.length > 1 )
+//                 fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+//             else
+//                 fileName = e.target.value.split( '\\' ).pop();
+//
+//             if( fileName )
+//                 label.querySelector( 'span' ).innerHTML = fileName;
+//             else
+//                 label.innerHTML = labelVal;
+//         });
+//     });
+// }
+//
+// function addTagsModalDialogEventListener() {
+//     let modal = document.getElementById("modalTags");
+//
+// // Get the button that opens the modal
+//     let btn = document.getElementById("openModalBtn");
+//
+// // Get the <span> element that closes the modal
+//     const close = modal.getElementsByClassName("close")[0];
+//
+// // When the user clicks the button, open the modal
+//     btn.onclick = function() {
+//         modal.style.display = "block";
+//     }
+//
+// // When the user clicks on <span> (x), close the modal
+//     close.onclick = function() {
+//         modal.style.display = "none";
+//         saveSelectedTags();
+//     }
+//
+// // When the user clicks anywhere outside of the modal, close it
+//     window.onclick = function(event) {
+//         if (event.target === modal) {
+//             modal.style.display = "none";
+//             saveSelectedTags();
+//         }
+//     }
+// }
 
-function addSubmitFormEventListener() {
-    const form = document.forms[1];
-
-    form.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-
-        const nameValue = document.getElementsByName('name')[0].value;
-        const emailValue = document.getElementsByName('email')[0].value;
-        const dayValue = document.getElementsByName('day')[0].value;
-        const monthValue = document.getElementsByName('month')[0].value;
-        const yearValue = document.getElementsByName('year')[0].value;
-
-        const cityValue = document.getElementsByName('city')[0].value;
-
-        let genderValue = 'M';
-        if (document.getElementById('male').checked) {
-            genderValue = 'M';
-        } else if (document.getElementById('female').checked) {
-            genderValue = 'F';
-        }
-
-        const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
-        const meetTagsValues = selectedTags.map((tag) => {
-            return tag.textContent;
-        });
-
-        let birthday = ""
-        if (yearValue.length && monthValue.length && dayValue.length) {
-            birthday = yearValue + '-' + monthValue + '-' + dayValue
-        }
-        let bodyFields = {
-            name: nameValue,
-            email: emailValue,
-            birthday: birthday,
-            city: cityValue,
-            gender: genderValue,
-            meetingTags: meetTagsValues,
-        }
-
-        let formData = new FormData();
-        const photos = document.getElementById('photoFileUploader').files;
-        let cnt = photos.length;
-        if (cnt > 0) {
-            formData.append("fileToUpload", photos[0]);
-        }
-        ajax(
-            'POST',
-            '/user',
-            (status, response) => {
-                if (status === 200) {
-                    postPhoto(formData).then(response => {
-                        appConfig.profile.open()
-                    });
-                }
-            },
-            bodyFields
-            )
-    });
-}
-
-function addInputFileChangeEventListeners() {
-    const inputs = document.querySelectorAll( '.inputfile' );
-    Array.prototype.forEach.call( inputs, function( input ) {
-        let label	 = input.nextElementSibling,
-            labelVal = label.innerHTML;
-
-        input.addEventListener( 'change', function( e )
-        {
-            let fileName = '';
-            if( this.files && this.files.length > 1 )
-                fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-            else
-                fileName = e.target.value.split( '\\' ).pop();
-
-            if( fileName )
-                label.querySelector( 'span' ).innerHTML = fileName;
-            else
-                label.innerHTML = labelVal;
-        });
-    });
-}
-
-function addTagsModalDialogEventListener() {
-    let modal = document.getElementById("modalTags");
-
-// Get the button that opens the modal
-    let btn = document.getElementById("openModalBtn");
-
-// Get the <span> element that closes the modal
-    const close = modal.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-    }
-
-// When the user clicks on <span> (x), close the modal
-    close.onclick = function() {
-        modal.style.display = "none";
-        saveSelectedTags();
-    }
-
-// When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-            saveSelectedTags();
-        }
-    }
-}
-
-function saveSelectedTags() {
-    const tags = Array.from(document.getElementsByClassName('btnLike'));
-    const selectedTagValues = []
-    tags.forEach((tag) => {
-        if (tag.checked) {
-            selectedTagValues.push(tag.value);
-        }
-    });
-
-    const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
-    selectedTagsBlock.innerHTML = '';
-
-    const selectedTags = selectedTagValues.map((tagValue) => createSelectedTag(tagValue));
-    selectedTagsBlock.append(...selectedTags);
-}
+// function saveSelectedTags() {
+//     const tags = Array.from(document.getElementsByClassName('btnLike'));
+//     const selectedTagValues = []
+//     tags.forEach((tag) => {
+//         if (tag.checked) {
+//             selectedTagValues.push(tag.value);
+//         }
+//     });
+//
+//     const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
+//     selectedTagsBlock.innerHTML = '';
+//
+//     const selectedTags = selectedTagValues.map((tagValue) => createSelectedTag(tagValue));
+//     selectedTagsBlock.append(...selectedTags);
+// }

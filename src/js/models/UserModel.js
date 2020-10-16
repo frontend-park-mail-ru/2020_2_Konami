@@ -1,11 +1,12 @@
 'use strict';
 
-import {postLogin, getMe, postSignUp, postUser} from "../services/API/api.js";
+import {postLogin, getMe, postSignUp, postUser, postPhoto} from "../services/API/api.js";
 import EventBus from "../services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
     SIGNUP_SUCCESS,
-    EDIT_SUCCESS
+    EDIT_SUCCESS,
+    UPDATE_PHOTO_SUCCESS
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -62,6 +63,15 @@ class UserModel {
         switch (statusCode) {
             case 200:
                 EventBus.dispatchEvent(EDIT_SUCCESS, editFields);
+                break;
+        }
+    }
+
+    async updatePhoto(photo) {
+        const {statusCode, error} = await postPhoto(photo);
+        switch (statusCode) {
+            case 200:
+                EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
                 break;
         }
     }

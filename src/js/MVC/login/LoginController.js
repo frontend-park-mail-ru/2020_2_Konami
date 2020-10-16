@@ -22,10 +22,13 @@ export default class LoginController extends Controller {
         const modal = document.getElementById('authModal');
         this.parent.removeChild(modal);
 
+        /** Это нужно чтобы при дальнейшем логине (LOGIN_SUCCESS) не применялся обработчик */
         EventBus.offEvent(LOGIN_SUCCESS, this.model.onLoginSuccess)
     }
 
     activate() {
+        EventBus.onEvent(LOGIN_SUCCESS, this.model.onLoginSuccess);
+
         this.view.render();
 
     }
