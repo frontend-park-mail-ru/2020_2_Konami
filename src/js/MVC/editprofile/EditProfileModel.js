@@ -1,15 +1,7 @@
 'use strict';
 
 import UserModel from "../../models/UserModel.js";
-import EventBus from "../../services/EventBus/EventBus.js";
 import {createSelectedTag} from "../../../components/auth/SelectedTag/SelectedTag.js";
-import {
-    EDIT_SUCCESS,
-    INVALID_LOGIN,
-    REDIRECT,
-    SELECT_TAGS,
-    SUBMIT_EDIT
-} from "../../services/EventBus/EventTypes.js";
 
 
 export default class EditProfileModel {
@@ -20,34 +12,18 @@ export default class EditProfileModel {
         this.allRecomendationTags = [];
         this.selectedRecomendationTags = [];
 
-        // EventBus.onEvent(SELECT_TAGS, this.saveSelectedTags);
-
-
-        // EventBus.onEvent(SUBMIT_EDIT, (data) => {
-        //     const {inputFields, photo} = data;
-        //     (async () => {
-        //             await this._user.edit(inputFields);
-        //             await this._user.updatePhoto(photo);
-        //         }
-        //     )()
-        // });
     }
 
     finishEdit = (data) => {
         const {inputFields, photo} = data;
         (async () => {
+                // TODO (валидация пустых значений в форме)
+
                 await this._user.edit(inputFields);
                 await this._user.updatePhoto(photo);
             }
         )()
     }
-
-    // onEditSuccess = () => {
-    //     if (!(this._user.isAuthenticated)) {
-    //         EventBus.dispatchEvent(INVALID_LOGIN, {});
-    //     }
-    //     EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
-    // }
 
     saveSelectedTags = () => {
         const tags = Array.from(document.getElementsByClassName('btnLike'));

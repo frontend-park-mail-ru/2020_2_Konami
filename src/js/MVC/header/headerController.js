@@ -17,7 +17,7 @@ export default class HeaderController extends Controller {
         this.view = new HeaderView(parent, new HeaderModel());
     }
 
-    destructor() {
+    deactivate() {
 
     }
 

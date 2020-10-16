@@ -7,6 +7,8 @@ export default class HeaderModel {
 
     constructor() {
         this._user = UserModel.user;
+
+
     }
 
 }

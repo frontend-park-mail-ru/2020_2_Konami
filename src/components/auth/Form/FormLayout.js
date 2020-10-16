@@ -29,7 +29,7 @@ export function createLoginFormLayout(application) {
     const message = document.createElement('p');
     message.innerHTML =
         `Нет аккаунта? 
-        <a href="${appConfig.registration.href}" data-section="registration">
+        <a>
             Зарегистрироваться
         </a>`;
     message.classList.add('message');

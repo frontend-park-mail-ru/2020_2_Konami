@@ -75,6 +75,7 @@
 .authForm form .message a {
     color: #4CAF50;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .authForm form .errorMessage {

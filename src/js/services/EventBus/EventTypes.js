@@ -10,3 +10,7 @@ export const NOT_AUTHORIZED = 'userNotAuthorized';
 export const SUBMIT_EDIT = 'editUser';
 export const UPDATE_PHOTO_SUCCESS = 'updatePhotoUserSuccess';
 export const SELECT_TAGS = 'selectRecommendationTags';
+export const OPEN_LOGIN_MODAL = 'openLoginModalWindow';
+export const CLOSE_LOGIN_MODAL = 'closeLoginModalWindow';
+export const OPEN_SIGNUP_MODAL = 'openSignupModalWindow';
+export const CLOSE_SIGNUP_MODAL = 'closeSignupModalWindow';

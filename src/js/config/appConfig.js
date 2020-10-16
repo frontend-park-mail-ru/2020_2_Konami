@@ -21,7 +21,7 @@ const appConfig = {
     },
     profile: {
         text: 'Профиль',
-        href: '/login',
+        href: '/editprofile',
         open: () => {
             profilePage(application);
         },

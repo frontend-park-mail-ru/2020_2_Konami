@@ -62,8 +62,8 @@ class Router {
         }
 
         //TODO(deactivate previous controller)
-        if (this.currentController && this.currentController !== controller) {
-            this.currentController.destructor();
+        if (this.currentController) {
+            this.currentController.deactivate();
         }
 
 

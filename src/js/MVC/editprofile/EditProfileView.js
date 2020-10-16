@@ -5,12 +5,10 @@ import {createSignupEditProfileForm} from "../../auth/onSignupRedirectEditProfil
 import {validateSignupInputForm} from "../../auth/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 
-import Router from "../../services/Router/Router.js";
-
 import {
     REDIRECT,
     SUBMIT_EDIT,
-    SELECT_TAGS, EDIT_SUCCESS, INVALID_LOGIN, NOT_AUTHORIZED
+    SELECT_TAGS, EDIT_SUCCESS, INVALID_LOGIN, NOT_AUTHORIZED, OPEN_LOGIN_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -29,11 +27,12 @@ export default class EditProfileView extends BaseView {
         this._eventHandlers = {
 
             onNotAuthorized: () => {
-                EventBus.dispatchEvent(REDIRECT, {url: '/login'});
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
             },
 
             onEditSuccess: () => {
-                if (!(this._user.isAuthenticated)) {
+                //TODO (убрать/заменить)
+                if (!(this.model.isAuthenticated)) {
                     EventBus.dispatchEvent(INVALID_LOGIN, {});
                 }
                 EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
@@ -46,7 +45,6 @@ export default class EditProfileView extends BaseView {
             onSubmitEditForm: () => {
                 this.model.finishEdit();
             }
-
 
         }
     }
@@ -116,7 +114,7 @@ export default class EditProfileView extends BaseView {
         this._addSubmitFormEventListener();
         this._addTagsModalDialogEventListener();
     }
-    _
+
     _addInputFileChangeEventListeners() {
         const inputs = document.querySelectorAll( '.inputfile' );
         Array.prototype.forEach.call( inputs, function( input ) {

@@ -8,7 +8,7 @@ export default class MeetingsController extends Controller {
         super(parent);
     }
 
-    destructor() {
+    deactivate() {
 
     }
 

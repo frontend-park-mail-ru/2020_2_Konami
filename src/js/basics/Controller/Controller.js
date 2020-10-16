@@ -6,7 +6,7 @@ export default class Controller {
         this.parent = parent;
     }
 
-    destructor() {
+    deactivate() {
         this.parent.innerHTML = '';
     }
 
