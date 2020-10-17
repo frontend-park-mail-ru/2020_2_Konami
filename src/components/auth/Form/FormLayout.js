@@ -50,11 +50,16 @@ export function createSignupFormLayout(application) {
     const nameInput = createLabeledElements('Имя', createInput(
         {type: 'text', placeholder: 'Полное имя', name: 'name', required: 'true', maxLength: '30'}));
 
+    const errorMessage = document.createElement('p');
+    errorMessage.innerHTML =
+    errorMessage.classList.add('errorMessage');
+    errorMessage.style.display = 'none';
+
     const submitBtn = createBtn('Зарегистрироваться',
         {type: ' submit', classList: ['stdBtn', 'activable']});
 
     const form = new AuthForm(application);
-    form.main.append(loginInput, passwordInput, repeatPasswordInput, nameInput);
+    form.main.append(loginInput, passwordInput, repeatPasswordInput, nameInput, errorMessage);
     form.footer.append(submitBtn);
 
     return form;

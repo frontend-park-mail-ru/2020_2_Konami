@@ -28,20 +28,6 @@ const appConfig = {
         text: 'Редактировать профиль',
         href: '/editprofile',
     },
-    // registration: {
-    //     text: "Регистрация",
-    //     href: "/signup",
-    //     open: () => {
-    //         signUpModal(application);
-    //     },
-    // },
-    // login: {
-    //     text: "Логин",
-    //     href: "/login",
-    //     open: () => {
-    //         loginModal(application);
-    //     },
-    // }
 }
 
 export default appConfig;

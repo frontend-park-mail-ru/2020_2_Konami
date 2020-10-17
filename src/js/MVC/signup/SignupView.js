@@ -10,7 +10,7 @@ import {isValidPassword} from "../../utils/validators/formValidators.js";
 import {
     INVALID_LOGIN, LOGIN_SUCCESS, REDIRECT, SUBMIT_LOGIN,
     SUBMIT_SIGNUP,
-    SIGNUP_SUCCESS, EDIT_SUCCESS
+    SIGNUP_SUCCESS, EDIT_SUCCESS, PASSWORDS_MISMATCH, INVALID_PWD_INPUT, INVALID_LOGIN_INPUT, INVALID_NAME_INPUT
 } from "../../services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
@@ -28,8 +28,14 @@ export default class SignupView extends BaseView {
         this._eventHandlers = {
 
             onSubmitSignupForm: (data) => {
+                const errorMessages = this.model.validate(data);
+                if (errorMessages.length > 0) {
+                    this._showErrorsTexts(errorMessages);
+                    return;
+                }
                 const {name, login, password} = data;
                 this.model.signup(name, login, password);
+
             },
 
             onSignupSuccess: (data) => {
@@ -40,7 +46,30 @@ export default class SignupView extends BaseView {
 
             onSignupPostName: () => {
                 EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
-            }
+            },
+
+            onPasswordsMismatch: () => {
+                const password = document.getElementsByName('password')[0];
+                const repeatPassword = document.getElementsByName('repeatPassword')[0];
+                this._showInvalidInputs(password, repeatPassword);
+            },
+
+
+            onInvalidPassword: () => {
+                const password = document.getElementsByName('password')[0];
+                this._showInvalidInputs(password);
+            },
+
+            onInvalidLogin: () => {
+                const login = document.getElementsByName('login')[0];
+                this._showInvalidInputs(login);
+            },
+
+            onInvalidName: () => {
+                const name = document.getElementsByName('name')[0];
+                this._showInvalidInputs(name);
+
+            },
 
         }
     }
@@ -70,12 +99,24 @@ export default class SignupView extends BaseView {
         EventBus.onEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
 
+        EventBus.onEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
+        EventBus.onEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
+        EventBus.onEvent(INVALID_LOGIN_INPUT, this._eventHandlers.onInvalidLogin);
+        EventBus.onEvent(INVALID_NAME_INPUT, this._eventHandlers.onInvalidName);
+
+
     }
 
     unRegisterEvents() {
         EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitSignupForm);
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
+
+        EventBus.offEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
+        EventBus.offEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
+        EventBus.offEvent(INVALID_LOGIN_INPUT, this._eventHandlers.onInvalidLogin);
+        EventBus.offEvent(INVALID_NAME_INPUT, this._eventHandlers.onInvalidName);
+
     }
 
     _addEventListeners() {
@@ -95,17 +136,33 @@ export default class SignupView extends BaseView {
             input = document.getElementsByName('name')[0];
             const name = input.value.trim();
 
-            //TODO(Валидатор сложности пароля)
-            if (!isValidPassword(password, repeatPassword)) {
-                password.classList.add('invalid');
-                repeatPassword.classList.add('invalid');
-                return
-            }
-
-            EventBus.dispatchEvent(SUBMIT_SIGNUP, {name: name, login: login, password: password});
+            const formFields = {name: name, login: login, password: password, repeatPassword: repeatPassword};
+            EventBus.dispatchEvent(SUBMIT_SIGNUP, formFields);
         });
 
         window.addEventListener('click', closeSignupModal);
+    }
+
+    _showErrorsTexts(errors) {
+        // TODO (таймер)
+
+        const errMsg = document.getElementsByClassName('errorMessage')[0];
+        errMsg.innerHTML = '';
+        errors.forEach((err) => {
+            errMsg.innerHTML += err + '<br>';
+        })
+
+        errMsg.style.display = 'block';
+    }
+
+    _showInvalidInputs() {
+        const inputs = [...arguments];
+        inputs.forEach((input) => {
+            input.classList.add('invalid');
+            setTimeout(() => {
+                input.classList.toggle('invalid');
+            }, 4000);
+        })
     }
 
 }

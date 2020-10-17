@@ -48,6 +48,11 @@
     outline: none;
 }
 
+.authForm form input.invalid{
+    background-color: #ffdddd;
+}
+
+
 .authForm form label {
     color: #648880;
     cursor: pointer;
