@@ -35,11 +35,13 @@ export default class LoginView extends BaseView {
 
             onLoginSuccess: () => {
                 //TODO (убрать/заменить)
-                if (!(this.model.isAuthenticated)) {
-                    EventBus.dispatchEvent(INVALID_LOGIN, {});
-                }
                 EventBus.dispatchEvent(CLOSE_LOGIN_MODAL);
                 EventBus.dispatchEvent(REDIRECT, {url: location.pathname});
+            },
+
+            onInvalidLoginOrPwd: () => {
+                const errMsg = document.getElementsByClassName('errorMessage')[0];
+                errMsg.style.display = 'block';
             }
 
         }
@@ -71,12 +73,15 @@ export default class LoginView extends BaseView {
     registerEvents() {
         EventBus.onEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
         EventBus.onEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginSuccess);
+        EventBus.onEvent(INVALID_LOGIN, this._eventHandlers.onInvalidLoginOrPwd);
 
     }
 
     unRegisterEvents() {
         EventBus.onEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginSuccess);
+        EventBus.offEvent(INVALID_LOGIN, this._eventHandlers.onInvalidLoginOrPwd);
+
     }
 
     _addEventListeners() {

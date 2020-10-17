@@ -5,7 +5,7 @@ import {createLoginFormLayout, createSignupFormLayout} from "../../../components
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {closeSignupModal} from "../../utils/auth/authModalUtils.js";
-import {isValidPassword} from "../../auth/formValidators.js";
+import {isValidPassword} from "../../utils/validators/formValidators.js";
 
 import {
     INVALID_LOGIN, LOGIN_SUCCESS, REDIRECT, SUBMIT_LOGIN,

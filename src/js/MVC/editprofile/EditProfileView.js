@@ -2,9 +2,10 @@
 
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {createSignupEditProfileForm} from "../../auth/onSignupRedirectEditProfile.js";
-import {validateSignupInputForm} from "../../auth/formValidators.js";
+import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 
+import {deleteIf} from "../../utils/validators/emptyFields.js";
 import {
     REDIRECT,
     SUBMIT_EDIT,
@@ -99,7 +100,7 @@ export default class EditProfileView extends BaseView {
 
     _nextPrev(n) {
         let x = document.getElementsByClassName("tab");
-        if (n === 1 && !validateSignupInputForm()) {
+        if (n === 1 && !validateSignupInputForm(this.currentTab)) {
             return false;
         }
         x[this.currentTab].style.display = "none";
@@ -150,48 +151,39 @@ export default class EditProfileView extends BaseView {
 
         form.addEventListener('submit', (evt) => {
             evt.preventDefault();
+            const fieldMap = new Map();
 
-            const nameValue = document.getElementsByName('name')[0].value;
-            const emailValue = document.getElementsByName('email')[0].value;
+            fieldMap.set('name', document.getElementsByName('name')[0].value);
+            fieldMap.set('email', document.getElementsByName('email')[0].value);
             const dayValue = document.getElementsByName('day')[0].value;
             const monthValue = document.getElementsByName('month')[0].value;
             const yearValue = document.getElementsByName('year')[0].value;
 
-            const cityValue = document.getElementsByName('city')[0].value;
+            fieldMap.set('city', document.getElementsByName('city')[0].value);
 
-            let genderValue = 'M';
             if (document.getElementById('male').checked) {
-                genderValue = 'M';
+                fieldMap.set('gender', 'M');
             } else if (document.getElementById('female').checked) {
-                genderValue = 'F';
+                fieldMap.set('gender', 'F');
             }
 
             const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
-            const meetTagsValues = selectedTags.map((tag) => {
+            fieldMap.set('meetingTags', selectedTags.map((tag) => {
                 return tag.textContent;
-            });
+            }));
 
-            let birthday = ""
             if (yearValue.length && monthValue.length && dayValue.length) {
-                birthday = yearValue + '-' + monthValue + '-' + dayValue
-            }
-            let bodyFields = {
-                name: nameValue,
-                email: emailValue,
-                birthday: birthday,
-                city: cityValue,
-                gender: genderValue,
-                meetingTags: meetTagsValues,
+                fieldMap.set('birthday', `${yearValue} - ${monthValue} - ${dayValue}`);
             }
 
-            let formDataPhoto = new FormData();
+            const bodyFields = Object.fromEntries(deleteIf(fieldMap, (k, v) => v.length === 0).entries());
+
             const photos = document.getElementById('photoFileUploader').files;
-            let cnt = photos.length;
-            if (cnt > 0) {
-                formDataPhoto.append("fileToUpload", photos[0]);
+            let formData = new FormData();
+            if (photos.length > 0) {
+                formData.append(photos[0].name, photos[0]);
             }
-
-            EventBus.dispatchEvent(SUBMIT_EDIT, {inputFields: bodyFields, photo: formDataPhoto});
+            EventBus.dispatchEvent(SUBMIT_EDIT, {inputFields: bodyFields, photoFormData: formData, photos: photos});
 
         });
     }

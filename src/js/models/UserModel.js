@@ -6,7 +6,8 @@ import {
     LOGIN_SUCCESS,
     SIGNUP_SUCCESS,
     EDIT_SUCCESS,
-    UPDATE_PHOTO_SUCCESS
+    UPDATE_PHOTO_SUCCESS,
+    INVALID_LOGIN
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -46,6 +47,7 @@ class UserModel {
         case 400:
             // TODO(error message)
             // errorMessage.style.display = 'block';
+            EventBus.dispatchEvent(INVALID_LOGIN);
             break;
         case 200:
             this._isAuthenticated = true;
@@ -84,11 +86,12 @@ class UserModel {
         }
     }
 
-    async updatePhoto(photo) {
-        const {statusCode, error} = await postPhoto(photo);
+    async updatePhoto(photoFormData) {
+        const {statusCode, error} = await postPhoto(photoFormData);
         switch (statusCode) {
             case 200:
-                EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
+                // TODO (UPDATE_PHOTO_SUCCESS)
+                // EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
                 break;
         }
     }

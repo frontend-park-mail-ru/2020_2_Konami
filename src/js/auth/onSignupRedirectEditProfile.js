@@ -1,13 +1,4 @@
 'use strict';
-
-import {
-    createNavigation,
-} from '../../components/header/Navigation/navigation.js';
-
-import {
-    createHeader,
-} from '../../components/header/Header/header.js';
-import {postPhoto} from "../services/API/api.js";
 import {applyOptionsTo} from "../../components/auth/utils.js";
 import {createLabeledElements} from "../../components/auth/LabeledElements/LabeledElements.js";
 import {createInput} from "../../components/auth/Input/Input.js";
@@ -17,25 +8,25 @@ import {createLineSeparator} from "../../components/auth/LineSeparator/LineSepar
 import {createModalDialog} from "../../components/auth/ModalDialog/ModalDialog.js";
 import {createSelectedTag} from "../../components/auth/SelectedTag/SelectedTag.js";
 import {createFileUploader} from "../../components/auth/FileUploader/FileUploader.js";
-import {validateSignupInputForm} from "./formValidators.js";
+import {validateSignupInputForm} from "../utils/validators/formValidators.js";
 
-export var CurrentTab = 0;
-
-export function onSignupRedirectEditProfile(application) {
-    application.innerHTML = '';
-    createHeader(application);
-    createNavigation(application);
-
-    const form = createSignupEditProfileForm();
-    application.appendChild(form);
-
-    showTab(CurrentTab);
-
-    addInputFileChangeEventListeners();
-    addSubmitFormEventListener();
-    addTagsModalDialogEventListener();
-
-}
+// export var CurrentTab = 0;
+//
+// export function onSignupRedirectEditProfile(application) {
+//     application.innerHTML = '';
+//     createHeader(application);
+//     createNavigation(application);
+//
+//     const form = createSignupEditProfileForm();
+//     application.appendChild(form);
+//
+//     showTab(CurrentTab);
+//
+//     addInputFileChangeEventListeners();
+//     addSubmitFormEventListener();
+//     addTagsModalDialogEventListener();
+//
+// }
 
 export function createSignupEditProfileForm() {
     const form = document.createElement('form');
@@ -89,7 +80,7 @@ function createTab2() {
     radioBtnWrapper.classList.add('form_radio_btn_wrapper');
 
     radioBtnWrapper.append(
-        createRadioBtn('male', 'Мужчина', 'gender', 'male', {classList:['form_radio_btn']}, true),
+        createRadioBtn('male', 'Мужчина', 'gender', 'male', {classList:['form_radio_btn']}),
         createRadioBtn('female', 'Женщина',  'gender', 'female', {classList:['form_radio_btn']}));
     const sexSelectorLabel = createLabeledElements('Пол', radioBtnWrapper);
 

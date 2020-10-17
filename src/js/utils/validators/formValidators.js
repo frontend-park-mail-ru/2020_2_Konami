@@ -1,12 +1,10 @@
 'use strict';
 
-import {CurrentTab} from "./onSignupRedirectEditProfile.js";
-
-function validateSignupInputForm() {
+function validateSignupInputForm(currentTab) {
     let valid = true;
     let x = document.getElementsByClassName("tab");
-    console.log(CurrentTab);
-    let y = x[CurrentTab].querySelectorAll('input[required]');
+    console.log(currentTab);
+    let y = x[currentTab].querySelectorAll('input[required]');
     for (let i = 0; i < y.length; i++) {
         if (y[i].value === "") {
             y[i].className += 'invalid';
@@ -14,7 +12,7 @@ function validateSignupInputForm() {
         }
     }
 
-    switch (CurrentTab) {
+    switch (currentTab) {
         case 0: // first tab
             const dayInput = document.getElementsByName('day')[0];
             const monthInput = document.getElementsByName('month')[0];

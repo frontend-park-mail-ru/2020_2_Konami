@@ -5,7 +5,7 @@ export function createRadioBtn(btnId, text, name, value, options, checked = fals
     const div = document.createElement('div');
     applyOptionsTo(div, options);
     const input = createInput(
-        {type:'radio', id: btnId, value: value, name: name, required: 'true'});
+        {type:'radio', id: btnId, value: value, name: name});
     if (checked) {
         input.checked = true;
     }

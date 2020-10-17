@@ -2,6 +2,7 @@
 
 import UserModel from "../../models/UserModel.js";
 import {createSelectedTag} from "../../../components/auth/SelectedTag/SelectedTag.js";
+import {isEmpty} from "../../utils/validators/emptyFields.js";
 
 
 export default class EditProfileModel {
@@ -15,12 +16,16 @@ export default class EditProfileModel {
     }
 
     finishEdit = (data) => {
-        const {inputFields, photo} = data;
+        const {inputFields, photoFormData, photos} = data;
         (async () => {
                 // TODO (валидация пустых значений в форме)
 
-                await this._user.updatePhoto(photo);
-                await this._user.edit(inputFields);
+                if (!isEmpty(inputFields)) {
+                    await this._user.edit(inputFields);
+                }
+                if (photos.length > 0) {
+                    await this._user.updatePhoto(photoFormData);
+                }
             }
         )()
     }

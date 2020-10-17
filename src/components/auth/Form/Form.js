@@ -9,7 +9,7 @@ export class AuthForm {
 
     #onSubmit
 
-    constructor(parent, onSubmit = () => {}) {
+    constructor(parent) {
         this.#parent = parent;
         this.#main = document.createElement('main');
         this.#header = document.createElement('header');
