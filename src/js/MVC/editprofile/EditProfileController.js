@@ -26,7 +26,7 @@ export default class EditProfileController extends Controller {
                     return;
                 }
                 this.view.render();
-            })
+            });
 
     }
 

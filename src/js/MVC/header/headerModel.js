@@ -8,4 +8,12 @@ export default class HeaderModel {
         this._user = UserModel.user;
     }
 
+    logout() {
+        this._user.logout();
+    }
+
+    checkAuth() {
+        return this._user.isAuthenticated();
+    }
+
 }

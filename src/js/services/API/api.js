@@ -167,8 +167,15 @@ function postSignOut() {
         method: 'POST',
         credentials: 'include',
     }).then(response => {
-        return response.status;
-    });
+        return {
+            statusCode: response.status,
+        };
+    }).catch(
+        (error) => {
+            return {
+                error: error
+            };
+        });
 }
 
 export {

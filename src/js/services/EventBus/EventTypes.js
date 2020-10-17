@@ -13,3 +13,5 @@ export const OPEN_LOGIN_MODAL = 'openLoginModalWindow';
 export const CLOSE_LOGIN_MODAL = 'closeLoginModalWindow';
 export const OPEN_SIGNUP_MODAL = 'openSignupModalWindow';
 export const CLOSE_SIGNUP_MODAL = 'closeSignupModalWindow';
+export const LOGOUT_USER = 'logoutUser';
+export const ADD_EXIT_LINK = 'addExitLinkToHeader';

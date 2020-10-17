@@ -1,6 +1,6 @@
 'use strict';
 
-import {postLogin, getMe, postSignUp, postUser, postPhoto} from "../services/API/api.js";
+import {postLogin, getMe, postSignUp, postUser, postPhoto, postSignOut} from "../services/API/api.js";
 import EventBus from "../services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
@@ -60,7 +60,13 @@ class UserModel {
         }
     }
 
-    static logout() {
+    async logout() {
+        const {statusCode, error} = await postSignOut();
+        switch (statusCode) {
+            case 200:
+                // EventBus.dispatchEvent(LOGOUT_SUCCESS);
+                break;
+        }
 
     }
 
