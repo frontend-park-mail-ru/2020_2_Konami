@@ -8,9 +8,18 @@ import {closeSignupModal} from "../../utils/auth/authModalUtils.js";
 import {isValidPassword} from "../../utils/validators/formValidators.js";
 
 import {
-    INVALID_LOGIN, LOGIN_SUCCESS, REDIRECT, SUBMIT_LOGIN,
+    INVALID_LOGIN,
+    LOGIN_SUCCESS,
+    REDIRECT,
+    SUBMIT_LOGIN,
     SUBMIT_SIGNUP,
-    SIGNUP_SUCCESS, EDIT_SUCCESS, PASSWORDS_MISMATCH, INVALID_PWD_INPUT, INVALID_LOGIN_INPUT, INVALID_NAME_INPUT
+    SIGNUP_SUCCESS,
+    EDIT_SUCCESS,
+    PASSWORDS_MISMATCH,
+    INVALID_PWD_INPUT,
+    INVALID_LOGIN_INPUT,
+    INVALID_NAME_INPUT,
+    USER_ALREADY_EXISTS
 } from "../../services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
@@ -68,8 +77,11 @@ export default class SignupView extends BaseView {
             onInvalidName: () => {
                 const name = document.getElementsByName('name')[0];
                 this._showInvalidInputs(name);
-
             },
+
+            onSignupError: () => {
+                this._showErrorsTexts(['Пользователь с таким логином уже существует']);
+            }
 
         }
     }
@@ -98,6 +110,7 @@ export default class SignupView extends BaseView {
         EventBus.onEvent(SUBMIT_SIGNUP, this._eventHandlers.onSubmitSignupForm);
         EventBus.onEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
+        EventBus.onEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
 
         EventBus.onEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
         EventBus.onEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
@@ -111,6 +124,7 @@ export default class SignupView extends BaseView {
         EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitSignupForm);
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
+        EventBus.offEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
 
         EventBus.offEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
         EventBus.offEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
@@ -144,8 +158,6 @@ export default class SignupView extends BaseView {
     }
 
     _showErrorsTexts(errors) {
-        // TODO (таймер)
-
         const errMsg = document.getElementsByClassName('errorMessage')[0];
         errMsg.innerHTML = '';
         errors.forEach((err) => {

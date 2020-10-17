@@ -18,8 +18,6 @@ export default class EditProfileModel {
     finishEdit = (data) => {
         const {inputFields, photoFormData, photos} = data;
         (async () => {
-                // TODO (валидация пустых значений в форме)
-
                 if (!isEmpty(inputFields)) {
                     await this._user.edit(inputFields);
                 }

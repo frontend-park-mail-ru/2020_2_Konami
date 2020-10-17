@@ -7,7 +7,8 @@ import {
     SIGNUP_SUCCESS,
     EDIT_SUCCESS,
     UPDATE_PHOTO_SUCCESS,
-    INVALID_LOGIN
+    INVALID_LOGIN,
+    USER_ALREADY_EXISTS
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -45,8 +46,9 @@ class UserModel {
         const {statusCode, error} = await postLogin(login, password);
         switch (statusCode) {
         case 400:
-            // TODO(error message)
-            // errorMessage.style.display = 'block';
+            EventBus.dispatchEvent(INVALID_LOGIN);
+            break;
+        case 401:
             EventBus.dispatchEvent(INVALID_LOGIN);
             break;
         case 200:
@@ -73,9 +75,8 @@ class UserModel {
     async signup(name, login, password) {
         const {statusCode, error} = await postSignUp(login, password);
         switch (statusCode) {
-            case 400:
-                // TODO(error message)
-                // errorMessage.style.display = 'block';
+            case 409:
+                EventBus.dispatchEvent(USER_ALREADY_EXISTS);
                 break;
             case 200:
                 EventBus.dispatchEvent(SIGNUP_SUCCESS, {name: name, login: login, password: password});

@@ -9,7 +9,7 @@ import {deleteIf} from "../../utils/validators/emptyFields.js";
 import {
     REDIRECT,
     SUBMIT_EDIT,
-    SELECT_TAGS, EDIT_SUCCESS, INVALID_LOGIN, NOT_AUTHORIZED, OPEN_LOGIN_MODAL
+    SELECT_TAGS, EDIT_SUCCESS, INVALID_LOGIN, USER_NOT_AUTHORIZED, OPEN_LOGIN_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -32,10 +32,6 @@ export default class EditProfileView extends BaseView {
             },
 
             onEditSuccess: () => {
-                //TODO (убрать/заменить)
-                if (!(this.model.isAuthenticated)) {
-                    EventBus.dispatchEvent(INVALID_LOGIN, {});
-                }
                 EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
             },
 
@@ -68,7 +64,7 @@ export default class EditProfileView extends BaseView {
     }
 
     registerEvents() {
-        EventBus.onEvent(NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
+        EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
         EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
@@ -76,7 +72,7 @@ export default class EditProfileView extends BaseView {
     }
 
     unRegisterEvents() {
-        EventBus.offEvent(NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
+        EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
         EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);

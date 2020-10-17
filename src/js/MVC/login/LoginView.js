@@ -9,8 +9,10 @@ import EventBus from "../../services/EventBus/EventBus.js";
 import {closeLoginModal} from "../../utils/auth/authModalUtils.js";
 import {
     CLOSE_LOGIN_MODAL,
-    EDIT_SUCCESS, INVALID_LOGIN, LOGIN_SUCCESS,
-    NOT_AUTHORIZED, OPEN_LOGIN_MODAL, OPEN_SIGNUP_MODAL, REDIRECT, SELECT_TAGS, SUBMIT_EDIT,
+    INVALID_LOGIN,
+    LOGIN_SUCCESS,
+    OPEN_SIGNUP_MODAL,
+    REDIRECT,
     SUBMIT_LOGIN,
 } from "../../services/EventBus/EventTypes.js";
 
@@ -34,7 +36,6 @@ export default class LoginView extends BaseView {
             },
 
             onLoginSuccess: () => {
-                //TODO (убрать/заменить)
                 EventBus.dispatchEvent(CLOSE_LOGIN_MODAL);
                 EventBus.dispatchEvent(REDIRECT, {url: location.pathname});
             },

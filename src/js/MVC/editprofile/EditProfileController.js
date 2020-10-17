@@ -6,7 +6,7 @@ import EditProfileView from "./EditProfileView.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 
 import {
-    NOT_AUTHORIZED,
+    USER_NOT_AUTHORIZED,
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileController extends Controller {
@@ -22,7 +22,7 @@ export default class EditProfileController extends Controller {
         this.model.checkAuth()
             .then((isAuth) => {
                 if (!isAuth) {
-                    EventBus.dispatchEvent(NOT_AUTHORIZED);
+                    EventBus.dispatchEvent(USER_NOT_AUTHORIZED);
                     return;
                 }
                 this.view.render();

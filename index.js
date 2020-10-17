@@ -205,10 +205,9 @@ app.post('/signup', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
 
-    // TODO(Расскоменитровать на бэке)
-    // if (login in userLoginPwdIdMap) {
-    //     res.status(400).json({error: 'Такой логин уже существует'});
-    // }
+    if (login in userLoginPwdIdMap) {
+        res.status(409).json({error: 'Такой логин уже существует'});
+    }
 
     const Ids = Object.keys(usersProfiles);
     const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
