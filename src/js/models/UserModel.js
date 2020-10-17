@@ -17,13 +17,27 @@ class UserModel {
         }
 
         this.userId = null;
-        this.isAuthenticated = false;
+        this._isAuthenticated = false;
 
         UserModel.__instance = this;
     }
 
     get user() {
         return UserModel.__instance;
+    }
+
+    async isAuthenticated() {
+        if (this._isAuthenticated) {
+            return true;
+        }
+
+        const {statusCode, body, error} = await getMe();
+        if (statusCode === 200) {
+            this.userId = body.userId;
+            this._isAuthenticated = true;
+        }
+
+        return this._isAuthenticated;
     }
 
     async login(login, password) {
@@ -34,9 +48,12 @@ class UserModel {
             // errorMessage.style.display = 'block';
             break;
         case 200:
-            this.isAuthenticated = true;
-            this.userId = await getMe();
-            EventBus.dispatchEvent(LOGIN_SUCCESS);
+            this._isAuthenticated = true;
+            const {statusCode, body, error} = await getMe();
+            if (statusCode === 200) {
+                this.userId = body.userId;
+                EventBus.dispatchEvent(LOGIN_SUCCESS);
+            }
             break;
         }
     }

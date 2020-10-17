@@ -113,14 +113,27 @@ const postLogin = async (login, password) => {
 }
 
 function getMe() {
+    let statusCode;
     return fetch('/me', {
         method: 'GET',
         credentials: 'include'
-    }).then(response => {
+    }).then(
+        (response) => {
+            statusCode = response.status;
         return response.json();
-    }).then(parsedJson => {
-        return parsedJson.userId;
-    });
+    }).then(
+        (parsedJson) => {
+        return {
+            statusCode: statusCode,
+            body: parsedJson
+        }
+    }).catch(
+    (error) => {
+        return {
+            error: error
+        }
+    }
+    );
 
 }
 

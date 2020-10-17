@@ -61,11 +61,9 @@ class Router {
             alert('ERROR 404');
         }
 
-        //TODO(deactivate previous controller)
         if (this.currentController) {
             this.currentController.deactivate();
         }
-
 
         this.currentController = controller;
         this.currentController.activate();

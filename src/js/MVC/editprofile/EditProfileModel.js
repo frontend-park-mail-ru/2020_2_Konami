@@ -19,8 +19,8 @@ export default class EditProfileModel {
         (async () => {
                 // TODO (валидация пустых значений в форме)
 
-                await this._user.edit(inputFields);
                 await this._user.updatePhoto(photo);
+                await this._user.edit(inputFields);
             }
         )()
     }
@@ -41,8 +41,8 @@ export default class EditProfileModel {
         selectedTagsBlock.append(...selectedTags);
     }
 
-    get isAuthenticated() {
-        return this._user.isAuthenticated;
+    checkAuth() {
+        return this._user.isAuthenticated();
     }
 
 }

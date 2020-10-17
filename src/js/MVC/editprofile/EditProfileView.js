@@ -42,8 +42,8 @@ export default class EditProfileView extends BaseView {
                 this.model.saveSelectedTags();
             },
 
-            onSubmitEditForm: () => {
-                this.model.finishEdit();
+            onSubmitEditForm: (data) => {
+                this.model.finishEdit(data);
             }
 
         }
@@ -55,6 +55,15 @@ export default class EditProfileView extends BaseView {
 
         this._showTab(this.currentTab);
         this._addEventListeners();
+    }
+
+    erase() {
+        const form = document.forms[0];
+        if (form !== undefined) {
+            this.parent.removeChild(form);
+        }
+
+        window.removeEventListener('click', this._closeSelectionTagsModal);
     }
 
     registerEvents() {

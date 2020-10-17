@@ -16,7 +16,6 @@ export default class HeaderController extends Controller {
     }
 
     deactivate() {
-
     }
 
 }

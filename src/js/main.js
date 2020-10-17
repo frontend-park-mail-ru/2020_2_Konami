@@ -24,7 +24,7 @@ import {
     Router.route();
 
     EventBus.onEvent(REDIRECT, (obj) => {
-        const {url} = obj;
+        const {url, state} = obj;
         Router.pushState(url);
     })
 })()

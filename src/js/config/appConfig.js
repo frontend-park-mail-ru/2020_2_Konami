@@ -1,4 +1,4 @@
-import {createMetPage, createPeoplesPage, loginModal, profilePage, signUpModal} from "../pageCreateFunc.js";
+import {createMetPage, createPeoplesPage} from "../pageCreateFunc.js";
 
 const appConfig = {
     forMe: {
@@ -21,18 +21,20 @@ const appConfig = {
     },
     profile: {
         text: 'Профиль',
+        href: '/profile',
+    },
+
+    editprofile: {
+        text: 'Редактировать профиль',
         href: '/editprofile',
-        open: () => {
-            profilePage(application);
-        },
     },
-    registration: {
-        text: "Регистрация",
-        href: "/signup",
-        open: () => {
-            signUpModal(application);
-        },
-    },
+    // registration: {
+    //     text: "Регистрация",
+    //     href: "/signup",
+    //     open: () => {
+    //         signUpModal(application);
+    //     },
+    // },
     // login: {
     //     text: "Логин",
     //     href: "/login",

@@ -34,10 +34,12 @@ export default class LoginView extends BaseView {
             },
 
             onLoginSuccess: () => {
+                //TODO (убрать/заменить)
                 if (!(this.model.isAuthenticated)) {
                     EventBus.dispatchEvent(INVALID_LOGIN, {});
                 }
-                EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
+                EventBus.dispatchEvent(CLOSE_LOGIN_MODAL);
+                EventBus.dispatchEvent(REDIRECT, {url: location.pathname});
             }
 
         }

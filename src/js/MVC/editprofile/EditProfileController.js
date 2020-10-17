@@ -19,16 +19,19 @@ export default class EditProfileController extends Controller {
 
     activate() {
         this.view.registerEvents();
-        if (!(this.model.isAuthenticated)) {
-            EventBus.dispatchEvent(NOT_AUTHORIZED);
-            return;
-        }
-        this.view.render();
+        this.model.checkAuth()
+            .then((isAuth) => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(NOT_AUTHORIZED);
+                    return;
+                }
+                this.view.render();
+            })
 
     }
 
     deactivate() {
-
+        this.view.erase();
         this.view.unRegisterEvents();
     }
 
