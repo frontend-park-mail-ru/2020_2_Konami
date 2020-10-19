@@ -21,7 +21,7 @@ import PeopleController from "./MVC/people/PeopleController.js";
     registerAuthModalWindows(application);
 
     Router.register('/', new MeetingsController(application));
-    Router.register('/peoples', new PeopleController(application));
+    Router.register('/people', new PeopleController(application));
     Router.register('/meetings', new MeetingsController(application));
     Router.register('/editprofile', new EditProfileController(application));
     Router.register('/profile', new ProfileController(application));
