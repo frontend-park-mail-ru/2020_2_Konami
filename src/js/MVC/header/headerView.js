@@ -4,7 +4,6 @@ import BaseView from "../../basics/BaseView/BaseView.js";
 import {createNavigation} from "../../../components/header/Navigation/navigation.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
-    ADD_EXIT_LINK,
     LOGIN_SUCCESS,
     LOGOUT_USER
 } from "../../services/EventBus/EventTypes.js";
@@ -53,13 +52,11 @@ export default class HeaderView extends BaseView {
 
     registerEvents() {
         EventBus.onEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginedUser);
-        EventBus.onEvent(ADD_EXIT_LINK, this._eventHandlers.onLoginedUser);
         EventBus.onEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
     }
 
     unRegisterEvents() {
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginedUser);
-        EventBus.offEvent(ADD_EXIT_LINK, this._eventHandlers.onLoginedUser);
         EventBus.offEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
     }
 

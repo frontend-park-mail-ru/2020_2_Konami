@@ -5,7 +5,7 @@ import HeaderView from "./headerView.js";
 import HeaderModel from "./headerModel.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
-    ADD_EXIT_LINK
+    LOGIN_SUCCESS
 } from "../../services/EventBus/EventTypes.js";
 
 export default class HeaderController extends Controller {
@@ -22,7 +22,7 @@ export default class HeaderController extends Controller {
         this.model.checkAuth()
             .then((isAuth) => {
                 if (isAuth) {
-                    EventBus.dispatchEvent(ADD_EXIT_LINK);
+                    EventBus.dispatchEvent(LOGIN_SUCCESS);
                 }
             });
     }

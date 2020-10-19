@@ -10,6 +10,7 @@ import {
 } from "../../services/API/api.js";
 
 import {
+    OPEN_LOGIN_MODAL,
     REDIRECT,
 } from "../../services/EventBus/EventTypes.js";
 
@@ -28,7 +29,7 @@ export default class ProfileController extends Controller {
             userId = this.model.getUserId();
         }
         if (userId === null) {
-            EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
+            EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
             return
         }
         getUser(userId).then(response => {
