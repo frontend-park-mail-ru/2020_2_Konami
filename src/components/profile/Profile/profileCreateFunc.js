@@ -2,28 +2,28 @@
 
 import {
     postUser,
-    postPhoto, postSignOut,
-} from './services/API/api.js';
+    postPhoto,
+} from '../../../js/services/API/api.js';
 
 import {
     createBoldSpan,
-} from '../components/profile/BoldSpan/BoldSpan.js';
+} from '../BoldSpan/BoldSpan.js';
 
 import {
     createEditIcon,
-} from '../components/profile/EditIcon/EditIcon.js';
+} from '../EditIcon/EditIcon.js';
 
 import {
     createIconWithText,
-} from '../components/profile/IconWithText/IconWithText.js'
+} from '../IconWithText/IconWithText.js'
 
 import {
     createLink,
-} from '../components/profile/Link/Link.js';
+} from '../Link/Link.js';
 
 import {
     createMetIcon,
-} from '../components/profile/MetIcon/MetIcon.js';
+} from '../MetIcon/MetIcon.js';
 
 
 function fillRightColumn(rightColumn, data) {
@@ -77,8 +77,9 @@ function fillRightColumn(rightColumn, data) {
 
         addListener(editicon, mainText, input, () => {
             mainText.innerHTML = input.value;
-
-            postUser(id, mainText.innerHTML).then(statusCode =>{
+            const obj = {};
+            obj[id] = mainText.innerHTML;
+            postUser(obj).then(statusCode =>{
                 if (statusCode !== 200) {
                     alert('Permission denied');
                 }
@@ -105,7 +106,7 @@ function createNameField(name) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        postUser('name', mainText.innerHTML).then(statusCode =>{
+        postUser({name: mainText.innerHTML}).then(statusCode =>{
             if (statusCode !== 200) {
                 alert('Permission denied');
             }
@@ -134,8 +135,8 @@ function createCityField(cityName) {
     addListener(editicon, mainText, input, () => {
         mainText.innerHTML = input.value;
 
-        postUser('city', mainText.innerHTML).then(statusCode =>{
-            if (statusCode !== 200) {
+        postUser({city: mainText.innerHTML}).then(obj =>{
+            if (obj.statusCode !== 200) {
                 alert('Permission denied');
             }
         });
@@ -226,9 +227,12 @@ function createSocialNetworks(data) {
         addListener(editicon, link, input, () => {
             link.href = input.value;
             link.innerHTML = input.value;
-
             editicon.src = 'assets/pen.svg';
-            postUser(key, link.innerHTML).then(statusCode =>{
+
+            const obj = {};
+            obj[key] = link.innerHTML;
+
+            postUser(obj).then(statusCode =>{
                 if (statusCode !== 200) {
                     alert('Permission denied');
                 }
@@ -281,7 +285,7 @@ function fillLeftColumn(leftColumn, data) {
 }
 
 
-function createProfile(data) {
+function createProfile(data, isAuth) {
     const tmp = document.createElement('div');
     tmp.innerHTML = `
     <main class="profilemain">
@@ -296,6 +300,14 @@ function createProfile(data) {
     const leftColumn = tmp.getElementsByClassName('leftcolumn')[0];
     fillLeftColumn(leftColumn, data);
 
+    if (!isAuth) {
+        Array.from(tmp.getElementsByClassName('editicon')).forEach(element => {
+            element.remove();
+        });
+        Array.from(tmp.getElementsByClassName('layout')).forEach(element => {
+            element.remove();
+        });
+    }
 
     return tmp.firstElementChild;
 }
@@ -341,39 +353,6 @@ function addListener(actor, mainText, input, action) {
     });
 }
 
-function addQuitLink() {
-    let icon = document.getElementsByClassName('icon')[0];
-    let span = document.createElement('span');
-    const signout = document.createElement('a');
-    signout.href = '/meetings'
-    signout.textContent = 'Выйти';
-    signout.dataset.section = 'meetings';
-
-    // span.textContent = 'Выйти';
-    span.appendChild(signout);
-    span.classList.add('popuptext');
-    span.id = 'signout';
-
-    const wrapperIcon = document.createElement('div');
-    wrapperIcon.classList.add('popup');
-    wrapperIcon.append(icon, span);
-
-    document.getElementsByClassName('header')[0].appendChild(wrapperIcon);
-
-    icon.onmouseover = () => {
-        let popup = document.getElementById('signout');
-        popup.classList.toggle('show');
-    }
-
-    signout.addEventListener('click', (evt) => {
-        evt.preventDefault();
-        postSignOut().then(() => {
-            window.userId = NaN
-        })
-    });
-}
-
 export {
-    addQuitLink,
     createProfile,
 }

@@ -66,6 +66,8 @@ class UserModel {
         const {statusCode, error} = await postSignOut();
         switch (statusCode) {
             case 200:
+                this.userId = null;
+                this._isAuthenticated = false;
                 // EventBus.dispatchEvent(LOGOUT_SUCCESS);
                 break;
         }

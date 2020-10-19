@@ -1,5 +1,3 @@
-import {createMetPage, createPeoplesPage} from "../pageCreateFunc.js";
-
 const appConfig = {
     forMe: {
         text: 'Для меня',
@@ -8,16 +6,10 @@ const appConfig = {
     meetings: {
         text: 'Мероприятия',
         href: '/meetings',
-        open: () => {
-            createMetPage(application);
-        },
     },
     people: {
         text: 'Люди',
         href: '/peoples',
-        open: () => {
-            createPeoplesPage(application);
-        },
     },
     profile: {
         text: 'Профиль',

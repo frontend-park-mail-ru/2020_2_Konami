@@ -25,6 +25,59 @@ app.use(body.json());
 //     });
 // });
 
+app.get('/user', function(req, res) {
+    const userId = req.query.userId;
+
+    if (userId in usersProfiles) {
+        res.status(200).json(usersProfiles[userId]);
+        console.log(usersProfiles[userId]);
+    } else {
+        res.status(404).send('');
+    }
+});
+
+app.post('/user', function (req, res) {
+    console.log(req.body);
+    console.log(req.body.field);
+    console.log(req.body.text);
+    console.log(req.files);
+    // Сюда будут иногда файлы без полей field && text прилетать
+
+    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
+    // Тут вместо '52' нужен userId
+    let token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    Object.keys(req.body).forEach((key) => {
+        usersProfiles[userId][key] = req.body[key];
+        console.log('keke');
+    });
+
+    res.status(200).send('ok');
+});
+
+app.get('/people', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
+
+    let users = [];
+    Object.keys(usersProfiles).forEach(item => {
+        users.push(usersProfiles[item]);
+    });
+
+    res.status(200).json(users);
+});
+
+app.get('/meetings', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
+
+    let meets = [];
+    for (let i = 0; i < 100; i++) {
+        meets.push(meetCards[52]);
+    }
+    res.status(200).json(meets);
+});
+
 app.get('/me', function (req, res) {
     const token = req.cookies['authToken'];
     const userId = userSessions[token];
@@ -33,6 +86,7 @@ app.get('/me', function (req, res) {
     }
     res.status(200).json({userId});
 });
+
 
 app.get('*', (req, res) => {
     console.log(req.url);
@@ -125,57 +179,6 @@ const userLoginPwdIdMap = {
         id: 52,
     }
 }
-
-app.get('/people', function (req, res) {
-    const pageNum = req.query.pageNum;
-    console.log(pageNum);
-
-    let users = [];
-    Object.keys(usersProfiles).forEach(item => {
-        users.push(usersProfiles[item]);
-    });
-
-    res.status(200).json(users);
-});
-
-app.get('/meetings', function (req, res) {
-    const pageNum = req.query.pageNum;
-    console.log(pageNum);
-
-    let meets = [];
-    for (let i = 0; i < 100; i++) {
-        meets.push(meetCards[52]);
-    }
-    res.status(200).json(meets);
-});
-
-app.get('/user', function(req, res) {
-    const userId = req.query.userId;
-
-    if (userId in usersProfiles) {
-        res.status(200).json(usersProfiles[userId]);
-    } else {
-        res.status(404).send('');
-    }
-});
-
-app.post('/user', function (req, res) {
-    console.log(req.body);
-    console.log(req.body.field);
-    console.log(req.body.text);
-    console.log(req.files);
-    // Сюда будут иногда файлы без полей field && text прилетать
-
-    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
-    // Тут вместо '52' нужен userId
-    let token = req.cookies['authToken'];
-    const userId = userSessions[token];
-    if ('field' in req.body && 'text' in req.body) {
-        usersProfiles[userId][req.body.field] = req.body.text;
-    }
-    res.status(200).send('ok');
-});
-
 
 app.post('/login', function (req, res) {
     const password = req.body.password;

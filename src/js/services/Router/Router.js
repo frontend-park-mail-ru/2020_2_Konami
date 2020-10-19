@@ -28,6 +28,7 @@ class Router {
     route() {
         window.addEventListener('popstate', () => { // срабатывает при вызове pushState
            const path = location.pathname;
+           console.log(location.pathname);
            this._handlePath(path);
         });
 
@@ -55,7 +56,14 @@ class Router {
     }
 
     _handlePath(currentPath) {
-        const controller = this.routesMap.get(currentPath);
+        // Обрезает query параметры надо как-то это поправить чтоли 
+        let pos = currentPath.length;
+        for (let i = 0; i < currentPath.length; i++) {
+            if (currentPath[i] === '?') {
+                pos = i;
+            }
+        }
+        const controller = this.routesMap.get(currentPath.slice(0, pos));
         if (!controller) {
             // TODO(ERROR 404)
             alert('ERROR 404');
