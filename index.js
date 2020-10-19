@@ -25,7 +25,7 @@ app.use(body.json());
 //     });
 // });
 
-app.get('/user', function(req, res) {
+app.get('/api/user', function(req, res) {
     const userId = req.query.userId;
 
     if (userId in usersProfiles) {
@@ -36,7 +36,7 @@ app.get('/user', function(req, res) {
     }
 });
 
-app.post('/user', function (req, res) {
+app.post('/api/user', function (req, res) {
     console.log(req.body);
     console.log(req.body.field);
     console.log(req.body.text);
@@ -55,7 +55,7 @@ app.post('/user', function (req, res) {
     res.status(200).send('ok');
 });
 
-app.get('/people', function (req, res) {
+app.get('/api/people', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
 
@@ -67,7 +67,7 @@ app.get('/people', function (req, res) {
     res.status(200).json(users);
 });
 
-app.get('/meetings', function (req, res) {
+app.get('/api/meetings', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
 
@@ -78,7 +78,7 @@ app.get('/meetings', function (req, res) {
     res.status(200).json(meets);
 });
 
-app.get('/me', function (req, res) {
+app.get('/api/me', function (req, res) {
     const token = req.cookies['authToken'];
     const userId = userSessions[token];
     if (!userId) {
@@ -180,7 +180,7 @@ const userLoginPwdIdMap = {
     }
 }
 
-app.post('/login', function (req, res) {
+app.post('/api/login', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
     if (!password || !login) {
@@ -196,7 +196,7 @@ app.post('/login', function (req, res) {
     res.status(200).json({token});
 });
 
-app.post('/logout', function (req, res) {
+app.post('/api/logout', function (req, res) {
     let token = req.cookies['authToken'];
     delete userSessions[token];
 
@@ -204,7 +204,7 @@ app.post('/logout', function (req, res) {
     res.status(200);
 });
 
-app.post('/signup', function (req, res) {
+app.post('/api/signup', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
 
@@ -221,7 +221,7 @@ app.post('/signup', function (req, res) {
     res.status(200).send('ok');
 });
 
-app.post('/images', function(req, res) {
+app.post('/api/images', function(req, res) {
     console.log(req.query);
     console.log(req.fields, req.files);
     res.status(200).send('ok');

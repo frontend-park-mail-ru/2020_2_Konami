@@ -1,7 +1,7 @@
 'use strict';
 
 function postUser(editFields) {
-    return fetch('/user', {
+    return fetch('/api/user', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -23,7 +23,7 @@ function postUser(editFields) {
 
 function getUser(userId) {
     let statusCode;
-    return fetch(`/user?userId=${userId}`, {
+    return fetch(`/api/user?userId=${userId}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -39,7 +39,7 @@ function getUser(userId) {
 
 function getMeetings(pageNum) {
     let statusCode;
-    return fetch(`/meetings?pageNum=${pageNum}`, {
+    return fetch(`/api/meetings?pageNum=${pageNum}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -56,7 +56,7 @@ function getMeetings(pageNum) {
 
 function getPeople(pageNum) {
     let statusCode;
-    return fetch(`/people?pageNum=${pageNum}`, {
+    return fetch(`/api/people?pageNum=${pageNum}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -71,7 +71,7 @@ function getPeople(pageNum) {
 }
 
 function postPhoto(data) {
-    return fetch('/images', {
+    return fetch('/api/images', {
         method: 'POST',
         credentials: 'include',
         body: data,
@@ -89,7 +89,7 @@ function postPhoto(data) {
 }
 
 const postLogin = async (login, password) => {
-    return fetch('/login', {
+    return fetch('/api/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -114,7 +114,7 @@ const postLogin = async (login, password) => {
 
 function getMe() {
     let statusCode;
-    return fetch('/me', {
+    return fetch('/api/me', {
         method: 'GET',
         credentials: 'include'
     }).then(
@@ -138,7 +138,7 @@ function getMe() {
 }
 
 function postSignUp(login, password) {
-    return fetch('/signup', {
+    return fetch('/api/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -163,7 +163,7 @@ function postSignUp(login, password) {
 }
 
 function postSignOut() {
-    return fetch('/logout', {
+    return fetch('/api/logout', {
         method: 'POST',
         credentials: 'include',
     }).then(response => {
