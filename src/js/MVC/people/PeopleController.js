@@ -28,7 +28,6 @@ export default class PeopleController extends Controller {
                 // ne kaef
                 return;
             }
-            this.view.registerEvents();
             this.view.render(response.parsedJson);
         });
     }

@@ -26,7 +26,6 @@ export default class MeetingsController extends Controller {
                 // ne kaef
                 return;
             }
-            this.view.registerEvents();
             this.view.render(response.parsedJson);
         });
     }

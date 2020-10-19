@@ -13,18 +13,10 @@ export default class ProfileView extends BaseView {
         this.parent = parent;
         this.model = model;
         this._this = null;
-
-        this._initEventHandlers();
-    }
-
-    _initEventHandlers() {
-        this._eventHandlers = {
-        };
     }
 
     render(data) {
         this._this = createProfile(data, this.model.getUserId() === data.id);
-        console.log(this.parent);
         this.parent.appendChild(this._this);
     }
     /**
@@ -34,11 +26,5 @@ export default class ProfileView extends BaseView {
         if (this._this !== null) {
             this._this.remove();
         }
-    }
-
-    registerEvents() {
-    }
-
-    unRegisterEvents() {
     }
 }

@@ -13,23 +13,15 @@ export default class PeopleView extends BaseView {
         super(parent);
         this.parent = parent;
         this.model = model;
-        this._main = null;
-
-        this._initEventHandlers();
+        this._this = null;
     }
 
-    _initEventHandlers() {
-        this._eventHandlers = {
-        }
-    }
-
-    // TODO(template)
     render(cards) {
         const main = document.createElement('main');
         main.classList.add('main'); 
         this.parent.appendChild(main);
 
-        this._main = main;
+        this._this = main;
 
         cards.forEach(item => {
             const userCard = createUserCard(item);
@@ -42,14 +34,8 @@ export default class PeopleView extends BaseView {
     }
 
     erase() {
-        if (this._main !== null) {
-            this._main.remove();
+        if (this._this !== null) {
+            this._this.remove();
         }
-    }
-
-    registerEvents() {
-    }
-
-    unRegisterEvents() {
     }
 }

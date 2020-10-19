@@ -33,17 +33,11 @@ export default class ProfileController extends Controller {
         }
         getUser(userId).then(response => {
             let data = response.parsedJson;
-            this.view.registerEvents();
             this.view.render(data);
         });
     }
 
-    /**
-     * При вызове деструктора модальное окно просто удаляется из application
-     * Отписка всех обработчиков событий
-     */
     deactivate() {
         this.view.erase();
-        this.view.unRegisterEvents();
     }
 }
