@@ -1,47 +1,39 @@
 'use strict';
 
 export class AuthForm {
-    #parent
-
-    #header
-    #main
-    #footer
-
-    #onSubmit
-
     constructor(parent) {
-        this.#parent = parent;
-        this.#main = document.createElement('main');
-        this.#header = document.createElement('header');
-        this.#footer = document.createElement('footer');
+        this._parent = parent;
+        this._main = document.createElement('main');
+        this._header = document.createElement('header');
+        this._footer = document.createElement('footer');
         this._form = null;
-        // this.#onSubmit = onSubmit;
+        // this._onSubmit = onSubmit;
     }
 
     get main() {
-        return this.#main;
+        return this._main;
     }
     get header() {
-        return this.#header;
+        return this._header;
     }
     get footer() {
-        return this.#footer;
+        return this._footer;
     }
 
     get form() {
         const form = document.createElement('form');
         form.classList.add('vertical-center');
 
-        form.appendChild(this.#header)
-        form.appendChild(this.#main);
-        form.appendChild(this.#footer);
+        form.appendChild(this._header)
+        form.appendChild(this._main);
+        form.appendChild(this._footer);
 
         const formWrapper = document.createElement('div');
         formWrapper.classList.add('authForm');
         formWrapper.appendChild(form);
 
         this._form = form;
-        // form.addEventListener('submit', this.#onSubmit);
+        // form.addEventListener('submit', this._onSubmit);
 
         return formWrapper
     }
@@ -53,7 +45,7 @@ export class AuthForm {
     render() {
         const form = this.form
 
-        this.#parent.appendChild(form);
+        this._parent.appendChild(form);
     }
 
 }

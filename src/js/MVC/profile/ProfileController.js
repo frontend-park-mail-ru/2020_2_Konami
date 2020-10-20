@@ -11,7 +11,6 @@ import {
 
 import {
     OPEN_LOGIN_MODAL,
-    REDIRECT,
 } from "../../services/EventBus/EventTypes.js";
 
 export default class ProfileController extends Controller {
