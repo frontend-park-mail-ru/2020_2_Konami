@@ -122,7 +122,7 @@ export default class SignupView extends BaseView {
 
     unRegisterEvents() {
         EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitSignupForm);
-        EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onSignupSuccess);
+        EventBus.offEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
         EventBus.offEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
 

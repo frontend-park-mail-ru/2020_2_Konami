@@ -7,15 +7,12 @@ export class AuthForm {
     #main
     #footer
 
-    #onSubmit
-
     constructor(parent) {
         this.#parent = parent;
         this.#main = document.createElement('main');
         this.#header = document.createElement('header');
         this.#footer = document.createElement('footer');
         this._form = null;
-        // this.#onSubmit = onSubmit;
     }
 
     get main() {

@@ -16,15 +16,6 @@ app.use(express.static(`${__dirname}/src`));
 app.use(cookie());
 app.use(body.json());
 
-// app.get('/', function(req, res) {
-//     fs.readFile('src/index.html', function (err, html) {
-//         if (err) {
-//             throw err;
-//         }
-//         res.status(200).send(html);
-//     });
-// });
-
 app.get('/me', function (req, res) {
     const token = req.cookies['authToken'];
     const userId = userSessions[token];

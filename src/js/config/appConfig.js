@@ -8,16 +8,14 @@ const appConfig = {
     meetings: {
         text: 'Мероприятия',
         href: '/meetings',
-        open: () => {
-            createMetPage(application);
-        },
+    },
+    newMeeting: {
+        text: 'Мероприятия',
+        href: '/new-meeting',
     },
     people: {
         text: 'Люди',
         href: '/peoples',
-        open: () => {
-            createPeoplesPage(application);
-        },
     },
     profile: {
         text: 'Профиль',

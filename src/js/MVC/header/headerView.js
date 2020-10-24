@@ -23,11 +23,13 @@ export default class HeaderView extends BaseView {
     _initEventHandlers() {
         this._eventHandlers = {
             onLoginedUser: () => {
-                this._addExitLink();
+                this._userLoginUpdateHeader();
+                // this._addExitLink();
             },
 
             onLogoutUser: () => {
-                this._deleteExitLink();
+                this._userSignoutUpdateHeader();
+                // this._deleteExitLink();
                 this.model.logout();
             }
         }
@@ -40,15 +42,20 @@ export default class HeaderView extends BaseView {
         <header class="header">
             <img src="assets/google.png" class="logo">
             <input type="search" placeholder="Люди, мероприятия" class="searchinput">
-            <img src="assets/pericon.svg" class="icon">
+            <img src="assets/add-meet.svg" id="newMeet" class="icon square">
+            <img src="assets/pericon.svg" id="profileIcon" class="icon">
         </header>
         `;
 
-        const icon = headerWrapper.getElementsByClassName('icon')[0];
-        icon.dataset.section = 'profile';
-
         this.parent.appendChild(headerWrapper.firstElementChild);
         createNavigation(this.parent);
+
+        let icon = document.getElementById('profileIcon');
+        icon.dataset.section = 'profile';
+
+        icon = document.getElementById('newMeet');
+        icon.dataset.section = 'newMeeting';
+        icon.style.display = 'none';
     }
 
     registerEvents() {
@@ -63,8 +70,14 @@ export default class HeaderView extends BaseView {
         EventBus.offEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
     }
 
+    _userLoginUpdateHeader() {
+        this._addExitLink();
+        const icon = document.getElementById('newMeet');
+        icon.style.display = 'block';
+    }
+
     _addExitLink() {
-        const icon = document.getElementsByClassName('icon')[0];
+        const icon = document.getElementById('profileIcon');
         const span = document.createElement('span');
         const signout = document.createElement('a');
         signout.textContent = 'Выйти';
@@ -89,6 +102,12 @@ export default class HeaderView extends BaseView {
             evt.preventDefault();
             EventBus.dispatchEvent(LOGOUT_USER);
         });
+    }
+
+    _userSignoutUpdateHeader() {
+        this._deleteExitLink();
+        const icon = document.getElementById('newMeet');
+        icon.style.display = 'none';
     }
 
     _deleteExitLink() {
