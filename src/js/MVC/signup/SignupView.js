@@ -1,10 +1,10 @@
 'use strict';
 
+import EventBus from "../../services/EventBus/EventBus.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import {closeSignupModal} from "../../utils/auth/authModalUtils.js";
+import {closeSignupModal} from "../../utils/auth-modal/authModalUtils.js";
 
 import {
     LOGIN_SUCCESS,

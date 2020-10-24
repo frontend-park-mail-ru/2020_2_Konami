@@ -3,7 +3,7 @@
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import {createSignupEditProfileForm} from "../../utils/auth/onSignupRedirectEditProfileFormCreation.js";
+import {createEditProfileForm} from "../../utils/editprofile/EditProfileFormCreate.js";
 import {deleteIf} from "../../utils/validators/emptyFields.js";
 
 import {
@@ -50,7 +50,7 @@ export default class EditProfileView extends BaseView {
     }
 
     render() {
-        const form = createSignupEditProfileForm();
+        const form = createEditProfileForm();
         this.parent.appendChild(form);
 
         this._showTab(this.currentTab);
