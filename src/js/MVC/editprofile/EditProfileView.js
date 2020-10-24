@@ -3,7 +3,6 @@
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import {createSignupEditProfileForm} from "../../utils/auth/onSignupRedirectEditProfileFormCreation.js";
 import {deleteIf} from "../../utils/validators/emptyFields.js";
 
 import {
