@@ -77,7 +77,7 @@ export default class LoginView extends BaseView {
     }
 
     unRegisterEvents() {
-        EventBus.onEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
+        EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginSuccess);
         EventBus.offEvent(INVALID_LOGIN, this._eventHandlers.onInvalidLoginOrPwd);
 

@@ -16,15 +16,6 @@ app.use(express.static(`${__dirname}/src`));
 app.use(cookie());
 app.use(body.json());
 
-// app.get('/', function(req, res) {
-//     fs.readFile('src/index.html', function (err, html) {
-//         if (err) {
-//             throw err;
-//         }
-//         res.status(200).send(html);
-//     });
-// });
-
 app.get('/api/user', function(req, res) {
     const userId = req.query.userId;
 
