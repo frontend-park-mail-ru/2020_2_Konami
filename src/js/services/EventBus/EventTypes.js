@@ -1,5 +1,4 @@
 export const REDIRECT = 'redirect';
-export const ADD_EXIT_LINK = 'addExitLinkToHeader';
 
 // Login
 export const SUBMIT_LOGIN = 'loginUser';

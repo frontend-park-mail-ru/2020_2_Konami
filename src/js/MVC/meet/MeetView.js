@@ -2,11 +2,7 @@
 
 import { createMeetPage } from "../../../components/meet/meetc.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
-import { postMeet, postPhoto } from "../../services/API/api.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import { 
-    REDIRECT 
-} from "../../services/EventBus/EventTypes.js";
+import { postMeet } from "../../services/API/api.js";
 
 export default class MeetView extends BaseView {
 

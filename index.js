@@ -222,7 +222,7 @@ app.post('/api/logout', function (req, res) {
     delete userSessions[token];
 
     res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
-    res.status(200);
+    res.status(200).send('ok');
 });
 
 app.post('/api/signup', function (req, res) {

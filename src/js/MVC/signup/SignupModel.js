@@ -5,9 +5,6 @@ import Validator from "../../services/Validator/Validator.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
     PASSWORDS_MISMATCH,
-    INVALID_PWD_INPUT,
-    INVALID_LOGIN_INPUT,
-    INVALID_NAME_INPUT
 
 } from "../../services/EventBus/EventTypes.js";
 

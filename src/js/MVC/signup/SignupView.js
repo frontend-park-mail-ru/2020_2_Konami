@@ -1,14 +1,12 @@
 'use strict';
 
 import BaseView from "../../basics/BaseView/BaseView.js";
-import {createLoginFormLayout, createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
+import {createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {closeSignupModal} from "../../utils/auth/authModalUtils.js";
-import {isValidPassword} from "../../utils/validators/formValidators.js";
 
 import {
-    INVALID_LOGIN,
     LOGIN_SUCCESS,
     REDIRECT,
     SUBMIT_LOGIN,
@@ -19,7 +17,8 @@ import {
     INVALID_PWD_INPUT,
     INVALID_LOGIN_INPUT,
     INVALID_NAME_INPUT,
-    USER_ALREADY_EXISTS
+    USER_ALREADY_EXISTS,
+    CLOSE_SIGNUP_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
@@ -54,6 +53,7 @@ export default class SignupView extends BaseView {
             },
 
             onSignupPostName: () => {
+                EventBus.dispatchEvent(CLOSE_SIGNUP_MODAL);
                 EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
             },
 

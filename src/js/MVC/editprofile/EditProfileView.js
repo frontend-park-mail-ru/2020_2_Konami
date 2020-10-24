@@ -1,15 +1,18 @@
 'use strict';
 
 import BaseView from "../../basics/BaseView/BaseView.js";
-import {createSignupEditProfileForm} from "../../auth/onSignupRedirectEditProfile.js";
 import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-
+import {createSignupEditProfileForm} from "../../utils/auth/onSignupRedirectEditProfileFormCreation.js";
 import {deleteIf} from "../../utils/validators/emptyFields.js";
+
 import {
     REDIRECT,
     SUBMIT_EDIT,
-    SELECT_TAGS, EDIT_SUCCESS, INVALID_LOGIN, USER_NOT_AUTHORIZED, OPEN_LOGIN_MODAL
+    SELECT_TAGS,
+    EDIT_SUCCESS,
+    USER_NOT_AUTHORIZED,
+    OPEN_LOGIN_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {

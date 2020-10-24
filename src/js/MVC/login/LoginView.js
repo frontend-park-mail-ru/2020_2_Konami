@@ -3,7 +3,6 @@
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import {createLoginFormLayout} from "../../../components/auth/Form/FormLayout.js";
-import Router from "../../services/Router/Router.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {closeLoginModal} from "../../utils/auth/authModalUtils.js";
 import {
