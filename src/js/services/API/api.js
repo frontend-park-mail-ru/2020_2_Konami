@@ -37,6 +37,43 @@ function getUser(userId) {
     });
 }
 
+function getMeet(meetId) {
+    let statusCode;
+    return fetch(`/api/meet?meetId=${meetId}`, {
+        method: 'GET',
+        credentials: 'include',
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
+    });
+}
+
+function postMeet(editFields) {
+    return fetch('/api/meet', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        credentials: 'include',
+        body: JSON.stringify(editFields),
+    }).then(
+        (response) => {
+            return {
+                statusCode: response.status,
+            };
+    }).catch(
+    (error) => {
+        return {
+            error: error
+        };
+    });
+}
+
 function getMeetings(pageNum) {
     let statusCode;
     return fetch(`/api/meetings?pageNum=${pageNum}`, {
@@ -182,6 +219,8 @@ export {
     postUser,
     getPeople,
     getUser,
+    getMeet,
+    postMeet,
     getMeetings,
     postPhoto,
     postLogin,

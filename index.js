@@ -67,6 +67,25 @@ app.get('/api/people', function (req, res) {
     res.status(200).json(users);
 });
 
+app.get('/api/meet', function (req, res) {
+    const meetId = req.query.meetId
+    res.status(200).json(meetCards[meetId]);
+});
+
+app.post('/api/meet', function (req, res) {
+    console.log(req.body.fields);
+    console.log(req.body.meetId);
+    
+    let token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    const meetId = req.body.meetId;
+    Object.keys(req.body.fields).forEach((key) => {
+        meetCards[meetId][key] = req.body.fields[key];
+    });
+
+    res.status(200).send('ok');
+});
+
 app.get('/api/meetings', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
@@ -109,6 +128,8 @@ const meetCards = {
         title: 'Забив с++',
         place: 'Дом Пушкина, улица Калатушкина',
         dateStr: '12 сентября 2020',
+        like: true,
+        reg: true,
     },
 };
 

@@ -11,6 +11,7 @@ import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
 import PeopleController from "./MVC/people/PeopleController.js";
+import MeetController from "./MVC/meet/MeetController.js";
 
 (() => {
     const application = document.getElementById('app');
@@ -25,6 +26,7 @@ import PeopleController from "./MVC/people/PeopleController.js";
     Router.register('/meetings', new MeetingsController(application));
     Router.register('/editprofile', new EditProfileController(application));
     Router.register('/profile', new ProfileController(application));
+    Router.register('/meet', new MeetController(application));
 
     Router.route();
 
