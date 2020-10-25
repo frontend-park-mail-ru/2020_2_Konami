@@ -19,7 +19,7 @@ export default class MeetingsController extends Controller {
         if (pageNum === null) {
             pageNum = 1;
         }
-        getMeetings(pageNum).then(response => {
+        getMeetings({pageNum}).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {

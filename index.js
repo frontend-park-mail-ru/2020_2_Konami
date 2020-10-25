@@ -87,11 +87,17 @@ app.post('/api/meet', function (req, res) {
 });
 
 app.get('/api/meetings', function (req, res) {
-    const pageNum = req.query.pageNum;
+    const pageNum = req.query.mymeetings;
     console.log(pageNum);
 
     let meets = [];
     for (let i = 0; i < 100; i++) {
+        if (pageNum) {
+            meetCards[52].imgSrc = 'assets/beach.jpeg';
+        } else {
+            meetCards[52].imgSrc = 'assets/paris.jpg';
+        }
+
         meets.push(meetCards[52]);
     }
     res.status(200).json(meets);

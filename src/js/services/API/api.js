@@ -74,9 +74,20 @@ function postMeet(editFields) {
     });
 }
 
-function getMeetings(pageNum) {
+function getMeetings(obj) {
+    let params = '?';
+    Object.keys(obj).forEach(key => {
+        params += `${key}=${obj[key]}&`
+    });
+
+    if (params === '?') {
+        params = '';
+    } else {
+        params = params.slice(0, params.length - 1);
+    }
+
     let statusCode;
-    return fetch(`/api/meetings?pageNum=${pageNum}`, {
+    return fetch(`/api/meetings${params}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
