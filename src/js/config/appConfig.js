@@ -13,7 +13,7 @@ const appConfig = {
     },
     people: {
         text: 'Люди',
-        href: '/peoples',
+        href: '/people',
     },
     profile: {
         text: 'Профиль',

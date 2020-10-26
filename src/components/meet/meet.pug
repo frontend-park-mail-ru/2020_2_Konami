@@ -1,0 +1,25 @@
+main(class='meetmain')
+    div(class='meethead')
+        div(class='meetheadleft')
+            h1(class="meettitle") #{title}
+            span(class='meetdateplace') #{place}, #{dateStr}
+        div(class='meetheadright')
+            if reg
+                button(class='gobutton') Отменить поход
+            else
+                button(class='gobutton') Пойти
+            div(class='likeicon')
+                if like 
+                    img(src='../../assets/like.svg')
+                else 
+                    img(src='../../assets/heart.svg')
+    img(class='meetbigimg' src=imgSrc)
+    div(class='meetbottom')
+        div(class='meetbottomleft')
+            h1(class='aboutitile') #{title}
+            span #{text}
+        div(class='verticalseparator')
+            each val, index in tags
+                span(class='meettag')= val
+            
+            
