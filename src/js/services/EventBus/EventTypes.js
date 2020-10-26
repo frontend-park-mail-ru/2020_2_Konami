@@ -29,3 +29,10 @@ export const INVALID_NAME_INPUT = 'invalidNameInput';
 // User codes
 export const USER_NOT_AUTHORIZED = 'userNotAuthorized';
 export const USER_ALREADY_EXISTS = 'userAlreadyExists';
+
+// Meeting
+export const SUBMIT_CREATE_MEET = 'submitMeetingCreation';
+export const CREATE_MEETING_SUCCESS = 'successMeetingCreation';
+export const INVALID_DATE_INPUT = 'invalidDateInput';
+// export const INVALID_END_DATE_INPUT = 'invalidEndDateInput';
+

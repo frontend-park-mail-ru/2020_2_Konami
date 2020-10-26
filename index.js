@@ -219,6 +219,19 @@ app.post('/api/images', function(req, res) {
 
 });
 
+// app.post('/api/tmpimages', function(req, res) {
+//     console.log(req.fields, req.files);
+//     const pathToImg = 'assets/telegram.png';
+//
+//     return res.status(200).json({pathToImg});
+// });
+
+app.post('/api/meeting', function(req, res) {
+    console.log(req.fields, req.files);
+
+    return res.status(201).send('ok');
+});
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, function () {

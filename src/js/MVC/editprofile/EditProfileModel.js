@@ -28,22 +28,6 @@ export default class EditProfileModel {
         )()
     }
 
-    saveSelectedTags = () => {
-        const tags = Array.from(document.getElementsByClassName('btnLike'));
-        this.selectedRecomendationTags = []
-        tags.forEach((tag) => {
-            if (tag.checked) {
-                this.selectedRecomendationTags.push(tag.value);
-            }
-        });
-
-        const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
-        selectedTagsBlock.innerHTML = '';
-
-        const selectedTags =  this.selectedRecomendationTags.map((tagValue) => createSelectedTag(tagValue));
-        selectedTagsBlock.append(...selectedTags);
-    }
-
     checkAuth() {
         return this._user.isAuthenticated();
     }
