@@ -16,15 +16,6 @@ app.use(express.static(`${__dirname}/src`));
 app.use(cookie());
 app.use(body.json());
 
-// app.get('/', function(req, res) {
-//     fs.readFile('src/index.html', function (err, html) {
-//         if (err) {
-//             throw err;
-//         }
-//         res.status(200).send(html);
-//     });
-// });
-
 app.get('/api/user', function(req, res) {
     const userId = req.query.userId;
 
@@ -247,6 +238,19 @@ app.post('/api/images', function(req, res) {
     console.log(req.fields, req.files);
     res.status(200).send('ok');
 
+});
+
+// app.post('/api/tmpimages', function(req, res) {
+//     console.log(req.fields, req.files);
+//     const pathToImg = 'assets/telegram.png';
+//
+//     return res.status(200).json({pathToImg});
+// });
+
+app.post('/api/meeting', function(req, res) {
+    console.log(req.fields, req.files);
+
+    return res.status(201).send('ok');
 });
 
 const port = process.env.PORT || 8000;

@@ -8,7 +8,7 @@ import {
     EDIT_SUCCESS,
     UPDATE_PHOTO_SUCCESS,
     INVALID_LOGIN,
-    USER_ALREADY_EXISTS
+    USER_ALREADY_EXISTS, LOGOUT_USER
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {

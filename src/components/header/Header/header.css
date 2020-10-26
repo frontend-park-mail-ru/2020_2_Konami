@@ -32,7 +32,7 @@
     min-width: 350px;
 
     font-family: 'Roboto', sans-serif;
-} 
+}
 
 .searchinput:focus {
     outline: none;
@@ -44,12 +44,17 @@
     background-color: white;
     border-radius: 100px;
     padding: 3px;
+    margin-right: 8px;
 
     cursor: pointer;
 }
 
 .icon:hover {
     background-color: grey;
+}
+
+.square {
+    border-radius: 0px;
 }
 
 .logo {

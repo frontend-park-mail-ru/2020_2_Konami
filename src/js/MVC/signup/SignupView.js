@@ -1,10 +1,11 @@
 'use strict';
 
+import EventBus from "../../services/EventBus/EventBus.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import {closeSignupModal} from "../../utils/auth/authModalUtils.js";
+import {closeSignupModal} from "../../utils/auth-modal/authModalUtils.js";
+import {displayNotification} from "../../../components/auth/Notification/Notification.js";
 
 import {
     LOGIN_SUCCESS,
@@ -48,6 +49,7 @@ export default class SignupView extends BaseView {
 
             onSignupSuccess: (data) => {
                 this.model.loginAfterSignup(data);
+                displayNotification('Вы успешно зарегестрировались');
                 // TODO(предложить заполнить оставшиеся поля, если нет - редирект)
                 // EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
             },
@@ -122,7 +124,7 @@ export default class SignupView extends BaseView {
 
     unRegisterEvents() {
         EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitSignupForm);
-        EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onSignupSuccess);
+        EventBus.offEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
         EventBus.offEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
 
