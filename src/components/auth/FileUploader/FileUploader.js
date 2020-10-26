@@ -1,3 +1,8 @@
+import EventBus from "../../../js/services/EventBus/EventBus.js";
+import {BIG_FILE_SIZE} from "../../../js/services/EventBus/EventTypes.js";
+
+const MAX_INPUT_FILE_SIZE = 10;
+
 export function createFileUploader(id) {
     const fileUploader = document.createElement('div');
     fileUploader.innerHTML = `<input accept="image/*" type="file" name="photos" id=${id} class="inputfile" data-multiple-caption="{count} files selected" multiple="">`
@@ -35,16 +40,17 @@ export function inputFileChangedEventListener() {
                 fileName = e.target.value.split( '\\' ).pop();
 
             if( fileName ) {
+                const filesize = (e.target.files[0].size/1024/1024).toFixed(4); // MB
+                if (filesize > MAX_INPUT_FILE_SIZE) {
+                    EventBus.dispatchEvent(BIG_FILE_SIZE);
+                    return;
+                }
+
                 const reader = new FileReader();
                 reader.readAsDataURL(e.target.files[0]);
                 reader.onload = () => {
                     img.src = reader.result;
                 }
-
-
-                // if (pathToImg !== undefined) {
-                //     img.src = pathToImg;
-                // }
 
                 label.querySelector( 'span' ).innerHTML = fileName;
 

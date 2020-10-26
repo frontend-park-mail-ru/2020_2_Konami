@@ -1,18 +1,18 @@
 .new-meet {
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     justify-content: center;
     margin: 0 auto;
     /* max-width: 700px; */
 }
 
 .new-meet .col-1-3 {
-    width: 150px;
+    width: 170px;
 }
 
 .new-meet fieldset {
     border: 0 none;
-    width: 550px;
+    max-width: 580px;
 }
 
 .new-meet label {
@@ -61,7 +61,7 @@ label {
 }
 
 .new-meet .birthDay {
-    width: 74px;
+    width: 68px;
     text-align:center;
     margin: 10px 10px 0px 0px;
 }
@@ -130,7 +130,7 @@ input.invalid {
 }
 
 .new-meet .date-block {
-    width: 300px;
+    width: 260px;
 }
 
 .new-meet .meeting-poster {

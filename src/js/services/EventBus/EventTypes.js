@@ -25,6 +25,8 @@ export const PASSWORDS_MISMATCH = 'passwordsMismatch';
 export const INVALID_PWD_INPUT = 'invalidPasswordInput';
 export const INVALID_LOGIN_INPUT = 'invalidLoginInput';
 export const INVALID_NAME_INPUT = 'invalidNameInput';
+export const BIG_FILE_SIZE = 'bigFileSize';
+
 
 // User codes
 export const USER_NOT_AUTHORIZED = 'userNotAuthorized';

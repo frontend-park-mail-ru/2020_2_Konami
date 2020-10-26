@@ -17,6 +17,7 @@ import {
     SUBMIT_CREATE_MEET,
     CREATE_MEETING_SUCCESS,
     INVALID_DATE_INPUT,
+    BIG_FILE_SIZE
 } from "../../services/EventBus/EventTypes.js";
 
 export default class NewMeetingView extends BaseView {
@@ -42,6 +43,10 @@ export default class NewMeetingView extends BaseView {
                 const month = document.getElementsByName(`${prefix}-month`)[0];
                 const year = document.getElementsByName(`${prefix}-year`)[0];
                 this._showInvalidInputs(day, month, year);
+            },
+
+            onInvalidFile: () => {
+                displayNotification('Файл превышает максимальный размер');
             },
 
             onSelectTags: () => {
@@ -82,6 +87,7 @@ export default class NewMeetingView extends BaseView {
         EventBus.onEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.onEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
+        EventBus.onEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
 
     }
 
@@ -91,6 +97,7 @@ export default class NewMeetingView extends BaseView {
         EventBus.offEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
+        EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
 
     }
 
