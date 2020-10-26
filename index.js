@@ -11,17 +11,105 @@ const app = express();
 const fs = require('fs');
 
 app.use(morgan('dev'));
-app.use(express.static(path.resolve(__dirname, '..', 'src')));
+// app.use(express.static(path.resolve(__dirname, '..', 'src')));
+app.use(express.static(`${__dirname}/src`));
 app.use(cookie());
 app.use(body.json());
 
-app.get('/', function(req, res) {
-    fs.readFile('static/index.html', function (err, html) {
-        if (err) {
-            throw err; 
-        } 
-        res.status(200).send(html);
+// app.get('/', function(req, res) {
+//     fs.readFile('src/index.html', function (err, html) {
+//         if (err) {
+//             throw err;
+//         }
+//         res.status(200).send(html);
+//     });
+// });
+
+app.get('/api/user', function(req, res) {
+    const userId = req.query.userId;
+
+    if (userId in usersProfiles) {
+        res.status(200).json(usersProfiles[userId]);
+        console.log(usersProfiles[userId]);
+    } else {
+        res.status(404).send('');
+    }
+});
+
+app.post('/api/user', function (req, res) {
+    console.log(req.body);
+    console.log(req.body.field);
+    console.log(req.body.text);
+    console.log(req.files);
+    // Сюда будут иногда файлы без полей field && text прилетать
+
+    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
+    // Тут вместо '52' нужен userId
+    let token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    Object.keys(req.body).forEach((key) => {
+        usersProfiles[userId][key] = req.body[key];
+        console.log('keke');
     });
+
+    res.status(200).send('ok');
+});
+
+app.get('/api/people', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
+
+    let users = [];
+    Object.keys(usersProfiles).forEach(item => {
+        users.push(usersProfiles[item]);
+    });
+
+    res.status(200).json(users);
+});
+
+app.get('/api/meet', function (req, res) {
+    const meetId = req.query.meetId
+    res.status(200).json(meetCards[meetId]);
+});
+
+app.post('/api/meet', function (req, res) {
+    console.log(req.body.fields);
+    console.log(req.body.meetId);
+    
+    let token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    const meetId = req.body.meetId;
+    Object.keys(req.body.fields).forEach((key) => {
+        meetCards[meetId][key] = req.body.fields[key];
+    });
+
+    res.status(200).send('ok');
+});
+
+app.get('/api/meetings', function (req, res) {
+    const pageNum = req.query.pageNum;
+    console.log(pageNum);
+
+    let meets = [];
+    for (let i = 0; i < 100; i++) {
+        meets.push(meetCards[52]);
+    }
+    res.status(200).json(meets);
+});
+
+app.get('/api/me', function (req, res) {
+    const token = req.cookies['authToken'];
+    const userId = userSessions[token];
+    if (!userId) {
+        return  res.status(401).end();
+    }
+    res.status(200).json({userId});
+});
+
+
+app.get('*', (req, res) => {
+    console.log(req.url);
+    res.sendFile(`${__dirname}/src/index.html`);
 });
 
 
@@ -40,6 +128,8 @@ const meetCards = {
         title: 'Забив с++',
         place: 'Дом Пушкина, улица Калатушкина',
         dateStr: '12 сентября 2020',
+        like: true,
+        reg: true,
     },
 };
 
@@ -111,68 +201,7 @@ const userLoginPwdIdMap = {
     }
 }
 
-app.get('/people', function (req, res) {
-    const pageNum = req.query.pageNum;
-    console.log(pageNum);
-
-    let users = [];
-    Object.keys(usersProfiles).forEach(item => {
-        users.push(usersProfiles[item]);
-    });
-
-    res.status(200).json(users);
-});
-
-app.get('/meetings', function (req, res) {
-    const pageNum = req.query.pageNum;
-    console.log(pageNum);
-
-    let meets = [];
-    for (let i = 0; i < 100; i++) {
-        meets.push(meetCards[52]);
-    }
-    res.status(200).json(meets);
-});
-
-app.get('/user', function(req, res) {
-    const userId = req.query.userId;
-
-    if (userId in usersProfiles) {
-        res.status(200).json(usersProfiles[userId]);
-    } else {
-        res.status(404).send('');  
-    }
-});
-
-app.post('/user', function (req, res) {
-    console.log(req.body);
-    console.log(req.body.field);
-    console.log(req.body.text);
-    console.log(req.files);
-    // Сюда будут иногда файлы без полей field && text прилетать
-
-    // Тут нужно будет парсить слова с решеткой и вставлять в usercard
-    // Тут вместо '52' нужен userId
-    let token = req.cookies['authToken'];
-    const userId = userSessions[token];
-    if ('field' in req.body && 'text' in req.body) {
-        usersProfiles[userId][req.body.field] = req.body.text;
-    }
-    res.status(200).send('ok');
-});
-
-
-app.get('/me', function (req, res) {
-    const token = req.cookies['authToken'];
-    const userId = userSessions[token];
-    if (!userId) {
-       return  res.status(401).end();
-    }
-    res.status(200).json({userId});
-});
-
-
-app.post('/login', function (req, res) {
+app.post('/api/login', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
     if (!password || !login) {
@@ -188,22 +217,21 @@ app.post('/login', function (req, res) {
     res.status(200).json({token});
 });
 
-app.post('/logout', function (req, res) {
+app.post('/api/logout', function (req, res) {
     let token = req.cookies['authToken'];
     delete userSessions[token];
 
     res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
-    res.status(200);
+    res.status(200).send('ok');
 });
 
-app.post('/signup', function (req, res) {
+app.post('/api/signup', function (req, res) {
     const password = req.body.password;
     const login = req.body.login;
 
-    // TODO(Расскоменитровать на бэке)
-    // if (login in userLoginPwdIdMap) {
-    //     res.status(400).json({error: 'Такой логин уже существует'});
-    // }
+    if (login in userLoginPwdIdMap) {
+        res.status(409).json({error: 'Такой логин уже существует'});
+    }
 
     const Ids = Object.keys(usersProfiles);
     const newId = parseInt(Ids[Ids.length - 1], 10) + 1;
@@ -214,15 +242,11 @@ app.post('/signup', function (req, res) {
     res.status(200).send('ok');
 });
 
-app.use(formidable());  //  formdata только с этим мидлвером работает
-app.post('/edit_on_signup', function (req, res) {
-    console.log(req.fields, req.files);
-    res.status(200).send('ok');
-});
-
-app.post('/images', function(req, res) {
+app.post('/api/images', function(req, res) {
     console.log(req.query);
     console.log(req.fields, req.files);
+    res.status(200).send('ok');
+
 });
 
 const port = process.env.PORT || 8000;

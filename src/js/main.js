@@ -1,73 +1,37 @@
 'use strict';
 
+import HeaderController from "./MVC/header/headerController.js";
+import Router from "./services/Router/Router.js";
+import MeetingsController from "./MVC/meetings/MeetingsController.js";
+import EventBus from "./services/EventBus/EventBus.js";
+import EditProfileController from "./MVC/editprofile/EditProfileController.js";
+import ProfileController from "./MVC/profile/ProfileController.js";
+import {registerAuthModalWindows} from "./utils/auth/authModalUtils.js";
 import {
-    AjaxModule
-} from "../modules/ajax.js";
+    REDIRECT
+} from "./services/EventBus/EventTypes.js";
+import PeopleController from "./MVC/people/PeopleController.js";
+import MeetController from "./MVC/meet/MeetController.js";
 
-import {
-    createMetPage,
-    createPeoplesPage,
-    profilePage,
-    loginModal,
-    signUpModal
-} from './pageCreateFunc.js';
+(() => {
+    const application = document.getElementById('app');
 
+    const headerController = new HeaderController(application);
+    headerController.activate();
 
-const application = document.body;
-window.userId = NaN
+    registerAuthModalWindows(application);
 
-const Ajax = new AjaxModule();
-globalThis.ajax = Ajax.ajax;
+    Router.register('/', new MeetingsController(application));
+    Router.register('/people', new PeopleController(application));
+    Router.register('/meetings', new MeetingsController(application));
+    Router.register('/editprofile', new EditProfileController(application));
+    Router.register('/profile', new ProfileController(application));
+    Router.register('/meet', new MeetController(application));
 
-globalThis.appConfig = {
-    forMe: {
-        text: 'Для меня',
-        href: '/forme',
-    },
-    meetings: {
-        text: 'Мероприятия',
-        href: '/meetings',
-        open: () => {
-            createMetPage(application);
-        },
-    },
-    people: {
-        text: 'Люди',
-        href: '/peoples',
-        open: () => {
-            createPeoplesPage(application);
-        },
-    },
-    profile: {
-        text: 'Профиль',
-        href: '',
-        open: () => {
-            profilePage(application);
-        },
-    },
-    registration: {
-        text: "Регистрация",
-        href: "/registration",
-        open: () => {
-            signUpModal(application);
-        },
-    },
-    login: {
-        text: "Логин",
-        href: "/login",
-        open: () => {
-            loginModal(application);
-        },
-    }
-}
+    Router.route();
 
-createMetPage(application);
-
-application.addEventListener('click', (evt) => {
-    const {target} = evt;
-
-    if (target.dataset.section in globalThis.appConfig) {
-        evt.preventDefault();
-        globalThis.appConfig[target.dataset.section].open();
-    }
-});
+    EventBus.onEvent(REDIRECT, (obj) => {
+        const {url, state} = obj;
+        Router.pushState(url);
+    })
+})()

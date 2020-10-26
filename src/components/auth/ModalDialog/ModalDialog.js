@@ -27,5 +27,7 @@ export function placeAuthModal() {
 
     modal = createModalDialog({id:'authModal', classList: ['modal']}, [loginForm.form]);
     header.appendChild(modal);
+
+    return header;
 }
 
