@@ -106,12 +106,9 @@
     opacity: 1;
 }
 
-.button {
-    padding: 10px;
-    border-radius: 10px;
-    background:  #ffffff;
-
-    outline: 0;
+.profilemain button {
+    width: 150px;
+    margin: 20px 10px 0px;
 }
 
 .button:active {

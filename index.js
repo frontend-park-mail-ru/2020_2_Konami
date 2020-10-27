@@ -66,7 +66,7 @@ app.get('/api/meet', function (req, res) {
 app.post('/api/meet', function (req, res) {
     console.log(req.body.fields);
     console.log(req.body.meetId);
-    
+
     let token = req.cookies['authToken'];
     const userId = userSessions[token];
     const meetId = req.body.meetId;
@@ -169,7 +169,7 @@ const usersProfiles = {
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
                 in voluptate velit esse cillum `,
-        interestTags: ['Картофель', 'Хоккей'],
+        interestTags: ['Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 

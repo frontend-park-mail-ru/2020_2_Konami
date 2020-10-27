@@ -25,6 +25,11 @@ import {
     createMetIcon,
 } from '../MetIcon/MetIcon.js';
 
+import {
+    createBtn
+} from "../../auth/Button/button.js";
+import {createSelectedTag} from "../../auth/SelectedTag/SelectedTag.js";
+
 
 function fillRightColumn(rightColumn, data) {
     const fillRigthColumn = [
@@ -45,7 +50,7 @@ function fillRightColumn(rightColumn, data) {
         },
         {
             iconSrc: 'assets/job.svg',
-            name: 'работа',
+            name: 'Работа',
             key: 'job',
         },
         {
@@ -86,6 +91,36 @@ function fillRightColumn(rightColumn, data) {
             });
         });
     });
+
+    const tagsLabel = createIconWithText();
+    tagsLabel.appendChild(createMetIcon('assets/tag.svg'));
+    tagsLabel.appendChild(createBoldSpan('Тэги рекомендаций'));
+
+    const tagsWrapper = document.createElement('div');
+    tagsWrapper.classList.add('selectedTagsWrapper');
+    tagsWrapper.innerHTML = '';
+
+    // TODO в отдельную функцию
+    const tags =  data.interestTags.map((tagValue) => {
+            let lbl = document.createElement('label');
+            let input = document.createElement('input');
+            input.classList.add('btnLike');
+            input.name = 'tags';
+            input.value = tagValue;
+
+            let span = document.createElement('span');
+            span.textContent = tagValue;
+
+            lbl.appendChild(input);
+            lbl.appendChild(span);
+
+            return lbl;
+    });
+    tagsWrapper.append(...tags);
+
+    const editProfileBtn = createBtn('Изменить тэги', {classList: ['stdBtn', 'secondary', 'activable']});
+
+    rightColumn.append(tagsLabel, tagsWrapper, editProfileBtn);
 }
 
 
@@ -171,13 +206,13 @@ function createAvatarField(imgSrc) {
     fileChoser.onchange = (event) => {
         var file = event.target.files[0];
         var FR = new FileReader();
-        
+
         FR.onload = function(event) {
             console.dir(event);
             avatar.src = event.target.result;
             saveButton.hidden = false;
         };
-        
+
         FR.readAsDataURL(file);
     };
 
@@ -203,7 +238,7 @@ function createSocialNetworks(data) {
     const networksConfig = {
         vk: 'assets/vk.png',
         telegram: 'assets/telegram.png',
-    };  
+    };
 
     const networkWraper = document.createElement('div');
     networkWraper.classList.add('socialnetworks');
@@ -260,7 +295,7 @@ function createMetings(data) {
 
         iconwithtext.appendChild(createMetIcon(obj.imgSrc));
         iconwithtext.appendChild(createLink(obj.text));
-        
+
         meetings.appendChild(iconwithtext);
     });
 
@@ -347,7 +382,7 @@ function addListener(actor, mainText, input, action) {
         actor.parentNode.insertBefore(checkMark, actor.nextSibling);
         actor.parentNode.insertBefore(crossMark, actor.nextSibling);
         actor.remove();
-    
+
         mainText.parentNode.insertBefore(input, mainText.nextSibling);
         mainText.remove();
     });

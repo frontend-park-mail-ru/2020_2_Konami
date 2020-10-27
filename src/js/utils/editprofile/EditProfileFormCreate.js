@@ -88,7 +88,7 @@ function createTab1() {
 
     // TODO (заполнить нормльными тэгами)
     const tags = document.createElement('div');
-    tags.classList.add('recommendationTagsWrapper')
+    tags.classList.add('recommendationTagsWrapper');
     for (let i = 0; i < 10; i++) {
         let lbl = document.createElement('label');
         let input = document.createElement('input');

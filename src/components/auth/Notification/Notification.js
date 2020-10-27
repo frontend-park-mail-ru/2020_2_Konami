@@ -17,4 +17,8 @@ export function displayNotification(text) {
     closeBtn.onclick = () => {
         app.removeChild(toasts);
     }
+
+    setTimeout(() => {
+        app.removeChild(toasts);
+    }, 4000);
 }

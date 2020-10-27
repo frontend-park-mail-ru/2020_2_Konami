@@ -11,6 +11,7 @@ import {
     closeTagsModalDialog,
     saveSelectedTags
 } from "../../../components/auth/SelectedTag/SelectedTag.js";
+import {displayNotification} from "../../../components/auth/Notification/Notification.js";
 
 import {
     REDIRECT,
@@ -41,7 +42,8 @@ export default class EditProfileView extends BaseView {
             },
 
             onEditSuccess: () => {
-                EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
+                displayNotification('Вы успешно отредактировали профиль')
+                EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
             },
 
             onSelectTags: () => {
@@ -115,7 +117,6 @@ export default class EditProfileView extends BaseView {
             submBtn.type = 'submit';
             submBtn.click();
             this.currentTab = 0;
-            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
         }
         this._showTab(this.currentTab);
     }
