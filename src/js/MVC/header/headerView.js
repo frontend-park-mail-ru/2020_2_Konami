@@ -5,7 +5,8 @@ import {createNavigation} from "../../../components/header/Navigation/navigation
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
-    LOGOUT_USER
+    LOGOUT_USER,
+    OPEN_LOGIN_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class HeaderView extends BaseView {
@@ -48,7 +49,8 @@ export default class HeaderView extends BaseView {
         createNavigation(this.parent);
 
         let icon = document.getElementById('profileIcon');
-        icon.dataset.section = 'profile';
+        icon.addEventListener('click', this._onProfileIconClick);
+        // icon.dataset.section = 'profile';
 
         icon = document.getElementById('newMeet');
         icon.dataset.section = 'newMeeting';
@@ -66,9 +68,13 @@ export default class HeaderView extends BaseView {
     }
 
     _updateHeader() {
+        const profileIcon = document.getElementById('profileIcon');
+        profileIcon.removeEventListener('click', this._onProfileIconClick);
+        profileIcon.dataset.section = 'profile';
+
         this._addExitLink();
-        const icon = document.getElementById('newMeet');
-        icon.style.display = 'block';
+        const newMeetIcon = document.getElementById('newMeet');
+        newMeetIcon.style.display = 'block';
     }
 
     _addExitLink() {
@@ -101,6 +107,10 @@ export default class HeaderView extends BaseView {
     }
 
     _downHeader() {
+        const profileIcon = document.getElementById('profileIcon');
+        profileIcon.addEventListener('click', this._onProfileIconClick);
+        profileIcon.removeAttribute('data-section');
+
         this._deleteExitLink();
         const icon = document.getElementById('newMeet');
         icon.style.display = 'none';
@@ -114,6 +124,10 @@ export default class HeaderView extends BaseView {
         header.removeChild(wrapperIcon);
 
         header.appendChild(icon);
+    }
+
+    _onProfileIconClick = () => {
+        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
     }
 
 }
