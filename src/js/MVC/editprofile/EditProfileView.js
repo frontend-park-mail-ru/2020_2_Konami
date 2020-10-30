@@ -3,7 +3,15 @@
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
+import {createEditProfileForm} from "../../utils/editprofile/EditProfileFormCreate.js";
 import {deleteIf} from "../../utils/validators/emptyFields.js";
+import {inputFileChangedEventListener} from "../../../components/auth/FileUploader/FileUploader.js";
+import {
+    addTagsModalDialogEventListener,
+    closeTagsModalDialog,
+    saveSelectedTags
+} from "../../../components/auth/SelectedTag/SelectedTag.js";
+import {displayNotification} from "../../../components/auth/Notification/Notification.js";
 
 import {
     REDIRECT,
@@ -34,11 +42,12 @@ export default class EditProfileView extends BaseView {
             },
 
             onEditSuccess: () => {
-                EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
+                displayNotification('Вы успешно отредактировали профиль')
+                EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
             },
 
             onSelectTags: () => {
-                this.model.saveSelectedTags();
+                saveSelectedTags();
             },
 
             onSubmitEditForm: (data) => {
@@ -49,7 +58,7 @@ export default class EditProfileView extends BaseView {
     }
 
     render() {
-        const form = createSignupEditProfileForm();
+        const form = createEditProfileForm();
         this.parent.appendChild(form);
 
         this._showTab(this.currentTab);
@@ -62,7 +71,7 @@ export default class EditProfileView extends BaseView {
             this.parent.removeChild(form);
         }
 
-        window.removeEventListener('click', this._closeSelectionTagsModal);
+        window.removeEventListener('click', closeTagsModalDialog);
     }
 
     registerEvents() {
@@ -108,7 +117,6 @@ export default class EditProfileView extends BaseView {
             submBtn.type = 'submit';
             submBtn.click();
             this.currentTab = 0;
-            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
         }
         this._showTab(this.currentTab);
     }
@@ -118,32 +126,14 @@ export default class EditProfileView extends BaseView {
         nextBtn.onclick = () => this._nextPrev(1);
         prevBtn.onclick = () => this._nextPrev(-1);
 
-        this._addInputFileChangeEventListeners();
         this._addSubmitFormEventListener();
-        this._addTagsModalDialogEventListener();
+
+        inputFileChangedEventListener();
+        inputFileChangedEventListener();
+        addTagsModalDialogEventListener();
+        window.addEventListener('click', closeTagsModalDialog);
     }
 
-    _addInputFileChangeEventListeners() {
-        const inputs = document.querySelectorAll( '.inputfile' );
-        Array.prototype.forEach.call( inputs, function( input ) {
-            let label	 = input.nextElementSibling,
-                labelVal = label.innerHTML;
-
-            input.addEventListener( 'change', function( e )
-            {
-                let fileName = '';
-                if( this.files && this.files.length > 1 )
-                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-                else
-                    fileName = e.target.value.split( '\\' ).pop();
-
-                if( fileName )
-                    label.querySelector( 'span' ).innerHTML = fileName;
-                else
-                    label.innerHTML = labelVal;
-            });
-        });
-    }
     _addSubmitFormEventListener() {
         const form = document.forms[0];
 
@@ -184,25 +174,5 @@ export default class EditProfileView extends BaseView {
             EventBus.dispatchEvent(SUBMIT_EDIT, {inputFields: bodyFields, photoFormData: formData, photos: photos});
 
         });
-    }
-
-    _addTagsModalDialogEventListener() {
-        let btn = document.getElementById("openModalBtn");
-        const modal = document.getElementById('modalTags');
-
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-        window.addEventListener('click', this._closeSelectionTagsModal);
-    }
-
-    _closeSelectionTagsModal = (evt) => {
-        const closeBtn = document.getElementsByClassName("close")[0];
-        const modal = document.getElementById('modalTags');
-
-        if (evt.target === modal || evt.target === closeBtn) {
-            modal.style.display = "none";
-            EventBus.dispatchEvent(SELECT_TAGS);
-        }
     }
 }

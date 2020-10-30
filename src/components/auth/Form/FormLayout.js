@@ -8,7 +8,7 @@ import {createBtn} from "../Button/button.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', name: 'login', required: 'true'}));
+        createInput({type: 'text', required: 'true', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
         createInput({type: 'password', name: 'password', required: 'true'}));
     const errorMessage = document.createElement('p');

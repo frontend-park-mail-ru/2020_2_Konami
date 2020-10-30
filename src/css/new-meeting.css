@@ -1,0 +1,189 @@
+.new-meet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+    /* max-width: 700px; */
+}
+
+.new-meet .col-1-3 {
+    width: 170px;
+}
+
+.new-meet fieldset {
+    border: 0 none;
+    max-width: 580px;
+}
+
+.new-meet label {
+    color: #648880;
+    cursor: pointer;
+    font-weight: 550;
+}
+
+.new-meet input,
+.new-meet button{
+    margin: 12px 10px 27px 0;
+    font-weight: 500;
+}
+
+
+.new-meet .leftcolumn input {
+    width: 90%;
+}
+
+
+body {
+    font-family: monospace, Helvetica, sans-serif;
+}
+
+label {
+    font-family: monospace, Helvetica, sans-serif;
+}
+
+.new-meet input {
+    height: 44px;
+    font-size: 15px;
+    padding: 0 10px;
+    font-family: monospace;
+    background: #f1f1f1;
+    border-radius: 3px;
+    border: none;
+    outline: 0;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.new-meet input:focus {
+    box-shadow: 0 0 0 1000px #edf8f6 inset,
+    0 0 0px 2px #edf8f6;
+    outline: none;
+}
+
+.new-meet .birthDay {
+    width: 68px;
+    text-align:center;
+    margin: 10px 10px 0px 0px;
+}
+
+.new-meet .time-input {
+    width: 100px;
+}
+
+
+.done:active {
+    background-color: #5bb862;
+}
+
+.new-meet textarea {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 38px;
+    padding: 0 11px;
+    margin: 0;
+    border-radius: 0;
+    border: 1px solid #cbd1d4;
+    font-size: 14px;
+    font-family: Arial,sans-serif;
+    color: #333;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #fff;
+    padding: 10px 11px;
+    height: 76px;
+    min-height: 48px;
+    vertical-align: top;
+    resize: vertical;
+}
+
+.new-meet .textarea-wrapper {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+    margin: 12px 10px 27px 0;
+}
+
+.new-meet .textarea-wrapper textarea {
+    padding-right: 38px;
+    /* width: 100%; */
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+
+input.invalid {
+    background-color: #ffdddd;
+}
+
+.new-meet .date {
+    display: flex;
+    justify-content: space-between;
+}
+
+.new-meet .date-block {
+    width: 260px;
+}
+
+.new-meet .meeting-poster {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+    margin: 8px 0;
+    border: 1px solid #f2f2f2;
+}
+
+.new-meet .meeting-poster {
+    max-width: 100%;
+    max-height: 400px;
+    display: block;
+    margin: 8px 0;
+    border: 1px solid #f2f2f2;
+}
+
+.new-meet .meeting-poster:focus + label,
+.new-meet .meeting-poster + label:hover {
+    background-color: #4caf50;
+}
+
+.new-meet .meeting-poster + label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+.new-meet .meeting-poster:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+.new-meet .meeting-poster + label {
+    color: #9cbdb6;
+    background-color: #f1f1f1;
+}
+
+.new-meet .meeting-poster + label {
+    /*max-width: 80%;*/
+    font-size: 1.15rem;
+    font-weight: 550;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    border-radius: 2px;
+    box-shadow: 0 0 0 2px #c7c6c6;
+    margin: 12px 10px 27px 0;
+    max-width: 220px;
+}
+
+.new-meet .recommendationTagsWrapper label {
+    font-weight: 500;
+}

@@ -1,9 +1,13 @@
 'use strict';
 
-import { 
-    createProfile 
+import {
+    createProfile
 } from "../../../components/profile/Profile/profileCreateFunc.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
+import EventBus from "../../services/EventBus/EventBus.js";
+import {
+    REDIRECT
+} from "../../services/EventBus/EventTypes.js";
 
 export default class ProfileView extends BaseView {
 
@@ -18,6 +22,8 @@ export default class ProfileView extends BaseView {
     render(data) {
         this._this = createProfile(data, this.model.getUserId() === data.id);
         this.parent.appendChild(this._this);
+
+        this._addEventListeners();
     }
     /**
      * Удаление модального окна со страницы
@@ -26,5 +32,12 @@ export default class ProfileView extends BaseView {
         if (this._this !== null) {
             this._this.remove();
         }
+    }
+
+    _addEventListeners() {
+        const goButton = this._this.getElementsByClassName('stdBtn')[0];
+        goButton.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
+        })
     }
 }

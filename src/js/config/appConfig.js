@@ -7,6 +7,10 @@ const appConfig = {
         text: 'Мероприятия',
         href: '/meetings',
     },
+    newMeeting: {
+        text: 'Мероприятия',
+        href: '/new-meeting',
+    },
     people: {
         text: 'Люди',
         href: '/people',

@@ -5,7 +5,8 @@ import {createNavigation} from "../../../components/header/Navigation/navigation
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
-    LOGOUT_USER
+    LOGOUT_USER,
+    OPEN_LOGIN_MODAL
 } from "../../services/EventBus/EventTypes.js";
 
 export default class HeaderView extends BaseView {
@@ -22,11 +23,11 @@ export default class HeaderView extends BaseView {
     _initEventHandlers() {
         this._eventHandlers = {
             onLoginedUser: () => {
-                this._addExitLink();
+                this._updateHeader();
             },
 
             onLogoutUser: () => {
-                this._deleteExitLink();
+                this._downHeader();
                 this.model.logout();
             }
         }
@@ -39,15 +40,21 @@ export default class HeaderView extends BaseView {
         <header class="header">
             <img src="assets/google.png" class="logo">
             <input type="search" placeholder="Люди, мероприятия" class="searchinput">
-            <img src="assets/pericon.svg" class="icon">
+            <img src="assets/add-meet.svg" id="newMeet" class="icon square">
+            <img src="assets/pericon.svg" id="profileIcon" class="icon">
         </header>
         `;
 
-        const icon = headerWrapper.getElementsByClassName('icon')[0];
-        icon.dataset.section = 'profile';
-
         this.parent.appendChild(headerWrapper.firstElementChild);
         createNavigation(this.parent);
+
+        let icon = document.getElementById('profileIcon');
+        icon.addEventListener('click', this._onProfileIconClick);
+        // icon.dataset.section = 'profile';
+
+        icon = document.getElementById('newMeet');
+        icon.dataset.section = 'newMeeting';
+        icon.style.display = 'none';
     }
 
     registerEvents() {
@@ -60,9 +67,20 @@ export default class HeaderView extends BaseView {
         EventBus.offEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
     }
 
+    _updateHeader() {
+        const profileIcon = document.getElementById('profileIcon');
+        profileIcon.removeEventListener('click', this._onProfileIconClick);
+        profileIcon.dataset.section = 'profile';
+
+        this._addExitLink();
+        const newMeetIcon = document.getElementById('newMeet');
+        newMeetIcon.style.display = 'block';
+    }
+
     _addExitLink() {
-        const icon = document.getElementsByClassName('icon')[0];
+        const icon = document.getElementById('profileIcon');
         const span = document.createElement('span');
+
         const signout = document.createElement('a');
         signout.textContent = 'Выйти';
         signout.dataset.section = 'meetings';
@@ -88,14 +106,28 @@ export default class HeaderView extends BaseView {
         });
     }
 
+    _downHeader() {
+        const profileIcon = document.getElementById('profileIcon');
+        profileIcon.addEventListener('click', this._onProfileIconClick);
+        profileIcon.removeAttribute('data-section');
+
+        this._deleteExitLink();
+        const icon = document.getElementById('newMeet');
+        icon.style.display = 'none';
+    }
+
     _deleteExitLink() {
-        const icon = document.getElementsByClassName('icon')[0];
+        const icon = document.getElementById('profileIcon');
         const wrapperIcon = document.getElementsByClassName('popup')[0];
 
         const header =document.getElementsByClassName('header')[0];
         header.removeChild(wrapperIcon);
 
         header.appendChild(icon);
+    }
+
+    _onProfileIconClick = () => {
+        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
     }
 
 }

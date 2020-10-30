@@ -1,10 +1,10 @@
 'use strict';
 
+import EventBus from "../../services/EventBus/EventBus.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import {createLoginFormLayout} from "../../../components/auth/Form/FormLayout.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import {closeLoginModal} from "../../utils/auth/authModalUtils.js";
+import {closeLoginModal} from "../../utils/auth-modal/authModalUtils.js";
 import {
     CLOSE_LOGIN_MODAL,
     INVALID_LOGIN,
@@ -77,7 +77,7 @@ export default class LoginView extends BaseView {
     }
 
     unRegisterEvents() {
-        EventBus.onEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
+        EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitLoginForm);
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginSuccess);
         EventBus.offEvent(INVALID_LOGIN, this._eventHandlers.onInvalidLoginOrPwd);
 

@@ -136,6 +136,30 @@ function postPhoto(data) {
         });
 }
 
+// function postTmpPhoto(data) {
+//     let statusCode
+//     return fetch('/api/tmpimages', {
+//         method: 'POST',
+//         credentials: 'include',
+//         body: data,
+//     }).then(
+//     (response) => {
+//         statusCode = response.status;
+//         return response.json();
+//     }).then(
+//     (parsedJson) => {
+//         return {
+//             statusCode: statusCode,
+//             body: parsedJson
+//         }
+//     }).catch(
+//         (error) => {
+//             return {
+//                 error: error
+//             };
+//         });
+// }
+
 const postLogin = async (login, password) => {
     return fetch('/api/login', {
         method: 'POST',
@@ -226,6 +250,28 @@ function postSignOut() {
         });
 }
 
+function postMeeting(fields) {
+    return fetch('/api/meeting', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        credentials: 'include',
+        body: JSON.stringify(fields),
+    }).then(
+        (response) => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(
+        (error) => {
+            console.log(error);
+            return {
+                error: error
+            };
+        });
+}
+
 export {
     postUser,
     getPeople,
@@ -238,4 +284,5 @@ export {
     getMe,
     postSignUp,
     postSignOut,
+    postMeeting
 };
