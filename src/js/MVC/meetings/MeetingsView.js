@@ -86,12 +86,13 @@ export default class MeetingsView extends BaseView {
             button.classList.add('meetingssettingbutton');
             button.innerHTML = obj.view;
             button.addEventListener('click', () => {
-                const p = {};
-                p[obj.param] = 'true';
                 if (this._cards === null) {
                     return;
                 }
                 this._cards.innerHTML = '';
+                
+                const p = {};
+                p[obj.param] = 'true';
                 getMeetings(p).then(obj => {
                     obj.parsedJson.forEach(item => {
                         const metCard = createMetCard(item);

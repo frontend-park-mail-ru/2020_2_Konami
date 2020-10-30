@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint \"src/**\""
+    "lint": "eslint \"src/**\"",
+    "build": "pug src/components/meet/MeetTemplate.pug -c -n MeetPageTemplate & pug src/components/cards/MetCard/MetCardTemplate.pug -c -n MetCardTemplate & pug src/components/cards/UserCard/UserCardTemplate.pug -c -n UserCardTemplate",
+    "clear": "rm src/components/meet/MeetTemplate.js & rm src/components/cards/MetCard/MetCardTemplate.js & rm src/components/cards/UserCard/UserCardTemplate.js"
   },
   "repository": {
     "type": "git",
