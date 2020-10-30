@@ -4,7 +4,7 @@ import { createMeetPage } from "../../../components/meet/Meet.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import { postMeet } from "../../services/API/api.js";
 import EventBus from "../../services/EventBus/EventBus.js";
-import { OPEN_LOGIN_MODAL, REDIRECT } from "../../services/EventBus/EventTypes.js";
+import { OPEN_LOGIN_MODAL } from "../../services/EventBus/EventTypes.js";
 
 export default class MeetView extends BaseView {
 
