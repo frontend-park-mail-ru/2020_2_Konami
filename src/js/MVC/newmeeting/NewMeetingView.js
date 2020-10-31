@@ -129,21 +129,13 @@ export default class NewMeetingView extends BaseView {
             let dayValue = document.getElementsByName('start-day')[0].value;
             let monthValue = document.getElementsByName('start-month')[0].value;
             let yearValue = document.getElementsByName('start-year')[0].value;
-            // if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
-            //     EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'start'});
-            //     return;
-            // }
-
-            // dayValue = document.getElementsByName('end-day')[0].value;
-            // monthValue = document.getElementsByName('end-month')[0].value;
-            // yearValue = document.getElementsByName('end-year')[0].value;
-            // if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
-            //     EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'end'});
-            //     return;
-            // }
 
             let timeValue = document.getElementsByName('start-time')[0].value;
             if (yearValue.length && monthValue.length && dayValue.length) {
+                if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
+                    EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'start'});
+                    return;
+                }
                 fieldMap.set('start', `${yearValue} - ${monthValue} - ${dayValue} : ${timeValue}`);
             }
 
@@ -152,6 +144,10 @@ export default class NewMeetingView extends BaseView {
             yearValue = document.getElementsByName('end-year')[0].value;
             timeValue = document.getElementsByName('end-time')[0].value;
             if (yearValue.length && monthValue.length && dayValue.length) {
+                if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
+                    EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'end'});
+                    return;
+                }
                 fieldMap.set('end', `${yearValue} - ${monthValue} - ${dayValue} : ${timeValue}`);
             }
 

@@ -5,6 +5,10 @@ import Validator from "../../services/Validator/Validator.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {
     PASSWORDS_MISMATCH,
+    INVALID_PWD_INPUT,
+    INVALID_LOGIN_INPUT,
+    INVALID_NAME_INPUT
+
 
 } from "../../services/EventBus/EventTypes.js";
 
@@ -35,24 +39,24 @@ export default class SignupModel {
         }
 
         // TODO (расскомменить потом)
-        // let tmpErrors = [];
-        // tmpErrors = this._validator.validatePassword(password);
-        // if (tmpErrors.length > 0) {
-        //     EventBus.dispatchEvent(INVALID_PWD_INPUT);
-        //     errors.push(...tmpErrors);
-        // }
-        //
-        // tmpErrors = this._validator.validateLogin(login);
-        // if (tmpErrors.length > 0) {
-        //     EventBus.dispatchEvent(INVALID_LOGIN_INPUT);
-        //     errors.push(...tmpErrors);
-        // }
-        //
-        // tmpErrors = this._validator.validateName(name);
-        // if (tmpErrors.length > 0) {
-        //     EventBus.dispatchEvent(INVALID_NAME_INPUT);
-        //     errors.push(...tmpErrors);
-        // }
+        let tmpErrors = [];
+        tmpErrors = this._validator.validatePassword(password);
+        if (tmpErrors.length > 0) {
+            EventBus.dispatchEvent(INVALID_PWD_INPUT);
+            errors.push(...tmpErrors);
+        }
+
+        tmpErrors = this._validator.validateLogin(login);
+        if (tmpErrors.length > 0) {
+            EventBus.dispatchEvent(INVALID_LOGIN_INPUT);
+            errors.push(...tmpErrors);
+        }
+
+        tmpErrors = this._validator.validateName(name);
+        if (tmpErrors.length > 0) {
+            EventBus.dispatchEvent(INVALID_NAME_INPUT);
+            errors.push(...tmpErrors);
+        }
 
         return errors;
     }

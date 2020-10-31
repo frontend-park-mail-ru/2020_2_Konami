@@ -1,21 +1,22 @@
 'use strict';
 
 import UserModel from "../../models/UserModel.js";
-import {createSelectedTag} from "../../../components/auth/SelectedTag/SelectedTag.js";
 import {isEmpty} from "../../utils/validators/emptyFields.js";
+import Validator from "../../services/Validator/Validator.js";
 
 
 export default class EditProfileModel {
 
     constructor() {
         this._user = UserModel.user;
+        this.validator = new Validator();
 
         this.allRecomendationTags = [];
         this.selectedRecomendationTags = [];
 
     }
 
-    finishEdit = (data) => {
+    finishEdit(data) {
         const {inputFields, photoFormData, photos} = data;
         (async () => {
                 if (!isEmpty(inputFields)) {

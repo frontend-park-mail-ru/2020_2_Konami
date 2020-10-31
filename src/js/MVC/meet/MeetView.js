@@ -1,6 +1,6 @@
 'use strict';
 
-import { createMeetPage } from "../../../components/meet/Meet.js";
+import { createMeetPage } from "../../../components/meet/meet.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import { postMeet } from "../../services/API/api.js";
 import EventBus from "../../services/EventBus/EventBus.js";
@@ -77,7 +77,7 @@ export default class MeetView extends BaseView {
                     EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
                 });
             }
-        }); 
+        });
 
     }
 

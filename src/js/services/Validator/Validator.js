@@ -2,7 +2,7 @@
 
 export default class Validator {
 
-     validatePassword = (input) => {
+     validatePassword(input) {
         const errors = [];
 
         if (!/[0-9]/.test(input)) {
@@ -21,9 +21,9 @@ export default class Validator {
         }
 
         return errors;
-    };
+    }
 
-     validateLogin = (input) => {
+     validateLogin(input) {
         const errors = [];
 
         if (!/^[a-zA-Zа-яА-я0-9_.-]*$/.test(input)) {
@@ -33,7 +33,7 @@ export default class Validator {
         return errors;
     }
 
-     validateName = (input) => {
+     validateName(input) {
         const errors = [];
 
         if (!/^[A-ZА-ЯЁ]/.test(input)) {
@@ -42,7 +42,7 @@ export default class Validator {
         return errors;
     }
 
-    isValidDate = (day, month, year) => {
+    isValidDate(day, month, year) {
         day = parseInt(day, 10);
         month = parseInt(month, 10);
         year = parseInt(year, 10);

@@ -28,7 +28,6 @@ import {
 import {
     createBtn
 } from "../../auth/Button/button.js";
-import {createSelectedTag} from "../../auth/SelectedTag/SelectedTag.js";
 
 
 function fillRightColumn(rightColumn, data) {
@@ -101,7 +100,9 @@ function fillRightColumn(rightColumn, data) {
     tagsWrapper.innerHTML = '';
 
     // TODO в отдельную функцию
-    const tags =  data.interestTags.map((tagValue) => {
+    let tags = []
+    if (data.interestTags !== undefined) {
+        tags =  data.interestTags.map((tagValue) => {
             let lbl = document.createElement('label');
             let input = document.createElement('input');
             input.classList.add('btnLike');
@@ -115,7 +116,8 @@ function fillRightColumn(rightColumn, data) {
             lbl.appendChild(span);
 
             return lbl;
-    });
+        });
+    }
     tagsWrapper.append(...tags);
 
     const editProfileBtn = createBtn('Изменить тэги', {classList: ['stdBtn', 'secondary', 'activable']});

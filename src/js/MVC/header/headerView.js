@@ -126,7 +126,7 @@ export default class HeaderView extends BaseView {
         header.appendChild(icon);
     }
 
-    _onProfileIconClick = () => {
+    _onProfileIconClick() {
         EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
     }
 
