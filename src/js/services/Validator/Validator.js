@@ -61,4 +61,11 @@ export default class Validator {
         return day > 0 && day <= monthLength[month - 1];
     }
 
+    isValidTime(hours, minutes) {
+        hours = parseInt(hours, 10);
+        minutes = parseInt(minutes, 10);
+
+        return hours >= 0 && hours <= 24 && minutes >= 0 && minutes <= 60;
+    }
+
 }

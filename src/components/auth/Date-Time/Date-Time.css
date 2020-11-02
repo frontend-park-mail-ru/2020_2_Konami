@@ -1,0 +1,9 @@
+.date-time {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.time-input {
+    width: 50px;
+}

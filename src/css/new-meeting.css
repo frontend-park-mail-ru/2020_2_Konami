@@ -23,6 +23,7 @@
     color: #648880;
     cursor: pointer;
     font-weight: 550;
+    margin: 0 0 20px 0px;
 }
 
 .new-meet input,
@@ -67,11 +68,7 @@ label {
 .new-meet .birthDay {
     width: 68px;
     text-align:center;
-    margin: 10px 10px 0px 0px;
-}
-
-.new-meet .time-input {
-    width: 100px;
+    margin: 10px 10px 10px 0px;
 }
 
 
