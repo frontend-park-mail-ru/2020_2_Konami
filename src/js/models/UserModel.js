@@ -6,9 +6,8 @@ import {
     LOGIN_SUCCESS,
     SIGNUP_SUCCESS,
     EDIT_SUCCESS,
-    UPDATE_PHOTO_SUCCESS,
     INVALID_LOGIN,
-    USER_ALREADY_EXISTS, LOGOUT_USER
+    USER_ALREADY_EXISTS,
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -33,7 +32,7 @@ class UserModel {
             return true;
         }
 
-        const {statusCode, body, error} = await getMe();
+        const {statusCode, body} = await getMe();
         if (statusCode === 200) {
             this.userId = body.userId;
             this._isAuthenticated = true;
@@ -43,7 +42,7 @@ class UserModel {
     }
 
     async login(login, password) {
-        const {statusCode, error} = await postLogin(login, password);
+        const {statusCode} = await postLogin(login, password);
         switch (statusCode) {
         case 400:
             EventBus.dispatchEvent(INVALID_LOGIN);
@@ -53,7 +52,7 @@ class UserModel {
             break;
         case 200:
             this._isAuthenticated = true;
-            const {statusCode, body, error} = await getMe();
+            const {statusCode, body} = await getMe();
             if (statusCode === 200) {
                 this.userId = body.userId;
                 EventBus.dispatchEvent(LOGIN_SUCCESS);
@@ -63,7 +62,7 @@ class UserModel {
     }
 
     async logout() {
-        const {statusCode, error} = await postSignOut();
+        const {statusCode} = await postSignOut();
         switch (statusCode) {
             case 200:
                 this.userId = null;
@@ -75,7 +74,7 @@ class UserModel {
     }
 
     async signup(name, login, password) {
-        const {statusCode, error} = await postSignUp(login, password);
+        const {statusCode} = await postSignUp(login, password);
         switch (statusCode) {
             case 409:
                 EventBus.dispatchEvent(USER_ALREADY_EXISTS);
@@ -87,7 +86,7 @@ class UserModel {
     }
 
     async edit(editFields) {
-        const {statusCode, error} = await postUser(editFields);
+        const {statusCode} = await postUser(editFields);
         switch (statusCode) {
             case 200:
                 EventBus.dispatchEvent(EDIT_SUCCESS, editFields);
@@ -96,7 +95,7 @@ class UserModel {
     }
 
     async updatePhoto(photoFormData) {
-        const {statusCode, error} = await postPhoto(photoFormData);
+        const {statusCode} = await postPhoto(photoFormData);
         switch (statusCode) {
             case 200:
                 // TODO (UPDATE_PHOTO_SUCCESS)

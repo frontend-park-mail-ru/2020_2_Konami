@@ -1,13 +1,13 @@
 .new-meet {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     justify-content: center;
-    margin: 0 auto;
-    /* max-width: 700px; */
+    margin: 50px auto 0;
+    max-width: 750px;
 }
 
 .new-meet .col-1-3 {
-    width: 170px;
+    width: 200px;
 }
 
 .new-meet fieldset {
@@ -15,10 +15,15 @@
     max-width: 580px;
 }
 
+.new-meet .rightcolumn, .leftcolumn {
+    max-width: 500px;
+}
+
 .new-meet label {
     color: #648880;
     cursor: pointer;
     font-weight: 550;
+    margin: 0 0 20px 0px;
 }
 
 .new-meet input,
@@ -63,11 +68,7 @@ label {
 .new-meet .birthDay {
     width: 68px;
     text-align:center;
-    margin: 10px 10px 0px 0px;
-}
-
-.new-meet .time-input {
-    width: 100px;
+    margin: 10px 10px 10px 0px;
 }
 
 
@@ -126,11 +127,12 @@ input.invalid {
 
 .new-meet .date {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
 .new-meet .date-block {
-    width: 260px;
+    /*width: 260px;*/
 }
 
 .new-meet .meeting-poster {

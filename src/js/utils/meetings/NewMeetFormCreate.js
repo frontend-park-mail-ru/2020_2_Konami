@@ -7,6 +7,7 @@ import {createInput} from "../../../components/auth/Input/Input.js";
 import {createTextArea} from "../../../components/auth/TextArea/TextArea.js";
 import {createFileUploaderWithImg} from "../../../components/auth/FileUploader/FileUploader.js";
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
+import {createDateTimeBlock} from "../../../components/auth/Date-Time/Date-Time.js";
 
 export function createNewMeetingForm() {
     const form = document.createElement('form');
@@ -54,7 +55,7 @@ export function createNewMeetingForm() {
 
 
     const nameInput = createLabeledElements('Название мероприятия', createInput(
-        {/*required: 'true',*/ type: 'text', name: 'name', maxLength: '50'}));
+        {required: 'true', type: 'text', name: 'name', maxLength: '50'}));
 
     const descriptionInput = createLabeledElements('Описание мероприятия', createTextArea(
         {/*required: 'true',*/ name: 'meet-description', maxLength: '500'}));
@@ -66,24 +67,24 @@ export function createNewMeetingForm() {
     const fileUploader = createFileUploaderWithImg('photoFileUploader', emptyMeetImg);
 
     const cityInput = createLabeledElements('Город',
-        createInput({/*required: 'true',*/ name: "city", maxLength: '30'}));
+        createInput({required: 'true', name: "city", maxLength: '30'}));
 
     const addressInput = createLabeledElements('Адрес проведения',
-        createInput({/*required: 'true',*/ name: "address", maxLength: '100'}));
+        createInput({required: 'true', name: "address", maxLength: '100'}));
 
-    const start = createLabeledElements('Начало',
-        createInput({/*required: 'true',*/ classList: ['birthDay'], name: 'start-day', placeholder: 'ДД', maxLength: '2'}),
-        createInput({/*required: 'true',*/classList: ['birthDay'], name: 'start-month', placeholder: 'ММ', maxLength: '2'}),
-        createInput({/*required: 'true',*/ classList: ['birthDay'], name: 'start-year', placeholder: 'ГГГГ', maxLength: '4'}),
-        createInput({/*required: 'true',*/ type: 'time', classList: ['time-input'], name: 'start-time'}));
-    start.querySelector('div').classList.add('date-block');
+    const start = createLabeledElements('Начало', createDateTimeBlock('start'));
+    //     createInput({required: 'true', classList: ['birthDay'], name: 'start-day', placeholder: 'ДД', maxLength: '2'}),
+    //     createInput({required: 'true',classList: ['birthDay'], name: 'start-month', placeholder: 'ММ', maxLength: '2'}),
+    //     createInput({required: 'true', classList: ['birthDay'], name: 'start-year', placeholder: 'ГГГГ', maxLength: '4'}),
+    //     createInput({required: 'true', type: 'time', classList: ['time-input'], name: 'start-time'}));
+    // start.querySelector('div').classList.add('date-block');
 
-    const end = createLabeledElements('Конец',
-        createInput({/*required: 'true',*/ classList: ['birthDay'], name: 'end-day', placeholder: 'ДД', maxLength: '2'}),
-        createInput({/*required: 'true',*/ classList: ['birthDay'], name: 'end-month', placeholder: 'ММ', maxLength: '2'}),
-        createInput({/*required: 'true',*/classList: ['birthDay'], name: 'end-year', placeholder: 'ГГГГ', maxLength: '4'}),
-        createInput({/*required: 'true',*/ type: 'time', classList: ['time-input'], name: 'end-time'}));
-    end.querySelector('div').classList.add('date-block');
+    const end = createLabeledElements('Конец', createDateTimeBlock('end'));
+    //     createInput({required: 'true', classList: ['birthDay'], name: 'end-day', placeholder: 'ДД', maxLength: '2'}),
+    //     createInput({required: 'true', classList: ['birthDay'], name: 'end-month', placeholder: 'ММ', maxLength: '2'}),
+    //     createInput({required: 'true',classList: ['birthDay'], name: 'end-year', placeholder: 'ГГГГ', maxLength: '4'}),
+    //     createInput({required: 'true', type: 'time', classList: ['time-input'], name: 'end-time'}));
+    // end.querySelector('div').classList.add('date-block');
 
     const dates = document.createElement('div');
     dates.classList.add('date');

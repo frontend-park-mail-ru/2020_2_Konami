@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseView from "../../basics/BaseView/BaseView.js";
-import {validateSignupInputForm} from "../../utils/validators/formValidators.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {createEditProfileForm} from "../../utils/editprofile/EditProfileFormCreate.js";
 import {deleteIf} from "../../utils/validators/emptyFields.js";
@@ -19,7 +18,7 @@ import {
     SELECT_TAGS,
     EDIT_SUCCESS,
     USER_NOT_AUTHORIZED,
-    OPEN_LOGIN_MODAL
+    OPEN_LOGIN_MODAL, INVALID_DATE_INPUT
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -52,7 +51,14 @@ export default class EditProfileView extends BaseView {
 
             onSubmitEditForm: (data) => {
                 this.model.finishEdit(data);
-            }
+            },
+
+            onInvalidDate: () => {
+                const day = document.getElementsByName('day')[0];
+                const month = document.getElementsByName('month')[0];
+                const year = document.getElementsByName('year')[0];
+                this._showInvalidInputs(day, month, year);
+            },
 
         }
     }
@@ -80,6 +86,7 @@ export default class EditProfileView extends BaseView {
         EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
+        EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
     }
 
     unRegisterEvents() {
@@ -88,6 +95,7 @@ export default class EditProfileView extends BaseView {
         EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
+        EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
     }
 
     _showTab(n) {
@@ -107,16 +115,16 @@ export default class EditProfileView extends BaseView {
 
     _nextPrev(n) {
         let x = document.getElementsByClassName("tab");
-        if (n === 1 && !validateSignupInputForm(this.currentTab)) {
-            return false;
-        }
+        // if (n === 1 && !validateSignupInputForm(this.currentTab)) {
+        //     return false;
+        // }
         x[this.currentTab].style.display = "none";
         this.currentTab = this.currentTab + n;
         if (this.currentTab >= x.length) {
             const submBtn = document.getElementById('nextBtn');
             submBtn.type = 'submit';
             submBtn.click();
-            this.currentTab = 0;
+            this.currentTab--;
         }
         this._showTab(this.currentTab);
     }
@@ -161,6 +169,10 @@ export default class EditProfileView extends BaseView {
             }));
 
             if (yearValue.length && monthValue.length && dayValue.length) {
+                if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
+                    EventBus.dispatchEvent(INVALID_DATE_INPUT);
+                    return;
+                }
                 fieldMap.set('birthday', `${yearValue} - ${monthValue} - ${dayValue}`);
             }
 
@@ -174,5 +186,15 @@ export default class EditProfileView extends BaseView {
             EventBus.dispatchEvent(SUBMIT_EDIT, {inputFields: bodyFields, photoFormData: formData, photos: photos});
 
         });
+    }
+
+    _showInvalidInputs() {
+        const inputs = [...arguments];
+        inputs.forEach((input) => {
+            input.classList.add('invalid');
+            setTimeout(() => {
+                input.classList.toggle('invalid');
+            }, 4000);
+        })
     }
 }

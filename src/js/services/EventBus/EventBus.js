@@ -7,8 +7,6 @@ class EventBus {
     /**
      * listeners[evt] = Array of callbacks
      */
-    listeners = {}
-
     constructor() {
         this.listeners = {}
     }

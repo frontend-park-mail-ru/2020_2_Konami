@@ -17,6 +17,7 @@ import {
     SUBMIT_CREATE_MEET,
     CREATE_MEETING_SUCCESS,
     INVALID_DATE_INPUT,
+    INVALID_TIME_INPUT,
     BIG_FILE_SIZE
 } from "../../services/EventBus/EventTypes.js";
 
@@ -43,6 +44,13 @@ export default class NewMeetingView extends BaseView {
                 const month = document.getElementsByName(`${prefix}-month`)[0];
                 const year = document.getElementsByName(`${prefix}-year`)[0];
                 this._showInvalidInputs(day, month, year);
+            },
+
+            onInvalidTime: (data) => {
+                const {prefix} = data;
+                const h = document.getElementsByName(`${prefix}-hours`)[0];
+                const m = document.getElementsByName(`${prefix}-minutes`)[0];
+                this._showInvalidInputs(h, m);
             },
 
             onInvalidFile: () => {
@@ -87,6 +95,7 @@ export default class NewMeetingView extends BaseView {
         EventBus.onEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.onEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
+        EventBus.onEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
         EventBus.onEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
 
     }
@@ -97,6 +106,7 @@ export default class NewMeetingView extends BaseView {
         EventBus.offEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
+        EventBus.offEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
         EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
 
     }
@@ -129,30 +139,36 @@ export default class NewMeetingView extends BaseView {
             let dayValue = document.getElementsByName('start-day')[0].value;
             let monthValue = document.getElementsByName('start-month')[0].value;
             let yearValue = document.getElementsByName('start-year')[0].value;
-            // if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
-            //     EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'start'});
-            //     return;
-            // }
 
-            // dayValue = document.getElementsByName('end-day')[0].value;
-            // monthValue = document.getElementsByName('end-month')[0].value;
-            // yearValue = document.getElementsByName('end-year')[0].value;
-            // if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
-            //     EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'end'});
-            //     return;
-            // }
-
-            let timeValue = document.getElementsByName('start-time')[0].value;
+            let hoursValue = document.getElementsByName('start-hours')[0].value;
+            let minutesValue = document.getElementsByName('start-minutes')[0].value;
             if (yearValue.length && monthValue.length && dayValue.length) {
-                fieldMap.set('start', `${yearValue} - ${monthValue} - ${dayValue} : ${timeValue}`);
+                if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
+                    EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'start'});
+                    return;
+                }
+                if (!this.model.validator.isValidTime(hoursValue, minutesValue)) {
+                    EventBus.dispatchEvent(INVALID_TIME_INPUT, {prefix: 'start'});
+                    return;
+                }
+                fieldMap.set('start', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
             }
 
             dayValue = document.getElementsByName('end-day')[0].value;
             monthValue = document.getElementsByName('end-month')[0].value;
             yearValue = document.getElementsByName('end-year')[0].value;
-            timeValue = document.getElementsByName('end-time')[0].value;
+            hoursValue = document.getElementsByName('end-hours')[0].value;
+            minutesValue = document.getElementsByName('end-minutes')[0].value;
             if (yearValue.length && monthValue.length && dayValue.length) {
-                fieldMap.set('end', `${yearValue} - ${monthValue} - ${dayValue} : ${timeValue}`);
+                if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
+                    EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'end'});
+                    return;
+                }
+                if (!this.model.validator.isValidTime(hoursValue, minutesValue)) {
+                    EventBus.dispatchEvent(INVALID_TIME_INPUT, {prefix: 'end'});
+                    return;
+                }
+                fieldMap.set('end', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
             }
 
 

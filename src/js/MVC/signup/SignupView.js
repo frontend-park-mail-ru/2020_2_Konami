@@ -8,7 +8,6 @@ import {closeSignupModal} from "../../utils/auth-modal/authModalUtils.js";
 import {displayNotification} from "../../../components/auth/Notification/Notification.js";
 
 import {
-    LOGIN_SUCCESS,
     REDIRECT,
     SUBMIT_LOGIN,
     SUBMIT_SIGNUP,

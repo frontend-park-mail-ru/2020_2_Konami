@@ -120,39 +120,39 @@ function createTab1() {
     return tab2;
 }
 
-function createTab3() {
-    const tab3 = document.createElement('div');
-    tab3.classList.add('tab');
-
-    const rowsLbls = {'Ключевые навыки' : 'skills',
-        'Основные интересы' : 'interests',
-        'Цели' : 'goals'};
-    let rows = [];
-    Object.keys(rowsLbls).forEach((lbl) => {
-        let persInfoRow = document.createElement('div');
-        persInfoRow.classList.add('pers-info-row');
-
-        let textArea = document.createElement('textarea');
-        textArea.name = rowsLbls[lbl];
-        textArea.maxLength = 300;
-
-        let textAreaWrapper = document.createElement('span');
-        textAreaWrapper.appendChild(textArea);
-        textAreaWrapper.classList.add('textarea-wrapper');
-
-        persInfoRow.appendChild(createLabeledElements(lbl, textAreaWrapper));
-        rows.push(persInfoRow);
-    });
-
-    const persInfoBlock = createColumn({classList: ['signup', 'pers-info-block']}, ...rows);
-
-    tab3.appendChild(
-        createLineSeparator('Вы можете указать дополнительную информацию о себе (необязательно)',
-            {classList: ['signup']})
-    );
-    tab3.appendChild(persInfoBlock);
-    return tab3;
-}
+// function createTab3() {
+//     const tab3 = document.createElement('div');
+//     tab3.classList.add('tab');
+//
+//     const rowsLbls = {'Ключевые навыки' : 'skills',
+//         'Основные интересы' : 'interests',
+//         'Цели' : 'goals'};
+//     let rows = [];
+//     Object.keys(rowsLbls).forEach((lbl) => {
+//         let persInfoRow = document.createElement('div');
+//         persInfoRow.classList.add('pers-info-row');
+//
+//         let textArea = document.createElement('textarea');
+//         textArea.name = rowsLbls[lbl];
+//         textArea.maxLength = 300;
+//
+//         let textAreaWrapper = document.createElement('span');
+//         textAreaWrapper.appendChild(textArea);
+//         textAreaWrapper.classList.add('textarea-wrapper');
+//
+//         persInfoRow.appendChild(createLabeledElements(lbl, textAreaWrapper));
+//         rows.push(persInfoRow);
+//     });
+//
+//     const persInfoBlock = createColumn({classList: ['signup', 'pers-info-block']}, ...rows);
+//
+//     tab3.appendChild(
+//         createLineSeparator('Вы можете указать дополнительную информацию о себе (необязательно)',
+//             {classList: ['signup']})
+//     );
+//     tab3.appendChild(persInfoBlock);
+//     return tab3;
+// }
 
 function createButtonsBlock() {
     const signupBtnBlock = document.createElement('div')
