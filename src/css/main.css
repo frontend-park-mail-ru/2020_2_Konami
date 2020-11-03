@@ -5,7 +5,8 @@
     flex-direction: column;
 
     max-width: 1300px;
-    min-width: 400px;
+    min-width: 430px;
+
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
 }

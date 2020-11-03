@@ -3,6 +3,7 @@
 .profile {
     display: flex;
     flex-wrap: wrap;
+    min-width: 430px;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
 }

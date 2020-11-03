@@ -27,9 +27,7 @@
 .header {
     display: flex;
     align-items: center;
-
-    margin: 0 auto;
-    min-width: 350px;
+    min-width: 430px;
 
     font-family: 'Roboto', sans-serif;
 }

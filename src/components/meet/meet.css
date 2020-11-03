@@ -1,5 +1,7 @@
 .meet__main {
     max-width: 1140px;
+    min-width: 430px;
+
     margin: 0 auto 0 auto;
     font-family: 'Roboto', sans-serif;
 }
