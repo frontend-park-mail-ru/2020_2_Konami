@@ -14,6 +14,18 @@ import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
 
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+            console.log('sw registration on scope:', registration.scope);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+}
+
+
 (() => {
     const application = document.getElementById('app');
 

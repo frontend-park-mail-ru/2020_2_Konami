@@ -1,4 +1,6 @@
-.metcard {
+@import url('../CardChips/Chips.css');
+
+.meetcard {
     position: relative;
 
     display: flex;
@@ -10,28 +12,32 @@
     height: 300px;
     width: 400px;
 
-    margin: 15px;
-
     cursor: pointer;
 }
 
-div.metcard > *:last-child {
-    margin-top: -10px;
+.meetcard_margin {
+    margin: 15px;
 }
 
-.metcard h3,
-.metcard h4 {
+.meetcard__title {
     z-index: 2;
     color: white;
     margin-left: 20px;
 }
 
-.metcard h4 {
-    margin-top: auto;
-    margin-bottom: 20px;
+.meetcard__place {
+    z-index: 2;
+    color: white;
+    margin: auto 0 0 20px;
 }
 
-.metimg {
+.meetcard__date {
+    z-index: 2;
+    color: white;
+    margin: 5px 0 20px 20px;
+}
+
+.meetcard__image {
     position: absolute;
 
     height: 100%;
@@ -46,7 +52,7 @@ div.metcard > *:last-child {
     z-index: 1;
 }
 
-.swimblock {
+.meetcard__swimblock {
     position: absolute;
     
     display: flex;
@@ -67,10 +73,18 @@ div.metcard > *:last-child {
     transition: all 0.5s;
 }
 
-.swimblock > * {
+.meetcard__swimblock_top {
+    z-index: 3;
+}
+
+.meetcard__text {
     margin: 15px;
 }
 
-.swimblock:hover {
+.meetcard__tags_margin {
+    margin: 15px;
+}
+
+.meetcard__swimblock:hover {
     opacity: 1;
 }

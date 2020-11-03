@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint \"src/**\"",
-    "build": "pug src/components/meet/MeetTemplate.pug -c -n MeetPageTemplate & pug src/components/cards/MetCard/MetCardTemplate.pug -c -n MetCardTemplate & pug src/components/cards/UserCard/UserCardTemplate.pug -c -n UserCardTemplate",
-    "clear": "rm src/components/meet/MeetTemplate.js & rm src/components/cards/MetCard/MetCardTemplate.js & rm src/components/cards/UserCard/UserCardTemplate.js"
+    "build": "pug src/components/meet/MeetTemplate.pug -c -n MeetPageTemplate & pug src/components/cards/MetCard/MetCardTemplate.pug -c -n MetCardTemplate & pug src/components/cards/UserCard/UserCardTemplate.pug -c -n UserCardTemplate & pug src/components/profile/ProfileTemplate.pug -c -n ProfilePageTemplate",
+    "clear": "rm src/components/meet/MeetTemplate.js & rm src/components/cards/MetCard/MetCardTemplate.js & rm src/components/cards/UserCard/UserCardTemplate.js & rm src/components/profile/ProfileTemplate.js"
   },
   "repository": {
     "type": "git",

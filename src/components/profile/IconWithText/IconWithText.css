@@ -1,5 +1,33 @@
-.iconwithtext {
+.icon-with-text__link {
+    text-decoration: none;
+    color: black
+}
+
+.icon-with-text {
     display: flex;
     align-items: center;
     margin: 5px 0 5px 0;
+}
+
+.icon-with-text__editicon {
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    
+    cursor: pointer;
+}
+
+.icon-with-text__editicon:hover {
+    width: 25px;
+    height: 25px;
+}
+
+.icon-with-text__mainicon {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+
+.bold {
+    font-weight: bolder;
 }

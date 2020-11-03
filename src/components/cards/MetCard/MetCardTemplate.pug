@@ -1,10 +1,10 @@
-div(class='metcard' id=id)
-    img(src=imgSrc class='metimg')
-    div(class='swimblock top')
-        span #{text}
-        div(class='tags')
+div(class='meetcard meetcard_margin' id=id)
+    img(src=imgSrc class='meetcard__image')
+    div(class='meetcard__swimblock meetcard__swimblock_top')
+        span(class='meetcard__text') #{text}
+        div(class='tags meetcard__tags_margin')
             each val, index in tags
-                span(class='chips')= val
-    h3 #{title}
-    h4 #{place}
-    h4 #{dateStr}
+                span(class='tags__chips')= val
+    h3(class='meetcard__title') #{title}
+    h4(class='meetcard__place') #{place}
+    h4(class='meetcard__date') #{dateStr}

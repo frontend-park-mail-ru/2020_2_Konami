@@ -1,52 +1,39 @@
-.profilemain {
+@import url('IconWithText/IconWithText.css');
+
+.profile {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     font-family: 'Roboto', sans-serif;
 }
 
-.leftcolumn,
-.rightcolumn {
-    max-width: 400px;
+.profile__leftcolumn,
+.profile__rightcolumn {
+    flex: 0 0 400px;
+    margin: 20px 0 20px 20px;
 }
 
-.leftcolumn {
-    margin: 20px 20px 10px auto;
-}
-
-.rightcolumn {
-    margin: 0 auto 20px 0;
-}
-
-.avatar {
+.profile__avatar {
     border-radius: 10px;
     width: 400px;
     height: 300px;
     object-fit:cover;
 }
 
-.socialnetworks {
+.profile__socialnetworks {
     display: flex;
     flex-direction: column;
 }
 
-.meetings {
+.profile__meetings {
     display: flex;
     flex-direction: column;
     margin-left: 20px;
 }
 
-.rightcolumn {
+.profile__title {
     display: flex;
-    flex-direction: column;
-}
-
-.margin10 {
-    margin-bottom: 10px;
-}
-
-.editicon:hover {
-    width: 25px;
-    height: 25px;
+    margin-bottom: 15px;
 }
 
 .block {
@@ -84,13 +71,13 @@
     animation: fadeIn 0.5s;
 }
 
-.avatarwraper {
+.profile__avatar-wrapper {
     position: relative;
     width: 400px;
     height: 300px;
 }
 
-.layout {
+.profile__avatar-layout {
     position: absolute;
 
     display: flex;
@@ -108,11 +95,11 @@
     opacity: 0;
 }
 
-.layout:hover {
+.profile__avatar-layout:hover {
     opacity: 1;
 }
 
-.profilemain button {
+.button {
     width: 150px;
     margin: 20px 10px 0px;
 }

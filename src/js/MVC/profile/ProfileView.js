@@ -2,7 +2,7 @@
 
 import {
     createProfile
-} from "../../../components/profile/Profile/profileCreateFunc.js";
+} from "../../../components/profile/CreateProfile.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import {

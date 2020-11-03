@@ -19,8 +19,8 @@ export default class MeetView extends BaseView {
         this._this = createMeetPage(data);
         this.parent.appendChild(this._this);
 
-        const likeIcon = this._this.getElementsByClassName('likeicon')[0];
-        const goButton = this._this.getElementsByClassName('gobutton')[0];
+        const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
+        const goButton = this._this.getElementsByClassName('meet__go-button')[0];
 
         this.model.checkAuth().then(isAuth => {
             if (isAuth) {

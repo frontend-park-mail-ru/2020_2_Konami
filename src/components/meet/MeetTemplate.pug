@@ -1,25 +1,24 @@
-main(class='meetmain')
-    div(class='meethead')
-        div(class='meetheadleft')
-            h1(class="meettitle") #{title}
-            span(class='meetdateplace') #{place}, #{dateStr}
-        div(class='meetheadright')
+main(class='meet__main')
+    div(class='meet__head')
+        div(class='meet__leftcolumn')
+            h1(class="meet__title") #{title}
+            span(class='meet__dateplace') #{place}, #{dateStr}
+        div(class='meet__rightcolumn')
             if reg
-                button(class='gobutton') Отменить поход
+                button(class='meet__go-button') Отменить поход
             else
-                button(class='gobutton') Пойти
-            div(class='likeicon')
+                button(class='meet__go-button') Пойти
+            div(class='meet__like-icon')
                 if like 
                     img(src='../../assets/like.svg')
                 else 
                     img(src='../../assets/heart.svg')
-    img(class='meetbigimg' src=imgSrc)
-    div(class='meetbottom')
-        div(class='meetbottomleft')
-            h1(class='aboutitile') #{title}
+    img(class='meet__image' src=imgSrc)
+    div(class='meet__bottom')
+        div(class='meet__leftcolumn_bottom')
+            h1(class='meet__about-titile') #{title}
             span #{text}
-        div(class='verticalseparator')
+        div(class='meet__vertical-separator')
+        div(class='meet__rightcolumn_bottom')
             each val, index in tags
-                span(class='meettag')= val
-            
-            
+                span(class='meet-tag meet-tag_margin5')= val

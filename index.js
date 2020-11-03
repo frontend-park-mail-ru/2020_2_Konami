@@ -175,7 +175,7 @@ const usersProfiles = {
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
                 in voluptate velit esse cillum `,
-        interestTags: ['Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей'],
+        interestTags: ['Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 

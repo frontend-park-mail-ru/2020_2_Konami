@@ -8,6 +8,10 @@ import {
     REDIRECT 
 } from "../../services/EventBus/EventTypes.js";
 
+import {
+    createSettings
+} from "../../../components/settings/settings.js";
+
 export default class MeetingsView extends BaseView {
 
     constructor(parent, model) {
@@ -23,7 +27,7 @@ export default class MeetingsView extends BaseView {
             }, 
             {
                 view: 'Избранное',
-                param: 'favotites'
+                param: 'favorites'
             },
             {
                 view: 'Сегодня',
@@ -60,7 +64,7 @@ export default class MeetingsView extends BaseView {
         main.appendChild(this._createSettings(this._settingsButton));
 
         const cardWrapper = document.createElement('div');
-        cardWrapper.classList.add('cardwrapper');
+        cardWrapper.classList.add('card-wrapper');
         main.appendChild(cardWrapper);
 
         this._this = main;
@@ -74,40 +78,38 @@ export default class MeetingsView extends BaseView {
 
             cardWrapper.appendChild(metCard);
         });
-
     }
 
-    _createSettings(config) {
-        const settings = document.createElement('div');
-        settings.classList.add('meetingssettings');
+    _createSettings() {
+        const settings = createSettings(this._settingsButton, (param) => {
+            if (this._cards === null) {
+                return;
+            }
+            this._cards.innerHTML = '';
+            
+            const p = {};
+            p[param] = 'true';
     
-        config.forEach(obj => {
-            const button = document.createElement('button');
-            button.classList.add('meetingssettingbutton');
-            button.innerHTML = obj.view;
-            button.addEventListener('click', () => {
-                if (this._cards === null) {
-                    return;
-                }
-                this._cards.innerHTML = '';
-                
-                const p = {};
-                p[obj.param] = 'true';
-                getMeetings(p).then(obj => {
-                    obj.parsedJson.forEach(item => {
-                        const metCard = createMetCard(item);
-                        metCard.addEventListener('click', () => {
-                            EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
-                        });
-                        if (this._cards !== null) {
-                            this._cards.appendChild(metCard);
-                        }
+            getMeetings(p).then(obj => {
+                obj.parsedJson.forEach(item => {
+                    const metCard = createMetCard(item);
+                    metCard.addEventListener('click', () => {
+                        EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
                     });
+                    if (this._cards !== null) {
+                        this._cards.appendChild(metCard);
+                    }
                 });
             });
-            settings.appendChild(button);
         });
-    
+
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                settings.getElementsByClassName('mymeetings')[0].remove();
+                settings.getElementsByClassName('favorites')[0].remove();
+            }
+        });
+
         return settings;
     }
 

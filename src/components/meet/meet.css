@@ -1,11 +1,10 @@
-.meetmain {
+.meet__main {
     max-width: 1140px;
-    min-width: 500px;
     margin: 0 auto 0 auto;
     font-family: 'Roboto', sans-serif;
 }
 
-.meetbigimg {
+.meet__image {
     width: 100%;
     height: 500px;
     object-fit:cover;
@@ -13,27 +12,27 @@
     border-radius: 10px;
 }
 
-.meettitle {
+.meet__title {
     margin-bottom: 5px;
 }
 
-.meethead {
+.meet__head {
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.meetheadleft {
+.meet__leftcolumn {
     margin-right: auto;
 }
 
-.meetheadright {
+.meet__rightcolumn {
     display: flex;
     flex-direction: row;
 }
 
-.likeicon {
+.meet__like-icon {
     width: 24px;
     height: 24px;
     border: 2px solid black;
@@ -42,11 +41,11 @@
     cursor: pointer;
 }
 
-.likeicon:hover {
+.meet__like-icon:hover {
     background: #f1f1f1; 
 }
 
-.gobutton {
+.meet__go-button {
     height: 50px;
     width: 130px;
     font-size: 15px;
@@ -60,50 +59,51 @@
     cursor: pointer;
 }
 
-.gobutton:hover {
+.meet__go-button:hover {
     background: #f1f1f1;
 }
 
-.meetbottom {
+.meet__bottom {
     display: flex;
     flex-direction: row;
     margin: 20px 0 50px 0;
 }
 
-.meetbottomleft {
+.meet__leftcolumn_bottom {
     display: flex;
     flex-direction: column;
     margin-right: auto;
-    width: 70%;
+    flex: 1 1 70%;
 }
 
-.meetbottomright {
+.meet__rightcolumn_bottom {
     display: flex;
-    flex-direction: row-reverse;
     flex-wrap: wrap;
-    width: 30%;
+    flex: 1 1 30%;
 }
 
-.meettag {
+.meet-tag {
     display: flex;
     align-items: center;
     justify-content: center;
 
     height: 20px;
     width: 100px;
+
     border: 2px solid black;
     border-radius: 5px;
     padding: 11px;
-    cursor: pointer;
+}
 
+.meet-tag_margin5 {
     margin: 5px;
 }
 
-.abouttitle {
+.meet__about-title {
     margin-top: 0px;
 }
 
-.verticalseparator {
+.meet__vertical-separator {
     border-left: 2px solid black;
     height: auto;
     margin: 0 auto 0 auto;

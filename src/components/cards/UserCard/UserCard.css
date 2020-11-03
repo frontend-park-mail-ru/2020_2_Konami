@@ -1,3 +1,5 @@
+@import url('../CardChips/Chips.css');
+
 .usercard {
     display: flex;
     flex-direction: column;
@@ -5,28 +7,53 @@
 
     position: relative;
 
-    margin: 10px;
-
     height: 400px;
     width: 250px;
 
     cursor: pointer;
 }
 
-.wraper {
+.usercard_margin {
+    margin: 10px;
+}
+
+.usercard__maincontent {
     margin: 0 0 10px 10px
 }
 
-.usercard h3, 
-.usercard h2, 
-.usercard span {
+.usercard__maincontent_top {
+    z-index: 3;
+}
+
+.usercard__name {
     color: white;
 
     margin-left: 5px;
     margin-bottom: 0px;
 }
 
-.overlay {
+.usercard__job {
+    color: white;
+
+    margin-left: 5px;
+    margin-bottom: 0px; 
+}
+
+.usercard__interestings {
+    color: white;
+
+    margin-left: 5px;
+    margin-bottom: 0px;
+}
+
+.usercard__skills {
+    color: white;
+
+    margin-left: 5px;
+    margin-bottom: 0px; 
+}
+
+.usercard__overlay {
     position: absolute;
     border-radius: 10px;
 
@@ -39,7 +66,7 @@
     object-fit: cover;
 }
 
-.overlay:hover {
+.usercard__overlay:hover {
     background: linear-gradient(to top, rgba(0, 0, 0, 1) 25%, rgba(255, 255, 255, 0.1) 100%);
     box-shadow: 1px 2px 10px 0px grey;
 }

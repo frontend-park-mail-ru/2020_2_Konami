@@ -1,15 +1,14 @@
-div(class='usercard' id=id)
-    img(src=imgSrc class='overlay')
-    div(class='overlay')
-    div(class='wraper top')
-        h2 #{name}
-        span #{job}
-        h3 Интересы
+div(class='usercard usercard_margin' id=id)
+    img(src=imgSrc class='usercard__overlay')
+    div(class='usercard__overlay')
+    div(class='usercard__maincontent usercard__maincontent_top')
+        h2(class='usercard__name') #{name}
+        span(class='usercard__job') #{job}
+        h3(class='usercard__interestings') Интересы
         div(class='tags')
             each val, index in interestTags
-                span(class='chips')= val
-        h3 Навыки
+                span(class='tags__chips')= val
+        h3(class='usercard__skills') Навыки
         div(class='tags')
             each val, index in skillTags
-                span(class='chips')= val
-        
+                span(class='tags__chips')= val
