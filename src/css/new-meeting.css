@@ -3,6 +3,8 @@
     flex-wrap: wrap-reverse;
     justify-content: center;
     margin: 50px auto 0;
+
+    min-width: 430px;
     max-width: 750px;
 }
 
