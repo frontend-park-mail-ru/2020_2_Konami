@@ -8,7 +8,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.navpoint {
+.navigation__choose-link {
     margin: 0 10px 0 10px;
     border-radius: 100px;
     padding: 5px 10px 5px 10px;
@@ -19,11 +19,11 @@
     cursor: pointer;
 }
 
-.navpoint:hover {
+.navigation__choose-link:hover {
     background-color: rgba(51, 51, 51, 0.1);
 }
 
-.navpoint:focus {
+.navigation__choose-link:focus {
     background-color: rgba(51, 51, 51, 0.2);
 }
 

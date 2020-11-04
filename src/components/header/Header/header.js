@@ -7,7 +7,7 @@ export function createHeader(application) {
     headerWrapper.innerHTML = `
         <header class="header">
             <img src="assets/google.png" class="logo">
-            <input type="search" placeholder="Люди, мероприятия" class="searchinput">
+            <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
             <img src="assets/pericon.svg" class="icon">
         </header>
     `;

@@ -4,6 +4,9 @@
     display: flex;
     flex-wrap: wrap;
     min-width: 430px;
+    
+    margin-top: 40px;
+    padding: 5px;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
 }
@@ -11,7 +14,7 @@
 .profile__leftcolumn,
 .profile__rightcolumn {
     flex: 0 0 400px;
-    margin: 20px 0 20px 20px;
+    margin: 10px;
 }
 
 .profile__avatar {
@@ -98,6 +101,39 @@
 
 .profile__avatar-layout:hover {
     opacity: 1;
+}
+
+.profile__file-chooser {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.profile__file-label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+
+    display: inline-block;
+}
+
+.profile__save-button {
+    padding: 10px 16px;
+
+    font-size: 15px;
+    
+    margin: 10px;
+    border: none;
+    outline: none;
+
+    box-shadow: 1px 2px 10px 0px #aaaaaa;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
 }
 
 .button {
