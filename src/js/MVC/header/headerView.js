@@ -38,7 +38,7 @@ export default class HeaderView extends BaseView {
         const headerWrapper = document.createElement('div');
         headerWrapper.innerHTML = `
         <header class="header">
-            <img src="assets/google.png" class="header__logo">
+            <img src="assets/google.png" data-section="meetings" class="header__logo">
             <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
             <img src="assets/add-meet.svg" id="newMeet" class="header__icon icon square">
             <img src="assets/pericon.svg" id="profileIcon" class="header__icon icon">
