@@ -1,11 +1,11 @@
 import EventBus from "../../../js/services/EventBus/EventBus.js";
 import {SELECT_TAGS} from "../../../js/services/EventBus/EventTypes.js";
 
-export function createSelectedTag(value) {
+export function createSelectedTag(tagBtnLikeInput) {
     const tag = document.createElement('div');
     tag.classList.add('selectedTag');
 
-    tag.textContent = value;
+    tag.textContent = tagBtnLikeInput.value;
 
     const closeBtnWrapper = document.createElement('div');
     closeBtnWrapper.classList.add('closeWrapper');
@@ -13,6 +13,12 @@ export function createSelectedTag(value) {
     span.classList.add('close');
     span.textContent = '×';  // delete tag btn
     span.onclick = () => {
+        // const tagLbl = tagBtnLikeInput.parentElement;
+        // tagLbl.removeChild(tagBtnLikeInput);
+        if (tagBtnLikeInput.checked) {
+            tagBtnLikeInput.click();
+        }
+
         const parent = document.getElementsByClassName('selectedTagsWrapper')[0];
         parent.removeChild(tag);
     }
@@ -28,14 +34,14 @@ export const saveSelectedTags = () => {
     const selectedRecomendationTags = []
     tags.forEach((tag) => {
         if (tag.checked) {
-            selectedRecomendationTags.push(tag.value);
+            selectedRecomendationTags.push(tag);
         }
     });
 
     const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
     selectedTagsBlock.innerHTML = '';
 
-    const selectedTags =  selectedRecomendationTags.map((tagValue) => createSelectedTag(tagValue));
+    const selectedTags =  selectedRecomendationTags.map((tagBtnLikeInput) => createSelectedTag(tagBtnLikeInput));
     selectedTagsBlock.append(...selectedTags);
 }
 
@@ -50,10 +56,11 @@ export function addTagsModalDialogEventListener() {
 }
 
 export function closeTagsModalDialog(evt) {
-    const closeBtn = document.getElementsByClassName("close")[0];
+    const closeBtn1 = document.getElementsByClassName("close")[0];
+    const closeBtn2 = document.getElementById("closeTagsModal");
     const modal = document.getElementById('modalTags');
 
-    if (evt.target === modal || evt.target === closeBtn) {
+    if (evt.target === modal || evt.target === closeBtn1 || evt.target === closeBtn2) {
         modal.style.display = "none";
         EventBus.dispatchEvent(SELECT_TAGS);
     }

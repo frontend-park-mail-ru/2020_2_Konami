@@ -18,7 +18,8 @@ import {
     SELECT_TAGS,
     EDIT_SUCCESS,
     USER_NOT_AUTHORIZED,
-    OPEN_LOGIN_MODAL, INVALID_DATE_INPUT
+    OPEN_LOGIN_MODAL,
+    INVALID_DATE_INPUT
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -77,6 +78,7 @@ export default class EditProfileView extends BaseView {
             this.parent.removeChild(form);
         }
 
+        this.currentTab = 0;
         window.removeEventListener('click', closeTagsModalDialog);
     }
 

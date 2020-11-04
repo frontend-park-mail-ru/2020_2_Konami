@@ -27,7 +27,6 @@
     color: #648880;
     cursor: pointer;
     font-weight: 550;
-    margin: 0 0 20px 0px;
 }
 
 .new-meet input,
@@ -135,8 +134,8 @@ input.invalid {
     justify-content: space-between;
 }
 
-.new-meet .date-block {
-    /*width: 260px;*/
+.new-meet .date label {
+    margin: 0 0 20px 0px;
 }
 
 .new-meet .meeting-poster {

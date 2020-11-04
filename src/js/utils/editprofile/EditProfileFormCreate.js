@@ -91,6 +91,8 @@ function createTab1() {
     tags.classList.add('recommendationTagsWrapper');
     for (let i = 0; i < 10; i++) {
         let lbl = document.createElement('label');
+        lbl.id = 'tag' + i;
+
         let input = document.createElement('input');
         input.classList.add('btnLike');
         input.type = 'checkbox';
@@ -110,7 +112,12 @@ function createTab1() {
     helperText.classList.add('helpText');
     helperText.textContent = 'Добавьте интересы в свой профиль, чтобы получать персональные рекомендации';
 
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags]);
+    const applyTagsBtnWrap = document.createElement('div');
+    applyTagsBtnWrap.classList.add('footer__button');
+    applyTagsBtnWrap.appendChild(createBtn('Применить',
+        {id:'closeTagsModal', type:'button', classList: ['stdBtn', 'secondary', 'activable']}));
+
+    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags, applyTagsBtnWrap]);
 
     tab2.appendChild(
         createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',

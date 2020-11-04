@@ -17,7 +17,7 @@
 .modal-content {
     background-color: #fefefe;
     margin: auto;
-    /*padding: 20px 10px 20px 35px;*/
+    padding: 20px 10px 20px 10px;
     width: min-content;
     border-radius: 10px;
 }
@@ -30,4 +30,9 @@
     padding: 4px;
     position: relative;
     left: -5%;
+}
+
+.footer__button {
+    display: flex;
+    justify-content: center;
 }
