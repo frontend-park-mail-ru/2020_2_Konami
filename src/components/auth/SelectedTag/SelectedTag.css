@@ -24,7 +24,7 @@
     padding: 4px;
     /* height: 15px; */
     position: relative;
-    left: 0%;
+    left: -1%;
 }
 
 .close:hover,
