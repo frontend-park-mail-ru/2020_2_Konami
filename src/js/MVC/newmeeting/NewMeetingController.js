@@ -1,13 +1,13 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import NewMeetingModel from "./NewMeetingModel.js";
 import NewMeetingView from "./NewMeetingView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 
 import {
     USER_NOT_AUTHORIZED,
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class NewMeetingController extends Controller {
 

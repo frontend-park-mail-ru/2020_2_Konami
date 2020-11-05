@@ -1,12 +1,12 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import HeaderView from "./headerView.js";
 import HeaderModel from "./headerModel.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class HeaderController extends Controller {
 

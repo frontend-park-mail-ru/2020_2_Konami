@@ -1,11 +1,11 @@
 'use strict';
 
-import EventBus from "../../services/EventBus/EventBus.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import {createSignupFormLayout} from "../../../components/auth/Form/FormLayout.js";
-import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import {closeSignupModal} from "../../utils/auth-modal/authModalUtils.js";
-import {displayNotification} from "../../../components/auth/Notification/Notification.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import {createSignupFormLayout} from "@/components/auth/Form/FormLayout.js";
+import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
+import {closeSignupModal} from "@/js/utils/auth-modal/authModalUtils.js";
+import {displayNotification} from "@/components/auth/Notification/Notification.js";
 
 import {
     REDIRECT,
@@ -19,7 +19,7 @@ import {
     INVALID_NAME_INPUT,
     USER_ALREADY_EXISTS,
     CLOSE_SIGNUP_MODAL
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
 

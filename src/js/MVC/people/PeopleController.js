@@ -1,9 +1,9 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import { 
     getPeople 
-} from "../../services/API/api.js";
+} from "@/js/services/API/api.js";
 import PeopleModel from "./PeopleModel.js";
 import PeopleView from "./PeopleView.js";
 

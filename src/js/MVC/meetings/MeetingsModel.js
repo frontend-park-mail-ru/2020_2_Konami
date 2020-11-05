@@ -1,6 +1,6 @@
 'use strict';
 
-import UserModel from "../../models/UserModel.js";
+import UserModel from "@/js/models/UserModel.js";
 
 export default class MeetingsModel {
     constructor() {

@@ -1,13 +1,13 @@
 'use strict';
 
-import UserModel from "../../models/UserModel.js";
-import {postMeeting} from "../../services/API/api.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import Validator from "../../services/Validator/Validator.js";
-import {isEmpty} from "../../utils/validators/emptyFields.js";
+import UserModel from "@/js/models/UserModel.js";
+import {postMeeting} from "@/js/services/API/api.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import Validator from "@/js/services/Validator/Validator.js";
+import {isEmpty} from "@/js/utils/validators/emptyFields.js";
 import {
     CREATE_MEETING_SUCCESS
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class NewMeetingModel {
 

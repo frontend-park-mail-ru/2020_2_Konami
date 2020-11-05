@@ -1,12 +1,12 @@
 'use strict';
 
-import { createUserCard } from "../../../components/cards/UserCard/UserCard.js";
-import { createSettings } from "../../../components/settings/Settings.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import { createUserCard } from "@/components/cards/UserCard/UserCard.js";
+import { createSettings } from "@/components/settings/Settings.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import { 
     REDIRECT 
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class PeopleView extends BaseView {
 

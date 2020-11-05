@@ -1,17 +1,17 @@
 'use strict';
 
-import BaseView from "../../basics/BaseView/BaseView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import {createEditProfileForm} from "../../utils/editprofile/EditProfileFormCreate.js";
-import {deleteIf} from "../../utils/validators/emptyFields.js";
-import {inputFileChangedEventListener} from "../../../components/auth/FileUploader/FileUploader.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import {createEditProfileForm} from "@/js/utils/editprofile/EditProfileFormCreate.js";
+import {deleteIf} from "@/js/utils/validators/emptyFields.js";
+import {inputFileChangedEventListener} from "@/components/auth/FileUploader/FileUploader.js";
 import {
     addTagsModalDialogEventListener,
     closeTagsModalDialog,
     saveSelectedTags
-} from "../../../components/auth/SelectedTag/SelectedTag.js";
-import {displayNotification} from "../../../components/auth/Notification/Notification.js";
-import {newDate} from "../../../components/auth/Date-Time/Date-Time.js";
+} from "@/components/auth/SelectedTag/SelectedTag.js";
+import {displayNotification} from "@/components/auth/Notification/Notification.js";
+import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 
 import {
     REDIRECT,
@@ -21,7 +21,7 @@ import {
     USER_NOT_AUTHORIZED,
     OPEN_LOGIN_MODAL,
     INVALID_DATE_INPUT
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
 

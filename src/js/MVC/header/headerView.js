@@ -1,14 +1,14 @@
 'use strict';
 
-import BaseView from "../../basics/BaseView/BaseView.js";
-import {createNavigation} from "../../../components/header/Navigation/navigation.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import {createNavigation} from "@/components/header/Navigation/navigation.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
     LOGOUT_USER,
     OPEN_LOGIN_MODAL,
     REDIRECT
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class HeaderView extends BaseView {
 

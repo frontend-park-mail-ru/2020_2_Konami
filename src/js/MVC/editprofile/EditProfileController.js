@@ -1,13 +1,13 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import EditProfileModel from "./EditProfileModel.js";
 import EditProfileView from "./EditProfileView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 
 import {
     USER_NOT_AUTHORIZED,
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class EditProfileController extends Controller {
 

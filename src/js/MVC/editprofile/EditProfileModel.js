@@ -1,8 +1,8 @@
 'use strict';
 
-import UserModel from "../../models/UserModel.js";
-import {isEmpty} from "../../utils/validators/emptyFields.js";
-import Validator from "../../services/Validator/Validator.js";
+import UserModel from "@/js/models/UserModel.js";
+import {isEmpty} from "@/js/utils/validators/emptyFields.js";
+import Validator from "@/js/services/Validator/Validator.js";
 
 
 export default class EditProfileModel {

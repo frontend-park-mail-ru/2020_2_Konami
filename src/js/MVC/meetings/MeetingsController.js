@@ -1,8 +1,8 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import MeetingsModel from "./MeetingsModel.js";
-import { getMeetings } from "../../services/API/api.js";
+import { getMeetings } from "@/js/services/API/api.js";
 import MeetingsView from "./MeetingsView.js";
 
 export default class MeetingsController extends Controller {

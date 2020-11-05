@@ -1,17 +1,17 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import ProfileView from "./ProfileView.js";
 import ProfileModel from "./ProfileModel.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 
 import {
     getUser
-} from "../../services/API/api.js";
+} from "@/js/services/API/api.js";
 
 import {
     OPEN_LOGIN_MODAL,
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class ProfileController extends Controller {
 

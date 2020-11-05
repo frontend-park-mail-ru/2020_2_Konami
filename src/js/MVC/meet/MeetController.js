@@ -1,11 +1,11 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import MeetModel from "./MeetModel.js";
-import { getMeet } from "../../services/API/api.js";
+import { getMeet } from "@/js/services/API/api.js";
 import MeetView from "./MeetView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import { REDIRECT } from "../../services/EventBus/EventTypes.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import { REDIRECT } from "@/js/services/EventBus/EventTypes.js";
 
 export default class MeetController extends Controller {
 

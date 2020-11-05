@@ -1,10 +1,10 @@
 'use strict';
 
-import { createMeetPage } from "../../../components/meet/meet.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import { postMeet } from "../../services/API/api.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import { OPEN_LOGIN_MODAL } from "../../services/EventBus/EventTypes.js";
+import { createMeetPage } from "@/components/meet/meet.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import { postMeet } from "@/js/services/API/api.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import { OPEN_LOGIN_MODAL } from "@/js/services/EventBus/EventTypes.js";
 
 export default class MeetView extends BaseView {
 

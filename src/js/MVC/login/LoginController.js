@@ -1,6 +1,6 @@
 'use strict';
 
-import Controller from "../../basics/Controller/Controller.js";
+import Controller from "@/js/basics/Controller/Controller.js";
 import LoginView from "./LoginView.js";
 import LoginModel from "./LoginModel.js";
 

@@ -1,15 +1,15 @@
 'use strict';
 
-import  BaseView from "../../basics/BaseView/BaseView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
-import {createNewMeetingForm} from "../../utils/meetings/NewMeetFormCreate.js";
-import {inputFileChangedEventListener} from "../../../components/auth/FileUploader/FileUploader.js";
-import {saveSelectedTags} from "../../../components/auth/SelectedTag/SelectedTag.js";
-import {deleteIf} from "../../utils/validators/emptyFields.js";
-import {closeTagsModalDialog} from "../../../components/auth/SelectedTag/SelectedTag.js";
-import {addTagsModalDialogEventListener} from "../../../components/auth/SelectedTag/SelectedTag.js";
-import {displayNotification} from "../../../components/auth/Notification/Notification.js";
-import {newDate} from "../../../components/auth/Date-Time/Date-Time.js";
+import  BaseView from "@/js/basics/BaseView/BaseView.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import {createNewMeetingForm} from "@/js/utils/meetings/NewMeetFormCreate.js";
+import {inputFileChangedEventListener} from "@/components/auth/FileUploader/FileUploader.js";
+import {saveSelectedTags} from "@/components/auth/SelectedTag/SelectedTag.js";
+import {deleteIf} from "@/js/utils/validators/emptyFields.js";
+import {closeTagsModalDialog} from "@/components/auth/SelectedTag/SelectedTag.js";
+import {addTagsModalDialogEventListener} from "@/components/auth/SelectedTag/SelectedTag.js";
+import {displayNotification} from "@/components/auth/Notification/Notification.js";
+import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 
 import {
     OPEN_LOGIN_MODAL, REDIRECT,
@@ -20,7 +20,7 @@ import {
     INVALID_DATE_INPUT,
     INVALID_TIME_INPUT,
     BIG_FILE_SIZE
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class NewMeetingView extends BaseView {
 

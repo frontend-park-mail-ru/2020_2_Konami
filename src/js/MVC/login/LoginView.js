@@ -1,10 +1,10 @@
 'use strict';
 
-import EventBus from "../../services/EventBus/EventBus.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import {createLoginFormLayout} from "../../../components/auth/Form/FormLayout.js";
-import {closeLoginModal} from "../../utils/auth-modal/authModalUtils.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
+import {createLoginFormLayout} from "@/components/auth/Form/FormLayout.js";
+import {closeLoginModal} from "@/js/utils/auth-modal/authModalUtils.js";
 import {
     CLOSE_LOGIN_MODAL,
     INVALID_LOGIN,
@@ -12,7 +12,7 @@ import {
     OPEN_SIGNUP_MODAL,
     REDIRECT,
     SUBMIT_LOGIN,
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class LoginView extends BaseView {
 

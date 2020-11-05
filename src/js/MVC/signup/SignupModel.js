@@ -1,8 +1,8 @@
 'use strict';
 
-import UserModel from "../../models/UserModel.js";
-import Validator from "../../services/Validator/Validator.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import UserModel from "@/js/models/UserModel.js";
+import Validator from "@/js/services/Validator/Validator.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     PASSWORDS_MISMATCH,
     INVALID_PWD_INPUT,
@@ -10,7 +10,7 @@ import {
     INVALID_NAME_INPUT
 
 
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class SignupModel {
 

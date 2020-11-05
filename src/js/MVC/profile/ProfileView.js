@@ -2,12 +2,12 @@
 
 import {
     createProfile
-} from "../../../components/profile/CreateProfile.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+} from "@/components/profile/CreateProfile.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     REDIRECT
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class ProfileView extends BaseView {
 

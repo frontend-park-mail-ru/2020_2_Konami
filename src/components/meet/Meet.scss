@@ -17,7 +17,7 @@
     }
 
     &__title {
-        margin-bottom: 5px;
+        margin: 0;
         margin-right: 20px;
     }
 
@@ -31,6 +31,7 @@
 
     &__status {
         border-radius: 10px;
+        margin: 5px 0;
     }
 
     &__head {

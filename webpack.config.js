@@ -1,19 +1,23 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
     entry: '/js/main.js',
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+        }
+    },
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'src/dist'),
+        path: path.resolve(__dirname, 'src'),
     },
     plugins: [
         new HTMLWebpackPlugin({
             title: 'OnMeet',
-            template: '/index.html',
+            template: '/html/index.html',
         }),
     ],
     module: {

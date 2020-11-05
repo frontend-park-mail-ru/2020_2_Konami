@@ -1,16 +1,16 @@
 'use strict';
 
-import { createMeetCard } from "../../../components/cards/MeetCard/MeetCard.js";
-import BaseView from "../../basics/BaseView/BaseView.js";
-import { getMeetings } from "../../services/API/api.js";
-import EventBus from "../../services/EventBus/EventBus.js";
+import { createMeetCard } from "@/components/cards/MeetCard/MeetCard.js";
+import BaseView from "@/js/basics/BaseView/BaseView.js";
+import { getMeetings } from "@/js/services/API/api.js";
+import EventBus from "@/js/services/EventBus/EventBus.js";
 import { 
     REDIRECT 
-} from "../../services/EventBus/EventTypes.js";
+} from "@/js/services/EventBus/EventTypes.js";
 
 import {
     createSettings
-} from "../../../components/settings/Settings.js";
+} from "@/components/settings/Settings.js";
 
 export default class MeetingsView extends BaseView {
 
