@@ -22,7 +22,6 @@ import {
     OPEN_LOGIN_MODAL,
     INVALID_DATE_INPUT
 } from "../../services/EventBus/EventTypes.js";
-import {newDate} from "../../../components/auth/Date-Time/Date-Time";
 
 export default class EditProfileView extends BaseView {
 
