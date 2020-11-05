@@ -9,6 +9,7 @@ import {deleteIf} from "../../utils/validators/emptyFields.js";
 import {closeTagsModalDialog} from "../../../components/auth/SelectedTag/SelectedTag.js";
 import {addTagsModalDialogEventListener} from "../../../components/auth/SelectedTag/SelectedTag.js";
 import {displayNotification} from "../../../components/auth/Notification/Notification.js";
+import {newDate} from "../../../components/auth/Date-Time/Date-Time.js";
 
 import {
     OPEN_LOGIN_MODAL, REDIRECT,
@@ -153,7 +154,11 @@ export default class NewMeetingView extends BaseView {
                     EventBus.dispatchEvent(INVALID_TIME_INPUT, {prefix: 'start'});
                     return;
                 }
-                fieldMap.set('start', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
+
+                const start = newDate(yearValue, monthValue, dayValue, hoursValue, minutesValue);
+
+                // fieldMap.set('start', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
+                fieldMap.set('start', start.toISOString());
             }
 
             dayValue = document.getElementsByName('end-day')[0].value;
@@ -161,8 +166,6 @@ export default class NewMeetingView extends BaseView {
             yearValue = document.getElementsByName('end-year')[0].value;
             hoursValue = document.getElementsByName('end-hours')[0].value;
             minutesValue = document.getElementsByName('end-minutes')[0].value;
-
-            const start = Date.now();
 
             if (yearValue.length && monthValue.length && dayValue.length) {
                 if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
@@ -173,7 +176,10 @@ export default class NewMeetingView extends BaseView {
                     EventBus.dispatchEvent(INVALID_TIME_INPUT, {prefix: 'end'});
                     return;
                 }
-                fieldMap.set('end', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
+
+                const end = newDate(yearValue, monthValue, dayValue, hoursValue, minutesValue);
+                // fieldMap.set('end', `${yearValue} - ${monthValue} - ${dayValue} - ${hoursValue} - ${minutesValue}`);
+                fieldMap.set('end', end.toISOString());
             }
 
 

@@ -11,6 +11,7 @@ import {
     saveSelectedTags
 } from "../../../components/auth/SelectedTag/SelectedTag.js";
 import {displayNotification} from "../../../components/auth/Notification/Notification.js";
+import {newDate} from "../../../components/auth/Date-Time/Date-Time.js";
 
 import {
     REDIRECT,
@@ -175,7 +176,8 @@ export default class EditProfileView extends BaseView {
                     EventBus.dispatchEvent(INVALID_DATE_INPUT);
                     return;
                 }
-                fieldMap.set('birthday', `${yearValue} - ${monthValue} - ${dayValue}`);
+                const birthDay = newDate(yearValue, monthValue, dayValue, 0, 0);
+                fieldMap.set('birthday', birthDay.toISOString());
             }
 
             const bodyFields = Object.fromEntries(deleteIf(fieldMap, (k, v) => v.length === 0).entries());
