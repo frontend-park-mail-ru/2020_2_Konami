@@ -1,0 +1,27 @@
+@import '../sass_config.scss';
+@import '../components/cards/MeetCard/MeetCard.scss';
+@import '../components/cards/UserCard/UserCard.scss';
+@import '../components/cards/UserCard/UserCard.scss';
+@import '../components/header/Header/header.scss';
+@import '../components/header/Navigation/navigation.scss';
+@import '../components/meet/Meet.scss';
+@import '../components/profile/Profile.scss';
+@import '../components/settings/Settings.scss';
+
+.main {
+    display: flex;
+    flex-direction: column;
+
+    max-width: $max-width;
+    min-width: $min-width;
+
+    padding: 10px;
+    margin: 0 auto;
+
+    font-family: $font;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}

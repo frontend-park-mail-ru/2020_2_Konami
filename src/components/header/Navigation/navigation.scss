@@ -1,0 +1,32 @@
+@import '../../../sass_config.scss';
+
+.navigation {
+    display: flex;
+    justify-content: center;
+
+    min-width: $min-width;
+    max-width: $max-width;
+    margin: 0 auto;
+    
+    font-family: $font;
+
+    &__choose-link {
+        margin: 0 10px 0 10px;
+        border-radius: 100px;
+        padding: 5px 10px 5px 10px;
+        color: rgb(99, 97, 97);
+        outline: none;
+        text-decoration: none;
+    
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(51, 51, 51, 0.1);
+        }
+        
+        &:focus {
+            background-color: rgba(51, 51, 51, 0.2);
+        }
+    }
+
+}

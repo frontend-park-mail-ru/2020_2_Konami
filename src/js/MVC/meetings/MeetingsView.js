@@ -1,6 +1,6 @@
 'use strict';
 
-import { createMetCard } from "../../../components/cards/MetCard/MetCard.js";
+import { createMeetCard } from "../../../components/cards/MeetCard/MeetCard.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import { getMeetings } from "../../services/API/api.js";
 import EventBus from "../../services/EventBus/EventBus.js";
@@ -10,7 +10,7 @@ import {
 
 import {
     createSettings
-} from "../../../components/settings/settings.js";
+} from "../../../components/settings/Settings.js";
 
 export default class MeetingsView extends BaseView {
 
@@ -71,12 +71,12 @@ export default class MeetingsView extends BaseView {
         this._cards = cardWrapper;
 
         cards.forEach(item => {
-            const metCard = createMetCard(item);
-            metCard.addEventListener('click', () => {
+            const meetCard = createMeetCard(item);
+            meetCard.addEventListener('click', () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
             });
 
-            cardWrapper.appendChild(metCard);
+            cardWrapper.appendChild(meetCard);
         });
     }
 
@@ -92,12 +92,12 @@ export default class MeetingsView extends BaseView {
     
             getMeetings(p).then(obj => {
                 obj.parsedJson.forEach(item => {
-                    const metCard = createMetCard(item);
-                    metCard.addEventListener('click', () => {
+                    const meetCard = createMeetCard(item);
+                    meetCard.addEventListener('click', () => {
                         EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
                     });
                     if (this._cards !== null) {
-                        this._cards.appendChild(metCard);
+                        this._cards.appendChild(meetCard);
                     }
                 });
             });

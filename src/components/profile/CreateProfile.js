@@ -110,7 +110,7 @@ function createAvatarField(tmp) {
 
 function createProfile(data, isAuth) {
     const tmp = document.createElement('div');
-    tmp.innerHTML = ProfilePageTemplate(data);
+    tmp.innerHTML = window.ProfilePageTemplate(data);
 
     for (let item of conf) {
         const editedField = tmp.getElementsByClassName(`profile__${item.name}`)[0];
@@ -145,7 +145,7 @@ function createProfile(data, isAuth) {
         Array.from(tmp.getElementsByClassName('icon-with-text__editicon')).forEach(element => {
             element.remove();
         });
-        Array.from(tmp.getElementsByClassName('profile__avatar-layout')).forEach(element => {
+        Array.from(tmp.getElementsByClassName('profile__avatar-overlay')).forEach(element => {
             element.remove();
         });
         Array.from(tmp.getElementsByClassName('stdBtn')).forEach(element => {

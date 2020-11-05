@@ -1,6 +1,6 @@
 'use strict';
 
-export function createMetCard(data) {
+export function createMeetCard(data) {
     const monthNames = [
         'января', 
         'февраля', 
@@ -22,7 +22,7 @@ export function createMetCard(data) {
     }
 
     const tmp = document.createElement('div');
-    tmp.innerHTML = window.MetCardTemplate(data);
+    tmp.innerHTML = window.MeetCardTemplate(data);
 
     return tmp.firstElementChild;
 }

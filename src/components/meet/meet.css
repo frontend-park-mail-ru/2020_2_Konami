@@ -1,4 +1,4 @@
-.meet__main {
+.meet {
     max-width: 1140px;
     min-width: 430px;
 
@@ -16,7 +16,9 @@
 }
 
 .meet__title {
-    margin-bottom: 5px;
+    display: flex;
+    margin: 0px;
+    margin-right: 20px;
 }
 
 .meet__head {
@@ -35,6 +37,47 @@
     flex-direction: row;
 }
 
+.meet__title-status-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+}
+
+.meet__dateplace {
+    display: block;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+    padding: 5px 10px;
+
+    color: white;
+    z-index: 2;
+}
+
+.meet__status {
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.status_red {
+    background-color: rgba(253, 32, 24, 0.8);
+}
+
+.status_yellow {
+    background-color: rgb(238, 202, 0);
+}
+
+.status_green {
+    background-color: rgba(6, 77, 0, 0.8);
+}
+
 .meet__like-icon {
     width: 24px;
     height: 24px;
@@ -48,9 +91,7 @@
     background: #f1f1f1; 
 }
 
-.meet__go-button {
-    height: 50px;
-    width: 130px;
+.meet__button {
     font-size: 15px;
     padding: 0 16px;
     font-size: medium;
@@ -62,7 +103,17 @@
     cursor: pointer;
 }
 
-.meet__go-button:hover {
+.meet__button_edit {
+    height: 50px;
+    width: 150px;
+}
+
+.meet__button_go {
+    height: 50px;
+    width: 130px;
+}
+
+.meet__button:hover {
     background: #f1f1f1;
 }
 

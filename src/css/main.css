@@ -15,11 +15,5 @@
 .card-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-
-    max-width: 1300px;
-    min-width: 400px;
-    margin: 0 auto;
-    font-family: 'Roboto', sans-serif;
 }
 

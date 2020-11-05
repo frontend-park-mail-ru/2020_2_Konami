@@ -8,15 +8,13 @@ function postUser(editFields) {
         },
         credentials: 'include',
         body: JSON.stringify(editFields),
-    }).then(
-        (response) => {
-            return {
-                statusCode: response.status,
-            };
-    }).catch(
-    (error) => {
+    }).then(response => {
         return {
-            error: error
+            statusCode: response.status,
+        };
+    }).catch((error) => {
+        return {
+            error: error,
         };
     });
 }
@@ -34,6 +32,10 @@ function getUser(userId) {
             statusCode,
             parsedJson,
         };
+    }).catch(error => {
+        return {
+            error: error,
+        };
     });
 }
 
@@ -49,6 +51,10 @@ function getMeet(meetId) {
         return {
             statusCode,
             parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
         };
     });
 }
@@ -66,10 +72,9 @@ function postMeet(editFields) {
             return {
                 statusCode: response.status,
             };
-    }).catch(
-    (error) => {
+    }).catch(error => {
         return {
-            error: error
+            error: error,
         };
     });
 }
@@ -91,13 +96,16 @@ function getMeetings(obj) {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
-        console.log(response.status);
         statusCode = response.status;
         return response.json();
     }).then(parsedJson => {
         return {
             statusCode,
             parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
         };
     });
 }
@@ -115,6 +123,10 @@ function getPeople(pageNum) {
             statusCode,
             parsedJson,
         };
+    }).catch(error => {
+        return {
+            error: error,
+        };
     });
 }
 
@@ -123,17 +135,15 @@ function postPhoto(data) {
         method: 'POST',
         credentials: 'include',
         body: data,
-    }).then(
-        (response) => {
-            return {
-                statusCode: response.status,
-            };
-        }).catch(
-        (error) => {
-            return {
-                error: error
-            };
-        });
+    }).then(response => {
+        return {
+            statusCode: response.status,
+        };
+    }).catch(error => {
+        return {
+            error: error
+        };
+    });
 }
 
 // function postTmpPhoto(data) {
@@ -171,17 +181,15 @@ const postLogin = async (login, password) => {
             login,
             password,
         }),
-    }).then(
-        (response) => {
-            return {
-                statusCode: response.status,
-            };
-    }).catch(
-        (error) => {
-            return {
-                error: error
-            };
-        });
+    }).then(response => {
+        return {
+            statusCode: response.status,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
 }
 
 function getMe() {
@@ -193,20 +201,16 @@ function getMe() {
         (response) => {
             statusCode = response.status;
         return response.json();
-    }).then(
-        (parsedJson) => {
+    }).then(parsedJson => {
         return {
             statusCode: statusCode,
-            body: parsedJson
+            body: parsedJson,
         }
-    }).catch(
-    (error) => {
+    }).catch(error => {
         return {
             error: error
         }
-    }
-    );
-
+    });
 }
 
 function postSignUp(login, password) {
@@ -225,13 +229,11 @@ function postSignUp(login, password) {
             return {
                 statusCode: response.status,
             };
-    }).catch(
-        (error) => {
-            console.log(error);
-            return {
-                error: error
-            };
-        });
+    }).catch(error => {
+        return {
+            error: error
+        };
+    });
 }
 
 function postSignOut() {
@@ -242,12 +244,11 @@ function postSignOut() {
         return {
             statusCode: response.status,
         };
-    }).catch(
-        (error) => {
-            return {
-                error: error
-            };
-        });
+    }).catch(error => {
+        return {
+            error: error
+        };
+    });
 }
 
 function postMeeting(fields) {
@@ -258,18 +259,15 @@ function postMeeting(fields) {
         },
         credentials: 'include',
         body: JSON.stringify(fields),
-    }).then(
-        (response) => {
-            return {
-                statusCode: response.status,
-            };
-        }).catch(
-        (error) => {
-            console.log(error);
-            return {
-                error: error
-            };
-        });
+    }).then(response => {
+        return {
+            statusCode: response.status,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
 }
 
 export {

@@ -6,7 +6,8 @@ import EventBus from "../../services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
     LOGOUT_USER,
-    OPEN_LOGIN_MODAL
+    OPEN_LOGIN_MODAL,
+    REDIRECT
 } from "../../services/EventBus/EventTypes.js";
 
 export default class HeaderView extends BaseView {
@@ -50,6 +51,11 @@ export default class HeaderView extends BaseView {
 
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
+
+        let logo = document.getElementsByClassName('header__logo')[0];
+        logo.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
+        });
         // icon.dataset.section = 'profile';
 
         icon = document.getElementById('newMeet');

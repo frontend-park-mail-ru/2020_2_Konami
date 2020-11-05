@@ -20,62 +20,71 @@ export default class MeetView extends BaseView {
         this.parent.appendChild(this._this);
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
-        const goButton = this._this.getElementsByClassName('meet__go-button')[0];
-
+        const goButton = this._this.getElementsByClassName('meet__button_go')[0];
+        const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
+        // тут нужно что то сделать с editbutton 
         this.model.checkAuth().then(isAuth => {
+            // снизу ж*па
             if (isAuth) {
-                likeIcon.addEventListener('click', () => {
-                    let like = false;
-                    if (likeIcon.firstChild.src.includes('heart')) {
-                        likeIcon.firstChild.src = '/assets/like.svg';
-                        like = true;
-                    } else {
-                        likeIcon.firstChild.src = '/assets/heart.svg';
-                        like = false;
-                    }
-                    postMeet({
-                        meetId: data.id,
-                        fields: {
-                            like,
-                        },
-                    }).then(obj => {
-                        if (obj.statusCode === 200) {
-                            // OK
+                if (likeIcon !== undefined) {
+                    likeIcon.addEventListener('click', () => {
+                        let like = false;
+                        if (likeIcon.firstChild.src.includes('heart')) {
+                            likeIcon.firstChild.src = '/assets/like.svg';
+                            like = true;
                         } else {
-                            alert('Permission denied');
+                            likeIcon.firstChild.src = '/assets/heart.svg';
+                            like = false;
                         }
-                    });
-                });
-
-                goButton.addEventListener('click', ()=> {
-                    let reg = false;
-                    if (goButton.innerHTML === 'Пойти') {
-                        goButton.innerHTML = 'Отменить поход';
-                        reg = true;
-                    } else {
-                        goButton.innerHTML = 'Пойти';
-                        reg = false;
-                    }
-                    postMeet({
-                        meetId: data.id,
-                        fields: {
-                            reg,
-                        },
-                    }).then(obj => {
-                        if (obj.statusCode === 200) {
-                            // OK
+                        postMeet({
+                            meetId: data.id,
+                            fields: {
+                                like,
+                            },
+                        }).then(obj => {
+                            if (obj.statusCode === 200) {
+                                // OK
+                            } else {
+                                alert('Permission denied');
+                            }
+                        });
+                    }); 
+                }
+                if (goButton !== undefined) { 
+                    goButton.addEventListener('click', ()=> {
+                        let reg = false;
+                        if (goButton.innerHTML === 'Пойти') {
+                            goButton.innerHTML = 'Отменить поход';
+                            reg = true;
                         } else {
-                            alert('Permission denied');
+                            goButton.innerHTML = 'Пойти';
+                            reg = false;
                         }
+                        postMeet({
+                            meetId: data.id,
+                            fields: {
+                                reg,
+                            },
+                        }).then(obj => {
+                            if (obj.statusCode === 200) {
+                                // OK
+                            } else {
+                                alert('Permission denied');
+                            }
+                        });
                     });
-                });
+                }
             } else {
-                likeIcon.addEventListener('click', () => {
-                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
-                });
-                goButton.addEventListener('click', () => {
-                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
-                });
+                if (likeIcon !== undefined) {
+                    likeIcon.addEventListener('click', () => {
+                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    });
+                }
+                if (goButton !== undefined) {
+                    goButton.addEventListener('click', () => {
+                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    });
+                }
             }
         });
 

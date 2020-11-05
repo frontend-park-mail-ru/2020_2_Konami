@@ -81,7 +81,7 @@
     height: 300px;
 }
 
-.profile__avatar-layout {
+.profile__avatar-overlay {
     position: absolute;
 
     display: flex;
@@ -99,7 +99,7 @@
     opacity: 0;
 }
 
-.profile__avatar-layout:hover {
+.profile__avatar-overlay:hover {
     opacity: 1;
 }
 

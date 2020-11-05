@@ -8,3 +8,9 @@ div(class='meetcard meetcard_margin' id=id)
     h3(class='meetcard__title') #{title}
     h4(class='meetcard__place') #{place}
     h4(class='meetcard__date') #{dateStr}
+    if isGoing
+        div(class='meetcard__status status status_green') Регистрация идет
+    else if isEnd
+        div(class='meetcard__status status status_red') Мероприятие закончилось
+    else 
+        div(class='meetcard__status status status_yellow') Осталось мало мест

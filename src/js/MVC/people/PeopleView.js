@@ -1,7 +1,7 @@
 'use strict';
 
 import { createUserCard } from "../../../components/cards/UserCard/UserCard.js";
-import { createSettings } from "../../../components/settings/settings.js";
+import { createSettings } from "../../../components/settings/Settings.js";
 import BaseView from "../../basics/BaseView/BaseView.js";
 import EventBus from "../../services/EventBus/EventBus.js";
 import { 

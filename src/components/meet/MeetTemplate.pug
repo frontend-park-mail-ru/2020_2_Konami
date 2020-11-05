@@ -1,13 +1,22 @@
-main(class='meet__main')
+div(class='meet')
     div(class='meet__head')
         div(class='meet__leftcolumn')
-            h1(class="meet__title") #{title}
+            div(class='meet__title-status-wrapper')
+                h1(class='meet__title') #{title}
+                if isGoing
+                    span(class='meet__status status status_green') Регистрация идет
+                else if isEnd
+                    span(class='meet__status status status_red') Мероприятие закончилось
+                else 
+                    span(class='meet__status status status_yellow') Осталось мало мест
             span(class='meet__dateplace') #{place}, #{dateStr}
         div(class='meet__rightcolumn')
-            if reg
-                button(class='meet__go-button') Отменить поход
+            if isOwner 
+                button(class='meet__button meet__button_edit') Редактировать
+            else if reg
+                button(class='meet__button meet__button_go') Отменить поход
             else
-                button(class='meet__go-button') Пойти
+                button(class='meet__button meet__button_go') Пойти
             div(class='meet__like-icon')
                 if like 
                     img(src='../../assets/like.svg')

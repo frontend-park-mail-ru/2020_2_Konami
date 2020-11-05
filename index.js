@@ -127,6 +127,9 @@ const meetCards = {
         dateStr: '12 сентября 2020',
         like: true,
         reg: true,
+        isOwner: true,
+        isGoing: false,
+        isEnd: true,
     },
 };
 
