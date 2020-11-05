@@ -21,6 +21,7 @@ import {
     OPEN_LOGIN_MODAL,
     INVALID_DATE_INPUT
 } from "../../services/EventBus/EventTypes.js";
+import {newDate} from "../../../components/auth/Date-Time/Date-Time";
 
 export default class EditProfileView extends BaseView {
 
@@ -175,7 +176,8 @@ export default class EditProfileView extends BaseView {
                     EventBus.dispatchEvent(INVALID_DATE_INPUT);
                     return;
                 }
-                fieldMap.set('birthday', `${yearValue} - ${monthValue} - ${dayValue}`);
+                const birthDay = newDate(yearValue, monthValue, dayValue, 0, 0);
+                fieldMap.set('birthday', birthDay.toISOString());
             }
 
             const bodyFields = Object.fromEntries(deleteIf(fieldMap, (k, v) => v.length === 0).entries());
