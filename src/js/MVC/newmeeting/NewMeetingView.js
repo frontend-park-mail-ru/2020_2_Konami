@@ -77,6 +77,8 @@ export default class NewMeetingView extends BaseView {
         const form = createNewMeetingForm();
         this.parent.appendChild(form);
 
+        this._initDefaultDateTimeInputValues();
+        this._getUserGeolocation();
         this._addEventListeners();
     }
 
@@ -159,6 +161,9 @@ export default class NewMeetingView extends BaseView {
             yearValue = document.getElementsByName('end-year')[0].value;
             hoursValue = document.getElementsByName('end-hours')[0].value;
             minutesValue = document.getElementsByName('end-minutes')[0].value;
+
+            const start = Date.now();
+
             if (yearValue.length && monthValue.length && dayValue.length) {
                 if (!this.model.validator.isValidDate(dayValue, monthValue, yearValue)) {
                     EventBus.dispatchEvent(INVALID_DATE_INPUT, {prefix: 'end'});
@@ -192,6 +197,56 @@ export default class NewMeetingView extends BaseView {
             // formData.append('tags', JSON.stringify(selectedTags));
 
         });
+    }
+
+    _initDefaultDateTimeInputValues() {
+        const arr =
+            [['day', Date.prototype.getDay],
+                ['month', Date.prototype.getMonth],
+                ['year', Date.prototype.getFullYear],
+                ['hours', Date.prototype.getHours],
+                ['minutes', Date.prototype.getMinutes]];
+
+        const startDate = new Date();
+        arr.forEach((tok) => {
+            let input = document.getElementsByName(`start-${tok[0]}`)[0];
+            input.value = tok[1].call(startDate);
+        });
+
+        const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000); // plus 3 hours;
+        arr.forEach((tok) => {
+            let input = document.getElementsByName(`end-${tok[0]}`)[0];
+            input.value = tok[1].call(endDate);
+        });
+    }
+
+    _getUserGeolocation() {
+        if (window.navigator.geolocation) {
+            let geoString;
+
+            const successfulLookup = position => {
+                const {latitude, longitude} = position.coords;
+                fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=53ac38893add4260ad53c663306ec75c`)
+                    .then(response => response.json())
+                    .then((geo) => {
+                        geoString = geo.results[0].formatted;
+                        const tokens = geoString.split(', ');
+                        const city = tokens[tokens.length - 3];
+
+                        tokens.splice(tokens.length - 3, 3);
+                        const address = tokens.join(', ');
+
+                        let input = document.getElementsByName('address')[0];
+                        input.value = address;
+
+                        input = document.getElementsByName('city')[0];
+                        input.value = city;
+                    });
+            }
+            window.navigator.geolocation
+                .getCurrentPosition(successfulLookup, console.log);
+
+        }
     }
 
     _showInvalidInputs() {
