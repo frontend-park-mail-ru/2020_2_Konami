@@ -45,7 +45,12 @@ export function createNewMeetingForm() {
     helperText.classList.add('helpText');
     helperText.textContent = 'Добавьте мероприятию необходимые тэги';
 
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags]);
+    const applyTagsBtnWrap = document.createElement('div');
+    applyTagsBtnWrap.classList.add('footer__button');
+    applyTagsBtnWrap.appendChild(createBtn('Применить',
+        {id:'closeTagsModal', type:'button', classList: ['stdBtn', 'secondary', 'activable']}));
+
+    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags, applyTagsBtnWrap]);
 
     const selectedTags = document.createElement('div');
     selectedTags.classList.add('selectedTagsWrapper');

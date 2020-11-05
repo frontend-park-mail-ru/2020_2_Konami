@@ -11,6 +11,7 @@ import {
     saveSelectedTags
 } from "../../../components/auth/SelectedTag/SelectedTag.js";
 import {displayNotification} from "../../../components/auth/Notification/Notification.js";
+import {newDate} from "../../../components/auth/Date-Time/Date-Time.js";
 
 import {
     REDIRECT,
@@ -18,7 +19,8 @@ import {
     SELECT_TAGS,
     EDIT_SUCCESS,
     USER_NOT_AUTHORIZED,
-    OPEN_LOGIN_MODAL, INVALID_DATE_INPUT
+    OPEN_LOGIN_MODAL,
+    INVALID_DATE_INPUT
 } from "../../services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -77,6 +79,7 @@ export default class EditProfileView extends BaseView {
             this.parent.removeChild(form);
         }
 
+        this.currentTab = 0;
         window.removeEventListener('click', closeTagsModalDialog);
     }
 
@@ -173,7 +176,8 @@ export default class EditProfileView extends BaseView {
                     EventBus.dispatchEvent(INVALID_DATE_INPUT);
                     return;
                 }
-                fieldMap.set('birthday', `${yearValue} - ${monthValue} - ${dayValue}`);
+                const birthDay = newDate(yearValue, monthValue, dayValue, 0, 0);
+                fieldMap.set('birthday', birthDay.toISOString());
             }
 
             const bodyFields = Object.fromEntries(deleteIf(fieldMap, (k, v) => v.length === 0).entries());

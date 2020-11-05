@@ -32,3 +32,12 @@ export function createDateTimeBlock(prefix) {
 
     return wrap;
 }
+
+export const newDate = (yearValue, monthValue, dayValue, hoursValue, minutesValue) => {
+    return new Date(parseInt(yearValue, 10),
+        parseInt(monthValue, 10) - 1,
+        parseInt(dayValue, 10),
+        parseInt(hoursValue, 10),
+        parseInt(minutesValue, 10),
+        0, 0);
+}

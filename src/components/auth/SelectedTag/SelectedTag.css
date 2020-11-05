@@ -24,7 +24,7 @@
     padding: 4px;
     /* height: 15px; */
     position: relative;
-    left: 0%;
+    left: -1%;
 }
 
 .close:hover,
@@ -65,7 +65,7 @@ input.btnLike:checked + span{
     flex-wrap: wrap;
     justify-content: space-evenly;
     width: 500px;
-    margin-top: 15px;
+    margin: 15px 0;
 }
 
 .helpText {
