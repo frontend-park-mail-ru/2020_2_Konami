@@ -1,5 +1,7 @@
 'use strict';
 
+const template = require('./MeetCardTemplate.pug');
+
 export function createMeetCard(data) {
     const monthNames = [
         'января', 
@@ -22,7 +24,7 @@ export function createMeetCard(data) {
     }
 
     const tmp = document.createElement('div');
-    tmp.innerHTML = window.MeetCardTemplate(data);
+    tmp.innerHTML = template(data);
 
     return tmp.firstElementChild;
 }

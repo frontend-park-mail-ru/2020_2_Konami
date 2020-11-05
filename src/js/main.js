@@ -1,5 +1,7 @@
 'use strict';
 
+import "../css/main.scss";
+
 import HeaderController from "./MVC/header/headerController.js";
 import Router from "./services/Router/Router.js";
 import MeetingsController from "./MVC/meetings/MeetingsController.js";

@@ -1,5 +1,7 @@
 'use strict';
 
+const template = require('./ProfileTemplate.pug');
+
 import {
     postUser,
     postPhoto,
@@ -110,7 +112,7 @@ function createAvatarField(tmp) {
 
 function createProfile(data, isAuth) {
     const tmp = document.createElement('div');
-    tmp.innerHTML = window.ProfilePageTemplate(data);
+    tmp.innerHTML = template(data);
 
     for (let item of conf) {
         const editedField = tmp.getElementsByClassName(`profile__${item.name}`)[0];
