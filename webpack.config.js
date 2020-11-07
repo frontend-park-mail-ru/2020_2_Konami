@@ -1,5 +1,6 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -19,17 +20,24 @@ module.exports = {
             title: 'OnMeet',
             template: '/html/index.html',
         }),
+        new MiniCssExtractPlugin({
+            filename: '[name].css'
+        }),
     ],
     module: {
         rules: [
-            {
+           {
                 test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader', 
+                    'sass-loader',
+                ],
             },
             {
                 test: /\.pug$/,
                 use: ['pug-loader'],
-            }
+            },
         ],
     }
 };
