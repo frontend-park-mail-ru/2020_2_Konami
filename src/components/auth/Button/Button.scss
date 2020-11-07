@@ -8,12 +8,12 @@
     background: #f1f1f1;
     color: #4b4a4a;
     cursor: pointer;
+
+    &:hover {
+        background-color: #c7c6c6;
+    }
 }
 
-
-.stdBtn:hover {
-    background-color: #c7c6c6;
-}
 
 .secondary {
     height: 28px;
