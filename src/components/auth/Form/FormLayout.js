@@ -14,7 +14,7 @@ export function createLoginFormLayout(application) {
     const errorMessage = document.createElement('p');
     errorMessage.innerHTML =
         'Вы ввели неверный логин или пароль';
-    errorMessage.classList.add('errorMessage');
+    errorMessage.classList.add('error-message');
     errorMessage.style.display = 'none';
 
     const submitBtn = createBtn('Войти',
@@ -52,7 +52,7 @@ export function createSignupFormLayout(application) {
 
     const errorMessage = document.createElement('p');
     errorMessage.innerHTML =
-    errorMessage.classList.add('errorMessage');
+    errorMessage.classList.add('error-message');
     errorMessage.style.display = 'none';
 
     const submitBtn = createBtn('Зарегистрироваться',

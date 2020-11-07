@@ -1,0 +1,126 @@
+
+$signup-max-width: 900px;
+
+.signup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 auto;
+
+    max-width: $signup-max-width;
+
+    .col-1-3 {
+        width: 410px;
+    }
+
+    .col-2-3 {
+        width: 400px;
+    }
+
+    input,
+    button {
+        margin: 12px 10px 27px 0;
+        font-weight: 500;
+    }
+
+    .leftcolumn input {
+        width: 90%;
+    }
+
+    .sexBtns {
+        width: 120px;
+    }
+
+    .birthDay {
+        width: 74px;
+        text-align:center;
+    }
+
+    fieldset {
+        border: 0 none;
+    }
+
+    //TODO копипаста с new-meeting
+    label {
+        color: #648880;
+        cursor: pointer;
+        font-weight: 550;
+        font-family: monospace, Helvetica, sans-serif;
+    }
+
+    input {
+        height: 44px;
+        font-size: 15px;
+        padding: 0 10px;
+        font-family: monospace;
+        background: #f1f1f1;
+
+        border-radius: 3px;
+        border: none;
+        outline: 0;
+        box-sizing: border-box;
+
+        &:focus {
+            box-shadow: 0 0 0 1000px #edf8f6 inset,
+            0 0 0 2px #edf8f6;
+            outline: none;
+        }
+    }
+
+    .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+}
+
+.pers-info-block {
+    display: block;
+
+    .pers-info-row {
+        display: block;
+        margin-left: 80px;
+        margin-top: 50px;
+
+        label {
+            color: #648880;
+            cursor: pointer;
+            font-weight: 550;
+        }
+
+        input,
+        button {
+            margin: 12px 10px 27px 0;
+            padding: 5px 8px;
+            font-weight: 500;
+        }
+
+    }
+}
+
+.tab {
+    display: none;
+}
+
+input.invalid {
+    background-color: #ffdddd;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+
+    button {
+        position: relative;
+        top: 50%;
+        margin-right: 20px;
+
+        .done:active {
+            background-color: #5bb862;
+        }
+
+    }
+}

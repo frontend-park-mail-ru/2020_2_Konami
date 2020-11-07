@@ -39,7 +39,7 @@ export default class LoginView extends BaseView {
             },
 
             onInvalidLoginOrPwd: () => {
-                const errMsg = document.getElementsByClassName('errorMessage')[0];
+                const errMsg = document.getElementsByClassName('error-message')[0];
                 errMsg.style.display = 'block';
             }
 
