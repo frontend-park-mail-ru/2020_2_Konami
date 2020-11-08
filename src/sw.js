@@ -1,4 +1,4 @@
-const CACHE_NAME = 'onmeet-v1.0.0';
+const CACHE_NAME = 'onmeet-v1.0.1';
 const CACHE_PREFIX = 'onmeet';
 
 const CACHE_URLS = [
@@ -34,35 +34,37 @@ self.addEventListener('activate', function (event) {
     );
 });
 
-self.addEventListener('fetch', function(event) {		
+self.addEventListener('fetch', function(event) {	
+
     event.respondWith(
         caches.match(event.request)
             .then(function(response) {
                 // Cache hit - return response
-                if (response) {
-                    return response;
-                }
-                return fetch(event.request).then(
-                    function(response) {
-                        // Check if we received a valid response
-                        if(!response || response.status !== 200 || response.type !== 'basic') {
+                if (navigator.onLine) {
+                    return fetch(event.request).then(
+                        function(response) {
+                            // Check if we received a valid response
+                            if(!response || response.status !== 200 || response.type !== 'basic') {
+                                return response;
+                            }
+                
+                            // IMPORTANT: Clone the response. A response is a stream
+                            // and because we want the browser to consume the response
+                            // as well as the cache consuming the response, we need
+                            // to clone it so we have two streams.
+                            let responseToCache = response.clone();
+                
+                            caches.open(CACHE_NAME)
+                                .then(function(cache) {
+                                    cache.put(event.request, responseToCache);
+                                });
+                
                             return response;
                         }
-            
-                        // IMPORTANT: Clone the response. A response is a stream
-                        // and because we want the browser to consume the response
-                        // as well as the cache consuming the response, we need
-                        // to clone it so we have two streams.
-                        let responseToCache = response.clone();
-            
-                        caches.open(CACHE_NAME)
-                            .then(function(cache) {
-                                cache.put(event.request, responseToCache);
-                            });
-            
-                        return response;
-                    }
-                );
+                    );
+                } else if (response) {
+                    return response;
+                }
             })
     );
 });
