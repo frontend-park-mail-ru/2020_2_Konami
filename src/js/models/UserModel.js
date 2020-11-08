@@ -20,6 +20,9 @@ class UserModel {
         this.userId = null;
         this._isAuthenticated = false;
 
+        this.userCity = null;
+        this.userAddress = null;
+
         UserModel.__instance = this;
     }
 
@@ -101,6 +104,31 @@ class UserModel {
                 // TODO (UPDATE_PHOTO_SUCCESS)
                 // EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
                 break;
+        }
+    }
+
+    getUserGeolocation() {
+        if (window.navigator.geolocation) {
+            let geoString;
+
+            const successfulLookup = position => {
+                const {latitude, longitude} = position.coords;
+                fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=53ac38893add4260ad53c663306ec75c`)
+                    .then(response => response.json())
+                    .then((geo) => {
+                        geoString = geo.results[0].formatted;
+                        const tokens = geoString.split(', ');
+                        this.userCity = tokens[tokens.length - 3];
+
+                        tokens.splice(tokens.length - 3, 3);
+                        this.userAddress = tokens.join(', ');
+
+                        console.log(this.userCity, this.userAddress);
+                    });
+            }
+            window.navigator.geolocation
+                .getCurrentPosition(successfulLookup, console.log);
+
         }
     }
 

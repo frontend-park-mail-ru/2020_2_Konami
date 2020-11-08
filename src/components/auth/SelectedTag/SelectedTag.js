@@ -56,7 +56,7 @@ export function addTagsModalDialogEventListener() {
 }
 
 export function closeTagsModalDialog(evt) {
-    const closeBtn1 = document.getElementsByClassName("close")[0];
+    const closeBtn1 = document.getElementsByClassName("modal__close")[0];
     const closeBtn2 = document.getElementById("closeTagsModal");
     const modal = document.getElementById('modalTags');
 

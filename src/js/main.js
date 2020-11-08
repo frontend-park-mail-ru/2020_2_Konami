@@ -2,6 +2,7 @@
 
 import "@/css/main.scss";
 
+import UserModel from "./models/UserModel.js";
 import HeaderController from "./MVC/header/headerController.js";
 import Router from "./services/Router/Router.js";
 import MeetingsController from "./MVC/meetings/MeetingsController.js";
@@ -29,6 +30,9 @@ if (navigator.serviceWorker) {
 
 (() => {
     const application = document.getElementById('app');
+
+    const user = UserModel.user;
+    user.getUserGeolocation();
 
     const headerController = new HeaderController(application);
     headerController.activate();

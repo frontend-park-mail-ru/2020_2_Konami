@@ -6,7 +6,7 @@ export function displayNotification(text) {
     toasts.classList.add('mtoasts');
 
     toasts.innerHTML += `<div class="mtoasts__toast">
-                            <div class="mtoasts__close">
+                            <div class="mtoasts__close__wrapper">
                             <div class="closeWrapper"><span class="close" id="toastsCloseBtn">×</span></div>
                             </div><p class="mtoasts__text mtoasts__text-short"> ${text}</p>
                         </div>`;

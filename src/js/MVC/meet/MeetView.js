@@ -13,66 +13,30 @@ export default class MeetView extends BaseView {
         this.parent = parent;
         this.model = model;
         this._this = null;
+        this._data = null;
     }
 
     render(data) {
+        this._data = data;
+
         this._this = createMeetPage(data);
         this.parent.appendChild(this._this);
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
-        // тут нужно что то сделать с editbutton 
+        // тут нужно что то сделать с editbutton
         this.model.checkAuth().then(isAuth => {
             // снизу ж*па
             if (isAuth) {
                 if (likeIcon !== undefined) {
-                    likeIcon.addEventListener('click', () => {
-                        let like = false;
-                        if (likeIcon.firstChild.src.includes('heart')) {
-                            likeIcon.firstChild.src = '/assets/like.svg';
-                            like = true;
-                        } else {
-                            likeIcon.firstChild.src = '/assets/heart.svg';
-                            like = false;
-                        }
-                        postMeet({
-                            meetId: data.id,
-                            fields: {
-                                like,
-                            },
-                        }).then(obj => {
-                            if (obj.statusCode === 200) {
-                                // OK
-                            } else {
-                                alert('Permission denied');
-                            }
-                        });
-                    }); 
+                    likeIcon.addEventListener('click', this._clickLikeHandler);
                 }
-                if (goButton !== undefined) { 
-                    goButton.addEventListener('click', ()=> {
-                        let reg = false;
-                        if (goButton.innerHTML === 'Пойти') {
-                            goButton.innerHTML = 'Отменить поход';
-                            reg = true;
-                        } else {
-                            goButton.innerHTML = 'Пойти';
-                            reg = false;
-                        }
-                        postMeet({
-                            meetId: data.id,
-                            fields: {
-                                reg,
-                            },
-                        }).then(obj => {
-                            if (obj.statusCode === 200) {
-                                // OK
-                            } else {
-                                alert('Permission denied');
-                            }
-                        });
-                    });
+                if (goButton !== undefined) {
+                    goButton.addEventListener('click', this._clickGoButtonHandler);
+                }
+                if (editButton !== undefined) {
+                    editButton.addEventListener('click', this._clickEditButtonHandler);
                 }
             } else {
                 if (likeIcon !== undefined) {
@@ -93,6 +57,79 @@ export default class MeetView extends BaseView {
     erase() {
         if (this._this !== null) {
             this._this.remove();
+            this._removeEventListeners();
+        }
+    }
+
+    _clickLikeHandler(evt) {
+        let like = false;
+        if (evt.target.firstChild.src.includes('heart')) {
+            evt.target.firstChild.src = '/assets/like.svg';
+            like = true;
+        } else {
+            evt.target.firstChild.src = '/assets/heart.svg';
+            like = false;
+        }
+        postMeet({
+            meetId: this._data.id,
+            fields: {
+                like,
+            },
+        }).then(obj => {
+            if (obj.statusCode === 200) {
+                // OK
+            } else {
+                alert('Permission denied');
+            }
+        });
+    }
+
+    _clickGoButtonHandler(evt) {
+        let reg = false;
+        if (evt.target.innerHTML === 'Пойти') {
+            evt.target.innerHTML = 'Отменить поход';
+            reg = true;
+        } else {
+            evt.target.innerHTML = 'Пойти';
+            reg = false;
+        }
+        postMeet({
+            meetId: this._data.id,
+            fields: {
+                reg,
+            },
+        }).then(obj => {
+            if (obj.statusCode === 200) {
+                // OK
+            } else {
+                alert('Permission denied');
+            }
+        });
+    }
+
+    _clickEditButtonHandler(evt) {
+        EventBus.dispatchEvent(REDIRECT, {
+            url: '/edit-meeting',
+        });
+        // EventBus.dispatchEvent(PASS_MEETING_DATA, this._data);
+    }
+
+
+
+    _removeEventListeners() {
+        const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
+        if (likeIcon !== undefined) {
+            likeIcon.removeEventListener('click', this._clickLikeHandler);
+        }
+
+        const goButton = this._this.getElementsByClassName('meet__button_go')[0];
+        if (goButton !== undefined) {
+            goButton.removeEventListener('click', this._clickGoButtonHandler);
+        }
+
+        const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
+        if (editButton !== undefined) {
+            editButton.removeEventListener('click', this._clickEditButtonHandler);
         }
     }
 }

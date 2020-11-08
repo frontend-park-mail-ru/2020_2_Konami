@@ -146,30 +146,6 @@ function postPhoto(data) {
     });
 }
 
-// function postTmpPhoto(data) {
-//     let statusCode
-//     return fetch('/api/tmpimages', {
-//         method: 'POST',
-//         credentials: 'include',
-//         body: data,
-//     }).then(
-//     (response) => {
-//         statusCode = response.status;
-//         return response.json();
-//     }).then(
-//     (parsedJson) => {
-//         return {
-//             statusCode: statusCode,
-//             body: parsedJson
-//         }
-//     }).catch(
-//         (error) => {
-//             return {
-//                 error: error
-//             };
-//         });
-// }
-
 const postLogin = async (login, password) => {
     return fetch('/api/login', {
         method: 'POST',
