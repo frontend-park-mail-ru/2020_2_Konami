@@ -1,5 +1,6 @@
 /* The Modal (background) */
 .modal {
+    font-family: monospace, Helvetica, sans-serif;
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 4; /* Sit on top */
@@ -23,11 +24,12 @@
         color: #aaaaaa;
         float: right;
         cursor: pointer;
-        font-size: 28px;
+        font-size: 34px;
         font-weight: bold;
         padding: 4px;
         position: relative;
-        left: -5%;
+        //left: -5%;
+        top: -15px;
 
         &:hover, &:focus {
             color: #000;
@@ -39,5 +41,9 @@
     .footer__button {
         display: flex;
         justify-content: center;
+
+        button {
+            margin: 0;
+        }
     }
 }

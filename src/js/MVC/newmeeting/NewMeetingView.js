@@ -227,32 +227,25 @@ export default class NewMeetingView extends BaseView {
     }
 
     _getUserGeolocation() {
-        if (window.navigator.geolocation) {
-            let geoString;
+        let input;
 
-            const successfulLookup = position => {
-                const {latitude, longitude} = position.coords;
-                fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=53ac38893add4260ad53c663306ec75c`)
-                    .then(response => response.json())
-                    .then((geo) => {
-                        geoString = geo.results[0].formatted;
-                        const tokens = geoString.split(', ');
-                        const city = tokens[tokens.length - 3];
+        if (this.model._user.userCity === null || this.model._user.userAddress === null) {
+            this.model._user.getUserGeolocation();
 
-                        tokens.splice(tokens.length - 3, 3);
-                        const address = tokens.join(', ');
+            setTimeout(() => {
+                input = document.getElementsByName('city')[0];
+                input.value = this.model._user.userCity;
 
-                        let input = document.getElementsByName('address')[0];
-                        input.value = address;
-
-                        input = document.getElementsByName('city')[0];
-                        input.value = city;
-                    });
-            }
-            window.navigator.geolocation
-                .getCurrentPosition(successfulLookup, console.log);
-
+                input = document.getElementsByName('address')[0];
+                input.value = this.model._user.userAddress;
+                }, 3000);
         }
+
+        input = document.getElementsByName('city')[0];
+        input.value = this.model._user.userCity;
+
+        input = document.getElementsByName('address')[0];
+        input.value = this.model._user.userAddress;
     }
 
     _showInvalidInputs() {
