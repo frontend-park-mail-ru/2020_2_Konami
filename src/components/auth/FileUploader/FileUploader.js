@@ -28,8 +28,8 @@ export function inputFileChangedEventListener() {
     const inputs = document.querySelectorAll( '.inputfile' );
     Array.prototype.forEach.call( inputs, function( input ) {
         const img	 = input.nextElementSibling;
-        let label	 = img.nextElementSibling,
-            labelVal = img.innerHTML;
+        let label	 = img.tagName === 'IMG' ? img.nextElementSibling : img;
+        const labelVal = label.innerHTML;
 
         input.addEventListener( 'change', function( e )
         {
