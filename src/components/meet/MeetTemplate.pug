@@ -3,25 +3,16 @@ div(class='meet')
         div(class='meet__leftcolumn')
             div(class='meet__title-status-wrapper')
                 h1(class='meet__title') #{title}
-                if isGoing
-                    span(class='meet__status status status_green') Регистрация идет
-                else if isEnd
-                    span(class='meet__status status status_red') Мероприятие закончилось
-                else 
-                    span(class='meet__status status status_yellow') Осталось мало мест
-            span(class='meet__dateplace') #{place}, #{dateStr}
+                div(class=status.class) #{status.text}
+            div(class='meet__dateplace') #{place}
+            div(class='meet__dateplace') #{dateStr}
         div(class='meet__rightcolumn')
-            if isOwner 
-                button(class='meet__button meet__button_edit') Редактировать
-            else if reg
-                button(class='meet__button meet__button_go') Отменить поход
-            else
-                button(class='meet__button meet__button_go') Пойти
+            button(class=buttonStatus.class) #{buttonStatus.text}
             div(class='meet__like-icon')
-                if like 
-                    img(src='../../assets/like.svg')
+                if isLiked
+                    img(src='/assets/like.svg')
                 else 
-                    img(src='../../assets/heart.svg')
+                    img(src='/assets/heart.svg')
     img(class='meet__image' src=imgSrc)
     div(class='meet__bottom')
         div(class='meet__leftcolumn_bottom')

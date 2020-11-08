@@ -12,7 +12,7 @@ const fs = require('fs');
 
 app.use(morgan('dev'));
 // app.use(express.static(path.resolve(__dirname, '..', 'src')));
-app.use(express.static(`${__dirname}/src`));
+app.use(express.static(`${__dirname}/dist`));
 app.use(cookie());
 app.use(body.json());
 
@@ -106,9 +106,8 @@ app.get('/api/me', function (req, res) {
 
 app.get('*', (req, res) => {
     console.log(req.url);
-    res.sendFile(`${__dirname}/src/index.html`);
+    res.sendFile(`${__dirname}/dist/index.html`);
 });
-
 
 
 const meetCards = {
@@ -124,12 +123,13 @@ const meetCards = {
         tags: ['Rust', 'Забив', 'В падике'],
         title: 'Забив с++',
         place: 'Дом Пушкина, улица Калатушкина',
-        dateStr: '12 сентября 2020',
-        like: true,
-        reg: true,
-        isOwner: true,
-        isGoing: false,
-        isEnd: true,
+        seats: 5,
+        seatsLeft: 5,
+        isLiked: true,
+        isRegistered: true,
+        ownerId: 53,
+        startDate: '1997-12-17 07:37:16',
+        endDate: '1997-12-17 12:37:16',
     },
 };
 

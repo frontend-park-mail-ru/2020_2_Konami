@@ -7,6 +7,10 @@ export default class MeetModel {
         this._user = UserModel.user;
     }
 
+    getUserId() {
+        return this._user.userId;
+    }
+
     checkAuth() {
         return this._user.isAuthenticated();
     }

@@ -29,6 +29,7 @@ export default class MeetController extends Controller {
                 // ne kaef
                 return;
             }
+            response.parsedJson.currentUserId = this.model.getUserId();
             this.view.render(response.parsedJson);
         });
     }

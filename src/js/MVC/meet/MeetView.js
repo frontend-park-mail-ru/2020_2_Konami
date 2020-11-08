@@ -28,18 +28,18 @@ export default class MeetView extends BaseView {
             if (isAuth) {
                 if (likeIcon !== undefined) {
                     likeIcon.addEventListener('click', () => {
-                        let like = false;
+                        let isLiked = false;
                         if (likeIcon.firstChild.src.includes('heart')) {
                             likeIcon.firstChild.src = '/assets/like.svg';
-                            like = true;
+                            isLiked = true;
                         } else {
                             likeIcon.firstChild.src = '/assets/heart.svg';
-                            like = false;
+                            isLiked = false;
                         }
                         postMeet({
                             meetId: data.id,
                             fields: {
-                                like,
+                                isLiked,
                             },
                         }).then(obj => {
                             if (obj.statusCode === 200) {
@@ -52,18 +52,18 @@ export default class MeetView extends BaseView {
                 }
                 if (goButton !== undefined) { 
                     goButton.addEventListener('click', ()=> {
-                        let reg = false;
+                        let isRegistered = false;
                         if (goButton.innerHTML === 'Пойти') {
                             goButton.innerHTML = 'Отменить поход';
-                            reg = true;
+                            isRegistered = true;
                         } else {
                             goButton.innerHTML = 'Пойти';
-                            reg = false;
+                            isRegistered = false;
                         }
                         postMeet({
                             meetId: data.id,
                             fields: {
-                                reg,
+                                isRegistered,
                             },
                         }).then(obj => {
                             if (obj.statusCode === 200) {
