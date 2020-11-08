@@ -59,7 +59,7 @@ function getMeet(meetId) {
     });
 }
 
-function postMeet(editFields) {
+function postMeet(editFields) { // редактирование митинга
     return fetch('/api/meet', {
         method: 'POST',
         headers: {
@@ -227,7 +227,7 @@ function postSignOut() {
     });
 }
 
-function postMeeting(fields) {
+function postMeeting(fields) {  // новый митинг
     return fetch('/api/meeting', {
         method: 'POST',
         headers: {

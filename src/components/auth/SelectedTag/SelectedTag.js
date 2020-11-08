@@ -5,7 +5,7 @@ export function createSelectedTag(tagBtnLikeInput) {
     const tag = document.createElement('div');
     tag.classList.add('selectedTag');
 
-    tag.textContent = tagBtnLikeInput.value;
+    tag.textContent = tagBtnLikeInput.tagName === 'INPUT' ? tagBtnLikeInput.value : tagBtnLikeInput;
 
     const closeBtnWrapper = document.createElement('div');
     closeBtnWrapper.classList.add('closeWrapper');

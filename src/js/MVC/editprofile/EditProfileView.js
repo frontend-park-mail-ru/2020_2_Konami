@@ -177,7 +177,8 @@ export default class EditProfileView extends BaseView {
                     return;
                 }
                 const birthDay = newDate(yearValue, monthValue, dayValue, 0, 0);
-                fieldMap.set('birthday', birthDay.toISOString());
+                const birthDayString = birthDay.toISOString();
+                fieldMap.set('birthday', birthDayString.slice(0, birthDayString.indexOf('T')));
             }
 
             const bodyFields = Object.fromEntries(deleteIf(fieldMap, (k, v) => v.length === 0).entries());
