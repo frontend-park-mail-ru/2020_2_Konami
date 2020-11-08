@@ -17,6 +17,15 @@ $new-meet-max-width: 750px;
         max-width: 580px;
     }
 
+    &__col-1-3 {
+        width: 200px;
+    }
+
+    &__rightcolumn, &__leftcolumn {
+        max-width: 500px;
+    }
+
+
     label {
         color: #648880;
         cursor: pointer;
@@ -53,14 +62,6 @@ $new-meet-max-width: 750px;
         width: 68px;
         text-align:center;
         margin: 10px 10px 10px 0px;
-    }
-
-    .col-1-3 {
-        width: 200px;
-    }
-
-    .rightcolumn, .leftcolumn {
-        max-width: 500px;
     }
 
     .inputfile {

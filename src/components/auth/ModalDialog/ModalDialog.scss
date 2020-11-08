@@ -12,21 +12,28 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
-    .modal-content {
+    &__content {
         background-color: #fefefe;
         margin: auto;
         padding: 20px 10px 20px 10px;
         width: min-content;
         border-radius: 10px;
     }
-    .close {
+    &__close {
         color: #aaaaaa;
         float: right;
+        cursor: pointer;
         font-size: 28px;
         font-weight: bold;
         padding: 4px;
         position: relative;
         left: -5%;
+
+        &:hover, &:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     }
 
     .footer__button {

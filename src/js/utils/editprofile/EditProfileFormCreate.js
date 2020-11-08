@@ -36,7 +36,7 @@ function createTab2() {
     const profilePhotoBtnLabel = createLabeledElements('Фото профиля');
     const fileUploader = createFileUploader('photoFileUploader');
 
-    const leftCol = createColumn({classList: ['leftcolumn', 'col-2-3']},
+    const leftCol = createColumn({classList: ['leftcolumn', 'signup__col-2-3']},
         nameInput, emailInput, profilePhotoBtnLabel, fileUploader);
 
     formsBlock.appendChild(leftCol);
@@ -59,7 +59,7 @@ function createTab2() {
         createInput({style: "width: 80%", name: "city", placeholder: "Ваш текущий город", maxLength: '30'}
         ));
 
-    const rightCol = createColumn({classList: ['rightcolumn', 'col-1-3']},
+    const rightCol = createColumn({classList: ['rightcolumn', 'signup__col-1-3']},
         sexSelectorLabel, birthDateLabel, cityInput);
     formsBlock.appendChild(rightCol);
 

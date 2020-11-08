@@ -39,7 +39,7 @@ const closeSignupModal = (evt) => {
 }
 
 const closeModal = (evt, type) => {
-    const closeBtn = document.getElementsByClassName("close")[0];
+    const closeBtn = document.getElementsByClassName("modal__close")[0];
     const modal = document.getElementById('authModal');
 
     if (evt.target === modal || evt.target === closeBtn) {

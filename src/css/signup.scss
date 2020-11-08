@@ -9,11 +9,11 @@ $signup-max-width: 900px;
 
     max-width: $signup-max-width;
 
-    .col-1-3 {
+    &__col-1-3 {
         width: 410px;
     }
 
-    .col-2-3 {
+    &__col-2-3 {
         width: 400px;
     }
 
