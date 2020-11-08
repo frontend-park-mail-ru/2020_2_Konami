@@ -1,20 +1,27 @@
 .selectedTagsWrapper {
     display: flex;
     flex-wrap: wrap;
-}
 
-.selectedTag {
-    position: relative;
-    background-color: #a9d5ae;
-    color: #111;
-    display: flex;
-    flex-direction: row;
-    height: 24px;
-    margin: 0px 10px 10px 10px;
-    border-radius: 10px;
-    padding: 8px;
-}
+    .selectedTag {
+        position: relative;
+        background-color: #a9d5ae;
+        color: #111;
+        display: flex;
+        flex-direction: row;
+        height: 24px;
+        margin: 0px 10px 10px 10px;
+        border-radius: 10px;
+        padding: 8px;
+    }
 
+    .closeWrapper {
+        position: relative;
+        padding-left: 6px;
+        top: -38%;
+
+    }
+
+}
 
 .close {
     color: #aaaaaa;
@@ -25,19 +32,13 @@
     /* height: 15px; */
     position: relative;
     left: -1%;
-}
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.closeWrapper {
-    position: relative;
-    padding-left: 6px;
-    top: -38%;
+    &:hover,
+    &:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
 }
 
 .btnLike{

@@ -28,7 +28,7 @@ export class AuthForm {
         form.appendChild(this._footer);
 
         const formWrapper = document.createElement('div');
-        formWrapper.classList.add('authForm');
+        formWrapper.classList.add('auth-form');
         formWrapper.appendChild(form);
 
         this._form = form;

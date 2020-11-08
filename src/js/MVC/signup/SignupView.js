@@ -159,7 +159,7 @@ export default class SignupView extends BaseView {
     }
 
     _showErrorsTexts(errors) {
-        const errMsg = document.getElementsByClassName('errorMessage')[0];
+        const errMsg = document.getElementsByClassName('error-message')[0];
         errMsg.innerHTML = '';
         errors.forEach((err) => {
             errMsg.innerHTML += err + '<br>';

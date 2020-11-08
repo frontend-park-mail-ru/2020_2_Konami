@@ -11,28 +11,26 @@
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px 10px 20px 10px;
-    width: min-content;
-    border-radius: 10px;
-}
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px 10px 20px 10px;
+        width: min-content;
+        border-radius: 10px;
+    }
+    .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        padding: 4px;
+        position: relative;
+        left: -5%;
+    }
 
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    padding: 4px;
-    position: relative;
-    left: -5%;
-}
-
-.footer__button {
-    display: flex;
-    justify-content: center;
+    .footer__button {
+        display: flex;
+        justify-content: center;
+    }
 }

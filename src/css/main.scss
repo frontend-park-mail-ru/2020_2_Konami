@@ -8,6 +8,23 @@
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
 
+
+@import '@/components/auth/Form/Form.scss';
+@import '@/components/auth/Button/Button.scss';
+@import '@/components/auth/RadioBtn/RadioBtn.scss';
+@import '@/components/auth/FileUploader/FileUploader.scss';
+@import '@/components/auth/LineSeparator/LineSeparator.scss';
+@import '@/components/auth/LineSeparator/LineSeparator.scss';
+@import '@/components/auth/ModalDialog/ModalDialog.scss';
+@import '@/components/auth/Date-Time/Date-Time.scss';
+@import '@/components/auth/Notification/Notification.scss';
+@import '@/components/auth/SelectedTag/SelectedTag.scss';
+
+
+@import '@/css/signup.scss';
+@import '@/css/new-meeting.scss';
+
+
 .main {
     display: flex;
     flex-direction: column;
