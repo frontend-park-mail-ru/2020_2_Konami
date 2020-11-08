@@ -159,12 +159,14 @@ const usersProfiles = {
         vk: 'https://vk.com/id241926559',
         meetings: [
             {
-                imgSrc: 'assets/vk.png',
-                text: 'Александр Лукашенко',
+                imgSrc: 'assets/beach.jpeg',
+                link: '/meet?meetId=52',
+                text: 'Забив С++',
             },
             {
-                imgSrc: 'assets/telegram.png',
-                text: 'Александр Лукашенко',
+                imgSrc: 'assets/paris.jpg',
+                link: '/meet?meetId=52',
+                text: 'Поиск в google поисковике',
             },
         ],
         interests: `
