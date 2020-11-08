@@ -16,17 +16,16 @@ import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
 
-
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then((registration) => {
-            console.log('sw registration on scope:', registration.scope);
+if (navigator.serviceWorker) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then((registration) => {
+            console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
         })
-        .catch((err) => {
-            console.error(err);
-        });
+            .catch((err) => {
+                console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
+            });
+    });
 }
-
 
 (() => {
     const application = document.getElementById('app');
