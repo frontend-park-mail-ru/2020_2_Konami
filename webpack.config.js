@@ -38,6 +38,19 @@ module.exports = {
                 test: /\.pug$/,
                 use: ['pug-loader'],
             },
+            {
+                test: /\.js$/,
+                loader: 'buble-loader',
+                include: path.join(__dirname, 'src'),
+                options: {
+                    objectAssign: 'Object.assign',
+                    transforms: {
+                        modules: false,
+                        dangerousForOf: true,
+                        asyncAwait: false,
+                    },
+                },
+            },
         ],
     }
 };
