@@ -1,2 +1,6 @@
 node_modules
 .idea
+/src/bundle.js
+/src/index.html
+/src/main.css
+.vscode
