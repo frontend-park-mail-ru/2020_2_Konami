@@ -18,6 +18,52 @@ export default class MeetView extends BaseView {
         this.model = model;
         this._this = null;
         this._data = null;
+
+        this._clickLikeHandler = (evt) => {
+            let isLiked = false;
+            if (evt.target.firstChild.src.includes('heart')) {
+                evt.target.firstChild.src = '/assets/like.svg';
+                isLiked = true;
+            } else {
+                evt.target.firstChild.src = '/assets/heart.svg';
+                isLiked = false;
+            }
+            postMeet({
+                meetId: this._data.id,
+                fields: {
+                    isLiked,
+                },
+            }).then(obj => {
+                if (obj.statusCode === 200) {
+                    // OK
+                } else {
+                    alert('Permission denied');
+                }
+            });
+        };
+    
+        this._clickGoButtonHandler = (evt) => {
+            let isRegistered = false;
+            if (evt.target.innerHTML === 'Пойти') {
+                evt.target.innerHTML = 'Отменить поход';
+                isRegistered = true;
+            } else {
+                evt.target.innerHTML = 'Пойти';
+                isRegistered = false;
+            }
+            postMeet({
+                meetId: this._data.id,
+                fields: {
+                    isRegistered,
+                },
+            }).then(obj => {
+                if (obj.statusCode === 200) {
+                    // OK
+                } else {
+                    alert('Permission denied');
+                }
+            });
+        };
     }
 
     render(data) {
@@ -70,60 +116,12 @@ export default class MeetView extends BaseView {
         }
     }
 
-    _clickLikeHandler(evt) {
-        let like = false;
-        if (evt.target.firstChild.src.includes('heart')) {
-            evt.target.firstChild.src = '/assets/like.svg';
-            like = true;
-        } else {
-            evt.target.firstChild.src = '/assets/heart.svg';
-            like = false;
-        }
-        postMeet({
-            meetId: this._data.id,
-            fields: {
-                like,
-            },
-        }).then(obj => {
-            if (obj.statusCode === 200) {
-                // OK
-            } else {
-                alert('Permission denied');
-            }
-        });
-    }
-
-    _clickGoButtonHandler(evt) {
-        let reg = false;
-        if (evt.target.innerHTML === 'Пойти') {
-            evt.target.innerHTML = 'Отменить поход';
-            reg = true;
-        } else {
-            evt.target.innerHTML = 'Пойти';
-            reg = false;
-        }
-        postMeet({
-            meetId: this._data.id,
-            fields: {
-                reg,
-            },
-        }).then(obj => {
-            if (obj.statusCode === 200) {
-                // OK
-            } else {
-                alert('Permission denied');
-            }
-        });
-    }
-
     _clickEditButtonHandler(evt) {
         EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});
         setTimeout(() => {
             EventBus.dispatchEvent(PASS_MEET_DATA_TO_EDIT, this._data);
         }, 500); // таймаут нужен из за checkAuth, который промис возвращает(((
     }
-
-
 
     _removeEventListeners() {
         const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];

@@ -4,3 +4,4 @@ node_modules
 /src/index.html
 /src/main.css
 .vscode
+dist/
