@@ -6,9 +6,9 @@ export function createModalDialog(props, contentElement) {
     applyOptionsTo(modalBackground, {...props});
 
     const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
+    modalContent.classList.add('modal__content');
 
-    modalContent.innerHTML = '<span class="close">&times;</span>\n';
+    modalContent.innerHTML = '<span class="modal__close">&times;</span>\n';
 
     modalContent.append(...contentElement);
     modalBackground.appendChild(modalContent);

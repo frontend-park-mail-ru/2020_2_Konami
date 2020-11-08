@@ -55,7 +55,7 @@ export function createNewMeetingForm() {
     const selectedTags = document.createElement('div');
     selectedTags.classList.add('selectedTagsWrapper');
 
-    const leftCol = createColumn({classList: ['leftcolumn', 'col-1-3']}, addTagsBtn, modalBlock);
+    const leftCol = createColumn({classList: ['new-meet__leftcolumn', 'new-meet__col-1-3']}, addTagsBtn, modalBlock);
     leftCol.appendChild(selectedTags);
 
 
@@ -95,7 +95,7 @@ export function createNewMeetingForm() {
     dates.classList.add('date');
     dates.append(start, end);
 
-    const rightCol = createColumn({classList: ['rightcolumn']},
+    const rightCol = createColumn({classList: ['new-meet__rightcolumn']},
         nameInput, descriptionInput, meetPhotoLabel, fileUploader, cityInput, addressInput, dates);
     newMeetWrapper.append(leftCol, rightCol);
 
