@@ -92,10 +92,13 @@ function createAvatarField(tmp) {
 
     fileChooser.onchange = (event) => {
         var file = event.target.files[0];
+        if (file.size/1024/1024 > 4) {
+            displayNotification('Файл слишком большой');
+            return;
+        }
         var FR = new FileReader();
 
         FR.onload = function(event) {
-            console.dir(event);
             avatar.src = event.target.result;
             saveButton.hidden = false;
         };
@@ -110,9 +113,11 @@ function createAvatarField(tmp) {
         postPhoto(formData, 'userId', window.userId).then((obj) => {
             if (obj.statusCode === 200) {
                 displayNotification("Вы изменили фотографию");
+                saveButton.hidden = true;
+            } else if (obj.statusCode === 413) {
+                displayNotification("Файл слишком большой");
             }
         });
-        saveButton.hidden = true;
     }
 }
 
