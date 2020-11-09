@@ -35,7 +35,8 @@ export default class LoginView extends BaseView {
 
             onLoginSuccess: () => {
                 EventBus.dispatchEvent(CLOSE_LOGIN_MODAL);
-                EventBus.dispatchEvent(REDIRECT, {url: location.pathname});
+                const querySearch = location.search.length > 0 ? location.search : '';
+                EventBus.dispatchEvent(REDIRECT, {url: location.pathname + querySearch});
             },
 
             onInvalidLoginOrPwd: () => {

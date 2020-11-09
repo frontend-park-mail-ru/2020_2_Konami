@@ -29,6 +29,8 @@ export default class NewMeetingView extends BaseView {
         this.parent = parent;
         this.model = model;
 
+        this.needSetGeoposition = true;
+
         this._initEventHandlers();
     }
 
@@ -79,7 +81,9 @@ export default class NewMeetingView extends BaseView {
         this.parent.appendChild(form);
 
         this._initDefaultDateTimeInputValues();
-        this._getUserGeolocation();
+        if (this.needSetGeoposition) {
+            this._setUserGeolocation();
+        }
         this._addEventListeners();
     }
 
@@ -207,7 +211,7 @@ export default class NewMeetingView extends BaseView {
 
     _initDefaultDateTimeInputValues() {
         const arr =
-            [['day', Date.prototype.getDay],
+            [['day', Date.prototype.getDate],
                 ['month', Date.prototype.getMonth],
                 ['year', Date.prototype.getFullYear],
                 ['hours', Date.prototype.getHours],
@@ -216,17 +220,19 @@ export default class NewMeetingView extends BaseView {
         const startDate = new Date();
         arr.forEach((tok) => {
             let input = document.getElementsByName(`start-${tok[0]}`)[0];
-            input.value = tok[1].call(startDate);
+            let val = tok[0] === 'month' ? tok[1].call(startDate) + 1 : tok[1].call(startDate);
+            input.value = val;
         });
 
         const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000); // plus 3 hours;
         arr.forEach((tok) => {
             let input = document.getElementsByName(`end-${tok[0]}`)[0];
-            input.value = tok[1].call(endDate);
+            let val = tok[0] === 'month' ? tok[1].call(endDate) + 1 : tok[1].call(endDate);
+            input.value = val;
         });
     }
 
-    _getUserGeolocation() {
+    _setUserGeolocation() {
         let input;
 
         if (this.model._user.userCity === null || this.model._user.userAddress === null) {

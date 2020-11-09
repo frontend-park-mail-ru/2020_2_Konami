@@ -7,11 +7,12 @@
  * @returns {Map}
  */
 export function deleteIf(map, pred) {
-    for (let [k, v] of map) {
-        if (pred(k,v)) {
-            map.delete(k);
+    map.forEach((value, key) => {
+        if (pred(key,value)) {
+            map.delete(key);
         }
-    }
+    })
+
     return map;
 }
 

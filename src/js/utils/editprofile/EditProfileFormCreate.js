@@ -1,12 +1,14 @@
 'use strict';
-import {createLabeledElements} from "../../../components/auth/LabeledElements/LabeledElements.js";
-import {createInput} from "../../../components/auth/Input/Input.js";
-import {createRadioBtn} from "../../../components/auth/RadioBtn/RadioBtn.js";
-import {createBtn} from "../../../components/auth/Button/button.js";
-import {createLineSeparator} from "../../../components/auth/LineSeparator/LineSeparator.js";
-import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
-import {createFileUploader} from "../../../components/auth/FileUploader/FileUploader.js";
-import {createColumn} from "../../../components/auth/Fieldset/Fieldset.js";
+import {createLabeledElements} from "@/components/auth/LabeledElements/LabeledElements.js";
+import {createInput} from "@/components/auth/Input/Input.js";
+import {createRadioBtn} from "@/components/auth/RadioBtn/RadioBtn.js";
+import {createBtn} from "@/components/auth/Button/button.js";
+import {createLineSeparator} from "@/components/auth/LineSeparator/LineSeparator.js";
+import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
+import {createFileUploader} from "@/components/auth/FileUploader/FileUploader.js";
+import {createColumn} from "@/components/auth/Fieldset/Fieldset.js";
+
+import {createDomTag, TAGS} from '@/js/config/tags.js'
 
 export function createEditProfileForm() {
     const form = document.createElement('form');
@@ -89,24 +91,25 @@ function createTab1() {
     // TODO (заполнить нормльными тэгами)
     const tags = document.createElement('div');
     tags.classList.add('recommendationTagsWrapper');
-    for (let i = 0; i < 10; i++) {
-        let lbl = document.createElement('label');
-        lbl.id = 'tag' + i;
-
-        let input = document.createElement('input');
-        input.classList.add('btnLike');
-        input.type = 'checkbox';
-        input.name = 'tags';
-        input.value = 'randomTag' + i;
-
-        let span = document.createElement('span');
-        span.textContent = 'randomTag';
-
-        lbl.appendChild(input);
-        lbl.appendChild(span);
-
-        tags.appendChild(lbl);
-    }
+    tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
+    // for (let i = 0; i < 10; i++) {
+    //     let lbl = document.createElement('label');
+    //     lbl.id = 'tag' + i;
+    //
+    //     let input = document.createElement('input');
+    //     input.classList.add('btnLike');
+    //     input.type = 'checkbox';
+    //     input.name = 'tags';
+    //     input.value = 'randomTag' + i;
+    //
+    //     let span = document.createElement('span');
+    //     span.textContent = 'randomTag';
+    //
+    //     lbl.appendChild(input);
+    //     lbl.appendChild(span);
+    //
+    //     tags.appendChild(lbl);
+    // }
 
     const helperText = document.createElement('span');
     helperText.classList.add('helpText');

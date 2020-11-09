@@ -15,6 +15,7 @@ export default class EditMeetingView extends NewMeetingView {
     constructor(parent, model) {
         super(parent, model);
         this.id = null;
+        this.needSetGeoposition = false;
 
         this._eventHandlers.onSubmitForm = (fields) => {
             // TODO чек если поле не изменилось
@@ -37,7 +38,7 @@ export default class EditMeetingView extends NewMeetingView {
         }
 
         this._eventHandlers.onFillingEditingValues = (data) => {
-            const {id, dateStr, text, title, place, tags, imgSrc} = data;
+            const {id, startDate, endDate, text, title, place, tags, imgSrc} = data;
             this.id = id;
 
             const titleInput = document.getElementsByName('name')[0];
@@ -50,9 +51,16 @@ export default class EditMeetingView extends NewMeetingView {
             meetPoster.src = imgSrc;
 
             const addressInput = document.getElementsByName('address')[0];
-            addressInput.value = place;
+            const cityInput = document.getElementsByName('city')[0];
+            const tokens = place.split(', ');
+            cityInput.value = tokens[0];
+            tokens.splice(0, 1);
+            addressInput.value = tokens.join(', ');
 
-            //TODO set date time
+            const start = new Date(Date.parse(startDate));
+            this._fillDateTime('start', start);
+            const end = new Date(Date.parse(endDate));
+            this._fillDateTime('end', end);
 
             const selectedTagsBlock = document.getElementsByClassName('selectedTagsWrapper')[0];
             selectedTagsBlock.innerHTML = '';
@@ -63,6 +71,20 @@ export default class EditMeetingView extends NewMeetingView {
 
     }
 
+    _fillDateTime(prefix, datetime) {
+        const day = document.getElementsByName(`${prefix}-day`)[0];
+        const month = document.getElementsByName(`${prefix}-month`)[0];
+        const year = document.getElementsByName(`${prefix}-year`)[0];
+
+        const hours = document.getElementsByName(`${prefix}-hours`)[0];
+        const minutes = document.getElementsByName(`${prefix}-minutes`)[0];
+
+        day.value = datetime.getDate();
+        month.value = datetime.getMonth();
+        year.value = datetime.getFullYear();
+        hours.value = datetime.getHours();
+        minutes.value = datetime.getMinutes();
+    }
 
 
 }

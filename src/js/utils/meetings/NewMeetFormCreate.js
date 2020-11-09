@@ -9,6 +9,8 @@ import {createFileUploaderWithImg} from "../../../components/auth/FileUploader/F
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import {createDateTimeBlock} from "../../../components/auth/Date-Time/Date-Time.js";
 
+import {createDomTag, TAGS} from '@/js/config/tags.js'
+
 export function createNewMeetingForm() {
     const form = document.createElement('form');
     const newMeetWrapper = document.createElement('div');
@@ -23,23 +25,24 @@ export function createNewMeetingForm() {
 
     // TODO (заполнить нормльными тэгами)
     const tags = document.createElement('div');
-    tags.classList.add('recommendationTagsWrapper')
-    for (let i = 0; i < 10; i++) {
-        let lbl = document.createElement('label');
-        let input = document.createElement('input');
-        input.classList.add('btnLike');
-        input.type = 'checkbox';
-        input.name = 'tags';
-        input.value = 'randomTag' + i;
-
-        let span = document.createElement('span');
-        span.textContent = 'randomTag';
-
-        lbl.appendChild(input);
-        lbl.appendChild(span);
-
-        tags.appendChild(lbl);
-    }
+    tags.classList.add('recommendationTagsWrapper');
+    tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
+    // for (let i = 0; i < 10; i++) {
+    //     let lbl = document.createElement('label');
+    //     let input = document.createElement('input');
+    //     input.classList.add('btnLike');
+    //     input.type = 'checkbox';
+    //     input.name = 'tags';
+    //     input.value = 'randomTag' + i;
+    //
+    //     let span = document.createElement('span');
+    //     span.textContent = 'randomTag';
+    //
+    //     lbl.appendChild(input);
+    //     lbl.appendChild(span);
+    //
+    //     tags.appendChild(lbl);
+    // }
 
     const helperText = document.createElement('span');
     helperText.classList.add('helpText');
