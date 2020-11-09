@@ -4,6 +4,7 @@ import { createMeetPage } from "@/components/meet/meet.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { postMeet } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import {
     OPEN_LOGIN_MODAL,
     REDIRECT,
@@ -45,7 +46,7 @@ export default class MeetView extends BaseView {
                 },
             }).then(obj => {
                 if (obj.statusCode === 200) {
-                    // OK
+                    displayNotification("Вы оценили мероприятие");
                 } else {
                     alert('Permission denied');
                 }
@@ -68,7 +69,11 @@ export default class MeetView extends BaseView {
                 },
             }).then(obj => {
                 if (obj.statusCode === 200) {
-                    // OK
+                    if (isRegistered) {
+                        displayNotification("Вы зарегистрировались");
+                    } else {
+                        displayNotification("Вы отменили регистрацию");
+                    }
                 } else if (obj.statusCode === 409) {
                     alert('Вы не можете зарегистрироваться на мероприятие, которе уже прошло');
                 } else {

@@ -16,6 +16,8 @@ import {
     createBtn
 } from "../auth/Button/button.js";
 
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
+
 const conf = [
     {
         name: 'name',
@@ -62,19 +64,19 @@ function createTags(rightColumn, data) {
 
     // TODO в отдельную функцию
     const tags =  data.interestTags.map((tagValue) => {
-            let lbl = document.createElement('label');
-            let input = document.createElement('input');
-            input.classList.add('btnLike');
-            input.name = 'tags';
-            input.value = tagValue;
+        let lbl = document.createElement('label');
+        let input = document.createElement('input');
+        input.classList.add('btnLike');
+        input.name = 'tags';
+        input.value = tagValue;
 
-            let span = document.createElement('span');
-            span.textContent = tagValue;
+        let span = document.createElement('span');
+        span.textContent = tagValue;
 
-            lbl.appendChild(input);
-            lbl.appendChild(span);
+        lbl.appendChild(input);
+        lbl.appendChild(span);
 
-            return lbl;
+        return lbl;
     });
     tagsWrapper.append(...tags);
 
@@ -90,10 +92,13 @@ function createAvatarField(tmp) {
 
     fileChooser.onchange = (event) => {
         var file = event.target.files[0];
+        if (file.size/1024/1024 > 4) {
+            displayNotification('Файл слишком большой');
+            return;
+        }
         var FR = new FileReader();
 
         FR.onload = function(event) {
-            console.dir(event);
             avatar.src = event.target.result;
             saveButton.hidden = false;
         };
@@ -105,8 +110,14 @@ function createAvatarField(tmp) {
         let blobFile = fileChooser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
-        postPhoto(formData, 'userId', window.userId);
-        saveButton.hidden = true;
+        postPhoto(formData, 'userId', window.userId).then((obj) => {
+            if (obj.statusCode === 200) {
+                displayNotification("Вы изменили фотографию");
+                saveButton.hidden = true;
+            } else if (obj.statusCode === 413) {
+                displayNotification("Файл слишком большой");
+            }
+        });
     }
 }
 
@@ -132,7 +143,9 @@ function createProfile(data, isAuth) {
             const obj = {};
             obj[item.name] = editedField.innerHTML;
             postUser(obj).then(obj =>{
-                if (obj.statusCode !== 200) {
+                if (obj.statusCode === 200) {
+                    displayNotification("Вы отредактировали профиль");
+                } else if (obj.statusCode !== 200) {
                     alert('Permission denied');
                 }
             });

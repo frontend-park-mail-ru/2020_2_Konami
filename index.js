@@ -128,8 +128,8 @@ const meetCards = {
         isLiked: true,
         isRegistered: true,
         ownerId: 53,
-        startDate: '1997-12-17 07:37:16',
-        endDate: '1997-12-17 12:37:16',
+        startDate: '2020-12-17 07:37:16',
+        endDate: '2020-12-17 12:37:16',
     },
 };
 
