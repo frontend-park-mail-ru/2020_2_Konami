@@ -16,7 +16,7 @@ export function createMeetPage(data) {
             class: 'meet__status status status_green',
             text: 'Регистрация идет',
         };
-    } else if (startDate < currentDate) {
+    } else if (endDate < currentDate) {
         data.status = {
             class: 'meet__status status status_red',
             text: 'Мероприятие закончилось',

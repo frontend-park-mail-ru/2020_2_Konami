@@ -16,7 +16,7 @@ export function createMeetCard(data) {
             class: 'meetcard__status status status_green',
             text: 'Регистрация идет',
         };
-    } else if (startDate < currentDate) {
+    } else if (endDate < currentDate) {
         data.status = {
             class: 'meetcard__status status status_red',
             text: 'Мероприятие закончилось',
