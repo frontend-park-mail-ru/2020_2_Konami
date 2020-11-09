@@ -21,6 +21,11 @@ export function createMeetCard(data) {
             class: 'meetcard__status status status_red',
             text: 'Мероприятие закончилось',
         };
+    } else if (data.seatsLeft <= 0) {
+        data.status = {
+            class: 'meetcard__status status status_red',
+            text: 'Места закончились',
+        };
     } else if (startDate < currentDate && endDate > currentDate) {
         data.status = {
             class: 'meetcard__status status status_yellow',
