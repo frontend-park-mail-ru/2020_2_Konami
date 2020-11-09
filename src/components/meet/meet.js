@@ -48,7 +48,7 @@ export function createMeetPage(data) {
             class: 'meet__button meet__button_go',
             text: 'Отменить поход',
         };
-    } else {
+    } else if (data.seatsLeft > 0 && endDate > currentDate) {
         data.buttonStatus = {
             class: 'meet__button meet__button_go',
             text: 'Пойти',

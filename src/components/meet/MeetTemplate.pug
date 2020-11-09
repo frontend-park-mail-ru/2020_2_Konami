@@ -7,7 +7,8 @@ div(class='meet')
             div(class='meet__dateplace') #{place}
             div(class='meet__dateplace') #{dateStr}
         div(class='meet__rightcolumn')
-            button(class=buttonStatus.class) #{buttonStatus.text}
+            if buttonStatus
+                button(class=buttonStatus.class) #{buttonStatus.text}
             div(class='meet__like-icon')
                 if isLiked
                     img(src='/assets/like.svg')

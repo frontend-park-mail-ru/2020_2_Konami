@@ -17,12 +17,22 @@ export default class MeetView extends BaseView {
 
         this._clickLikeHandler = (evt) => {
             let isLiked = false;
-            if (evt.target.firstChild.src.includes('heart')) {
-                evt.target.firstChild.src = '/assets/like.svg';
-                isLiked = true;
+            if (evt.target.firstChild != undefined) {
+                if (evt.target.firstChild.src.includes('heart')) {
+                    evt.target.firstChild.src = '/assets/like.svg';
+                    isLiked = true;
+                } else {
+                    evt.target.firstChild.src = '/assets/heart.svg';
+                    isLiked = false;
+                }
             } else {
-                evt.target.firstChild.src = '/assets/heart.svg';
-                isLiked = false;
+                if (evt.target.src.includes('heart')) {
+                    evt.target.src = '/assets/like.svg';
+                    isLiked = true;
+                } else {
+                    evt.target.src = '/assets/heart.svg';
+                    isLiked = false;
+                }
             }
             postMeet({
                 meetId: this._data.id,
@@ -55,6 +65,8 @@ export default class MeetView extends BaseView {
             }).then(obj => {
                 if (obj.statusCode === 200) {
                     // OK
+                } else if (obj.statusCode === 409) {
+                    alert('Вы не можете зарегистрироваться на мероприятие, которе уже прошло');
                 } else {
                     alert('Permission denied');
                 }
