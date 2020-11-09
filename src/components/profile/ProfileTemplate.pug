@@ -31,7 +31,7 @@ main(class='profile')
             each val, index in meetings
                 div(class='icon-with-text')
                     img(class='icon-with-text__meet-preview-icon' src=val.imgSrc)
-                    a(class='icon-with-text__link bold' href=val.link) #{val.text} 
+                    a(class='icon-with-text__link bold' href='/meet?meetId=#{val.id}') #{val.title}
         
     div(class='profile__rightcolumn')
         div(class='icon-with-text')
