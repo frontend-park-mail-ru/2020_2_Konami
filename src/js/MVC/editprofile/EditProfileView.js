@@ -186,7 +186,7 @@ export default class EditProfileView extends BaseView {
             const photos = document.getElementById('photoFileUploader').files;
             let formData = new FormData();
             if (photos.length > 0) {
-                formData.append(photos[0].name, photos[0]);
+                formData.append('fileToUpload', photos[0]);
             }
             EventBus.dispatchEvent(SUBMIT_EDIT, {inputFields: bodyFields, photoFormData: formData, photos: photos});
 
