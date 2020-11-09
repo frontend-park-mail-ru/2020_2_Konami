@@ -2,45 +2,35 @@ import {
     AuthForm,
 } from "./Form.js";
 
-import {
-    onSignupRedirectPage,
-} from '../../../js/signupPageFunc.js';
-
-import {postLogin, postSignUp} from '../../../api/api.js'
+import {createLabeledElements} from "../LabeledElements/LabeledElements.js";
+import {createInput} from "../Input/Input.js";
+import {createBtn} from "../Button/button.js";
 
 export function createLoginFormLayout(application) {
     const loginInput = createLabeledElements('Логин',
-        createInput({type: 'text', placeholder: 'логин', name: 'login'}));
+        createInput({type: 'text', required: 'true', name: 'login'}));
     const pwdInput = createLabeledElements('Пароль',
-        createInput({type: 'password', placeholder: 'пароль', name: 'password'}));
+        createInput({type: 'password', name: 'password', required: 'true'}));
+    const errorMessage = document.createElement('p');
+    errorMessage.innerHTML =
+        'Вы ввели неверный логин или пароль';
+    errorMessage.classList.add('error-message');
+    errorMessage.style.display = 'none';
 
     const submitBtn = createBtn('Войти',
         {type: ' submit', classList: ['stdBtn', 'activable']});
     const message = document.createElement('p');
     message.innerHTML =
-        `Нету аккаунта? 
-        <a href="${appConfig.registration.href}" data-section="registration">
+        `Нет аккаунта? 
+        <a>
             Зарегистрироваться
         </a>`;
     message.classList.add('message');
 
-    const form = new AuthForm(application, (evt) => {
-        evt.preventDefault();
+    const form = new AuthForm(application);
 
-        let input = document.getElementsByName('login')[0];
-        const login = input.value.trim();
 
-        input = document.getElementsByName('password')[0];
-        const password = input.value.trim();
-
-        (async () => {
-            const error = await postLogin(login, password);
-            if (error) {
-            }
-        })()
-
-    });
-    form.main.append(loginInput, pwdInput);
+    form.main.append(loginInput, pwdInput, errorMessage);
     form.footer.append(submitBtn, message);
 
 
@@ -52,42 +42,24 @@ export function createSignupFormLayout(application) {
         {type: 'text', placeholder: 'Ваш логин', name: 'login', required: 'true', maxLength: '30'}));
 
     const passwordInput = createLabeledElements('Придумайте пароль', createInput(
-        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '5'}));
+        {type: 'password', placeholder: 'Пароль', name: 'password', required: 'true', maxLength: '30', minLength: '0'}));
 
     const repeatPasswordInput = createLabeledElements('Повторите пароль', createInput(
         {type: 'password', placeholder: 'Пароль', name: 'repeatPassword', required: 'true', maxLength: '30'}));
 
+    const nameInput = createLabeledElements('Имя', createInput(
+        {type: 'text', placeholder: 'Полное имя', name: 'name', required: 'true', maxLength: '30'}));
+
+    const errorMessage = document.createElement('p');
+    errorMessage.innerHTML =
+    errorMessage.classList.add('error-message');
+    errorMessage.style.display = 'none';
+
     const submitBtn = createBtn('Зарегистрироваться',
         {type: ' submit', classList: ['stdBtn', 'activable']});
 
-    const form = new AuthForm(application, (evt) => {
-        evt.preventDefault();
-
-        let input = document.getElementsByName('login')[0];
-        const login = input.value.trim();
-
-        input = document.getElementsByName('password')[0];
-        const password = input.value.trim();
-
-        input = document.getElementsByName('repeatPassword')[0];
-        const repeatPassword = input.value.trim();
-
-        //TODO(Валидатор сложности пароля)
-        if (!isValidPassword(password, repeatPassword)) {
-            password.classList.add('invalid');
-            repeatPassword.classList.add('invalid');
-            return
-        }
-
-        (async () => {
-            const {status, error} = await postSignUp(login, password);
-            if (status === 200) {
-                onSignupRedirectPage(application);
-            }
-        })();
-
-    });
-    form.main.append(loginInput, passwordInput, repeatPasswordInput);
+    const form = new AuthForm(application);
+    form.main.append(loginInput, passwordInput, repeatPasswordInput, nameInput, errorMessage);
     form.footer.append(submitBtn);
 
     return form;

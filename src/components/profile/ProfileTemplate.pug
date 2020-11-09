@@ -1,0 +1,71 @@
+main(class='profile')
+    div(class='profile__leftcolumn')
+        div(class='profile__avatar-wrapper')
+            div(class='profile__avatar-overlay')
+                input(accept='image/*' type='file' id='file' class='profile__file-chooser')
+                label(for="file" class='profile__file-label') Выберите файл
+                button(class='profile__save-button' hidden) Сохранить
+            img(class='profile__avatar' src=imgSrc)
+        div(class='icon-with-text')
+            h2(class='profile__name') #{name}
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__name-editicon') 
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/place.svg')
+            span(class='profile__city') #{city}
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__city-editicon')
+        hr
+        div(class='profile__socialnetworks')
+            div(class='icon-with-text')
+                img(class='icon-with-text__mainicon' src='assets/vk.png')
+                a(class='icon-with-text__link profile__vk' href=vk) #{vk} 
+                img(src='assets/pen.svg' class='icon-with-text__editicon profile__vk-editicon')
+            div(class='icon-with-text')
+                img(class='icon-with-text__mainicon' src='assets/telegram.png')
+                a(class='icon-with-text__link profile__telegram' href=telegram) #{telegram} 
+                img(src='assets/pen.svg' class='icon-with-text__editicon profile__telegram-editicon')
+        hr
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/arrow.svg')
+            span(class='bold') Мероприятия
+        div(class='profile__meetings')
+            each val, index in meetings
+                div(class='icon-with-text')
+                    img(class='icon-with-text__meet-preview-icon' src=val.imgSrc)
+                    a(class='icon-with-text__link bold' href=val.link) #{val.text} 
+        
+    div(class='profile__rightcolumn')
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/diamond.svg')
+            span(class='bold') Навыки
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__skills-editicon')
+
+        span(class='profile__title profile__skills') #{skills}
+
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/search.svg')
+            span(class='bold') Интересы
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__interests-editicon')
+        span(class='profile__title profile__interests') #{interests}
+
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/education.svg')
+            span(class='bold') Образование
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__education-editicon')
+        span(class='profile__title profile__education') #{education}
+
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/job.svg')
+            span(class='bold') Работа
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__job-editicon')
+        span(class='profile__title profile__job') #{job}
+
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/aim.svg')
+            span(class='bold') Цели
+            img(src='assets/pen.svg' class='icon-with-text__editicon profile__aims-editicon')
+        span(class='profile__title profile__aims') #{aims}
+
+        div(class='icon-with-text')
+            img(class='icon-with-text__mainicon' src='assets/tag.svg')
+            span(class='bold') Тэги рекомендаций
+

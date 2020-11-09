@@ -1,0 +1,38 @@
+.stdBtn {
+    height: 44px;
+    font-size: 15px;
+    padding: 0 16px;
+    font-family: monospace;
+
+    border-radius: 5px;
+    background: #f1f1f1;
+    color: #4b4a4a;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #c7c6c6;
+    }
+}
+
+
+.secondary {
+    height: 28px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 2px #c7c6c6;
+    border: none;
+}
+
+.sexBtns {
+    width: 120px;
+}
+
+
+.focusable:focus {
+    box-shadow: 0 0 0 1px #FFFFFF,
+    0 0 0 4px #070707;
+    outline: none;
+}
+
+.activable:active {
+    background-color: #8d978d;
+}

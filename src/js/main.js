@@ -1,124 +1,58 @@
 'use strict';
 
+import "@/css/main.scss";
+
+import UserModel from "./models/UserModel.js";
+import {registerAuthModalWindows} from "./utils/auth-modal/authModalUtils.js";
+import HeaderController from "./MVC/header/headerController.js";
+import Router from "./services/Router/Router.js";
+import MeetingsController from "./MVC/meetings/MeetingsController.js";
+import EventBus from "./services/EventBus/EventBus.js";
+import EditProfileController from "./MVC/editprofile/EditProfileController.js";
+import ProfileController from "./MVC/profile/ProfileController.js";
+import PeopleController from "./MVC/people/PeopleController.js";
+import NewMeetingController from "./MVC/newmeeting/NewMeetingController.js";
+import EditMeetingController from "./MVC/edit-meeting/EditMeetingController.js";
+import MeetController from "./MVC/meet/MeetController.js";
 import {
-    createLoginFormLayout, 
-    createSignupFormLayout
-} from "../components/auth/Form/FormLayout.js";
+    REDIRECT
+} from "./services/EventBus/EventTypes.js";
 
-import {
-    AjaxModule
-} from "../modules/ajax.js";
-
-import {
-    createMetPage,
-    createPeoplesPage,
-    createProfilePage,
-} from './pageCreateFunc.js';
-
-import {
-    createNavigation,
-} from '../components/header/Navigation/navigation.js';
-
-import {
-    createHeader,
-} from '../components/header/Header/header.js';
-
-
-const application = document.body;
-window.userId = NaN
-
-const Ajax = new AjaxModule();
-globalThis.ajax = Ajax.ajax;
-
-globalThis.appConfig = {
-    forMe: {
-        text: 'Для меня',
-        href: '/forme',
-    },
-    meetings: {
-        text: 'Мероприятия',
-        href: '/meetings',
-        open: () => {
-            createMetPage(application);
-        },
-    },
-    people: {
-        text: 'Люди',
-        href: '/peoples',
-        open: () => {
-            createPeoplesPage(application);
-        },
-    },
-    profile: {
-        text: 'Профиль',
-        href: '',
-        open: () => {
-            profilePage(application);
-        },
-    },
-    registration: {
-        text: "Регистрация",
-        href: "/registration",
-        open: () => {
-            signUpPage(application);
-        },
-    },
-    login: {
-        text: "Логин",
-        href: "/login",
-        open: () => {
-            loginPage(application);
-        },
-    }
-}
-
-function profilePage(application) {
-    globalThis.ajax('GET', '/me', (status, responseText) => {
-        let isAuthorized = false;
-
-        if (status === 200) {
-            isAuthorized = true;
-        }
-
-        if (status === 401) {
-            isAuthorized = false;
-        }
-
-        if (isAuthorized) {
-            const respData = JSON.parse(responseText);
-            window.userId = respData.userId
-            createProfilePage(application, window.userId);
-            return;
-        }
-
-        loginPage(application);
+if (navigator.serviceWorker) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then((registration) => {
+            console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
+        })
+            .catch((err) => {
+                console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
+            });
     });
 }
 
-function loginPage(application) {
-    application.innerHTML = '';
-    createHeader(application);
-    createNavigation(application);
-    const form = createLoginFormLayout(application);
-    form.render();
-}
+(() => {
+    const application = document.getElementById('app');
 
-window.CurrentTab = 0;
-function signUpPage(application) {
-    application.innerHTML = '';
-    createHeader(application);
-    createNavigation(application);
-    const form = createSignupFormLayout(application);
-    form.render();
-}
+    const user = UserModel.user;
+    user.getUserGeolocation();
 
-createMetPage(application);
+    const headerController = new HeaderController(application);
+    headerController.activate();
 
-application.addEventListener('click', (evt) => {
-    const {target} = evt;
+    registerAuthModalWindows(application);
 
-    if (target.dataset.section in globalThis.appConfig) {
-        evt.preventDefault();
-        globalThis.appConfig[target.dataset.section].open();
-    }
-});
+    Router.register('/', new MeetingsController(application));
+    Router.register('/people', new PeopleController(application));
+    Router.register('/meetings', new MeetingsController(application));
+    Router.register('/editprofile', new EditProfileController(application));
+    Router.register('/profile', new ProfileController(application));
+    Router.register('/new-meeting', new NewMeetingController(application));
+    Router.register('/edit-meeting', new EditMeetingController(application));
+    Router.register('/meet', new MeetController(application));
+
+    Router.route();
+
+    EventBus.onEvent(REDIRECT, (obj) => {
+        const {url, state} = obj;
+        Router.pushState(url);
+    })
+})()

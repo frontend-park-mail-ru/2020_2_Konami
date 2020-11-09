@@ -1,0 +1,78 @@
+.selectedTagsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .selectedTag {
+        position: relative;
+        background-color: #a9d5ae;
+        color: #111;
+        display: flex;
+        text-align: center;
+        height: 30px;
+        font-family: monospace;
+        font-size: 16px;
+        margin: 0 10px 10px 10px;
+        border-radius: 10px;
+        padding: 8px 8px 0px 8px;
+    }
+
+    .closeWrapper {
+        position: relative;
+        padding-left: 6px;
+        top: -38%;
+
+    }
+
+}
+
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 4px;
+    /* height: 15px; */
+    position: relative;
+    left: -1%;
+
+    &:hover,
+    &:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+.btnLike{
+    display : none;
+}
+
+input.btnLike + span {
+    background-color: #DDD;
+    color: #111;
+    display: inline-block;
+    height: 25px;
+    margin: 6px;
+    border-radius: 10px;
+    padding: 6px 8px 4px 8px;
+    cursor: pointer;
+}
+
+input.btnLike:checked + span{
+    background-color : #9cbdb6;
+    color : #FFF;
+}
+
+.recommendationTagsWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 500px;
+    margin: 15px 0;
+}
+
+.helpText {
+    color: #8d978d;
+    text-align: center;
+    display: flex;
+}

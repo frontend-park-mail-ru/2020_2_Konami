@@ -1,26 +1,14 @@
 'use strict';
 
 export function createNavigation(application) {
-    const navigation = document.createElement('nav');
-    navigation.classList.add('navigation');
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+    <nav class="navigation">
+        <a href="/forme" data-section="forMe" class="navigation__choose-link">Для меня</a>
+        <a href="/meetings" data-section="meetings" class="navigation__choose-link">Мероприятия</a>
+        <a href="/people" data-section="people" class="navigation__choose-link">Люди</a>
+    </nav>`;
+    console.log(wrapper.firstChild);
 
-    const navSettings = [
-        'forMe',
-        'meetings',
-        'people',
-    ];
-
-    navSettings.forEach(key => {
-        let option = globalThis.appConfig[key];
-
-        const navPoint = document.createElement('a');
-        navPoint.innerHTML = option.text;
-        navPoint.href = option.href;
-        navPoint.dataset.section = key;
-        navPoint.classList.add('navpoint');
-
-        navigation.appendChild(navPoint);
-    });
-    
-    application.appendChild(navigation);
+    application.appendChild(wrapper.firstElementChild);
 }

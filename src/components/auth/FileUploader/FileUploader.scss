@@ -1,0 +1,68 @@
+.inputfile {
+    &:focus + label,
+    & + label:hover {
+        background-color: #4caf50;
+    }
+
+    &:focus + label {
+        outline: -webkit-focus-ring-color auto 5px;
+    }
+
+    & + label {
+        cursor: pointer; /* "hand" cursor */
+        color: #9cbdb6;
+        background-color: #f1f1f1;
+        font-size: 1.15rem;
+        font-weight: 550;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0.625rem 1.25rem;
+        border-radius: 2px;
+        box-shadow: 0 0 0 2px #c7c6c6;
+        margin: 12px 10px 27px 0;
+        max-width: 220px;
+    }
+}
+
+//.inputfile + label {
+//    cursor: pointer; /* "hand" cursor */
+//    color: #9cbdb6;
+//    background-color: #f1f1f1;
+//    font-size: 1.15rem;
+//    font-weight: 550;
+//    text-overflow: ellipsis;
+//    white-space: nowrap;
+//    display: inline-block;
+//    overflow: hidden;
+//    padding: 0.625rem 1.25rem;
+//    border-radius: 2px;
+//    box-shadow: 0 0 0 2px #c7c6c6;
+//    margin: 12px 10px 27px 0;
+//    max-width: 220px;
+//}
+
+//.inputfile:focus + label {
+//    outline: -webkit-focus-ring-color auto 5px;
+//}
+
+//.inputfile + label {
+//    color: #9cbdb6;
+//    background-color: #f1f1f1;
+//}
+//
+//.inputfile + label {
+//    font-size: 1.15rem;
+//    font-weight: 550;
+//    text-overflow: ellipsis;
+//    white-space: nowrap;
+//    cursor: pointer;
+//    display: inline-block;
+//    overflow: hidden;
+//    padding: 0.625rem 1.25rem;
+//    border-radius: 2px;
+//    box-shadow: 0 0 0 2px #c7c6c6;
+//    margin: 12px 10px 27px 0;
+//    max-width: 220px;
+//}
