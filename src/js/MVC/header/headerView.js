@@ -52,10 +52,6 @@ export default class HeaderView extends BaseView {
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
 
-        let logo = document.getElementsByClassName('header__logo')[0];
-        logo.addEventListener('click', () => {
-            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
-        });
         // icon.dataset.section = 'profile';
 
         icon = document.getElementById('newMeet');

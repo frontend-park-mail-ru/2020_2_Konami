@@ -4,7 +4,11 @@ import { createMeetPage } from "@/components/meet/meet.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { postMeet } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
-import { OPEN_LOGIN_MODAL } from "@/js/services/EventBus/EventTypes.js";
+import {
+    OPEN_LOGIN_MODAL,
+    REDIRECT,
+    PASS_MEET_DATA_TO_EDIT
+} from "@/js/services/EventBus/EventTypes.js";
 
 export default class MeetView extends BaseView {
 
@@ -94,7 +98,7 @@ export default class MeetView extends BaseView {
                     goButton.addEventListener('click', this._clickGoButtonHandler);
                 }
                 if (editButton !== undefined) {
-                    editButton.addEventListener('click', this._clickEditButtonHandler);
+                    editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
                 }
             } else {
                 if (likeIcon !== undefined) {
@@ -104,6 +108,11 @@ export default class MeetView extends BaseView {
                 }
                 if (goButton !== undefined) {
                     goButton.addEventListener('click', () => {
+                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    });
+                }
+                if (editButton !== undefined) {
+                    editButton.addEventListener('click', () => {
                         EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
                     });
                 }
@@ -120,10 +129,10 @@ export default class MeetView extends BaseView {
     }
 
     _clickEditButtonHandler(evt) {
-        EventBus.dispatchEvent(REDIRECT, {
-            url: '/edit-meeting',
-        });
-        // EventBus.dispatchEvent(PASS_MEETING_DATA, this._data);
+        EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});
+        setTimeout(() => {
+            EventBus.dispatchEvent(PASS_MEET_DATA_TO_EDIT, this._data);
+        }, 500); // таймаут нужен из за checkAuth, который промис возвращает(((
     }
 
     _removeEventListeners() {
@@ -139,7 +148,7 @@ export default class MeetView extends BaseView {
 
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
         if (editButton !== undefined) {
-            editButton.removeEventListener('click', this._clickEditButtonHandler);
+            editButton.removeEventListener('click', this._clickEditButtonHandler.bind(this));
         }
     }
 }
