@@ -16,6 +16,8 @@ import {
     createBtn
 } from "../auth/Button/button.js";
 
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
+
 const conf = [
     {
         name: 'name',
@@ -62,19 +64,19 @@ function createTags(rightColumn, data) {
 
     // TODO в отдельную функцию
     const tags =  data.interestTags.map((tagValue) => {
-            let lbl = document.createElement('label');
-            let input = document.createElement('input');
-            input.classList.add('btnLike');
-            input.name = 'tags';
-            input.value = tagValue;
+        let lbl = document.createElement('label');
+        let input = document.createElement('input');
+        input.classList.add('btnLike');
+        input.name = 'tags';
+        input.value = tagValue;
 
-            let span = document.createElement('span');
-            span.textContent = tagValue;
+        let span = document.createElement('span');
+        span.textContent = tagValue;
 
-            lbl.appendChild(input);
-            lbl.appendChild(span);
+        lbl.appendChild(input);
+        lbl.appendChild(span);
 
-            return lbl;
+        return lbl;
     });
     tagsWrapper.append(...tags);
 
@@ -105,7 +107,11 @@ function createAvatarField(tmp) {
         let blobFile = fileChooser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
-        postPhoto(formData, 'userId', window.userId);
+        postPhoto(formData, 'userId', window.userId).then((obj) => {
+            if (obj.statusCode === 200) {
+                displayNotification("Вы изменили фотографию");
+            }
+        });
         saveButton.hidden = true;
     }
 }
@@ -132,7 +138,9 @@ function createProfile(data, isAuth) {
             const obj = {};
             obj[item.name] = editedField.innerHTML;
             postUser(obj).then(obj =>{
-                if (obj.statusCode !== 200) {
+                if (obj.statusCode === 200) {
+                    displayNotification("Вы отредактировали профиль");
+                } else if (obj.statusCode !== 200) {
                     alert('Permission denied');
                 }
             });
