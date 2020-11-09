@@ -38,7 +38,7 @@ export function createMeetPage(data) {
         };
     }
 
-    if (data.currentUserId === data.ownerId) {
+    if (data.currentUserId === data.authorId) {
         data.buttonStatus = {
             class: 'meet__button meet__button_edit',
             text: 'Редактировать',
