@@ -34,7 +34,8 @@ self.addEventListener('activate', function (event) {
     );
 });
 
-self.addEventListener('fetch', function(event) {	
+
+self.addEventListener('fetch', function(event) {
     event.respondWith(
         caches.match(event.request)
             .then(function(response) {
@@ -46,7 +47,7 @@ self.addEventListener('fetch', function(event) {
                             if(!response || response.status !== 200 || response.type !== 'basic') {
                                 return response;
                             }
-                
+
                             // IMPORTANT: Clone the response. A response is a stream
                             // and because we want the browser to consume the response
                             // as well as the cache consuming the response, we need
@@ -58,12 +59,20 @@ self.addEventListener('fetch', function(event) {
                                     cache.put(event.request, responseToCache);
                                 });
                             }
-                
+
                             return response;
                         }
                     );
                 } else if (response) {
                     return response;
+                } else {
+                    const fallbackResponse = {status: 228};
+
+                    console.log('offline');
+
+                    return new Response(JSON.stringify(fallbackResponse), {
+                        headers: {'Content-Type': 'application/json'}
+                    });
                 }
             })
     );

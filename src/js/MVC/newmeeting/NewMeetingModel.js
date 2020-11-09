@@ -8,6 +8,7 @@ import {isEmpty} from "@/js/utils/validators/emptyFields.js";
 import {
     CREATE_MEETING_SUCCESS
 } from "@/js/services/EventBus/EventTypes.js";
+import {displayNotification} from "../../../components/auth/Notification/Notification";
 
 export default class NewMeetingModel {
 
@@ -29,6 +30,14 @@ export default class NewMeetingModel {
                         case 201:
                             //TODO ВЫ УСПЕШНО СОЗДАЛИ МЕРОПРИЯТИЕ
                             EventBus.dispatchEvent(CREATE_MEETING_SUCCESS);
+                            break;
+
+                        case undefined:
+                            displayNotification('Проверьте соединение с интернетом!');
+                            break;
+
+                        case 228:
+                            displayNotification('Проверьте соединение с интернетом!');
                             break;
                     }
                 }
