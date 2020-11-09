@@ -2,6 +2,7 @@
 
 import {postLogin, getMe, postSignUp, postUser, postPhoto, postSignOut} from "../services/API/api.js";
 import EventBus from "../services/EventBus/EventBus.js";
+import {displayNotification} from "../../components/auth/Notification/Notification.js";
 import {
     LOGIN_SUCCESS,
     SIGNUP_SUCCESS,
@@ -61,6 +62,14 @@ class UserModel {
                 EventBus.dispatchEvent(LOGIN_SUCCESS);
             }
             break;
+
+        case undefined:
+            displayNotification('Проверьте соединение с интернетом!');
+            break;
+
+        case 228:
+            displayNotification('Проверьте соединение с интернетом!');
+            break;
         }
     }
 
@@ -71,6 +80,14 @@ class UserModel {
                 this.userId = null;
                 this._isAuthenticated = false;
                 // EventBus.dispatchEvent(LOGOUT_SUCCESS);
+                break;
+
+            case undefined:
+                displayNotification('Проверьте соединение с интернетом!');
+                break;
+
+            case 228:
+                displayNotification('Проверьте соединение с интернетом!');
                 break;
         }
 
@@ -85,6 +102,14 @@ class UserModel {
             case 200:
                 EventBus.dispatchEvent(SIGNUP_SUCCESS, {name: name, login: login, password: password});
                 break;
+
+            case undefined:
+                displayNotification('Проверьте соединение с интернетом!');
+                break;
+
+            case 228:
+                displayNotification('Проверьте соединение с интернетом!');
+                break;
         }
     }
 
@@ -93,6 +118,14 @@ class UserModel {
         switch (statusCode) {
             case 200:
                 EventBus.dispatchEvent(EDIT_SUCCESS, editFields);
+                break;
+
+            case undefined:
+                displayNotification('Проверьте соединение с интернетом!');
+                break;
+
+            case 228:
+                displayNotification('Проверьте соединение с интернетом!');
                 break;
         }
     }
@@ -103,6 +136,14 @@ class UserModel {
             case 200:
                 // TODO (UPDATE_PHOTO_SUCCESS)
                 // EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
+                break;
+
+            case undefined:
+                displayNotification('Проверьте соединение с интернетом!');
+                break;
+
+            case 228:
+                displayNotification('Проверьте соединение с интернетом!');
                 break;
         }
     }
