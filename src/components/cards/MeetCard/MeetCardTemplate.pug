@@ -6,7 +6,7 @@ div(class='meetcard meetcard_margin' id=id)
             each val, index in tags
                 span(class='tags__chips')= val
     h3(class='meetcard__title') #{title}
-    h4(class='meetcard__place') #{place}
+    h4(class='meetcard__place') #{city}, #{address}
     h4(class='meetcard__date') #{dateStr}
 
     div(class=status.class) #{status.text}
