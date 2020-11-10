@@ -28,7 +28,7 @@
 
 
 .meet-page__main {
-    width: 1200px;
+    width: $max-width;
     padding: 15px;
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
@@ -44,7 +44,7 @@
 }
 
 .main {
-    width: 1200px;
+    width: $max-width;
     padding: 15px;
 
     margin: 0 auto;
