@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint .",
+    "lint": "eslint src/.",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "clear": "rm src/bundle.js & rm src/index.html & rm src/main.css"
