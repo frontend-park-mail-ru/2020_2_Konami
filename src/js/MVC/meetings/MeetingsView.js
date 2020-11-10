@@ -178,7 +178,11 @@ export default class MeetingsView extends BaseView {
                         },
                     }).then(obj => {
                         if (obj.statusCode === 200) {
-                            displayNotification("Вы оценили мероприятие");
+                            if (item.isLiked) {
+                                displayNotification("Вы оценили мероприятие");
+                            } else {
+                                displayNotification("Вы убрали лайк"); 
+                            }
                         } else {
                             alert('Permission denied');
                         }
@@ -198,10 +202,8 @@ export default class MeetingsView extends BaseView {
                 if (isAuth) {
                     if (item.isRegistered) {
                         item.isRegistered = false;
-                        goButton.innerHTML = 'Пойти';
                     } else {
                         item.isRegistered = true;
-                        goButton.innerHTML = 'Отменить';
                     }
 
                     postMeet({
@@ -213,9 +215,13 @@ export default class MeetingsView extends BaseView {
                         if (obj.statusCode === 200) {
                             if (item.isRegistered) {
                                 displayNotification("Зарегистрировалиь");
+                                goButton.innerHTML = 'Отменить';
                             } else {
                                 displayNotification("Вы отменили регистрацию");
+                                goButton.innerHTML = 'Пойти';
                             }
+                        } else if (obj.statusCode === 409) {
+                            displayNotification("Мероприятие уже завершилось");
                         } else {
                             alert('Permission denied');
                         }

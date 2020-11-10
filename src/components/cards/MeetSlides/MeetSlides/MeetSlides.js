@@ -19,19 +19,11 @@ export function createSlides() {
     const slides = sliders.children;
 
     let counter = 0;
-    let currentNode = slides[0];
 
     const func = () => {
         const first = slides[0];
-        const last = slides[slides.length - 1];
-
         first.remove();
-        last.remove();
-    
         sliders.append(first);
-        sliders.prepend(last);
-    
-        currentNode = slides[counter];
     }
 
     const nextButton = wrapper.getElementsByClassName('slide-container__prev-button')[0];
@@ -40,7 +32,9 @@ export function createSlides() {
         if (counter >= slides.length) {
             counter = 0;
         }
-        func();
+        const last = slides[slides.length - 1];
+        last.remove();
+        sliders.prepend(last);
         // currentNode.classList.add('already-visible');
     });
 
@@ -50,7 +44,10 @@ export function createSlides() {
         if (counter < 0) {
             counter = slides.length - 1;
         }
-        func();
+
+        const first = slides[0];
+        first.remove();
+        sliders.append(first);
     });
 
     return wrapper.firstElementChild;
