@@ -2,6 +2,8 @@
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
+@import '@/components/cards/MeetSlides/MeetSlides/MeetSlides.scss';
+@import '../components/cards/MeetSlides/MeetСarouselItem/MeetSlide.scss';
 @import '@/components/header/Header/header.scss';
 @import '@/components/header/Navigation/navigation.scss';
 @import '@/components/meet/Meet.scss';
@@ -25,21 +27,54 @@
 @import '@/css/new-meeting.scss';
 
 
-.main {
-    display: flex;
-    flex-direction: column;
-
-    max-width: $max-width;
-    min-width: $min-width;
-
-    padding: 10px;
+.meet-page__main {
+    width: 1200px;
+    padding: 15px;
     margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
 
-    font-family: $font;
+.main-title {
+    font-size: xx-large;
+    margin-top: 70px;
+}
+
+.main-title:hover {
+    color:rgb(255, 59, 59);
+}
+
+.main {
+    width: 1200px;
+    padding: 15px;
+
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
 }
 
 .card-wrapper {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+
+    margin: 30px 0;
+    font-family: 'Roboto', sans-serif;
+    justify-content: space-between;
+}
+
+@media (max-width: 1280px) {
+    .meet-page__main {
+        width: 1000px;
+    }
+
+    .slide-container {
+        width: 1000px;
+    }
+
+    .meet-slide {
+        flex-basis: 780px;
+    }
+
+    .meet-card {
+        flex-basis: 315px;
+        height: 250px;
+    }
 }

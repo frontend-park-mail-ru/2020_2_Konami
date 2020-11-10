@@ -1,0 +1,112 @@
+
+
+
+.meet-slide {
+    overflow: hidden;
+    display: flex;
+
+    position: relative;
+
+    flex: 0 0 940px;
+    height: 380px;
+    cursor: pointer;
+
+    margin-right: 25px;
+
+    border-radius: 20px;
+
+    &__tags {
+        position: absolute;
+        color: rgb(158, 157, 157);
+        top: 20px;
+        left: 25px;
+        z-index: 2;
+    }
+
+    &__image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    
+        transition: 0.4s ease 0s;
+        filter: brightness(0.8);
+        object-fit: cover;
+    }
+
+    &__bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    
+        position: absolute;
+    
+        width: 95%;
+    
+        left: 0px;
+        bottom: 0px;
+        padding: 20px 25px;
+    
+        color: white;
+    }
+
+    &__title {
+        color: white;
+        margin-bottom: 10px;
+        margin-top: 0px;
+    }
+
+    &__date-place-wrapper {
+        color: rgb(158, 157, 157)
+    }
+    
+    &__button {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    &__go-button {
+        outline: none;
+        border: none;
+    
+        font-size: large;
+    
+        background-color: yellow;
+        border-radius: 100px;
+        height: 40px;
+        width: 100px;
+        margin-right: 5px;
+    
+        cursor: pointer;
+    }
+    
+    &__go-button:hover {
+        filter: brightness(0.9);
+    }
+
+    &__like-icon {
+        height: 25px;
+        width: 25px;
+        margin-top: 7px;
+        margin-left: 6px;
+    }
+    
+    &__like-icon-wrapper {
+        background-color: yellow;
+        border-radius: 100px;
+        padding: 3px;
+        height: 37px;
+        width: 37px;
+    
+        transition: 0.2s ease 0s;
+
+        &:hover {
+            transform: scale(1.1);
+            filter: brightness(0.8);
+        }
+    }
+
+    &__separator {
+        margin: 0 5px;
+    }
+}

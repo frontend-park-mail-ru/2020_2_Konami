@@ -4,13 +4,18 @@ import { createMeetCard } from "@/components/cards/MeetCard/MeetCard.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
+import { postMeet } from "@/js/services/API/api.js";
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { 
-    REDIRECT 
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
 
 import {
     createSettings
 } from "@/components/settings/Settings.js";
+import { createSlides } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlides";
+import { createMeetSlide } from "../../../components/cards/MeetSlides/MeetСarouselItem/MeetSlide";
 
 export default class MeetingsView extends BaseView {
 
@@ -57,23 +62,61 @@ export default class MeetingsView extends BaseView {
     }
 
     render(cards) {
-        const main = document.createElement('main');
-        main.classList.add('main');
+        const main = document.createElement('div');
+        main.classList.add('meet-page__main');
         this.parent.appendChild(main);
 
         main.appendChild(this._createSettings(this._settingsButton));
+
+        const headTitle = document.createElement('h1');
+        headTitle.classList.add('main-title');
+        headTitle.innerHTML = 'Митапы рядом с вам';
+        main.appendChild(headTitle);
+
+        const slides = createSlides();
+        main.appendChild(slides);
+
+        const headTitle2 = document.createElement('h1');
+        headTitle2.classList.add('main-title');
+        headTitle2.innerHTML = 'Митапы в ближайшее время';
+        main.appendChild(headTitle2);
+
+
+        const slidesWrapper = slides.getElementsByClassName('slide-container__slides')[0];
 
         const cardWrapper = document.createElement('div');
         cardWrapper.classList.add('card-wrapper');
         main.appendChild(cardWrapper);
 
+
         this._this = main;
         this._cards = cardWrapper;
 
         cards.forEach(item => {
+            const meetSlide = createMeetSlide(item);
+            meetSlide.addEventListener('click', () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+            });
+            slidesWrapper.appendChild(meetSlide);
+
+            const likeIcon = meetSlide.getElementsByClassName('meet-slide__like-icon-wrapper')[0];
+            likeIcon.addEventListener('click', (event) => {
+                this._likeEventListener(event, item, likeIcon.firstChild);
+            });
+
+            const goButton = meetSlide.getElementsByClassName('meet-slide__go-button')[0];
+            goButton.addEventListener('click', (event) => {
+                this._goEventListener(event, item, goButton);
+            });
+
             const meetCard = createMeetCard(item);
             meetCard.addEventListener('click', () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+            });
+
+            const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
+            meetCardLikeIcon.addEventListener('click', (event) => {
+                this._likeEventListener(event, item, meetCardLikeIcon);
             });
 
             cardWrapper.appendChild(meetCard);
@@ -111,6 +154,77 @@ export default class MeetingsView extends BaseView {
         });
 
         return settings;
+    }
+
+    _likeEventListener(event, item, likeIcon) {
+        (() => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.model.checkAuth().then(isAuth => {
+                if (isAuth) {
+                    if (item.isLiked) {
+                        item.isLiked = false;
+                        
+                        likeIcon.src = "/assets/heart.svg";
+                    } else {
+                        item.isLiked = true;
+                        likeIcon.src = "/assets/like.svg";
+                    }
+
+                    postMeet({
+                        meetId: item.id,
+                        fields: {
+                            isLiked: item.isLiked,
+                        },
+                    }).then(obj => {
+                        if (obj.statusCode === 200) {
+                            displayNotification("Вы оценили мероприятие");
+                        } else {
+                            alert('Permission denied');
+                        }
+                    });
+                } else {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                }
+            });
+        })();
+    }
+
+    _goEventListener(event, item, goButton) {
+        (() => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.model.checkAuth().then(isAuth => {
+                if (isAuth) {
+                    if (item.isRegistered) {
+                        item.isRegistered = false;
+                        goButton.innerHTML = 'Пойти';
+                    } else {
+                        item.isRegistered = true;
+                        goButton.innerHTML = 'Отменить';
+                    }
+
+                    postMeet({
+                        meetId: item.id,
+                        fields: {
+                            isRegistered: item.isRegistered,
+                        },
+                    }).then(obj => {
+                        if (obj.statusCode === 200) {
+                            if (item.isRegistered) {
+                                displayNotification("Зарегистрировалиь");
+                            } else {
+                                displayNotification("Вы отменили регистрацию");
+                            }
+                        } else {
+                            alert('Permission denied');
+                        }
+                    });
+                } else {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                }
+            });
+        })();
     }
 
     erase() {

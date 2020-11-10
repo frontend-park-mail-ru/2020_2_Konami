@@ -82,7 +82,7 @@ app.get('/api/meetings', function (req, res) {
     console.log(pageNum);
 
     let meets = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
         if (pageNum) {
             meetCards[52].imgSrc = 'assets/beach.jpeg';
         } else {
