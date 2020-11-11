@@ -1,16 +1,16 @@
 
-div(class='meet-card' id=id)
+div(class='meet-card' id=card.label.id)
     dev(class='meet-card__image-wrapper')
-        img(src=imgSrc class='meet-card__image')
-        div(class='meet-card__rating') #{likesCount}
+        img(src=card.label.imgSrc class='meet-card__image')
+        div(class='meet-card__rating') #{card.likesCount}
         if isLiked
             img(class='meet-card__like' src='/assets/like.svg')
         else
             img(class='meet-card__like' src='/assets/heart.svg')
-        div(class='meet-card__seats-left') Осталось мест: #{seatsLeft}
+        div(class='meet-card__seats-left') Осталось мест: #{card.seatsLeft}
     div(class='meet-card__text-wrapper')
-        h2(class='meet-card__title') #{title}
+        h2(class='meet-card__title') #{card.label.title}
         div(class='meet-card__date-place-wrapper')
             span(class='meet-card__date') #{dateStr} 
             span(class='meet-card__date-place-separator') •
-            span(class='meet-card__place') #{place}
+            span(class='meet-card__place') #{card.city}, #{card.address}
