@@ -38,6 +38,7 @@ function postUser(editFields) {
 }
 
 function getUser(userId) {
+    let statusCode;
     return fetch(`/api/user?userId=${userId}`, {
         method: 'GET',
         credentials: 'include',

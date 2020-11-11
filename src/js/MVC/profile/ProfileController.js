@@ -33,6 +33,7 @@ export default class ProfileController extends Controller {
         }
         getUser(userId).then(response => {
             let data = response.parsedJson;
+            console.log(response);
             this.view.render(data);
         });
     }
