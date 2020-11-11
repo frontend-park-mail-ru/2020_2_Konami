@@ -18,7 +18,7 @@ function getCSRF() {
 function postUser(editFields) {
     return getCSRF().then(obj => {
         return fetch('/api/user', {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
                 'Csrf-Token': obj.csrf,
@@ -80,7 +80,7 @@ function getMeet(meetId) {
 function postMeet(editFields) { // редактирование митинга
     return getCSRF().then(obj => {
         return fetch('/api/meet', {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
                 'Csrf-Token': obj.csrf,
@@ -247,7 +247,7 @@ function postSignUp(login, password) {
 function postSignOut() {
     return getCSRF().then(obj => {
         return fetch('/api/logout', {
-            method: 'POST',
+            method: 'DELETE',
             headers: {
                 'Csrf-Token': obj.csrf,
             },

@@ -33,7 +33,7 @@ app.get('/api/user', function(req, res) {
     }
 });
 
-app.post('/api/user', function (req, res) {
+app.patch('/api/user', function (req, res) {
     console.log(req.body);
     console.log(req.body.field);
     console.log(req.body.text);
@@ -70,7 +70,7 @@ app.get('/api/meet', function (req, res) {
     res.status(200).json(meetCards[meetId]);
 });
 
-app.post('/api/meet', function (req, res) {
+app.patch('/api/meet', function (req, res) {
     console.log(req.body.fields);
     console.log(req.body.meetId);
 
@@ -226,7 +226,7 @@ app.post('/api/login', function (req, res) {
     res.status(200).json({token});
 });
 
-app.post('/api/logout', function (req, res) {
+app.delete('/api/logout', function (req, res) {
     let token = req.cookies['authToken'];
     delete userSessions[token];
 
