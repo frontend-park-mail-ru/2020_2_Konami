@@ -63,7 +63,7 @@ function createTags(rightColumn, data) {
     tagsWrapper.innerHTML = '';
 
     // TODO в отдельную функцию
-    const tags =  data.interestTags.map((tagValue) => {
+    const tags =  data.meetingTags.map((tagValue) => {
         let lbl = document.createElement('label');
         let input = document.createElement('input');
         input.classList.add('btnLike');

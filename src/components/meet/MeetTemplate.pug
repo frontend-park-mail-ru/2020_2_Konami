@@ -2,9 +2,9 @@ div(class='meet')
     div(class='meet__head')
         div(class='meet__leftcolumn')
             div(class='meet__title-status-wrapper')
-                h1(class='meet__title') #{title}
+                h1(class='meet__title') #{card.title}
                 div(class=status.class) #{status.text}
-            div(class='meet__dateplace') #{place}
+            div(class='meet__dateplace') #{card.city}, #{card.address}
             div(class='meet__dateplace') #{dateStr}
         div(class='meet__rightcolumn')
             if buttonStatus
@@ -14,12 +14,12 @@ div(class='meet')
                     img(src='/assets/like.svg')
                 else 
                     img(src='/assets/heart.svg')
-    img(class='meet__image' src=imgSrc)
+    img(class='meet__image' src=card.label.imgSrc)
     div(class='meet__bottom')
         div(class='meet__leftcolumn_bottom')
-            h1(class='meet__about-titile') #{title}
-            span #{text}
+            h1(class='meet__about-titile') #{card.label.title}
+            span #{card.text}
         div(class='meet__vertical-separator')
         div(class='meet__rightcolumn_bottom')
-            each val, index in tags
-                span(class='meet-tag meet-tag_margin5')= val
+            each val, index in card.tags
+                span(class='meet-tag meet-tag_margin5')= val.name
