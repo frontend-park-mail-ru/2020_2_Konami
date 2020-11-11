@@ -66,12 +66,11 @@ export default class MeetingsView extends BaseView {
         main.classList.add('meet-page__main');
         this.parent.appendChild(main);
 
-        main.appendChild(this._createSettings(this._settingsButton));
-
         const headTitle = document.createElement('h1');
         headTitle.classList.add('main-title');
-        headTitle.innerHTML = 'Митапы рядом с вам';
+        headTitle.innerHTML = 'Рекомендации для вас';
         main.appendChild(headTitle);
+        main.appendChild(this._createSettings(this._settingsButton));
 
         const slides = createSlides();
         main.appendChild(slides);
@@ -87,6 +86,15 @@ export default class MeetingsView extends BaseView {
         const cardWrapper = document.createElement('div');
         cardWrapper.classList.add('card-wrapper');
         main.appendChild(cardWrapper);
+
+        const headTitle3 = document.createElement('h1');
+        headTitle3.classList.add('main-title');
+        headTitle3.innerHTML = 'Самые ожидаемые';
+        main.appendChild(headTitle3);
+
+        const cardWrapper1 = document.createElement('div');
+        cardWrapper1.classList.add('card-wrapper');
+        main.appendChild(cardWrapper1);
 
 
         this._this = main;
@@ -120,6 +128,7 @@ export default class MeetingsView extends BaseView {
             });
 
             cardWrapper.appendChild(meetCard);
+            cardWrapper1.appendChild(meetCard.cloneNode(true));
         });
     }
 

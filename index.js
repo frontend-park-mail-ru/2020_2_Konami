@@ -16,6 +16,12 @@ app.use(express.static(`${__dirname}/dist`));
 app.use(cookie());
 app.use(body.json());
 
+
+app.get('/api/csrf', function(req, res) {
+    // res.set('Csrf-Token', 'pupkpuk');
+    res.status(200).send('ok');
+});
+
 app.get('/api/user', function(req, res) {
     const userId = req.query.userId;
 
@@ -45,6 +51,7 @@ app.post('/api/user', function (req, res) {
 
     res.status(200).send('ok');
 });
+
 
 app.get('/api/people', function (req, res) {
     const pageNum = req.query.pageNum;
@@ -226,6 +233,7 @@ app.post('/api/logout', function (req, res) {
     res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
     res.status(200).send('ok');
 });
+
 
 app.post('/api/signup', function (req, res) {
     const password = req.body.password;

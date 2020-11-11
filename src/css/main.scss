@@ -26,6 +26,10 @@
 @import '@/css/signup.scss';
 @import '@/css/new-meeting.scss';
 
+body {
+    margin: 0px;
+}
+
 .meet-page__main {
     width: $max-width;
     padding: 0 $padding;
@@ -37,6 +41,7 @@
 .main-title {
     font-size: xx-large;
     margin-top: 70px;
+    margin-bottom: 5px;
 }
 
 .main-title:hover {
@@ -55,7 +60,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    margin: 30px 0;
+    margin: 0px 0;
     font-family: 'Roboto', sans-serif;
     justify-content: space-between;
 }
