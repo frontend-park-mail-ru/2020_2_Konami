@@ -35,7 +35,6 @@ export function createSlides() {
         const last = slides[slides.length - 1];
         last.remove();
         sliders.prepend(last);
-        // currentNode.classList.add('already-visible');
     });
 
     const prevButton = wrapper.getElementsByClassName('slide-container__next-button')[0];

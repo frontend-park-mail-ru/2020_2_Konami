@@ -26,10 +26,10 @@
 @import '@/css/signup.scss';
 @import '@/css/new-meeting.scss';
 
-
 .meet-page__main {
     width: $max-width;
-    padding: 15px;
+    padding: 0 $padding;
+
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
 }
@@ -62,11 +62,19 @@
 
 @media (max-width: 1280px) {
     .meet-page__main {
-        width: 1000px;
+        width: $min-width;
+    }
+
+    .header {
+        width: $min-width;
+    }
+
+    .navigation {
+        width: $min-width;
     }
 
     .slide-container {
-        width: 1000px;
+        width: $min-width;
     }
 
     .meet-slide {
