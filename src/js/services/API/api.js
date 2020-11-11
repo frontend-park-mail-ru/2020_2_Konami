@@ -1,7 +1,7 @@
 'use strict';
 
 function getCSRF() {
-    return fetch('/api/csrf', {
+    return fetch(`/api/csrf`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -10,7 +10,7 @@ function getCSRF() {
         };
     }).catch(error => {
         return {
-            error,
+            error: error,
         };
     });
 }
@@ -57,6 +57,7 @@ function getUser(userId) {
 }
 
 function getMeet(meetId) {
+    let statusCode;
     return fetch(`/api/meet?meetId=${meetId}`, {
         method: 'GET',
         credentials: 'include',
@@ -196,6 +197,7 @@ const postLogin = async (login, password) => {
 }
 
 function getMe() {
+    let statusCode;
     return fetch('/api/me', {
         method: 'GET',
         credentials: 'include'
@@ -228,10 +230,11 @@ function postSignUp(login, password) {
                 login,
                 password,
             }),
-        }).then((response) => {
-            return {
-                statusCode: response.status,
-            };
+        }).then(
+            (response) => {
+                return {
+                    statusCode: response.status,
+                };
         }).catch(error => {
             return {
                 error: error
