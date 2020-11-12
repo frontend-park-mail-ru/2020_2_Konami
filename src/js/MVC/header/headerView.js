@@ -72,37 +72,42 @@ export default class HeaderView extends BaseView {
     _updateHeader() {
         const profileIcon = document.getElementById('profileIcon');
         profileIcon.removeEventListener('click', this._onProfileIconClick);
-        profileIcon.dataset.section = 'profile';
+        // profileIcon.dataset.section = 'profile';
 
-        this._addExitLink();
+        this._addProfileLinks();
         const newMeetIcon = document.getElementById('newMeet');
         newMeetIcon.style.display = 'block';
     }
 
-    _addExitLink() {
+    _addProfileLinks() {
         const icon = document.getElementById('profileIcon');
-        const span = document.createElement('span');
+        const linksContainer = document.createElement('div');
 
-        const signout = document.createElement('a');
-        signout.textContent = 'Выйти';
-        signout.dataset.section = 'meetings';
+        const profileLink = document.createElement('a');
+        profileLink.textContent = 'Профиль';
+        profileLink.dataset.section = 'profile';
 
-        span.appendChild(signout);
-        span.classList.add('popuptext');
-        span.id = 'signout';
+        const signoutLink = document.createElement('a');
+        signoutLink.textContent = 'Выйти';
+        signoutLink.dataset.section = 'meetings';
+
+        linksContainer.appendChild(profileLink);
+        linksContainer.appendChild(signoutLink);
+        linksContainer.classList.add('popup-links__container');
+        linksContainer.id = 'profileLinks';
 
         const wrapperIcon = document.createElement('div');
-        wrapperIcon.classList.add('popup');
-        wrapperIcon.append(icon, span);
+        wrapperIcon.classList.add('popup-links');
+        wrapperIcon.append(icon, linksContainer);
 
         document.getElementsByClassName('header')[0].appendChild(wrapperIcon);
 
-        icon.onmouseover = () => {
-            let popup = document.getElementById('signout');
+        icon.onclick = () => {
+            let popup = document.getElementById('profileLinks');
             popup.classList.toggle('show');
         }
 
-        signout.addEventListener('click', (evt) => {
+        signoutLink.addEventListener('click', (evt) => {
             evt.preventDefault();
             EventBus.dispatchEvent(LOGOUT_USER);
         });
@@ -113,14 +118,14 @@ export default class HeaderView extends BaseView {
         profileIcon.addEventListener('click', this._onProfileIconClick);
         profileIcon.removeAttribute('data-section');
 
-        this._deleteExitLink();
+        this._deleteProfileLinks();
         const icon = document.getElementById('newMeet');
         icon.style.display = 'none';
     }
 
-    _deleteExitLink() {
+    _deleteProfileLinks() {
         const icon = document.getElementById('profileIcon');
-        const wrapperIcon = document.getElementsByClassName('popup')[0];
+        const wrapperIcon = document.getElementsByClassName('popup-links')[0];
 
         const header =document.getElementsByClassName('header')[0];
         header.removeChild(wrapperIcon);
