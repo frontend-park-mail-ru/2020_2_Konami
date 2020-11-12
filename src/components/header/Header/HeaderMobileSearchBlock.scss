@@ -1,0 +1,59 @@
+
+.search-block {
+    display: none;
+    flex-direction: column;
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+    right: 0;
+
+    background-color: white;
+    z-index: 4;
+    height: 100%;
+    width: 100%;
+
+    &__search-input-wrapper {
+        display: flex;
+        height: 40px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    &__search-input {
+        width: 100%;
+    
+        outline: none;
+        border: none;
+    
+        margin-left: 10px;
+        
+        border-radius: 100px;
+        padding-left: 20px;
+        background-color: rgb(226, 225, 223)
+    }
+
+    &__offers {
+        display: flex;
+        flex-direction: column;
+
+        margin-left: 15px;
+    }
+
+    &__offers-title {
+        color: grey;
+        margin-bottom: 0px;
+    }  
+
+    &__offer {
+        margin: 8px 0;
+    }
+    
+    &__cancel-button {
+        background-color: white;
+        border: none;
+        outline: none;
+        cursor: pointer;
+    }
+}

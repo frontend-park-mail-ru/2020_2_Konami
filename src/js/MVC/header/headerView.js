@@ -17,6 +17,8 @@ export default class HeaderView extends BaseView {
         this.parent = parent;
         this.model = model;
 
+        this._this = null;
+
         this._initEventHandlers();
     }
 
@@ -35,7 +37,8 @@ export default class HeaderView extends BaseView {
 
     // TODO(template)
     render() {
-        this.parent.appendChild(createHeaderMobile());
+        this._this = createHeaderMobile()
+        this.parent.appendChild(this._this);
 
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
@@ -86,7 +89,9 @@ export default class HeaderView extends BaseView {
         wrapperIcon.classList.add('popup-links');
         wrapperIcon.append(icon, linksContainer);
 
-        document.getElementsByClassName('header')[0].appendChild(wrapperIcon);
+        if (this._this !== null) {
+            // this._this.appendChild(wrapperIcon);
+        }
 
         icon.onclick = () => {
             let popup = document.getElementById('profileLinks');

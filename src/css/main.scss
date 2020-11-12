@@ -4,10 +4,11 @@
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/MeetSlides/MeetSlides/MeetSlides.scss';
 @import '@/components/cards/MeetSlides/MeetSlide/MeetSlide.scss';
-@import '../components/cards/MeetSlides/MeetSlide/MeetSlideMobile.scss';
-@import '../components/cards/MeetSlides/MeetSlides/MeetSlidesMobile.scss';
+@import '@/components/cards/MeetSlides/MeetSlide/MeetSlideMobile.scss';
+@import '@/components/cards/MeetSlides/MeetSlides/MeetSlidesMobile.scss';
 @import '@/components/header/Header/header.scss';
 @import '@/components/header/Header/HeaderMobile.scss';
+@import '@/components/header/Header/HeaderMobileSearchBlock.scss';
 @import '@/components/meet/Meet.scss';
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
