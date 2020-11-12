@@ -67,7 +67,7 @@ export default class PeopleView extends BaseView {
         cards.forEach(item => {
             const userCard = createUserCard(item);
             userCard.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.card.label.id}`});
+                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
             });
             cardWrapper.appendChild(userCard);
         });
