@@ -3,14 +3,13 @@
 const template = require('./MeetTemplate.pug');
 
 export function createMeetPage(data) {
-    let startDate = new Date(data.startDate);
-    let endDate = new Date(data.endDate);
+    let startDate = new Date(data.card.startDate);
+    let endDate = new Date(data.card.endDate);
     let currentDate = Date.now();
 
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
-
     if (startDate > currentDate && data.seatsLeft > 0) {
         data.status = {
             class: 'meet__status status status_green',

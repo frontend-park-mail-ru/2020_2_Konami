@@ -20,7 +20,7 @@ export function createNewMeetingForm() {
     divWrapper.classList.add('new-meet');
 
     const addTagsBtn = createLabeledElements(
-        ' Теги мерприятия',
+        ' Теги мероприятия',
         createBtn('+ Добавить', {id: 'openModalBtn', type: 'button', classList: ['stdBtn', 'secondary', 'activable']}));
 
     // TODO (заполнить нормльными тэгами)

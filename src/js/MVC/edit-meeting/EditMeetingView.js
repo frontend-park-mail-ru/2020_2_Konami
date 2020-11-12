@@ -3,7 +3,7 @@
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import NewMeetingView from "@/js/MVC/newmeeting/NewMeetingView.js";
 import {createSelectedTag} from "@/components/auth/SelectedTag/SelectedTag";
-import { postMeet } from "@/js/services/API/api.js";
+import { patchMeeting } from "@/js/services/API/api.js";
 import {displayNotification} from "@/components/auth/Notification/Notification.js";
 
 import {
@@ -20,8 +20,8 @@ export default class EditMeetingView extends NewMeetingView {
         this._eventHandlers.onSubmitForm = (fields) => {
             // TODO чек если поле не изменилось
 
-            postMeet({
-                meetId: this.id,
+            patchMeeting({
+                meetId: this.card.label.id,
                 fields: fields,
             }).then(obj => {
                 if (obj.statusCode === 200) {

@@ -4,7 +4,7 @@ import { createMeetCard } from "@/components/cards/MeetCard/MeetCard.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
-import { postMeet } from "@/js/services/API/api.js";
+import { patchMeeting } from "@/js/services/API/api.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { 
     REDIRECT,
@@ -103,7 +103,7 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             const meetSlide = createMeetSlide(item);
             meetSlide.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
             });
             slidesWrapper.appendChild(meetSlide);
 
@@ -119,7 +119,7 @@ export default class MeetingsView extends BaseView {
 
             const meetCard = createMeetCard(item);
             meetCard.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
             });
 
             const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
@@ -146,7 +146,7 @@ export default class MeetingsView extends BaseView {
                 obj.parsedJson.forEach(item => {
                     const meetCard = createMeetCard(item);
                     meetCard.addEventListener('click', () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                        EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
                     });
                     if (this._cards !== null) {
                         this._cards.appendChild(meetCard);
@@ -180,8 +180,8 @@ export default class MeetingsView extends BaseView {
                         likeIcon.src = "/assets/like.svg";
                     }
 
-                    postMeet({
-                        meetId: item.id,
+                    patchMeeting({
+                        meetId: item.card.label.id,
                         fields: {
                             isLiked: item.isLiked,
                         },
@@ -215,8 +215,8 @@ export default class MeetingsView extends BaseView {
                         item.isRegistered = true;
                     }
 
-                    postMeet({
-                        meetId: item.id,
+                    patchMeeting({
+                        meetId: item.card.label.id,
                         fields: {
                             isRegistered: item.isRegistered,
                         },

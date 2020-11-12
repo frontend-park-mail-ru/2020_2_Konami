@@ -37,7 +37,10 @@ export function createMeetCard(data) {
             text: 'Осталось мало мест',
         };
     }
-
+    data.seatsInfo = data.card.seatsLeft
+    if (data.card.seatsLeft > 99) {
+        data.seatsInfo = 'много'
+    }
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
 

@@ -2,7 +2,7 @@
 
 import { createMeetPage } from "@/components/meet/meet.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
-import { postMeet } from "@/js/services/API/api.js";
+import { patchMeeting } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import {
@@ -39,8 +39,8 @@ export default class MeetView extends BaseView {
                     isLiked = false;
                 }
             }
-            postMeet({
-                meetId: this._data.id,
+            patchMeeting({
+                meetId: this._data.card.label.id,
                 fields: {
                     isLiked,
                 },
@@ -62,8 +62,8 @@ export default class MeetView extends BaseView {
                 evt.target.innerHTML = 'Пойти';
                 isRegistered = false;
             }
-            postMeet({
-                meetId: this._data.id,
+            patchMeeting({
+                meetId: this._data.card.label.id,
                 fields: {
                     isRegistered,
                 },

@@ -68,10 +68,10 @@ function createTags(rightColumn, data) {
         let input = document.createElement('input');
         input.classList.add('btnLike');
         input.name = 'tags';
-        input.value = tagValue;
+        input.value = tagValue.name;
 
         let span = document.createElement('span');
-        span.textContent = tagValue;
+        span.textContent = tagValue.name;
 
         lbl.appendChild(input);
         lbl.appendChild(span);
