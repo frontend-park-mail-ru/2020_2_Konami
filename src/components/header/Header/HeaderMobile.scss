@@ -39,6 +39,15 @@
 .header-mobile__icon {
     width: 100%;
     border-radius: 50%;
+    cursor: pointer;
+}
+
+.header-mobile__new-meet-btn {
+    margin-top: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 3px;
+    cursor: pointer;
 }
 
 .header-mobile__search {
@@ -46,6 +55,7 @@
     height: 20px;
     margin-top: 10px;
     filter: invert(1);
+    cursor: pointer;
 
     margin-left: auto;
     margin-right: 15px;
