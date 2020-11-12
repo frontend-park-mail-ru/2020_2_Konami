@@ -19,6 +19,8 @@ export function displayNotification(text) {
     }
 
     setTimeout(() => {
-        app.removeChild(toasts);
+        if (app.contains(toasts)) {
+            app.removeChild(toasts);
+        }
     }, 4000);
 }
