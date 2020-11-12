@@ -89,13 +89,13 @@ export default class HeaderView extends BaseView {
         wrapperIcon.classList.add('popup-links');
         wrapperIcon.append(icon, linksContainer);
 
-        if (this._this !== null) {
-            // this._this.appendChild(wrapperIcon);
-        }
+        document.getElementsByClassName('header-mobile__logo-wrapper')[0].appendChild(wrapperIcon);
 
         icon.onclick = () => {
             let popup = document.getElementById('profileLinks');
-            popup.classList.toggle('show');
+            if (popup) {
+                popup.classList.toggle('show');
+            }
         }
 
         signoutLink.addEventListener('click', (evt) => {
@@ -118,7 +118,7 @@ export default class HeaderView extends BaseView {
         const icon = document.getElementById('profileIcon');
         const wrapperIcon = document.getElementsByClassName('popup-links')[0];
 
-        const header =document.getElementsByClassName('header')[0];
+        const header =document.getElementsByClassName('header-mobile__logo-wrapper')[0];
         header.removeChild(wrapperIcon);
 
         header.appendChild(icon);
