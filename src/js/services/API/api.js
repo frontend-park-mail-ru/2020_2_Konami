@@ -173,27 +173,24 @@ function postPhoto(data) {
 }
 
 const postLogin = async (login, password) => {
-    return getCSRF().then(obj => {
-        return fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Csrf-Token': obj.csrf,
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                login,
-                password,
-            }),
-        }).then(response => {
-            return {
-                statusCode: response.status,
-            };
-        }).catch(error => {
-            return {
-                error: error,
-            };
-        });
+    return fetch('/api/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            login,
+            password,
+        }),
+    }).then(response => {
+        return {
+            statusCode: response.status,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
     });
 }
 
@@ -242,22 +239,17 @@ function postSignUp(login, password) {
 }
 
 function postSignOut() {
-    return getCSRF().then(obj => {
-        return fetch('/api/logout', {
-            method: 'DELETE',
-            headers: {
-                'Csrf-Token': obj.csrf,
-            },
-            credentials: 'include',
-        }).then(response => {
-            return {
-                statusCode: response.status,
-            };
-        }).catch(error => {
-            return {
-                error: error
-            };
-        });
+    return fetch('/api/logout', {
+        method: 'DELETE',
+        credentials: 'include',
+    }).then(response => {
+        return {
+            statusCode: response.status,
+        };
+    }).catch(error => {
+        return {
+            error: error
+        };
     });
 }
 

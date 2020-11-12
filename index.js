@@ -132,8 +132,8 @@ const meetCards = {
                Ut enim ad minim veniam, quis
                nostrud exercitation ullamco labori`,
             tags: [
-                {name: 'Rust', id: 5}, 
-                {name: 'Забив', id:6}, 
+                {name: 'Rust', id: 5},
+                {name: 'Забив', id:6},
                 {name: 'В падике', id:7},
             ],
             city: 'Moscow',
@@ -175,13 +175,13 @@ const usersProfiles = {
             },
             job: 'MAIL GROUP до 2008',
             interestTags: [
-                {name: 'Картофель', id: 1}, 
+                {name: 'Картофель', id: 1},
                 {name: 'Хоккей', id: 2},
-                {name: 'Картофель', id: 1}, 
+                {name: 'Картофель', id: 1},
                 {name: 'Хоккей', id: 2},
             ],
             skillTags: [
-                {name: 'Разгон митингов', id: 3}, 
+                {name: 'Разгон митингов', id: 3},
                 {name: 'Сбор урожая', id: 4},
             ],
 
@@ -227,7 +227,7 @@ const usersProfiles = {
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
         meetingTags: [
-            {name: 'Разгон митингов', id: 3}, 
+            {name: 'Разгон митингов', id: 3},
             {name: 'Сбор урожая', id: 4},
         ],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
@@ -257,7 +257,7 @@ app.post('/api/login', function (req, res) {
     const token = uuid.v4();
     userSessions[token] = userLoginPwdIdMap[login].id;
     res.cookie('authToken', token, {expires: new Date(Date.now() + 1000 * 60 * 10)});
-    res.status(200).json({token});
+    res.status(201).json({token});
 });
 
 app.delete('/api/logout', function (req, res) {
