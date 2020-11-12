@@ -103,7 +103,7 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             const meetSlide = createMeetSlide(item);
             meetSlide.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.card.label.id}`});
             });
             slidesWrapper.appendChild(meetSlide);
 
@@ -119,7 +119,7 @@ export default class MeetingsView extends BaseView {
 
             const meetCard = createMeetCard(item);
             meetCard.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.card.label.id}`});
             });
 
             const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
@@ -146,7 +146,7 @@ export default class MeetingsView extends BaseView {
                 obj.parsedJson.forEach(item => {
                     const meetCard = createMeetCard(item);
                     meetCard.addEventListener('click', () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
+                        EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.card.label.id}`});
                     });
                     if (this._cards !== null) {
                         this._cards.appendChild(meetCard);
@@ -181,7 +181,7 @@ export default class MeetingsView extends BaseView {
                     }
 
                     postMeet({
-                        meetId: item.id,
+                        meetId: item.card.label.id,
                         fields: {
                             isLiked: item.isLiked,
                         },
@@ -216,7 +216,7 @@ export default class MeetingsView extends BaseView {
                     }
 
                     postMeet({
-                        meetId: item.id,
+                        meetId: item.card.label.id,
                         fields: {
                             isRegistered: item.isRegistered,
                         },

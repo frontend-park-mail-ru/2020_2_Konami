@@ -40,7 +40,7 @@ export default class MeetView extends BaseView {
                 }
             }
             postMeet({
-                meetId: this._data.id,
+                meetId: this._data.card.label.id,
                 fields: {
                     isLiked,
                 },
@@ -63,7 +63,7 @@ export default class MeetView extends BaseView {
                 isRegistered = false;
             }
             postMeet({
-                meetId: this._data.id,
+                meetId: this._data.card.label.id,
                 fields: {
                     isRegistered,
                 },

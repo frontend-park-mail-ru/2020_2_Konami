@@ -119,24 +119,33 @@ app.get('*', (req, res) => {
 
 const meetCards = {
     '52': {
-        id: 52,
-        text: `Lorem ipsum dolor sit amet,
+        card: {
+            label: {
+                id: 52,
+                imgSrc: 'assets/paris.jpg',
+                title: 'Забив с++',
+            },
+            text: `Lorem ipsum dolor sit amet,
                consectetur adipiscing elit, sed
                do eiusmod tempor incididunt ut
                labore et dolore magna aliqua.
                Ut enim ad minim veniam, quis
                nostrud exercitation ullamco labori`,
-        imgSrc: 'assets/paris.jpg',
-        tags: ['Rust', 'Забив', 'В падике'],
-        title: 'Забив с++',
-        place: 'Дом Пушкина, улица Калатушкина',
-        seats: 5,
-        seatsLeft: 5,
+            tags: [
+                {name: 'Rust', id: 5}, 
+                {name: 'Забив', id:6}, 
+                {name: 'В падике', id:7},
+            ],
+            city: 'Moscow',
+            address: 'Дом Пушкина, улица Калатушкина',
+            seats: 5,
+            seatsLeft: 5,
+            ownerId: 53,
+            startDate: '2020-12-17 07:37:16',
+            endDate: '2020-12-17 12:37:16',
+        },
         isLiked: true,
         isRegistered: true,
-        ownerId: 53,
-        startDate: '2020-12-17 07:37:16',
-        endDate: '2020-12-17 12:37:16',
     },
 };
 
@@ -158,22 +167,46 @@ function createUserProfileTmpl() {
 
 const usersProfiles = {
     '52': {
-        id: 52,
-        imgSrc: 'assets/luckash.jpeg',
-        name: 'Александр Лукашенко',
+        card: {
+            label: {
+                id: 52,
+                name: 'Александр Лукашенко',
+                imgSrc: 'assets/luckash.jpeg',
+            },
+            job: 'MAIL GROUP до 2008',
+            interestTags: [
+                {name: 'Картофель', id: 1}, 
+                {name: 'Хоккей', id: 2},
+                {name: 'Картофель', id: 1}, 
+                {name: 'Хоккей', id: 2},
+            ],
+            skillTags: [
+                {name: 'Разгон митингов', id: 3}, 
+                {name: 'Сбор урожая', id: 4},
+            ],
+
+        },
         city: 'Пертрозаводск',
         telegram: '',
         vk: 'https://vk.com/id241926559',
         meetings: [
             {
-                imgSrc: 'assets/beach.jpeg',
-                link: '/meet?meetId=52',
-                text: 'Забив С++',
+                card: {
+                    label: {
+                        imgSrc: 'assets/beach.jpeg',
+                        id: 52,
+                        title: 'Забив С++',
+                    },
+                },
             },
             {
-                imgSrc: 'assets/paris.jpg',
-                link: '/meet?meetId=52',
-                text: 'Поиск в google поисковике',
+                card: {
+                    label: {
+                        imgSrc: 'assets/paris.jpg',
+                        id: 52,
+                        title: 'Поиск в google поисковике',
+                    },
+                },
             },
         ],
         interests: `
@@ -187,16 +220,17 @@ const usersProfiles = {
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
                 in voluptate velit esse cillum `,
-        interestTags: ['Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. 
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
-        skillTags: ['Разгон митингов', 'Сбор урожая'],
+        meetingTags: [
+            {name: 'Разгон митингов', id: 3}, 
+            {name: 'Сбор урожая', id: 4},
+        ],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
-        job: 'MAIL GROUP до 2008',
         aims: 'Хочу от жизни всего',
     },
 };

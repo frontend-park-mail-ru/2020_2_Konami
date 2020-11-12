@@ -10,7 +10,6 @@ import {
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class ProfileView extends BaseView {
-
     constructor(parent, model) {
         super(parent);
 
@@ -20,7 +19,7 @@ export default class ProfileView extends BaseView {
     }
 
     render(data) {
-        this._this = createProfile(data, this.model.getUserId() === data.id);
+        this._this = createProfile(data, this.model.getUserId() === data.card.label.id);
         this.parent.appendChild(this._this);
 
         this._addEventListeners();

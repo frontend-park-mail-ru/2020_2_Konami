@@ -11,7 +11,7 @@ main(class='profile')
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__name-editicon') 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/place.svg')
-            span(class='profile__city') #{card.city}
+            span(class='profile__city') #{city}
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__city-editicon')
         hr
         div(class='profile__socialnetworks')
@@ -30,8 +30,8 @@ main(class='profile')
         div(class='profile__meetings')
             each val, index in meetings
                 div(class='icon-with-text')
-                    img(class='icon-with-text__meet-preview-icon' src=val.label.imgSrc)
-                    a(class='icon-with-text__link bold' href='/meet?meetId=#{val.lavel.id}') #{val.label.title}
+                    img(class='icon-with-text__meet-preview-icon' src=val.card.label.imgSrc)
+                    a(class='icon-with-text__link bold' href='/meet?meetId='+val.card.label.id) #{val.card.label.title}
         
     div(class='profile__rightcolumn')
         div(class='icon-with-text')
