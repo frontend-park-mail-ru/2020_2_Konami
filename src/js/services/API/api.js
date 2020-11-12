@@ -57,9 +57,9 @@ function getUser(userId) {
     });
 }
 
-function getMeet(meetId) {
+function getMeeting(meetId) {
     let statusCode;
-    return fetch(`/api/meet?meetId=${meetId}`, {
+    return fetch(`/api/meeting?meetId=${meetId}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -77,9 +77,9 @@ function getMeet(meetId) {
     });
 }
 
-function postMeet(editFields) { // редактирование митинга
+function patchMeeting(editFields) { // редактирование митинга
     return getCSRF().then(obj => {
-        return fetch('/api/meet', {
+        return fetch('/api/meeting', {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',
@@ -219,28 +219,25 @@ function getMe() {
 }
 
 function postSignUp(login, password) {
-    return getCSRF().then(obj => {
-        return fetch('/api/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-                'Csrf-Token': obj.csrf,
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                login,
-                password,
-            }),
-        }).then(
-            (response) => {
-                return {
-                    statusCode: response.status,
-                };
-        }).catch(error => {
+    return fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+            login,
+            password,
+        }),
+    }).then(
+        (response) => {
             return {
-                error: error
+                statusCode: response.status,
             };
-        });
+    }).catch(error => {
+        return {
+            error: error
+        };
     });
 }
 
@@ -290,8 +287,8 @@ export {
     postUser,
     getPeople,
     getUser,
-    getMeet,
-    postMeet,
+    getMeeting,
+    patchMeeting,
     getMeetings,
     postPhoto,
     postLogin,

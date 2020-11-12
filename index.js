@@ -65,12 +65,12 @@ app.get('/api/people', function (req, res) {
     res.status(200).json(users);
 });
 
-app.get('/api/meet', function (req, res) {
+app.get('/api/meeting', function (req, res) {
     const meetId = req.query.meetId
     res.status(200).json(meetCards[meetId]);
 });
 
-app.patch('/api/meet', function (req, res) {
+app.patch('/api/meeting', function (req, res) {
     console.log(req.body.fields);
     console.log(req.body.meetId);
 

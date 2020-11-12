@@ -47,7 +47,7 @@ if (navigator.serviceWorker) {
     Router.register('/profile', new ProfileController(application));
     Router.register('/new-meeting', new NewMeetingController(application));
     Router.register('/edit-meeting', new EditMeetingController(application));
-    Router.register('/meet', new MeetController(application));
+    Router.register('/meeting', new MeetController(application));
 
     Router.route();
 

@@ -10,7 +10,6 @@ export function createMeetPage(data) {
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
-
     if (startDate > currentDate && data.seatsLeft > 0) {
         data.status = {
             class: 'meet__status status status_green',

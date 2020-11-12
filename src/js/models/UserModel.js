@@ -54,7 +54,7 @@ class UserModel {
         case 401:
             EventBus.dispatchEvent(INVALID_LOGIN);
             break;
-        case 200:
+        case 201:
             this._isAuthenticated = true;
             const {statusCode, body} = await getMe();
             if (statusCode === 200) {
@@ -99,7 +99,7 @@ class UserModel {
             case 409:
                 EventBus.dispatchEvent(USER_ALREADY_EXISTS);
                 break;
-            case 200:
+            case 201:
                 EventBus.dispatchEvent(SIGNUP_SUCCESS, {name: name, login: login, password: password});
                 break;
 

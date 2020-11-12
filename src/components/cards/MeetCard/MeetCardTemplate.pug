@@ -7,7 +7,7 @@ div(class='meet-card' id=card.label.id)
             img(class='meet-card__like' src='/assets/like.svg')
         else
             img(class='meet-card__like' src='/assets/heart.svg')
-        div(class='meet-card__seats-left') Осталось мест: #{card.seatsLeft}
+        div(class='meet-card__seats-left') Осталось мест: #{seatsInfo}
     div(class='meet-card__text-wrapper')
         h2(class='meet-card__title') #{card.label.title}
         div(class='meet-card__date-place-wrapper')

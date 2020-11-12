@@ -2,7 +2,7 @@
 
 import Controller from "@/js/basics/Controller/Controller.js";
 import MeetModel from "./MeetModel.js";
-import { getMeet } from "@/js/services/API/api.js";
+import { getMeeting } from "@/js/services/API/api.js";
 import MeetView from "./MeetView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { REDIRECT } from "@/js/services/EventBus/EventTypes.js";
@@ -22,7 +22,7 @@ export default class MeetController extends Controller {
             EventBus.dispatchEvent(REDIRECT, 'meetings')
         }
 
-        getMeet(meetId).then(response => {
+        getMeeting(meetId).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {
