@@ -16,16 +16,8 @@ export function createSlides(isMobile) {
     `;
 
     const sliders = wrapper.getElementsByClassName('slide-container__slides')[0];
-    const slides = sliders.children;
 
     let counter = 0;
-
-    const func = () => {
-        const first = slides[0];
-        first.remove();
-        sliders.append(first);
-    }
-
     const nextButton = wrapper.getElementsByClassName('slide-container__prev-button')[0];
     nextButton.addEventListener('click', evt => {
         counter++;
