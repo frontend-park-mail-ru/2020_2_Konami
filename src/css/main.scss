@@ -3,12 +3,14 @@
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/MeetSlides/MeetSlides/MeetSlides.scss';
-@import '../components/cards/MeetSlides/MeetСarouselItem/MeetSlide.scss';
+@import '../components/cards/MeetSlides/MeetSlide/MeetSlide.scss';
 @import '@/components/header/Header/header.scss';
 @import '@/components/header/Navigation/navigation.scss';
 @import '@/components/meet/Meet.scss';
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
+@import '@/components/main/MainTitle/MainTitle.scss';
+@import '@/components/main/CardWrapper/CardWrapper.scss';
 
 
 @import '@/components/auth/Form/Form.scss';
@@ -38,31 +40,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.main-title {
-    font-size: xx-large;
-    margin-top: 70px;
-    margin-bottom: 5px;
-}
-
-.main-title:hover {
-    color:rgb(255, 59, 59);
-}
-
 .main {
     width: $max-width;
     padding: 15px;
 
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
-}
-
-.card-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-
-    margin: 0px 0;
-    font-family: 'Roboto', sans-serif;
-    justify-content: space-between;
 }
 
 @media (max-width: 1280px) {

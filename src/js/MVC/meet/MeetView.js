@@ -19,68 +19,6 @@ export default class MeetView extends BaseView {
         this.model = model;
         this._this = null;
         this._data = null;
-
-        this._clickLikeHandler = (evt) => {
-            let isLiked = false;
-            if (evt.target.firstChild != undefined) {
-                if (evt.target.firstChild.src.includes('heart')) {
-                    evt.target.firstChild.src = '/assets/like.svg';
-                    isLiked = true;
-                } else {
-                    evt.target.firstChild.src = '/assets/heart.svg';
-                    isLiked = false;
-                }
-            } else {
-                if (evt.target.src.includes('heart')) {
-                    evt.target.src = '/assets/like.svg';
-                    isLiked = true;
-                } else {
-                    evt.target.src = '/assets/heart.svg';
-                    isLiked = false;
-                }
-            }
-            patchMeeting({
-                meetId: this._data.card.label.id,
-                fields: {
-                    isLiked,
-                },
-            }).then(obj => {
-                if (obj.statusCode === 200) {
-                    displayNotification("Вы оценили мероприятие");
-                } else {
-                    alert('Permission denied');
-                }
-            });
-        };
-    
-        this._clickGoButtonHandler = (evt) => {
-            let isRegistered = false;
-            if (evt.target.innerHTML === 'Пойти') {
-                evt.target.innerHTML = 'Отменить поход';
-                isRegistered = true;
-            } else {
-                evt.target.innerHTML = 'Пойти';
-                isRegistered = false;
-            }
-            patchMeeting({
-                meetId: this._data.card.label.id,
-                fields: {
-                    isRegistered,
-                },
-            }).then(obj => {
-                if (obj.statusCode === 200) {
-                    if (isRegistered) {
-                        displayNotification("Вы зарегистрировались");
-                    } else {
-                        displayNotification("Вы отменили регистрацию");
-                    }
-                } else if (obj.statusCode === 409) {
-                    alert('Вы не можете зарегистрироваться на мероприятие, которе уже прошло');
-                } else {
-                    alert('Permission denied');
-                }
-            });
-        };
     }
 
     render(data) {
@@ -97,10 +35,14 @@ export default class MeetView extends BaseView {
             // снизу ж*па
             if (isAuth) {
                 if (likeIcon !== undefined) {
-                    likeIcon.addEventListener('click', this._clickLikeHandler);
+                    likeIcon.addEventListener('click', (evt) => {
+                        this._clickLikeHandler(evt, likeIcon);
+                    });
                 }
                 if (goButton !== undefined) {
-                    goButton.addEventListener('click', this._clickGoButtonHandler);
+                    goButton.addEventListener('click', (evt) => {
+                        this._clickGoButtonHandler(evt, goButton);
+                    });
                 }
                 if (editButton !== undefined) {
                     editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
@@ -132,6 +74,62 @@ export default class MeetView extends BaseView {
             this._removeEventListeners();
         }
     }
+
+    _clickLikeHandler(evt, icon) {
+        if (this._data.isLiked) {
+            this._data.isLiked = false;
+        } else {
+            this._data.isLiked = true;
+        }
+
+        patchMeeting({
+            meetId: this._data.card.label.id,
+            fields: {
+                isLiked: this._data.isLiked ,
+            },
+        }).then(obj => {
+            if (obj.statusCode === 200) {
+                if (this._data.isLiked) {
+                    displayNotification("Вы оценили мероприятие");
+                    icon.firstChild.src = '/assets/like.svg';
+                } else {
+                    displayNotification("Вы убрали лайк");
+                    icon.firstChild.src  = '/assets/heart.svg';
+                }   
+            } else {
+                alert('Permission denied');
+            }
+        });
+    };
+
+    _clickGoButtonHandler(evt, element) {
+        if (this._data.isRegistered) {
+            this._data.isRegistered = false;
+        } else {
+            this._data.isRegistered = true;
+        }
+
+        patchMeeting({
+            meetId: this._data.card.label.id,
+            fields: {
+                isRegistered: this._data.isRegistered,
+            },
+        }).then(obj => {
+            if (obj.statusCode === 200) {
+                if (this._data.isRegistered) {
+                    displayNotification("Вы зарегистрировались");
+                    element.innerHTML = 'Отменить';
+                } else {
+                    displayNotification("Вы отменили регистрацию");
+                    element.innerHTML = 'Пойти';
+                }
+            } else if (obj.statusCode === 409) {
+                displayNotification("Мероприятие уже закончилось");
+            } else {
+                alert('Permission denied');
+            }
+        });
+    };
 
     _clickEditButtonHandler(evt) {
         EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});

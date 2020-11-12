@@ -15,7 +15,9 @@ import {
     createSettings
 } from "@/components/settings/Settings.js";
 import { createSlides } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlides";
-import { createMeetSlide } from "../../../components/cards/MeetSlides/MeetСarouselItem/MeetSlide";
+import { createMeetSlide } from "../../../components/cards/MeetSlides/MeetSlide/MeetSlide";
+import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
+import { createCardWrapper } from "../../../components/main/CardWrapper/CardWrapper";
 
 export default class MeetingsView extends BaseView {
 
@@ -23,41 +25,16 @@ export default class MeetingsView extends BaseView {
         super(parent);
         this.parent = parent;
         this.model = model;
+
         this._this = null;
         this._cards = null;
+        this._slides = null;
+
         this._settingsButton = [
-            {
-                view: 'Мои мероприятия',
-                param: 'mymeetings',
-            }, 
-            {
-                view: 'Избранное',
-                param: 'favorites'
-            },
-            {
-                view: 'Сегодня',
-                param: 'today',
-            },
-            {
-                view: 'Завтра',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Какие-то настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Eще какие-то настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Возможно еще настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'И еще',
-                param: 'tomorrow',
-            },
+            {view: 'Мои мероприятия', param: 'mymeetings'}, 
+            {view: 'Избранное', param: 'favorites'},
+            {view: 'Сегодня', param: 'today'},
+            {view: 'Завтра', param: 'tomorrow'},
         ];
     }
 
@@ -65,71 +42,54 @@ export default class MeetingsView extends BaseView {
         const main = document.createElement('div');
         main.classList.add('meet-page__main');
         this.parent.appendChild(main);
-
-        const headTitle = document.createElement('h1');
-        headTitle.classList.add('main-title');
-        headTitle.innerHTML = 'Рекомендации для вас';
-        main.appendChild(headTitle);
-        main.appendChild(this._createSettings(this._settingsButton));
-
-        const slides = createSlides();
-        main.appendChild(slides);
-
-        const headTitle2 = document.createElement('h1');
-        headTitle2.classList.add('main-title');
-        headTitle2.innerHTML = 'Митапы в ближайшее время';
-        main.appendChild(headTitle2);
-
-
-        const slidesWrapper = slides.getElementsByClassName('slide-container__slides')[0];
-
-        const cardWrapper = document.createElement('div');
-        cardWrapper.classList.add('card-wrapper');
-        main.appendChild(cardWrapper);
-
-        const headTitle3 = document.createElement('h1');
-        headTitle3.classList.add('main-title');
-        headTitle3.innerHTML = 'Самые ожидаемые';
-        main.appendChild(headTitle3);
-
-        const cardWrapper1 = document.createElement('div');
-        cardWrapper1.classList.add('card-wrapper');
-        main.appendChild(cardWrapper1);
-
-
         this._this = main;
-        this._cards = cardWrapper;
+
+        main.appendChild(createMainTitle('Рекомендации для вас'));
+        main.appendChild(this._createSettings(this._settingsButton));
+        main.appendChild(createSlides());
+    
+        main.appendChild(createMainTitle('Митапы в ближайшее время'));
+        this._cards = createCardWrapper();
+        main.appendChild(this._cards);
+
+        this._slides = main.getElementsByClassName('slide-container__slides')[0];
 
         cards.forEach(item => {
-            const meetSlide = createMeetSlide(item);
-            meetSlide.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-            });
-            slidesWrapper.appendChild(meetSlide);
-
-            const likeIcon = meetSlide.getElementsByClassName('meet-slide__like-icon-wrapper')[0];
-            likeIcon.addEventListener('click', (event) => {
-                this._likeEventListener(event, item, likeIcon.firstChild);
-            });
-
-            const goButton = meetSlide.getElementsByClassName('meet-slide__go-button')[0];
-            goButton.addEventListener('click', (event) => {
-                this._goEventListener(event, item, goButton);
-            });
-
-            const meetCard = createMeetCard(item);
-            meetCard.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-            });
-
-            const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
-            meetCardLikeIcon.addEventListener('click', (event) => {
-                this._likeEventListener(event, item, meetCardLikeIcon);
-            });
-
-            cardWrapper.appendChild(meetCard);
-            cardWrapper1.appendChild(meetCard.cloneNode(true));
+            this._createSlide(item);
+            this._createCard(item);
         });
+    }
+
+    _createSlide(item) {
+        const meetSlide = createMeetSlide(item);
+        meetSlide.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+        });
+        this._slides.appendChild(meetSlide);
+
+        const likeIcon = meetSlide.getElementsByClassName('meet-slide__like-icon-wrapper')[0];
+        likeIcon.addEventListener('click', (event) => {
+            this._likeEventListener(event, item, likeIcon.firstChild);
+        });
+
+        const goButton = meetSlide.getElementsByClassName('meet-slide__go-button')[0];
+        goButton.addEventListener('click', (event) => {
+            this._goEventListener(event, item, goButton);
+        });
+    }
+
+    _createCard(item) {
+        const meetCard = createMeetCard(item);
+        meetCard.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+        });
+
+        const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
+        meetCardLikeIcon.addEventListener('click', (event) => {
+            this._likeEventListener(event, item, meetCardLikeIcon);
+        });
+
+        this._cards.appendChild(meetCard);
     }
 
     _createSettings() {
@@ -166,80 +126,77 @@ export default class MeetingsView extends BaseView {
     }
 
     _likeEventListener(event, item, likeIcon) {
-        (() => {
-            event.preventDefault();
-            event.stopPropagation();
-            this.model.checkAuth().then(isAuth => {
-                if (isAuth) {
-                    if (item.isLiked) {
-                        item.isLiked = false;
-                        
-                        likeIcon.src = "/assets/heart.svg";
-                    } else {
-                        item.isLiked = true;
-                        likeIcon.src = "/assets/like.svg";
-                    }
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
 
-                    patchMeeting({
-                        meetId: item.card.label.id,
-                        fields: {
-                            isLiked: item.isLiked,
-                        },
-                    }).then(obj => {
-                        if (obj.statusCode === 200) {
-                            if (item.isLiked) {
-                                displayNotification("Вы оценили мероприятие");
-                            } else {
-                                displayNotification("Вы убрали лайк"); 
-                            }
-                        } else {
-                            alert('Permission denied');
-                        }
-                    });
+            if (item.isLiked) {
+                item.isLiked = false;
+            } else {
+                item.isLiked = true;
+            }
+
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isLiked: item.isLiked,
+                },
+            }).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
+                }
+                if (item.isLiked) {
+                    displayNotification("Вы оценили мероприятие");
+                    likeIcon.src = "/assets/like.svg";
                 } else {
-                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    displayNotification("Вы убрали лайк"); 
+                    likeIcon.src = "/assets/heart.svg";
                 }
             });
-        })();
+        });
     }
 
     _goEventListener(event, item, goButton) {
-        (() => {
-            event.preventDefault();
-            event.stopPropagation();
-            this.model.checkAuth().then(isAuth => {
-                if (isAuth) {
-                    if (item.isRegistered) {
-                        item.isRegistered = false;
-                    } else {
-                        item.isRegistered = true;
-                    }
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+            if (item.isRegistered) {
+                item.isRegistered = false;
+            } else {
+                item.isRegistered = true;
+            }
 
-                    patchMeeting({
-                        meetId: item.card.label.id,
-                        fields: {
-                            isRegistered: item.isRegistered,
-                        },
-                    }).then(obj => {
-                        if (obj.statusCode === 200) {
-                            if (item.isRegistered) {
-                                displayNotification("Зарегистрировалиь");
-                                goButton.innerHTML = 'Отменить';
-                            } else {
-                                displayNotification("Вы отменили регистрацию");
-                                goButton.innerHTML = 'Пойти';
-                            }
-                        } else if (obj.statusCode === 409) {
-                            displayNotification("Мероприятие уже завершилось");
-                        } else {
-                            alert('Permission denied');
-                        }
-                    });
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isRegistered: item.isRegistered,
+                },
+            }).then(obj => {
+                if (obj.statusCode === 200) {
+                    if (item.isRegistered) {
+                        displayNotification("Зарегистрировалиь");
+                        goButton.innerHTML = 'Отменить';
+                    } else {
+                        displayNotification("Вы отменили регистрацию");
+                        goButton.innerHTML = 'Пойти';
+                    }
+                } else if (obj.statusCode === 409) {
+                    displayNotification("Мероприятие уже завершилось");
                 } else {
-                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    alert('Permission denied');
                 }
             });
-        })();
+            
+        });
     }
 
     erase() {
