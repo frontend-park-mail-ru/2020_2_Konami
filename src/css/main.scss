@@ -3,15 +3,17 @@
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
 @import '@/components/cards/MeetSlides/MeetSlides/MeetSlides.scss';
-@import '../components/cards/MeetSlides/MeetSlide/MeetSlide.scss';
+@import '@/components/cards/MeetSlides/MeetSlide/MeetSlide.scss';
+@import '../components/cards/MeetSlides/MeetSlide/MeetSlideMobile.scss';
+@import '../components/cards/MeetSlides/MeetSlides/MeetSlidesMobile.scss';
 @import '@/components/header/Header/header.scss';
-@import '@/components/header/Navigation/navigation.scss';
+@import '@/components/header/Header/HeaderMobile.scss';
 @import '@/components/meet/Meet.scss';
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
 @import '@/components/main/MainTitle/MainTitle.scss';
 @import '@/components/main/CardWrapper/CardWrapper.scss';
-
+@import '@/components/main/CardWrapper/CardWrapperMobile.scss';
 
 @import '@/components/auth/Form/Form.scss';
 @import '@/components/auth/Button/Button.scss';
@@ -39,6 +41,23 @@ body {
     margin: 0 auto;
     font-family: 'Roboto', sans-serif;
 }
+
+.meet-page-mobile__main {
+    min-width: 430px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.meet-page-mobile__after-card {
+    position: relative;
+    border-radius: 20px;
+    background-color: white;
+
+    min-width: 390px;
+
+    z-index: 2;
+    padding: 20px;
+}
+
 
 .main {
     width: $max-width;

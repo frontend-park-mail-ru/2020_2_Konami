@@ -1,6 +1,6 @@
 'use strict';
 
-export function createSlides() {
+export function createSlides(isMobile) {
     const wrapper = document.createElement('div');
     wrapper.innerHTML = `
         <div class="slide-container">

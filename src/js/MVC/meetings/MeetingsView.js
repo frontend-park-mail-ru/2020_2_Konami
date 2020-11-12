@@ -15,9 +15,11 @@ import {
     createSettings
 } from "@/components/settings/Settings.js";
 import { createSlides } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlides";
-import { createMeetSlide } from "../../../components/cards/MeetSlides/MeetSlide/MeetSlide";
+import { createSlide } from "../../../components/cards/MeetSlides/MeetSlide/MeetSlide";
 import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
 import { createCardWrapper } from "../../../components/main/CardWrapper/CardWrapper";
+import { createSlidesMobile } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlidesMobile";
+import { createCardWrapperMobile } from "../../../components/main/CardWrapper/CardWrapperMobile";
 
 export default class MeetingsView extends BaseView {
 
@@ -40,9 +42,34 @@ export default class MeetingsView extends BaseView {
 
     render(cards) {
         const main = document.createElement('div');
-        main.classList.add('meet-page__main');
+        main.classList.add('meet-page-mobile__main');
         this.parent.appendChild(main);
         this._this = main;
+
+        this._slides = createSlidesMobile();
+        main.appendChild(this._slides);
+
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('meet-page-mobile__after-card');
+        afterCard.appendChild(createMainTitle('Рекомендации для вас'));
+        main.appendChild(afterCard);
+
+        this._cards = createCardWrapperMobile();
+        afterCard.appendChild(this._cards);
+
+        cards.forEach(item => {
+            this._slides.appendChild(createSlide(item, true));
+            this._cards.appendChild(createMeetCard(item, true));
+        });
+
+        /*console.log(cards);
+        const main = document.createElement('div');
+        main.classList.add('meet-page__main-mobile');
+        main.classList.add('meet-page__main'); 
+        this.parent.appendChild(main);
+        this._this = main;
+
+    
 
         main.appendChild(createMainTitle('Рекомендации для вас'));
         main.appendChild(this._createSettings(this._settingsButton));
@@ -57,11 +84,11 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             this._createSlide(item);
             this._createCard(item);
-        });
+        });*/
     }
 
     _createSlide(item) {
-        const meetSlide = createMeetSlide(item);
+        const meetSlide = createSlide(item, false);
         meetSlide.addEventListener('click', () => {
             EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
         });

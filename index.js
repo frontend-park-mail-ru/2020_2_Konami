@@ -306,7 +306,7 @@ app.post('/api/meeting', function(req, res) {
     return res.status(201).send('ok');
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT ||  8000;
 
 app.listen(port, function () {
   console.log(`Server listening port ${port}`);

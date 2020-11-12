@@ -1,14 +1,14 @@
 'use strict';
 
 import BaseView from "@/js/basics/BaseView/BaseView.js";
-import {createNavigation} from "@/components/header/Navigation/navigation.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
     LOGOUT_USER,
-    OPEN_LOGIN_MODAL,
-    REDIRECT
+    OPEN_LOGIN_MODAL
 } from "@/js/services/EventBus/EventTypes.js";
+import { createHeader } from "../../../components/header/Header/header";
+import { createHeaderMobile } from "../../../components/header/Header/HeaderMobile";
 
 export default class HeaderView extends BaseView {
 
@@ -18,7 +18,6 @@ export default class HeaderView extends BaseView {
         this.model = model;
 
         this._initEventHandlers();
-
     }
 
     _initEventHandlers() {
@@ -36,23 +35,10 @@ export default class HeaderView extends BaseView {
 
     // TODO(template)
     render() {
-        const headerWrapper = document.createElement('div');
-        headerWrapper.innerHTML = `
-        <header class="header">
-            <img src="assets/google.png" data-section="meetings" class="header__logo">
-            <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
-            <img src="assets/add-meet.svg" id="newMeet" class="header__icon icon square">
-            <img src="assets/pericon.svg" id="profileIcon" class="header__icon icon">
-        </header>
-        `;
-
-        this.parent.appendChild(headerWrapper.firstElementChild);
-        createNavigation(this.parent);
+        this.parent.appendChild(createHeaderMobile());
 
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
-
-        // icon.dataset.section = 'profile';
 
         icon = document.getElementById('newMeet');
         icon.dataset.section = 'newMeeting';

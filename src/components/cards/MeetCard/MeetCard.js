@@ -2,7 +2,7 @@
 
 const template = require('./MeetCardTemplate.pug');
 
-export function createMeetCard(data) {
+export function createMeetCard(data, mobile) {
     let startDate = new Date(data.card.startDate);
     let endDate = new Date(data.card.endDate);
     let currentDate = Date.now();
@@ -43,6 +43,9 @@ export function createMeetCard(data) {
     }
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
+    if (mobile) {
+        tmp.firstElementChild.classList.add('meet-card__margin-right');
+    }
 
     return tmp.firstElementChild;
 }

@@ -1,20 +1,21 @@
 'use strict';
 
-import {placeAuthModal} from "../../auth/ModalDialog/ModalDialog.js";
-
-export function createHeader(application) {
+export function createHeader() {
     const headerWrapper = document.createElement('div');
     headerWrapper.innerHTML = `
         <header class="header">
-            <img src="assets/google.png" class="logo">
-            <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
-            <img src="assets/pericon.svg" class="icon">
+            <div class="header__top">
+                <img src="assets/google.png" data-section="meetings" class="header__logo">
+                <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
+                <img src="assets/add-meet.svg" id="newMeet" class="header__icon icon square">
+                <img src="assets/pericon.svg" id="profileIcon" class="header__icon icon">
+            </div>
+            <nav class="navigation">
+                <a href="/meetings" data-section="meetings" class="navigation__choose-link">Мероприятия</a>
+                <a href="/people" data-section="people" class="navigation__choose-link">Люди</a>
+            </nav>
         </header>
     `;
 
-    const icon = headerWrapper.getElementsByClassName('icon')[0];
-    icon.dataset.section = 'profile';
-    application.appendChild(headerWrapper.firstElementChild);
-
-    placeAuthModal();
+    return headerWrapper.firstElementChild
 }
