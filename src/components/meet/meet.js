@@ -37,7 +37,7 @@ export function createMeetPage(data) {
         };
     }
 
-    if (data.currentUserId === data.authorId) {
+    if (data.currentUserId === data.card.authorId) {
         data.buttonStatus = {
             class: 'meet__button meet__button_edit',
             text: 'Редактировать',
@@ -47,7 +47,7 @@ export function createMeetPage(data) {
             class: 'meet__button meet__button_go',
             text: 'Отменить поход',
         };
-    } else if (data.seatsLeft > 0 && endDate > currentDate) {
+    } else if (data.card.seatsLeft > 0 && endDate > currentDate) {
         data.buttonStatus = {
             class: 'meet__button meet__button_go',
             text: 'Пойти',

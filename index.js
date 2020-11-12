@@ -59,7 +59,7 @@ app.get('/api/people', function (req, res) {
 
     let users = [];
     Object.keys(usersProfiles).forEach(item => {
-        users.push(usersProfiles[item]);
+        users.push(usersProfiles[item].card);
     });
 
     res.status(200).json(users);
