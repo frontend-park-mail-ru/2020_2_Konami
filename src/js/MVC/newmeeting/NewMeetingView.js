@@ -19,6 +19,7 @@ import {
     CREATE_MEETING_SUCCESS,
     INVALID_DATE_INPUT,
     INVALID_TIME_INPUT,
+    INVALID_START_BIGGER_END,
     BIG_FILE_SIZE
 } from "@/js/services/EventBus/EventTypes.js";
 
@@ -58,6 +59,16 @@ export default class NewMeetingView extends BaseView {
 
             onInvalidFile: () => {
                 displayNotification('Файл превышает максимальный размер');
+            },
+
+            onStartBiggerEnd: () => {
+                displayNotification('Дата начала мероприятия не может превышать дату окончания');
+                ['start', 'end'].forEach((prefix) => {
+                    let day = document.getElementsByName(`${prefix}-day`)[0];
+                    let month = document.getElementsByName(`${prefix}-month`)[0];
+                    let year = document.getElementsByName(`${prefix}-year`)[0];
+                    this._showInvalidInputs(day, month, year);
+                });
             },
 
             onSelectTags: () => {
@@ -104,6 +115,8 @@ export default class NewMeetingView extends BaseView {
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
         EventBus.onEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
         EventBus.onEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
+        EventBus.onEvent(INVALID_START_BIGGER_END, this._eventHandlers.onStartBiggerEnd);
+
 
     }
 
@@ -114,7 +127,9 @@ export default class NewMeetingView extends BaseView {
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
         EventBus.offEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
-        EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
+        EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile)
+        EventBus.offEvent(INVALID_START_BIGGER_END, this._eventHandlers.onStartBiggerEnd);
+
 
     }
 
@@ -188,7 +203,7 @@ export default class NewMeetingView extends BaseView {
 
 
             const photos = document.getElementById('photoFileUploader').files;
-            if (photos.length > 0) { // TODO else { дефолтная фотка }
+            if (photos.length > 0) {
                 let reader = new FileReader();
                 reader.readAsDataURL(photos[0]);
 

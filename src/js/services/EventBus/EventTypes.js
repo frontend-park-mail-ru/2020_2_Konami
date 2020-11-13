@@ -37,6 +37,7 @@ export const SUBMIT_CREATE_MEET = 'submitMeetingCreation';
 export const CREATE_MEETING_SUCCESS = 'successMeetingCreation';
 export const INVALID_DATE_INPUT = 'invalidDateInput';
 export const INVALID_TIME_INPUT = 'invalidTimeInput';
+export const INVALID_START_BIGGER_END = 'invalidStartDateBiggerThenEnd';
 export const PASS_MEET_DATA_TO_EDIT = 'passMeetDataToEdit'; // need pass data as argument
 // export const INVALID_END_DATE_INPUT = 'invalidEndDateInput';
 
