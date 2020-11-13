@@ -41,35 +41,37 @@ export default class MeetingsView extends BaseView {
     }
 
     render(cards) {
-        const main = document.createElement('div');
-        main.classList.add('meet-page-mobile__main');
-        this.parent.appendChild(main);
-        this._this = main;
+        const mobile = true;
+        if (mobile) {
+            const main = document.createElement('div');
+            main.classList.add('meet-page-mobile__main');
+            this.parent.appendChild(main);
+            this._this = main;
 
-        this._slides = createSlidesMobile();
-        main.appendChild(this._slides);
+            this._slides = createSlidesMobile();
+            main.appendChild(this._slides);
 
-        const afterCard = document.createElement('div');
-        afterCard.classList.add('meet-page-mobile__after-card');
-        afterCard.appendChild(createMainTitle('Рекомендации для вас'));
-        main.appendChild(afterCard);
+            const afterCard = document.createElement('div');
+            afterCard.classList.add('meet-page-mobile__after-card');
+            afterCard.appendChild(createMainTitle('Рекомендации для вас'));
+            afterCard.appendChild(this._createSettings(this._settingsButton));
+            main.appendChild(afterCard);
 
-        this._cards = createCardWrapperMobile();
-        afterCard.appendChild(this._cards);
+            this._cards = createCardWrapperMobile();
+            afterCard.appendChild(this._cards);
 
-        cards.forEach(item => {
-            this._slides.appendChild(createSlide(item, true));
-            this._cards.appendChild(createMeetCard(item, true));
-        });
+            cards.forEach(item => {
+                this._createSlideMobile(item);
+                this._createCard(item, true);
+            });
+            return;
+        } 
 
-        /*console.log(cards);
         const main = document.createElement('div');
         main.classList.add('meet-page__main-mobile');
         main.classList.add('meet-page__main'); 
         this.parent.appendChild(main);
         this._this = main;
-
-    
 
         main.appendChild(createMainTitle('Рекомендации для вас'));
         main.appendChild(this._createSettings(this._settingsButton));
@@ -84,7 +86,7 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             this._createSlide(item);
             this._createCard(item);
-        });*/
+        });
     }
 
     _createSlide(item) {
@@ -105,18 +107,30 @@ export default class MeetingsView extends BaseView {
         });
     }
 
-    _createCard(item) {
-        const meetCard = createMeetCard(item);
+    _createCard(item, isMobile) {
+        const meetCard = createMeetCard(item, isMobile);
         meetCard.addEventListener('click', () => {
             EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
         });
+        this._cards.appendChild(meetCard);
 
         const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
         meetCardLikeIcon.addEventListener('click', (event) => {
             this._likeEventListener(event, item, meetCardLikeIcon);
         });
+    }
 
-        this._cards.appendChild(meetCard);
+    _createSlideMobile(item) {
+        const meetSlide = createSlide(item, true);
+        meetSlide.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+        });
+        this._slides.appendChild(meetSlide);
+
+        const likeIcon = meetSlide.getElementsByClassName('meet-slide-mobile__like-icon')[0];
+        likeIcon.addEventListener('click', (event) => {
+            this._likeEventListener(event, item, likeIcon);
+        });
     }
 
     _createSettings() {
