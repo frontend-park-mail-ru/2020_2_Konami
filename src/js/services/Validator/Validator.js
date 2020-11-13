@@ -68,4 +68,10 @@ export default class Validator {
         return hours >= 0 && hours <= 24 && minutes >= 0 && minutes <= 60;
     }
 
+    dateIsLess(date1, date2) {  // ISO strings
+        const d1 = new Date(date1);
+        const d2 = new Date(date2);
+        return d1 < d2;
+    }
+
 }
