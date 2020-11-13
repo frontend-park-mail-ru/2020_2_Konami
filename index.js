@@ -273,7 +273,7 @@ app.post('/api/signup', function (req, res) {
     usersProfiles[newId] = createUserProfileTmpl();
     userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
 
-    res.status(200).send('ok');
+    res.status(201).send('ok');
 });
 
 app.post('/api/images', function(req, res) {

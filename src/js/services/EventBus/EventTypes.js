@@ -19,6 +19,7 @@ export const SUBMIT_EDIT = 'editUser';
 export const EDIT_SUCCESS = 'editUserSuccess';
 export const UPDATE_PHOTO_SUCCESS = 'updatePhotoUserSuccess';
 export const SELECT_TAGS = 'selectRecommendationTags';
+export const APPLY_TAGS = 'applyRecommendationTags';
 
 // Validators
 export const PASSWORDS_MISMATCH = 'passwordsMismatch';

@@ -92,24 +92,6 @@ function createTab1() {
     const tags = document.createElement('div');
     tags.classList.add('recommendationTagsWrapper');
     tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
-    // for (let i = 0; i < 10; i++) {
-    //     let lbl = document.createElement('label');
-    //     lbl.id = 'tag' + i;
-    //
-    //     let input = document.createElement('input');
-    //     input.classList.add('btnLike');
-    //     input.type = 'checkbox';
-    //     input.name = 'tags';
-    //     input.value = 'randomTag' + i;
-    //
-    //     let span = document.createElement('span');
-    //     span.textContent = 'randomTag';
-    //
-    //     lbl.appendChild(input);
-    //     lbl.appendChild(span);
-    //
-    //     tags.appendChild(lbl);
-    // }
 
     const helperText = document.createElement('span');
     helperText.classList.add('helpText');
