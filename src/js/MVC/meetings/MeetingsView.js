@@ -44,7 +44,7 @@ export default class MeetingsView extends BaseView {
         const mobile = true;
         if (mobile) {
             const main = document.createElement('div');
-            main.classList.add('meet-page-mobile__main');
+            main.classList.add('page-mobile__main');
             this.parent.appendChild(main);
             this._this = main;
 
@@ -52,7 +52,7 @@ export default class MeetingsView extends BaseView {
             main.appendChild(this._slides);
 
             const afterCard = document.createElement('div');
-            afterCard.classList.add('meet-page-mobile__after-card');
+            afterCard.classList.add('page-mobile__after-card');
             afterCard.appendChild(createMainTitle('Рекомендации для вас'));
             afterCard.appendChild(this._createSettings(this._settingsButton));
             main.appendChild(afterCard);

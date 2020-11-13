@@ -1,8 +1,10 @@
 'use strict';
 
 const template = require('./MeetTemplate.pug');
+const mobileTemplate = require('./MeetMobileTemplate.pug');
 
-export function createMeetPage(data) {
+
+export function createMeetPage(data, isMobile) {
     let startDate = new Date(data.card.startDate);
     let endDate = new Date(data.card.endDate);
     let currentDate = Date.now();
@@ -55,7 +57,11 @@ export function createMeetPage(data) {
     }
 
     const tmp = document.createElement('div');
-    tmp.innerHTML = template(data);
+    if (isMobile) {
+        tmp.innerHTML = mobileTemplate(data);
+    } else {
+        tmp.innerHTML = template(data);
+    }
 
     return tmp.firstElementChild;
 }

@@ -24,15 +24,15 @@ export default class MeetView extends BaseView {
     render(data) {
         this._data = data;
 
-        this._this = createMeetPage(data);
+        this._this = createMeetPage(data, true);
         this.parent.appendChild(this._this);
 
-        const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
-        const goButton = this._this.getElementsByClassName('meet__button_go')[0];
+        const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0] || this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
+        const goButton = this._this.getElementsByClassName('meet__button_go')[0] || this._this.getElementsByClassName('meet-mobile__go-button')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
         // тут нужно что то сделать с editbutton
         this.model.checkAuth().then(isAuth => {
-            // снизу ж*па
+
             if (isAuth) {
                 if (likeIcon !== undefined) {
                     likeIcon.addEventListener('click', (evt) => {

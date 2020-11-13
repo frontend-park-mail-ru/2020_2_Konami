@@ -10,6 +10,7 @@
 @import '@/components/header/Header/HeaderMobile.scss';
 @import '@/components/header/Header/HeaderMobileSearchBlock.scss';
 @import '@/components/meet/Meet.scss';
+@import '@/components/meet/MeetMobile.scss';
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
 @import '@/components/main/MainTitle/MainTitle.scss';
@@ -43,12 +44,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.meet-page-mobile__main {
+.page-mobile__main {
     min-width: 430px;
     font-family: 'Roboto', sans-serif;
 }
 
-.meet-page-mobile__after-card {
+.page-mobile__after-card {
     position: relative;
     border-radius: 20px;
     background-color: white;
