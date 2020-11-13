@@ -56,7 +56,7 @@ class Router {
     }
 
     _handlePath(currentPath) {
-        // Обрезает query параметры надо как-то это поправить чтоли 
+        // Обрезает query параметры надо как-то это поправить чтоли
         let pos = currentPath.length;
         for (let i = 0; i < currentPath.length; i++) {
             if (currentPath[i] === '?') {
