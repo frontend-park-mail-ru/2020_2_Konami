@@ -6,7 +6,6 @@ export function createHeaderMobile() {
         <header class="header-mobile">
             <img src="assets/google.png" data-section="meetings" class="header-mobile__logo">
             <img src="assets/loupe.svg" class="header-mobile__search">
-            <img src="assets/pin.svg" class="header-mobile__pin">
             <div class="header-mobile__logo-wrapper">
                 <img src="assets/logo-new.png" id="profileIcon" class="header-mobile__icon">
             </div>
