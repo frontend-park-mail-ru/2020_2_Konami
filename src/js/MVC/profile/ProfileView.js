@@ -63,9 +63,11 @@ export default class ProfileView extends BaseView {
         const tagsModalBlock = createTagsModal();
         this.parent.appendChild(tagsModalBlock);
         tagsModalBlock.style.display= 'block';
+        const tagsWrapper = document.getElementsByClassName('selectedTagsWrapper')[0];
 
         const tags = Array.from(document.getElementsByClassName('btnLike'));
-        const userTags = this.data.meetingTags.map((obj) => obj.name);
+        // const userTags = this.data.meetingTags.map((obj) => obj.name);
+        const userTags = Array.from(tagsWrapper.getElementsByClassName('btnLike')).map((input) => input.value);
         tags.forEach((tagBtnLikeInput) => {
             if (userTags.includes(tagBtnLikeInput.value)) {
                 tagBtnLikeInput.click();
