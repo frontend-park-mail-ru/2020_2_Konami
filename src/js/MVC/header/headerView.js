@@ -98,7 +98,8 @@ export default class HeaderView extends BaseView {
             EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
         });
 
-        // const locationLink = document.getElementById('locationLink');
+        const locationLink = document.getElementById('locationLink');
+        this._setUserGeolocation();
         // locationLink.addEventListener('click', (evt) => {
         //     evt.preventDefault();
         //     EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
@@ -144,6 +145,20 @@ export default class HeaderView extends BaseView {
 
     _onProfileIconClick() {
         EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+    }
+
+    _setUserGeolocation() {
+        const locationLink = document.getElementById('locationLinkText');
+
+        if (this.model._user.userCity === null) {
+            this.model._user.getUserGeolocation();
+
+            setTimeout(() => {
+                locationLink.textContent = this.model._user.userCity;
+            }, 2000);
+        } else {
+            locationLink.textContent = this.model._user.userCity;
+        }
     }
 
 }
