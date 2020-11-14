@@ -13,7 +13,7 @@ import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 
 import {
     OPEN_LOGIN_MODAL, REDIRECT,
-    SELECT_TAGS,
+    CLOSE_TAGS_MODAL,
     USER_NOT_AUTHORIZED,
     SUBMIT_CREATE_MEET,
     CREATE_MEETING_SUCCESS,
@@ -109,7 +109,7 @@ export default class NewMeetingView extends BaseView {
 
     registerEvents() {
         EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
-        EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.onEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
@@ -122,7 +122,7 @@ export default class NewMeetingView extends BaseView {
 
     unRegisterEvents() {
         EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
-        EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);

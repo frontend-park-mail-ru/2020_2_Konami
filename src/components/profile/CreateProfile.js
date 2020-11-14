@@ -80,7 +80,7 @@ function createTags(rightColumn, data) {
     });
     tagsWrapper.append(...tags);
 
-    const editProfileBtn = createBtn('Изменить тэги', {classList: ['stdBtn', 'secondary', 'activable']});
+    const editProfileBtn = createBtn('Изменить тэги', {id: 'editTagsBtn', classList: ['stdBtn', 'secondary', 'activable']});
 
     rightColumn.append(tagsWrapper, editProfileBtn);
 }
@@ -154,7 +154,7 @@ function createProfile(data, isAuth) {
 
     createAvatarField(tmp);
     createTags(tmp.getElementsByClassName('profile__rightcolumn')[0], data);
-    
+
 
     if (!isAuth) {
         Array.from(tmp.getElementsByClassName('icon-with-text__editicon')).forEach(element => {

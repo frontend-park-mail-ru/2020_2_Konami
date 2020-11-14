@@ -4,11 +4,10 @@ import {createInput} from "@/components/auth/Input/Input.js";
 import {createRadioBtn} from "@/components/auth/RadioBtn/RadioBtn.js";
 import {createBtn} from "@/components/auth/Button/button.js";
 import {createLineSeparator} from "@/components/auth/LineSeparator/LineSeparator.js";
-import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
 import {createFileUploader} from "@/components/auth/FileUploader/FileUploader.js";
 import {createColumn} from "@/components/auth/Fieldset/Fieldset.js";
+import {createTagsModal} from "@/components/auth/TagsModal/TagsModal.js";
 
-import {createDomTag, TAGS} from '@/js/config/tags.js'
 
 export function createEditProfileForm() {
     const form = document.createElement('form');
@@ -89,26 +88,13 @@ function createTab1() {
 
 
     // TODO (заполнить нормльными тэгами)
-    const tags = document.createElement('div');
-    tags.classList.add('recommendationTagsWrapper');
-    tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
-
-    const helperText = document.createElement('span');
-    helperText.classList.add('helpText');
-    helperText.textContent = 'Добавьте интересы в свой профиль, чтобы получать персональные рекомендации';
-
-    const applyTagsBtnWrap = document.createElement('div');
-    applyTagsBtnWrap.classList.add('footer__button');
-    applyTagsBtnWrap.appendChild(createBtn('Применить',
-        {id:'closeTagsModal', type:'button', classList: ['stdBtn', 'secondary', 'activable']}));
-
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags, applyTagsBtnWrap]);
+    const tagsModalBlock = createTagsModal();
 
     tab2.appendChild(
         createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',
             {classList: ['signup']})
     )
-    tab2.append(persInfoBlock, modalBlock);
+    tab2.append(persInfoBlock, tagsModalBlock);
     return tab2;
 }
 

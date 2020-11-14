@@ -217,8 +217,8 @@ const usersProfiles = {
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
         meetingTags: [
-            {name: 'Разгон митингов', id: 3},
-            {name: 'Сбор урожая', id: 4},
+            {name: 'Хобби', id: 3},
+            {name: 'Еда', id: 4},
         ],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
         aims: 'Хочу от жизни всего',
