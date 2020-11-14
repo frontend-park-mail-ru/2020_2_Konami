@@ -76,6 +76,10 @@ export default class NewMeetingView extends BaseView {
             },
 
             onSubmitForm: (fields) => {
+                if (fields.id) {
+                    delete fields.id;
+                }
+
                 this.model.createMeeting(fields);
             },
 

@@ -20,10 +20,11 @@ export default class EditMeetingView extends NewMeetingView {
         this._eventHandlers.onSubmitForm = (fields) => {
             // TODO чек если поле не изменилось
             const id = parseInt(fields.id, 10);
+            delete fields.id;
 
             patchMeeting({
                 meetId: id,
-                fields: fields,
+                fields: {card: fields},
             }).then(obj => {
                 if (obj.statusCode === 200) {
                     const url = '/meeting?meetId=' + id;
