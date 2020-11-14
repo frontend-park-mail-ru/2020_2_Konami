@@ -36,9 +36,12 @@ export default class ProfileController extends Controller {
             console.log(response);
             this.view.render(data);
         });
+
+        this.view.registerEvents();
     }
 
     deactivate() {
         this.view.erase();
+        this.view.unRegisterEvents();
     }
 }

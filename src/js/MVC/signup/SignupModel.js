@@ -29,6 +29,11 @@ export default class SignupModel {
         await this._user.edit({name: name});
     }
 
+    async applyTagsAfterSignup(fields) {
+        await this._user.edit(fields);
+    }
+
+
     validate(fields) {
         const errors = [];
         const {name, login, password, repeatPassword} = fields;
