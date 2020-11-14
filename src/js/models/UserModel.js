@@ -9,6 +9,7 @@ import {
     EDIT_SUCCESS,
     INVALID_LOGIN,
     USER_ALREADY_EXISTS,
+    UPDATE_PHOTO_SUCCESS
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -135,7 +136,7 @@ class UserModel {
         switch (statusCode) {
             case 200:
                 // TODO (UPDATE_PHOTO_SUCCESS)
-                // EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
+                EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
                 break;
 
             case undefined:

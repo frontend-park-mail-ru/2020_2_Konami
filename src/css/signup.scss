@@ -75,6 +75,39 @@ $signup-max-width: 900px;
         position: absolute;
         z-index: -1;
     }
+
+    .photo-poster {
+        max-width: 100%;
+        min-height: 250px;
+        max-height: 300px;
+        display: block;
+        margin: 8px 0;
+        border: 1px solid #f2f2f2;
+
+        &:focus + label,
+        & + label:hover {
+            background-color: #4caf50;
+            outline: -webkit-focus-ring-color auto 5px;
+        }
+
+        & + label {
+            cursor: pointer; /* "hand" cursor */
+            color: #9cbdb6;
+            background-color: #f1f1f1;
+
+            font-size: 1.15rem;
+            font-weight: 550;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            overflow: hidden;
+            padding: 0.625rem 1.25rem;
+            border-radius: 2px;
+            box-shadow: 0 0 0 2px #c7c6c6;
+            margin: 12px 10px 27px 0;
+            max-width: 220px;
+        }
+    }
 }
 
 .pers-info-block {
