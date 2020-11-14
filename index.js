@@ -120,32 +120,22 @@ app.get('*', (req, res) => {
 const meetCards = {
     '52': {
         card: {
-            label: {
-                id: 52,
-                imgSrc: 'assets/paris.jpg',
-                title: 'Забив с++',
-            },
-            text: `Lorem ipsum dolor sit amet,
-               consectetur adipiscing elit, sed
-               do eiusmod tempor incididunt ut
-               labore et dolore magna aliqua.
-               Ut enim ad minim veniam, quis
-               nostrud exercitation ullamco labori`,
-            tags: [
-                {name: 'Rust', id: 5},
-                {name: 'Забив', id:6},
-                {name: 'В падике', id:7},
-            ],
-            city: 'Moscow',
-            address: 'Дом Пушкина, улица Калатушкина',
-            seats: 5,
-            seatsLeft: 5,
-            ownerId: 53,
-            startDate: '2020-12-17 07:37:16',
-            endDate: '2020-12-17 12:37:16',
+            address: "ул. Неверная, д.1",
+            authorId: 52,
+            city: "Москва",
+            endDate: "2020-11-15T18:40:00.000Z",
+            label: {id: 1, title: "Забив C++", imgSrc: "assets/paris.jpg"},
+            id: 52,
+            imgSrc: "assets/paris.jpg",
+            title: "Забив C++",
+            seats: 1000000000,
+            seatsLeft: 1000000000,
+            startDate: "2020-11-15T15:40:00.000Z",
+            tags: [{tagId: 3, name: "C++"}],
+            text: "Встреча для обсуждения новых концепций розработки софта на C++",
         },
-        isLiked: true,
-        isRegistered: true,
+            isLiked: true,
+            isRegistered: true,
     },
 };
 
@@ -227,8 +217,8 @@ const usersProfiles = {
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
         meetingTags: [
-            {name: 'Разгон митингов', id: 3},
-            {name: 'Сбор урожая', id: 4},
+            {name: 'Хобби', id: 3},
+            {name: 'Еда', id: 4},
         ],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
         aims: 'Хочу от жизни всего',
@@ -283,7 +273,7 @@ app.post('/api/signup', function (req, res) {
     usersProfiles[newId] = createUserProfileTmpl();
     userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
 
-    res.status(200).send('ok');
+    res.status(201).send('ok');
 });
 
 app.post('/api/images', function(req, res) {

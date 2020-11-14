@@ -27,13 +27,12 @@ export const TAGS = [
     'Россия'
 ]
 
-export function createDomTag(tagName) {
+export function createDomTag(tagName, checkable = true) {
     let lbl = document.createElement('label');
     let input = document.createElement('input');
 
-    // lbl.id = 'tag' + i;
     input.classList.add('btnLike');
-    input.type = 'checkbox';
+    input.type = checkable ? 'checkbox' : 'text';
     input.name = 'tags';
     input.value = tagName;
 

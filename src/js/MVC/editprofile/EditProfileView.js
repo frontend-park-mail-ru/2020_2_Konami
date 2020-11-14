@@ -16,7 +16,7 @@ import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 import {
     REDIRECT,
     SUBMIT_EDIT,
-    SELECT_TAGS,
+    CLOSE_TAGS_MODAL,
     EDIT_SUCCESS,
     USER_NOT_AUTHORIZED,
     OPEN_LOGIN_MODAL,
@@ -86,7 +86,7 @@ export default class EditProfileView extends BaseView {
     registerEvents() {
         EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
-        EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
@@ -95,7 +95,7 @@ export default class EditProfileView extends BaseView {
     unRegisterEvents() {
         EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
-        EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);

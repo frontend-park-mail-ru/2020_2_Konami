@@ -1,5 +1,8 @@
 import EventBus from "../../../js/services/EventBus/EventBus.js";
-import {SELECT_TAGS} from "../../../js/services/EventBus/EventTypes.js";
+import {
+    CLOSE_TAGS_MODAL,
+    APPLY_TAGS_MODAL
+} from "../../../js/services/EventBus/EventTypes.js";
 
 export function createSelectedTag(tagBtnLikeInput) {
     const tag = document.createElement('div');
@@ -60,8 +63,11 @@ export function closeTagsModalDialog(evt) {
     const closeBtn2 = document.getElementById("closeTagsModal");
     const modal = document.getElementById('modalTags');
 
-    if (evt.target === modal || evt.target === closeBtn1 || evt.target === closeBtn2) {
+    if (evt.target === modal || evt.target === closeBtn1) {
         modal.style.display = "none";
-        EventBus.dispatchEvent(SELECT_TAGS);
+        EventBus.dispatchEvent(CLOSE_TAGS_MODAL);
+    } else if (evt.target === closeBtn2) {
+        modal.style.display = "none";
+        EventBus.dispatchEvent(APPLY_TAGS_MODAL);
     }
 }
