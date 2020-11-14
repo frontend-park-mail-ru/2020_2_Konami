@@ -100,7 +100,11 @@ export function createNewMeetingForm() {
 
     const rightCol = createColumn({classList: ['new-meet__rightcolumn']},
         nameInput, descriptionInput, meetPhotoLabel, fileUploader, cityInput, addressInput, dates);
-    newMeetWrapper.append(leftCol, rightCol);
+
+    const idInput = createLabeledElements('',
+        createInput({required: 'false', name: "id", type: 'text'}));
+    idInput.style.display = 'none';
+    newMeetWrapper.append(leftCol, rightCol, idInput);
 
     const btnWrapper = document.createElement('div')
     btnWrapper.classList.add('center');

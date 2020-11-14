@@ -201,6 +201,10 @@ export default class NewMeetingView extends BaseView {
                 fieldMap.set('end', end.toISOString());
             }
 
+            const id = document.getElementsByName('id')[0].value;
+            if (id !== undefined) {
+                fieldMap.set('id', id);
+            }
 
             const photos = document.getElementById('photoFileUploader').files;
             if (photos.length > 0) {

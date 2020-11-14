@@ -19,13 +19,14 @@ export default class EditMeetingView extends NewMeetingView {
 
         this._eventHandlers.onSubmitForm = (fields) => {
             // TODO чек если поле не изменилось
+            const id = parseInt(fields.id, 10);
 
             patchMeeting({
-                meetId: this.card.label.id,
+                meetId: id,
                 fields: fields,
             }).then(obj => {
                 if (obj.statusCode === 200) {
-                    const url = '/meet?meetId=' + this.id;
+                    const url = '/meeting?meetId=' + id;
                     EventBus.dispatchEvent(REDIRECT, {url: url});
                     displayNotification('Вы успешно отредактировали мероприятие');
 
@@ -40,7 +41,6 @@ export default class EditMeetingView extends NewMeetingView {
         this._eventHandlers.onFillingEditingValues = (data) => {
             // const {card, startDate, endDate, text, title, place, tags, imgSrc} = data;
             const {card, isLiked, isRegistered} = data;
-            this.id = card.id;
 
             const titleInput = document.getElementsByName('name')[0];
             titleInput.value = card.label.title;
@@ -66,6 +66,10 @@ export default class EditMeetingView extends NewMeetingView {
             const tags = card.tags.map((tagObj) => tagObj.name)
             const selectedDomTags =  tags.map((tagBtnLikeInput) => createSelectedTag(tagBtnLikeInput));
             selectedTagsBlock.append(...selectedDomTags);
+
+            const id = document.getElementsByName('id')[0];
+            id.value = card.label.id
+
         }
 
     }
