@@ -15,17 +15,17 @@ export function createMeetPage(data, isMobile) {
 
     if (data.currentUserId === data.card.authorId) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_edit',
+            class: 'meet__button_edit',
             text: 'Редактировать',
         };
     } else if (data.isRegistered) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_go',
+            class: 'meet__button_go',
             text: 'Отменить',
         };
     } else if (data.card.seatsLeft > 0 && endDate > currentDate) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_go',
+            class: 'meet__button_go',
             text: 'Пойти',
         };
     }

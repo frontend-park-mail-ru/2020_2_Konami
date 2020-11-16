@@ -32,10 +32,10 @@ export default class MeetingsView extends BaseView {
         this._slider = null;
 
         this._settingsButton = [
-            {view: 'Мои мероприятия', param: 'mymeetings'}, 
-            {view: 'Избранное', param: 'favorites'},
-            {view: 'Сегодня', param: 'today'},
-            {view: 'Завтра', param: 'tomorrow'},
+            {view: 'Мои мероприятия', param: 'mymeetings',}, 
+            {view: 'Избранное', param: 'favorites',},
+            {view: 'Сегодня', param: 'today',},
+            {view: 'Завтра', param: 'tomorrow',},
         ];
     }
 
@@ -80,7 +80,7 @@ export default class MeetingsView extends BaseView {
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
         // Карточки 
-        this._cards = new CardWrapper(true, true);
+        this._cards = new CardWrapper(true, false);
         afterCard.appendChild(this._cards.render());
     }
 

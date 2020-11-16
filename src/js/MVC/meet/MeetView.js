@@ -5,6 +5,8 @@ import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { patchMeeting } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
+import { createMainTitle } from "@/components/main/MainTitle/CreateMainTitle.js"
+import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js"
 import {
     OPEN_LOGIN_MODAL,
     REDIRECT,
@@ -21,51 +23,46 @@ export default class MeetView extends BaseView {
         this._data = null;
     }
 
-    render(data) {
+    render(data, simulars) {
         this._data = data;
 
-        this._this = createMeetPage(data, true);
+        const isMobile = false;
+        this._this = createMeetPage(data, isMobile);
         this.parent.appendChild(this._this);
 
-        const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0] || this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
-        const goButton = this._this.getElementsByClassName('meet__button_go')[0] || this._this.getElementsByClassName('meet-mobile__go-button')[0];
+        if (isMobile) {
+            const afterCard = this._this.getElementsByClassName('page-mobile__after-card')[0];
+            afterCard.appendChild(createMainTitle('Похожие:'));
+
+            const cardWrapper = new CardWrapper(isMobile, false);
+            afterCard.appendChild(cardWrapper.render());
+
+            for (let item of simulars) {
+                cardWrapper.appendCard(
+                    item,
+                    () => {
+                        EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+                    }, 
+                    this._clickLikeHandler.bind(this, item),
+                );
+            }
+        }
+
+        const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] || 
+                         this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
+        const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
         // тут нужно что то сделать с editbutton
-        this.model.checkAuth().then(isAuth => {
 
-            if (isAuth) {
-                if (likeIcon !== undefined) {
-                    likeIcon.addEventListener('click', (evt) => {
-                        this._clickLikeHandler(evt, likeIcon);
-                    });
-                }
-                if (goButton !== undefined) {
-                    goButton.addEventListener('click', (evt) => {
-                        this._clickGoButtonHandler(evt, goButton);
-                    });
-                }
-                if (editButton !== undefined) {
-                    editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
-                }
-            } else {
-                if (likeIcon !== undefined) {
-                    likeIcon.addEventListener('click', () => {
-                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
-                    });
-                }
-                if (goButton !== undefined) {
-                    goButton.addEventListener('click', () => {
-                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
-                    });
-                }
-                if (editButton !== undefined) {
-                    editButton.addEventListener('click', () => {
-                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
-                    });
-                }
-            }
-        });
-
+        if (likeIcon !== undefined) {
+            likeIcon.addEventListener('click', this._clickLikeHandler.bind(this, data));
+        }
+        if (goButton !== undefined) {
+            goButton.addEventListener('click', this._clickGoButtonHandler.bind(this, data));
+        }
+        if (editButton !== undefined) {
+            editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
+        }
     }
 
     erase() {
@@ -75,61 +72,87 @@ export default class MeetView extends BaseView {
         }
     }
 
-    _clickLikeHandler(evt, icon) {
-        if (this._data.isLiked) {
-            this._data.isLiked = false;
-        } else {
-            this._data.isLiked = true;
-        }
-
-        patchMeeting({
-            meetId: this._data.card.label.id,
-            fields: {
-                isLiked: this._data.isLiked ,
-            },
-        }).then(obj => {
-            if (obj.statusCode === 200) {
-                if (this._data.isLiked) {
-                    displayNotification("Вы оценили мероприятие");
-                    icon.firstChild.src = '/assets/like.svg';
-                } else {
-                    displayNotification("Вы убрали лайк");
-                    icon.firstChild.src  = '/assets/heart.svg';
-                }   
-            } else {
-                alert('Permission denied');
+    _clickLikeHandler(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
             }
-        });
-    };
 
-    _clickGoButtonHandler(evt, element) {
-        if (this._data.isRegistered) {
-            this._data.isRegistered = false;
-        } else {
-            this._data.isRegistered = true;
-        }
+            if (item.isLiked) {
+                item.isLiked = false;
+            } else {
+                item.isLiked = true;
+            }
 
-        patchMeeting({
-            meetId: this._data.card.label.id,
-            fields: {
-                isRegistered: this._data.isRegistered,
-            },
-        }).then(obj => {
-            if (obj.statusCode === 200) {
-                if (this._data.isRegistered) {
-                    displayNotification("Вы зарегистрировались");
-                    element.innerHTML = 'Отменить';
-                } else {
-                    displayNotification("Вы отменили регистрацию");
-                    element.innerHTML = 'Пойти';
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isLiked: item.isLiked,
+                },
+            }).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
                 }
-            } else if (obj.statusCode === 409) {
-                displayNotification("Мероприятие уже закончилось");
-            } else {
-                alert('Permission denied');
-            }
+                if (item.isLiked) {
+                    displayNotification("Вы оценили мероприятие");
+                    if (event.target.src) {
+                        event.target.src = "/assets/like.svg";
+                    } else {
+                        event.target.firstElementChild.src = "/assets/like.svg";
+                    }
+                } else {
+                    displayNotification("Вы убрали лайк"); 
+                    if (event.target.src) {
+                        event.target.src = "/assets/heart.svg";;
+                    } else {
+                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                    }
+                }
+            });
         });
-    };
+    }
+
+    _clickGoButtonHandler(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+            if (item.isRegistered) {
+                item.isRegistered = false;
+            } else {
+                item.isRegistered = true;
+            }
+
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isRegistered: item.isRegistered,
+                },
+            }).then(obj => {
+                if (obj.statusCode === 200) {
+                    if (item.isRegistered) {
+                        displayNotification("Зарегистрировалиь");
+                        event.target.innerHTML = 'Отменить';
+                    } else {
+                        displayNotification("Вы отменили регистрацию");
+                        event.target.innerHTML = 'Пойти';
+                    }
+                } else if (obj.statusCode === 409) {
+                    displayNotification("Мероприятие уже завершилось");
+                } else {
+                    alert('Permission denied');
+                }
+            });
+            
+        });
+    }
 
     _clickEditButtonHandler(evt) {
         EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});

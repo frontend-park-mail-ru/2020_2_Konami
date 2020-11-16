@@ -7,7 +7,6 @@ import appConfig from "../../config/appConfig.js";
  */
 
 class Router {
-
     constructor() {
         this.routesMap = new Map();
         this.currentController = null;
@@ -57,13 +56,8 @@ class Router {
 
     _handlePath(currentPath) {
         // Обрезает query параметры надо как-то это поправить чтоли
-        let pos = currentPath.length;
-        for (let i = 0; i < currentPath.length; i++) {
-            if (currentPath[i] === '?') {
-                pos = i;
-            }
-        }
-        const controller = this.routesMap.get(currentPath.slice(0, pos));
+        currentPath = currentPath.split('?')[0];
+        const controller = this.routesMap.get(currentPath);
         if (!controller) {
             // TODO(ERROR 404)
             alert('ERROR 404');
@@ -74,8 +68,7 @@ class Router {
         }
 
         this.currentController = controller;
-        this.currentController.activate();
-
+        this.currentController.activate(new URLSearchParams(window.location.search));
     }
 
     redirectBack() {

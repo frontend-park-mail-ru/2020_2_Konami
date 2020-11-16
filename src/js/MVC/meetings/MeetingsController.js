@@ -13,13 +13,8 @@ export default class MeetingsController extends Controller {
         this.view = new MeetingsView(parent, this.model);
     }
 
-    activate() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let pageNum = urlParams.get('pageNum');
-        if (pageNum === null) {
-            pageNum = 1;
-        }
-        getMeetings({pageNum}).then(response => {
+    activate(queryParams) {
+        getMeetings({pageNum: 1}).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {

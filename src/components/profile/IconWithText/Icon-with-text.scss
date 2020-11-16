@@ -9,6 +9,8 @@
     }
 
     &__editicon {
+        display: flex;
+        justify-self: end;;
         width: 20px;
         height: 20px;
         margin-left: 15px;
@@ -16,8 +18,7 @@
         cursor: pointer;
 
         &:hover {
-            width: 25px;
-            height: 25px;
+            transform: scale(1.2);
         }
     }
 
