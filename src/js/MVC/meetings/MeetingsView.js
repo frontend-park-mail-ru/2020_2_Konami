@@ -14,12 +14,11 @@ import {
 import {
     createSettings
 } from "@/components/settings/Settings.js";
-import { createSlides } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlides";
-import { createSlide } from "../../../components/cards/MeetSlides/MeetSlide/MeetSlide";
+
 import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
-import { createCardWrapper } from "../../../components/main/CardWrapper/CardWrapper";
-import { createSlidesMobile } from "../../../components/cards/MeetSlides/MeetSlides/MeetSlidesMobile";
-import { createCardWrapperMobile } from "../../../components/main/CardWrapper/CardWrapperMobile";
+import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js";
+
+import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
 
 export default class MeetingsView extends BaseView {
 
@@ -30,7 +29,7 @@ export default class MeetingsView extends BaseView {
 
         this._this = null;
         this._cards = null;
-        this._slides = null;
+        this._slider = null;
 
         this._settingsButton = [
             {view: 'Мои мероприятия', param: 'mymeetings'}, 
@@ -40,97 +39,95 @@ export default class MeetingsView extends BaseView {
         ];
     }
 
-    render(cards) {
+    render(cards, queryParams) {
+        if (queryParams) {
+
+        }
+
         const mobile = true;
         if (mobile) {
-            const main = document.createElement('div');
-            main.classList.add('page-mobile__main');
-            this.parent.appendChild(main);
-            this._this = main;
+            this._renderMobile();
+        } else {
+            this._renderDesktop();
+        }
 
-            this._slides = createSlidesMobile();
-            main.appendChild(this._slides);
+        cards.forEach(item => {
+            this._createSlide(item);
+            this._createCard(item, this._cards);
+        });
+    }
 
-            const afterCard = document.createElement('div');
-            afterCard.classList.add('page-mobile__after-card');
-            afterCard.appendChild(createMainTitle('Рекомендации для вас'));
-            afterCard.appendChild(this._createSettings(this._settingsButton));
-            main.appendChild(afterCard);
-
-            this._cards = createCardWrapperMobile();
-            afterCard.appendChild(this._cards);
-
-            cards.forEach(item => {
-                this._createSlideMobile(item);
-                this._createCard(item, true);
-            });
-            return;
-        } 
-
+    _renderMobile() {
+        // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('meet-page__main-mobile');
+        main.classList.add('page-mobile__main');
+        this.parent.appendChild(main);
+        this._this = main;
+
+        // Создаем слайдер
+        this._slider = new Slider(true);
+        main.appendChild(this._slider.render());
+
+        // Создаем контере для карточек, заголовков, настроек
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('page-mobile__after-card');
+        main.appendChild(afterCard);
+
+        // Заголовок
+        afterCard.appendChild(createMainTitle('Митапы в ближайшее время'));
+
+        // Настройки
+        afterCard.appendChild(this._createSettings(this._settingsButton));
+
+        // Карточки 
+        this._cards = new CardWrapper(true, true);
+        afterCard.appendChild(this._cards.render());
+    }
+
+    _renderDesktop() {
+        // Создаем страницу
+        const main = document.createElement('div');
         main.classList.add('meet-page__main'); 
         this.parent.appendChild(main);
         this._this = main;
 
+        // Заголовок
         main.appendChild(createMainTitle('Рекомендации для вас'));
+
+        // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
-        main.appendChild(createSlides());
+
+        // Создаем слайдер
+        this._slider = new Slider(false);
+        main.appendChild(this._slider.render());
     
+        // Заголовок
         main.appendChild(createMainTitle('Митапы в ближайшее время'));
-        this._cards = createCardWrapper();
-        main.appendChild(this._cards);
 
-        this._slides = main.getElementsByClassName('slide-container__slides')[0];
-
-        cards.forEach(item => {
-            this._createSlide(item);
-            this._createCard(item);
-        });
+        // Карточки 
+        this._cards = new CardWrapper(false, false);
+        main.appendChild(this._cards.render())
     }
 
     _createSlide(item) {
-        const meetSlide = createSlide(item, false);
-        meetSlide.addEventListener('click', () => {
-            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-        });
-        this._slides.appendChild(meetSlide);
-
-        const likeIcon = meetSlide.getElementsByClassName('meet-slide__like-icon-wrapper')[0];
-        likeIcon.addEventListener('click', (event) => {
-            this._likeEventListener(event, item, likeIcon.firstChild);
-        });
-
-        const goButton = meetSlide.getElementsByClassName('meet-slide__go-button')[0];
-        goButton.addEventListener('click', (event) => {
-            this._goEventListener(event, item, goButton);
-        });
+        this._slider.appendSlide(
+            item, 
+            () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+            },
+            this._likeEventListener.bind(this, item),
+            this._goEventListener.bind(this, item),
+        );
     }
 
-    _createCard(item, isMobile) {
-        const meetCard = createMeetCard(item, isMobile);
-        meetCard.addEventListener('click', () => {
-            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-        });
-        this._cards.appendChild(meetCard);
-
-        const meetCardLikeIcon = meetCard.getElementsByClassName('meet-card__like')[0];
-        meetCardLikeIcon.addEventListener('click', (event) => {
-            this._likeEventListener(event, item, meetCardLikeIcon);
-        });
-    }
-
-    _createSlideMobile(item) {
-        const meetSlide = createSlide(item, true);
-        meetSlide.addEventListener('click', () => {
-            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-        });
-        this._slides.appendChild(meetSlide);
-
-        const likeIcon = meetSlide.getElementsByClassName('meet-slide-mobile__like-icon')[0];
-        likeIcon.addEventListener('click', (event) => {
-            this._likeEventListener(event, item, likeIcon);
-        });
+    _createCard(item, cards) {
+        cards.appendCard(
+            item,
+            () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+            },
+            this._likeEventListener.bind(this, item),
+        );
     }
 
     _createSettings() {
@@ -166,7 +163,7 @@ export default class MeetingsView extends BaseView {
         return settings;
     }
 
-    _likeEventListener(event, item, likeIcon) {
+    _likeEventListener(item, event) {
         event.preventDefault();
         event.stopPropagation();
         this.model.checkAuth().then(isAuth => {
@@ -193,16 +190,24 @@ export default class MeetingsView extends BaseView {
                 }
                 if (item.isLiked) {
                     displayNotification("Вы оценили мероприятие");
-                    likeIcon.src = "/assets/like.svg";
+                    if (event.target.src) {
+                        event.target.src = "/assets/like.svg";
+                    } else {
+                        event.target.firstElementChild.src = "/assets/like.svg";
+                    }
                 } else {
                     displayNotification("Вы убрали лайк"); 
-                    likeIcon.src = "/assets/heart.svg";
+                    if (event.target.src) {
+                        event.target.src = "/assets/heart.svg";;
+                    } else {
+                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                    }
                 }
             });
         });
     }
 
-    _goEventListener(event, item, goButton) {
+    _goEventListener(item, event) {
         event.preventDefault();
         event.stopPropagation();
         this.model.checkAuth().then(isAuth => {
@@ -225,10 +230,10 @@ export default class MeetingsView extends BaseView {
                 if (obj.statusCode === 200) {
                     if (item.isRegistered) {
                         displayNotification("Зарегистрировалиь");
-                        goButton.innerHTML = 'Отменить';
+                        event.target.innerHTML = 'Отменить';
                     } else {
                         displayNotification("Вы отменили регистрацию");
-                        goButton.innerHTML = 'Пойти';
+                        event.target.innerHTML = 'Пойти';
                     }
                 } else if (obj.statusCode === 409) {
                     displayNotification("Мероприятие уже завершилось");

@@ -11,32 +11,6 @@ export function createMeetCard(data, mobile) {
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
 
-    if (startDate > currentDate && data.card.seatsLeft > 0) {
-        data.status = {
-            class: 'meetcard__status status status_green',
-            text: 'Регистрация идет',
-        };
-    } else if (endDate < currentDate) {
-        data.status = {
-            class: 'meetcard__status status status_red',
-            text: 'Мероприятие закончилось',
-        };
-    } else if (data.seatsLeft <= 0) {
-        data.status = {
-            class: 'meetcard__status status status_red',
-            text: 'Места закончились',
-        };
-    } else if (startDate < currentDate && endDate > currentDate) {
-        data.status = {
-            class: 'meetcard__status status status_yellow',
-            text: 'Мероприятие идет',
-        };
-    } else if (data.card.seatsLeft < 10) {
-        data.status = {
-            class: 'meetcard__status status status_yellow',
-            text: 'Осталось мало мест',
-        };
-    }
     data.seatsInfo = data.card.seatsLeft
     if (data.card.seatsLeft > 99) {
         data.seatsInfo = 'много'

@@ -12,32 +12,6 @@ export function createMeetPage(data, isMobile) {
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
-    if (startDate > currentDate && data.seatsLeft > 0) {
-        data.status = {
-            class: 'meet__status status status_green',
-            text: 'Регистрация идет',
-        };
-    } else if (endDate < currentDate) {
-        data.status = {
-            class: 'meet__status status status_red',
-            text: 'Мероприятие закончилось',
-        };
-    } else if (data.seatsLeft <= 0) {
-        data.status = {
-            class: 'meet__status status status_red',
-            text: 'Места закончились',
-        };
-    } else if (startDate < currentDate && endDate > currentDate) {
-        data.status = {
-            class: 'meet__status status status_yellow',
-            text: 'Мероприятие идет',
-        };
-    } else if (data.seatsLeft < 10) {
-        data.status = {
-            class: 'meet__status status status_yellow',
-            text: 'Осталось мало мест',
-        };
-    }
 
     if (data.currentUserId === data.card.authorId) {
         data.buttonStatus = {
