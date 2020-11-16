@@ -1,6 +1,11 @@
 'use strict';
 
+import UserModel from "@/js/models/UserModel.js";
+
 export function createHeaderLinksPopup() {
+    const userModel = UserModel.user;
+    const city = userModel.userCity ? UserModel.user.userCity : 'Москва';
+
     const popup = document.createElement('div');
     popup.innerHTML = `
         <div class="popup-links__container" id="popupLinksContainer">
@@ -12,7 +17,7 @@ export function createHeaderLinksPopup() {
                         <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik04IDljMi42NjcgMCA0LTMuMDEzIDQtNS4xNDNTMTAuMjEgMCA4IDAgNCAxLjcyNyA0IDMuODU3IDUuMzMzIDkgOCA5em0tNi44NDUgNC45OGEuNDc3LjQ3NyAwIDAgMC0uMDI1LjA0M2wtLjI3NS40OEExIDEgMCAwIDAgMS43MjMgMTZoMTIuNTU0YTEgMSAwIDAgMCAuODY4LTEuNDk2bC0uMjc1LS40OGExLjQ2MiAxLjQ2MiAwIDAgMC0uMDI1LS4wNDRDMTQuNjU2IDEzLjY3MiAxMi4zMTIgMTAgOCAxMGMtNC4zMTIgMC02LjY1NiAzLjY3Mi02Ljg0NSAzLjk4eiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==">
                     </div>
                 </div>
-                <div>
+                <div >
                     Профиль
                 </div>
             </div>
@@ -23,8 +28,8 @@ export function createHeaderLinksPopup() {
                         <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik03LjU5IDE3LjgyQzkuMjc3IDE2LjM2NyAxNCAxMS44NjUgMTQgN0E3IDcgMCAxIDAgMCA3YzAgNC44NjUgNC43MjMgOS4zNjcgNi40MSAxMC44MmEuODk1Ljg5NSAwIDAgMCAxLjE4IDB6TTcgOWEyIDIgMCAxIDAgMC00IDIgMiAwIDAgMCAwIDR6IiBmaWxsPSIjMDAwIi8+PC9zdmc+">
                     </div>
                 </div>
-                <div>
-                    Москва
+                <div id="locationLinkText">
+                    ${city}
                 </div>
             </div>
             

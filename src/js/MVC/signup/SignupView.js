@@ -190,13 +190,13 @@ export default class SignupView extends BaseView {
         window.addEventListener('click', closeSignupModal);
         window.addEventListener('click', closeTagsModalDialog);
 
-        const appltTagsBtn = document.getElementById("closeTagsModal");
-        appltTagsBtn.addEventListener('click', (evt) => {
-            evt.preventDefault();
-            const tagsModalBlock = document.getElementById('modalTags');
-            tagsModalBlock.style.display = "none";
-            EventBus.dispatchEvent(APPLY_TAGS_MODAL);
-        });
+        // const appltTagsBtn = document.getElementById("closeTagsModal");
+        // appltTagsBtn.addEventListener('click', (evt) => {
+        //     evt.preventDefault();
+        //     const tagsModalBlock = document.getElementById('modalTags');
+        //     tagsModalBlock.style.display = "none";
+        //     EventBus.dispatchEvent(APPLY_TAGS_MODAL);
+        // });
 
     }
 

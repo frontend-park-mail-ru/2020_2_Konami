@@ -20,7 +20,8 @@ import {
     INVALID_DATE_INPUT,
     INVALID_TIME_INPUT,
     INVALID_START_BIGGER_END,
-    BIG_FILE_SIZE
+    BIG_FILE_SIZE,
+    APPLY_TAGS_MODAL
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class NewMeetingView extends BaseView {
@@ -110,6 +111,7 @@ export default class NewMeetingView extends BaseView {
     registerEvents() {
         EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(APPLY_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.onEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
@@ -123,6 +125,7 @@ export default class NewMeetingView extends BaseView {
     unRegisterEvents() {
         EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(APPLY_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);

@@ -10,6 +10,11 @@ import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialo
 import {createDateTimeBlock} from "../../../components/auth/Date-Time/Date-Time.js";
 
 import {createDomTag, TAGS} from '@/js/config/tags.js'
+import {
+    createDomTab,
+    createTabsAndTags,
+    createTagFilterTabsWrapper
+} from "../../../components/auth/TagsModal/TagsModal";
 
 export function createNewMeetingForm() {
     const form = document.createElement('form');
@@ -23,37 +28,18 @@ export function createNewMeetingForm() {
         ' Теги мероприятия',
         createBtn('+ Добавить', {id: 'openModalBtn', type: 'button', classList: ['stdBtn', 'secondary', 'activable']}));
 
-    // TODO (заполнить нормльными тэгами)
-    const tags = document.createElement('div');
-    tags.classList.add('recommendationTagsWrapper');
-    tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
-    // for (let i = 0; i < 10; i++) {
-    //     let lbl = document.createElement('label');
-    //     let input = document.createElement('input');
-    //     input.classList.add('btnLike');
-    //     input.type = 'checkbox';
-    //     input.name = 'tags';
-    //     input.value = 'randomTag' + i;
-    //
-    //     let span = document.createElement('span');
-    //     span.textContent = 'randomTag';
-    //
-    //     lbl.appendChild(input);
-    //     lbl.appendChild(span);
-    //
-    //     tags.appendChild(lbl);
-    // }
-
     const helperText = document.createElement('span');
     helperText.classList.add('helpText');
     helperText.textContent = 'Добавьте мероприятию необходимые тэги';
+
+    const {tabsWrapper, tagsWrapper} = createTabsAndTags();
 
     const applyTagsBtnWrap = document.createElement('div');
     applyTagsBtnWrap.classList.add('footer__button');
     applyTagsBtnWrap.appendChild(createBtn('Применить',
         {id:'closeTagsModal', type:'button', classList: ['stdBtn', 'secondary', 'activable']}));
 
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags, applyTagsBtnWrap]);
+    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tabsWrapper, tagsWrapper, applyTagsBtnWrap]);
 
     const selectedTags = document.createElement('div');
     selectedTags.classList.add('selectedTagsWrapper');
