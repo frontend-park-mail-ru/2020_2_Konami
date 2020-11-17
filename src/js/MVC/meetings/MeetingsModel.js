@@ -6,6 +6,14 @@ export default class MeetingsModel {
     constructor() {
         this._user = UserModel.user;
         this._data = null;
+
+        this._isQueryEmpty = true;
+        this._queryConfig = {
+            dateStart: '',
+            dateEnd: '',
+            filter: '',
+            type: '',
+        };
     }
 
     setData(data) {

@@ -6,10 +6,10 @@ export function createSettings(config, callback) {
 
     config.forEach(obj => {
         const button = document.createElement('button');
-        button.classList.add('settings__button', obj.param);
+        button.classList.add('settings__button');
         button.innerHTML = obj.view;
         button.addEventListener('click', () => {
-            callback(obj.param);
+            callback(obj);
         });
         settings.appendChild(button);
     });

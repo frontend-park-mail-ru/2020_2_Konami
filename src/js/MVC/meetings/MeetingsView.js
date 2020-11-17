@@ -28,36 +28,84 @@ export default class MeetingsView extends BaseView {
         this.model = model;
 
         this._this = null;
-        this._cards = null;
         this._slider = null;
 
         this._settingsButton = [
-            {view: 'Мои мероприятия', param: 'mymeetings',}, 
-            {view: 'Избранное', param: 'favorites',},
-            {view: 'Сегодня', param: 'today',},
-            {view: 'Завтра', param: 'tomorrow',},
+            {view: 'Мои мероприятия', type: ['filter'], value: 'mymeetings',}, 
+            {view: 'Избранное', type: ['filter'], value: 'favorites',},
+            {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: new Date().toISOString().slice(0, 10),},
+            {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: new Date().toISOString().slice(0, 10),},
+            {view: 'Убрать фильтры', type: 'clear',}
         ];
     }
 
-    render(cards, queryParams) {
-        if (queryParams) {
-
-        }
-
+    renderWithQuery(cards) {
         const mobile = true;
         if (mobile) {
-            this._renderMobile();
+            this._renderWithQueryMobile(cards);
         } else {
-            this._renderDesktop();
+            this._renderWithQueryDesktop(cards);
         }
+    }
 
-        cards.forEach(item => {
+    render(recomendation, soon, mostExpected) {
+        const mobile = true;
+
+        if (mobile) {
+            this._renderMobile(soon, mostExpected);
+        } else {
+            this._renderDesktop(soon, mostExpected);
+        }
+        recomendation.forEach(item => {
             this._createSlide(item);
-            this._createCard(item, this._cards);
         });
     }
 
-    _renderMobile() {
+    _renderWithQueryMobile(cards) {
+        const main = document.createElement('div');
+        main.classList.add('page-mobile__main');
+        this.parent.appendChild(main);
+        this._this = main;
+
+        this._slider = new Slider(true);
+        main.appendChild(this._slider.render());
+
+        cards.forEach(item => {
+            this._createSlide(item);
+        });
+
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('page-mobile__after-card');
+        main.appendChild(afterCard);
+
+        afterCard.appendChild(this._createSettings(this._settingsButton));
+
+        let cardsW = new CardWrapper(true, true);
+        afterCard.appendChild(cardsW.render());
+        cards.forEach(item => {
+            this._createCard(item, cardsW);
+        });
+    }
+
+    _renderWithQueryDesktop() {
+        // Создаем страницу
+        const main = document.createElement('div');
+        main.classList.add('meet-page__main'); 
+        this.parent.appendChild(main);
+        this._this = main;
+
+        // Настройки
+        main.appendChild(this._createSettings(this._settingsButton));
+
+        // Карточки 
+        let cards = new CardWrapper(false, false);
+        main.appendChild(cards.render());
+        cards.forEach(item => {
+            this._createCard(item, cards);
+        });
+    }
+
+    _renderMobile(soon, mostExpected) {
         // Создаем страницу
         const main = document.createElement('div');
         main.classList.add('page-mobile__main');
@@ -80,11 +128,21 @@ export default class MeetingsView extends BaseView {
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
         // Карточки 
-        this._cards = new CardWrapper(true, false);
-        afterCard.appendChild(this._cards.render());
+        let cards = new CardWrapper(true, false);
+        afterCard.appendChild(cards.render());
+        soon.forEach(item => {
+            this._createCard(item, cards);
+        });
+
+        afterCard.appendChild(createMainTitle('Самые ожидаемые'));
+        cards = new CardWrapper(true, false);
+        afterCard.appendChild(cards.render());
+        mostExpected.forEach(item => {
+            this._createCard(item, cards);
+        });
     }
 
-    _renderDesktop() {
+    _renderDesktop(soon, mostExpected) {
         // Создаем страницу
         const main = document.createElement('div');
         main.classList.add('meet-page__main'); 
@@ -103,10 +161,19 @@ export default class MeetingsView extends BaseView {
     
         // Заголовок
         main.appendChild(createMainTitle('Митапы в ближайшее время'));
-
         // Карточки 
-        this._cards = new CardWrapper(false, false);
-        main.appendChild(this._cards.render())
+        let cards = new CardWrapper(false, false);
+        main.appendChild(cards.render());
+        soon.forEach(item => {
+            this._createCard(item, cards);
+        });
+
+        main.appendChild(createMainTitle('Самые ожидаемые'));
+        cards = new CardWrapper(false, false);
+        main.appendChild(cards.render());
+        mostExpected.forEach(item => {
+            this._createCard(item, cards);
+        });
     }
 
     _createSlide(item) {
@@ -131,33 +198,24 @@ export default class MeetingsView extends BaseView {
     }
 
     _createSettings() {
-        const settings = createSettings(this._settingsButton, (param) => {
-            if (this._cards === null) {
+        const settings = createSettings(this._settingsButton, (obj) => {
+            if (obj.type === 'clear') {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
                 return;
             }
-            this._cards.innerHTML = '';
-            
-            const p = {};
-            p[param] = 'true';
-    
-            getMeetings(p).then(obj => {
-                obj.parsedJson.forEach(item => {
-                    const meetCard = createMeetCard(item);
-                    meetCard.addEventListener('click', () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-                    });
-                    if (this._cards !== null) {
-                        this._cards.appendChild(meetCard);
-                    }
-                });
-            });
-        });
 
-        this.model.checkAuth().then(isAuth => {
-            if (!isAuth) {
-                settings.getElementsByClassName('mymeetings')[0].remove();
-                settings.getElementsByClassName('favorites')[0].remove();
+            for (let item of obj.type) {
+                this.model._queryConfig[item] = obj.value;
             }
+
+            let result = '?';
+            for (let item of Object.keys(this.model._queryConfig)) {
+                if (this.model._queryConfig[item] === null) {
+                    continue;
+                }
+                result += `${item}=${this.model._queryConfig[item]}&`;
+            }
+            EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
         });
 
         return settings;

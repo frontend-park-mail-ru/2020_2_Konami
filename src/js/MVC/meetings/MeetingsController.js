@@ -14,15 +14,42 @@ export default class MeetingsController extends Controller {
     }
 
     activate(queryParams) {
-        getMeetings({pageNum: 1}).then(response => {
-            if (response.statusCode === 200) {
-                // kaef
-            } else {
-                // ne kaef
-                return;
-            }
-            this.view.render(response.parsedJson);
-        });
+        this._parseQuery(queryParams);
+
+        if (this.model._isQueryEmpty) {
+            const recomendation = getMeetings({pageNum: 1});
+
+            const soon = getMeetings({pageNum: 1});
+
+            const mostExpected = getMeetings({pageNum: 1});
+
+            Promise.all([recomendation, soon, mostExpected]).then(values => {
+                /*if (recomendation.statusCode === 200) {
+                    // kaef
+                } else {
+                    // ne kaef
+                    return;
+                }*/
+                this.view.render(values[0].parsedJson, values[1].parsedJson, values[2].parsedJson);
+            });
+        } else {
+            getMeetings({pageNum: 1}).then(obj => {
+                this.view.renderWithQuery(obj.parsedJson);
+            });
+        }
+    }
+
+    _parseQuery(queryParams) {
+        let isEmpty = null;
+        for (let key of Object.keys(this.model._queryConfig)) {
+            this.model._queryConfig[key] = queryParams.get(key);
+            isEmpty = isEmpty || queryParams.get(key);
+        }
+        if (isEmpty === null) {
+            this.model._isQueryEmpty = true;
+        } else {
+            this.model._isQueryEmpty = false;
+        }
     }
 
     deactivate() {
