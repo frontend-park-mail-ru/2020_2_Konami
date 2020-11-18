@@ -100,10 +100,10 @@ function patchMeeting(editFields) { // редактирование митинг
     });
 }
 
-function getMeetings(obj) {
+function getMeetings(queryParams) {
     let params = '?';
-    Object.keys(obj).forEach(key => {
-        params += `${key}=${obj[key]}&`
+    Object.keys(queryParams).forEach(key => {
+        params += `${key}=${queryParams[key]}&`
     });
 
     if (params === '?') {

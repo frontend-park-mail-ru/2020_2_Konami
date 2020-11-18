@@ -19,6 +19,8 @@ class UserModel {
             return UserModel.__instance;
         }
 
+        this._isMobile = true;
+
         this.userId = null;
         this._isAuthenticated = false;
 
@@ -30,6 +32,10 @@ class UserModel {
 
     get user() {
         return UserModel.__instance;
+    }
+
+    isMobile() {
+        return this._isMobile;
     }
 
     async isAuthenticated() {

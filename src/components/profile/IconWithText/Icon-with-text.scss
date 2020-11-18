@@ -8,6 +8,10 @@
         color: black
     }
 
+    &__text {
+        margin-right: auto;
+    }
+
     &__editicon {
         display: flex;
         justify-self: end;;

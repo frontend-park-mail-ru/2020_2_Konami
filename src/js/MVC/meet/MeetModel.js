@@ -11,6 +11,10 @@ export default class MeetModel {
         return this._user.userId;
     }
 
+    isMobile() {
+        return this._user.isMobile();
+    }
+
     checkAuth() {
         return this._user.isAuthenticated();
     }

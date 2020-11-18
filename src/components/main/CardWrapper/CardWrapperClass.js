@@ -27,6 +27,10 @@ export default class CardWrapper {
         this._this.appendChild(newCard);
     }
 
+    clear() {
+        this._this.innerHTML = '';
+    }
+
     remove() {
         this._this.remove();
     }

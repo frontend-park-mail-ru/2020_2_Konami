@@ -56,7 +56,8 @@ class Router {
 
     _handlePath(currentPath) {
         // Обрезает query параметры надо как-то это поправить чтоли
-        currentPath = currentPath.split('?')[0];
+        currentPath = currentPath.split('?')[0];  // cut query params
+
         const controller = this.routesMap.get(currentPath);
         if (!controller) {
             // TODO(ERROR 404)

@@ -1,10 +1,22 @@
 'use strict';
 
-export function createHeaderMobile() {
+export function createHeaderMobile(isMobile) {
+    isMobile = true;
+    let headerClass = null;
+    if (isMobile) {
+        headerClass = 'header-mobile';
+    } else {
+        headerClass = 'header-mobile header-mobile_fix';
+    }
+
     const headerWrapper = document.createElement('div');
     headerWrapper.innerHTML = `
-        <header class="header-mobile">
+        <header class="${headerClass}">
             <img src="assets/google.png" data-section="meetings" class="header-mobile__logo">
+            <nav class="header-mobile__navigation">
+                <a href="/meetings" data-section="meetings" class="navigation__choose-link">Мероприятия</a>
+                <a href="/people" data-section="people" class="navigation__choose-link">Люди</a>
+            </nav>
             <img src="assets/loupe.svg" class="header-mobile__search">
             <div class="header-mobile__logo-wrapper">
                 <img src="assets/logo-new.png" id="profileIcon" class="header-mobile__icon">

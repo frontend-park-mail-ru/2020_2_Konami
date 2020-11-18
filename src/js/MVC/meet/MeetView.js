@@ -25,16 +25,14 @@ export default class MeetView extends BaseView {
 
     render(data, simulars) {
         this._data = data;
-
-        const isMobile = false;
-        this._this = createMeetPage(data, isMobile);
+        this._this = createMeetPage(data, this.model.isMobile());
         this.parent.appendChild(this._this);
 
-        if (isMobile) {
+        if (this.model.isMobile()) {
             const afterCard = this._this.getElementsByClassName('page-mobile__after-card')[0];
             afterCard.appendChild(createMainTitle('Похожие:'));
 
-            const cardWrapper = new CardWrapper(isMobile, false);
+            const cardWrapper = new CardWrapper(true, false);
             afterCard.appendChild(cardWrapper.render());
 
             for (let item of simulars) {

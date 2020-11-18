@@ -20,6 +20,10 @@ export default class MeetingsModel {
         this._data = data;
     }
 
+    isMobile() {
+        return this._user.isMobile();
+    }
+
     checkAuth() {
         return this._user.isAuthenticated();
     }

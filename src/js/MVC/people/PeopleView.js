@@ -53,13 +53,21 @@ export default class PeopleView extends BaseView {
 
     render(cards) {
         const main = document.createElement('main');
-        main.classList.add('main'); 
+        if (this.model.isMobile()) {
+            main.classList.add('page-mobile__main'); 
+        } else {
+            main.classList.add('meet-page__main'); 
+        }
         this.parent.appendChild(main);
 
         main.appendChild(this._createSettings());
 
         const cardWrapper = document.createElement('div');
-        cardWrapper.classList.add('card-wrapper');
+        if (this.model.isMobile()) {
+            cardWrapper.classList.add('card-wrapper-mobile_column');
+        } else {
+            cardWrapper.classList.add('card-wrapper');
+        }
         main.appendChild(cardWrapper);
 
         this._this = main;

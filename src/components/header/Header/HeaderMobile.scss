@@ -18,6 +18,17 @@
     left: 0;
     right: 0;
     z-index: 2;
+
+    &__navigation {
+        display: flex;
+        margin: 0 auto;
+    }
+}
+
+.header-mobile_fix {
+    width: $max-width;
+    max-width: $max-width;
+    min-width: $max-width;
 }
 
 .header-mobile__logo {

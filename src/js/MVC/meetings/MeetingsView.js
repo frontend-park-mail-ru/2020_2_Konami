@@ -29,6 +29,7 @@ export default class MeetingsView extends BaseView {
 
         this._this = null;
         this._slider = null;
+        this._cards = null;
 
         this._settingsButton = [
             {view: 'Мои мероприятия', type: ['filter'], value: 'mymeetings',}, 
@@ -40,8 +41,7 @@ export default class MeetingsView extends BaseView {
     }
 
     renderWithQuery(cards) {
-        const mobile = true;
-        if (mobile) {
+        if (this.model.isMobile()) {
             this._renderWithQueryMobile(cards);
         } else {
             this._renderWithQueryDesktop(cards);
@@ -49,9 +49,7 @@ export default class MeetingsView extends BaseView {
     }
 
     render(recomendation, soon, mostExpected) {
-        const mobile = true;
-
-        if (mobile) {
+        if (this.model.isMobile()) {
             this._renderMobile(soon, mostExpected);
         } else {
             this._renderDesktop(soon, mostExpected);
@@ -73,21 +71,25 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             this._createSlide(item);
         });
-
+        
+        // Создаем контере для карточек, заголовков, настроек
         const afterCard = document.createElement('div');
         afterCard.classList.add('page-mobile__after-card');
         main.appendChild(afterCard);
 
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
+        // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true);
         afterCard.appendChild(cardsW.render());
         cards.forEach(item => {
             this._createCard(item, cardsW);
         });
+
+        this._cards = cardsW;
     }
 
-    _renderWithQueryDesktop() {
+    _renderWithQueryDesktop(cards) {
         // Создаем страницу
         const main = document.createElement('div');
         main.classList.add('meet-page__main'); 
@@ -98,11 +100,13 @@ export default class MeetingsView extends BaseView {
         main.appendChild(this._createSettings(this._settingsButton));
 
         // Карточки 
-        let cards = new CardWrapper(false, false);
-        main.appendChild(cards.render());
+        let cardsW = new CardWrapper(false, false);
+        main.appendChild(cardsW.render());
         cards.forEach(item => {
-            this._createCard(item, cards);
+            this._createCard(item, cardsW);
         });
+
+        this._cards = cardsW;
     }
 
     _renderMobile(soon, mostExpected) {
@@ -127,13 +131,14 @@ export default class MeetingsView extends BaseView {
         // Настройки
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
-        // Карточки 
+        // Карточки слево направо
         let cards = new CardWrapper(true, false);
         afterCard.appendChild(cards.render());
         soon.forEach(item => {
             this._createCard(item, cards);
         });
 
+        // Карточки слево направо
         afterCard.appendChild(createMainTitle('Самые ожидаемые'));
         cards = new CardWrapper(true, false);
         afterCard.appendChild(cards.render());
@@ -198,27 +203,139 @@ export default class MeetingsView extends BaseView {
     }
 
     _createSettings() {
-        const settings = createSettings(this._settingsButton, (obj) => {
+        /* const settings = createSettings(this._settingsButton, (obj) => {
             if (obj.type === 'clear') {
                 EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
                 return;
             }
 
-            for (let item of obj.type) {
-                this.model._queryConfig[item] = obj.value;
+            for (let queryParam of obj.type) {
+                this.model._queryConfig[queryParam] = obj.value;
             }
 
             let result = '?';
-            for (let item of Object.keys(this.model._queryConfig)) {
-                if (this.model._queryConfig[item] === null) {
+            for (let queryParam of Object.keys(this.model._queryConfig)) {
+                if (this.model._queryConfig[queryParam] === null) {
                     continue;
                 }
-                result += `${item}=${this.model._queryConfig[item]}&`;
+                result += `${queryParam}=${this.model._queryConfig[queryParam]}&`;
             }
             EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
+        });*/
+
+        const mymeetings = document.createElement('button');
+        mymeetings.classList.add('settings__button');
+        mymeetings.innerHTML = 'Мои мероприятия';
+
+        mymeetings.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'mymeetings';
+
+            this._renderCards();
         });
 
+        const favorites = document.createElement('button');
+        favorites.classList.add('settings__button');
+        favorites.innerHTML = 'Избранное';
+
+        favorites.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'favorites';
+            
+            this._renderCards();
+        });
+
+        const settings = document.createElement('div');
+        settings.classList.add('settings');
+
+        const today = document.createElement('button');
+        today.classList.add('settings__button');
+        today.innerHTML = 'Сегодня';
+        today.addEventListener('click', () => {
+            this.model._queryConfig.startDate = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.endDate = new Date().toISOString().slice(0, 10);
+
+            this._renderCards();
+        });
+
+        const tomorrow = document.createElement('button');
+        tomorrow.classList.add('settings__button');
+        tomorrow.innerHTML = 'Завтра';
+        tomorrow.addEventListener('click', () => {
+            this.model._queryConfig.startDate = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.endDate = new Date().toISOString().slice(0, 10);
+
+            this._renderCards();
+        });
+
+        const endDate = document.createElement('input');
+        if (this.model._queryConfig.endDate !== undefined) {
+            endDate.value = this.model._queryConfig.endDate;
+        }
+        endDate.type = 'date';
+        endDate.classList.add('settings__button');
+        endDate.min = new Date().toISOString().slice(0, 10);
+        endDate.addEventListener('change', () => {
+            this.model._queryConfig.endDate = endDate.value;
+
+            this._renderCards();
+        });
+
+        const startDate = document.createElement('input');
+        if (this.model._queryConfig.startDate !== undefined) {
+            startDate.value = this.model._queryConfig.startDate;
+        }
+        startDate.type = 'date';
+        startDate.classList.add('settings__button');
+        startDate.min = new Date().toISOString().slice(0, 10);
+        startDate.addEventListener('change', () => {
+            if (endDate.value < startDate.value) {
+                endDate.value = startDate.value;
+                this.model._queryConfig.endDate = startDate.value;
+            }
+
+            endDate.min = startDate.value;
+
+            this.model._queryConfig.startDate = startDate.value;
+            this._renderCards();
+        });
+
+        const clear = document.createElement('button');
+        clear.classList.add('settings__button');
+        clear.innerHTML = 'Убрать фильтры';
+        clear.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
+        });
+
+        settings.append(mymeetings, favorites, today, tomorrow, clear, startDate, endDate);
+
         return settings;
+    }
+
+    _renderCards() {
+        if (this._cards !== null) {
+            this._cards.clear();
+            this._parseWithRequest().then(obj => {
+                obj.parsedJson.forEach(item => {
+                    this._createCard(item, this._cards);
+                });
+            });
+            return;
+        }
+        this._parseWithRedirect();
+    }
+
+    _parseWithRedirect() {
+        let result = '?';
+        for (let item of Object.keys(this.model._queryConfig)) {
+            if (this.model._queryConfig[item] === null) {
+                continue;
+            }
+            result += `${item}=${this.model._queryConfig[item]}&`;
+        }
+        EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
+    }
+
+    _parseWithRequest() {
+        return getMeetings({pageNum: 1})
     }
 
     _likeEventListener(item, event) {

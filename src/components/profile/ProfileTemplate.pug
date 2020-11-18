@@ -7,21 +7,21 @@ main(class='profile')
                 button(class='profile__save-button' hidden) Сохранить
             img(class='profile__avatar' src=card.label.imgSrc)
         div(class='icon-with-text')
-            h2(class='profile__name') #{card.label.name}
+            h2(class='profile__name icon-with-text__text') #{card.label.name}
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__name-editicon') 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/place.svg')
-            span(class='profile__city') #{city}
+            span(class='profile__city icon-with-text__text') #{city}
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__city-editicon')
         hr
         div(class='profile__socialnetworks')
             div(class='icon-with-text')
                 img(class='icon-with-text__mainicon' src='assets/vk.png')
-                a(class='icon-with-text__link profile__vk' href=vk) #{vk} 
+                a(class='icon-with-text__link profile__vk icon-with-text__text' href=vk) #{vk} 
                 img(src='assets/pen.svg' class='icon-with-text__editicon profile__vk-editicon')
             div(class='icon-with-text')
                 img(class='icon-with-text__mainicon' src='assets/telegram.png')
-                a(class='icon-with-text__link profile__telegram' href=telegram) #{telegram} 
+                a(class='icon-with-text__link profile__telegram icon-with-text__text' href=telegram) #{telegram} 
                 img(src='assets/pen.svg' class='icon-with-text__editicon profile__telegram-editicon')
         hr
         div(class='icon-with-text')
@@ -36,32 +36,32 @@ main(class='profile')
     div(class='profile__rightcolumn')
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/diamond.svg')
-            span(class='bold') Навыки
+            span(class='bold icon-with-text__text') Навыки
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__skills-editicon')
 
         span(class='profile__title profile__skills') #{skills}
 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/search.svg')
-            span(class='bold') Интересы
+            span(class='bold icon-with-text__text') Интересы
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__interests-editicon')
         span(class='profile__title profile__interests') #{interests}
 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/education.svg')
-            span(class='bold') Образование
+            span(class='bold icon-with-text__text') Образование
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__education-editicon')
         span(class='profile__title profile__education') #{education}
 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/job.svg')
-            span(class='bold') Работа
+            span(class='bold icon-with-text__text') Работа
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__job-editicon')
         span(class='profile__title profile__job') #{card.job}
 
         div(class='icon-with-text')
             img(class='icon-with-text__mainicon' src='assets/aim.svg')
-            span(class='bold') Цели
+            span(class='bold icon-with-text__text') Цели
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__aims-editicon')
         span(class='profile__title profile__aims') #{aims}
 
