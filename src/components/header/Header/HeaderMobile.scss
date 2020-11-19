@@ -26,9 +26,11 @@
 }
 
 .header-mobile_fix {
-    width: $max-width;
-    max-width: $max-width;
-    min-width: $max-width;
+    width: $max-width + 2 * $padding;
+    min-width: $max-width + 2 * $padding;
+    max-width: $max-width + 2 * $padding;
+    padding: 0 $padding;
+    margin: 0 auto;
 }
 
 .header-mobile__logo {

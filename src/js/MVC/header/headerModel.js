@@ -12,6 +12,10 @@ export default class HeaderModel {
         this._user.logout();
     }
 
+    isMobile() {
+        return this._user.isMobile();
+    }
+
     checkAuth() {
         return this._user.isAuthenticated();
     }

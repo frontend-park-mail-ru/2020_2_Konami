@@ -8,7 +8,6 @@ import {
     OPEN_LOGIN_MODAL,
     REDIRECT
 } from "@/js/services/EventBus/EventTypes.js";
-import { createHeader } from "../../../components/header/Header/header";
 import { createHeaderMobile } from "@/components/header/Header/HeaderMobile";
 import {createHeaderLinksPopup} from "@/components/header/HeaderLinksPopup/HeaderLinksPopup";
 
@@ -46,7 +45,7 @@ export default class HeaderView extends BaseView {
 
     // TODO(template)
     render() {
-        this._this = createHeaderMobile();
+        this._this = createHeaderMobile(this.model.isMobile());
         this.parent.appendChild(this._this);
 
         let icon = document.getElementById('profileIcon');

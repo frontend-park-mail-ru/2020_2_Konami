@@ -1,7 +1,8 @@
 @import '@/sass_config.scss';
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
-@import '@/components/cards/UserCard/UserCard.scss';
+@import '@/components/cards/UserCard/UserCardNew.scss';
+
 @import '@/components/cards/MeetSlides/MeetSlide.scss';
 @import '@/components/cards/MeetSlides/MeetSlideMobile.scss';
 @import '@/components/cards/MeetSlides/MeetSlides.scss';
@@ -17,6 +18,7 @@
 @import '@/components/main/MainTitle/MainTitle.scss';
 @import '@/components/main/CardWrapper/CardWrapper.scss';
 @import '@/components/main/CardWrapper/CardWrapperMobile.scss';
+@import '@/components/main/EmptyBlock/EmptyBlock.scss';
 
 @import '@/components/auth/Form/Form.scss';
 @import '@/components/auth/Button/Button.scss';
@@ -29,8 +31,6 @@
 @import '@/components/auth/Notification/Notification.scss';
 @import '@/components/auth/SelectedTag/SelectedTag.scss';
 @import '@/components/auth/TagsModal/TagsModal.scss';
-
-
 
 @import '@/css/signup.scss';
 @import '@/css/new-meeting.scss';
@@ -63,6 +63,22 @@ body {
     padding: 20px;
 }
 
+.people-mobile {
+    display: flex;
+    position: relative;
+
+    min-width: 430px;
+    height: 380px;
+
+    z-index: 0;
+    margin-bottom: -50px;
+}
+
+.people-mobile__top-image {
+    width: 100%;
+
+    object-fit: cover;
+}
 
 .main {
     width: $max-width;
@@ -87,6 +103,22 @@ body {
 
     .slide-container {
         width: $min-width;
+    }
+
+    .header-mobile_fix {
+        width: $min-width + 2 * $padding;
+        min-width: $min-width + 2 * $padding;
+        max-width: $min-width + 2 * $padding;
+        padding: 0 $padding;
+        margin: 0 auto;
+    }
+
+    .profile_fix {
+        width: $min-width;
+        min-width: $min-width;
+        max-width: $min-width;
+        padding: 0 $padding;
+        margin: 0 auto;
     }
 
     .meet-slide {

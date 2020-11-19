@@ -17,6 +17,14 @@ $avatar-width: 400px;
 
     font-family: $font;
 
+    &_fix {
+        width: $max-width;
+        min-width: $max-width;
+        max-width: $max-width;
+        padding: 0 $padding;
+        margin: 0 auto;
+    }
+
     &__leftcolumn,
     &__rightcolumn {
         flex: 0 0 400px;

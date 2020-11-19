@@ -121,7 +121,7 @@ function createAvatarField(tmp) {
     }
 }
 
-function createProfile(data, isAuth) {
+function createProfile(data, isAuth, isMobile) {
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
 
@@ -155,7 +155,6 @@ function createProfile(data, isAuth) {
     createAvatarField(tmp);
     createTags(tmp.getElementsByClassName('profile__rightcolumn')[0], data);
 
-
     if (!isAuth) {
         Array.from(tmp.getElementsByClassName('icon-with-text__editicon')).forEach(element => {
             element.remove();
@@ -167,6 +166,11 @@ function createProfile(data, isAuth) {
             element.remove();
         });
 
+    }
+
+    if (!isMobile) {
+        const profile = tmp.getElementsByClassName('profile')[0];
+        profile.classList.add('profile_fix');
     }
 
     return tmp.firstElementChild;

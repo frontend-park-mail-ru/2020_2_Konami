@@ -1,7 +1,6 @@
 'use strict';
 
 export function createHeaderMobile(isMobile) {
-    isMobile = true;
     let headerClass = null;
     if (isMobile) {
         headerClass = 'header-mobile';

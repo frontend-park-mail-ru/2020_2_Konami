@@ -58,9 +58,24 @@ export default class PeopleView extends BaseView {
         } else {
             main.classList.add('meet-page__main'); 
         }
+        this._this = main;
         this.parent.appendChild(main);
 
-        main.appendChild(this._createSettings());
+        const peopleMobile = document.createElement('div');
+        peopleMobile.classList.add('people-mobile');
+
+        const topImage = document.createElement('img');
+        topImage.classList.add('people-mobile__top-image');
+        topImage.src = 'assets/paris.jpg';
+        peopleMobile.appendChild(topImage);
+
+        main.appendChild(peopleMobile);
+
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('page-mobile__after-card');
+        main.appendChild(afterCard);
+
+        // main.appendChild(this._createSettings());
 
         const cardWrapper = document.createElement('div');
         if (this.model.isMobile()) {
@@ -68,9 +83,8 @@ export default class PeopleView extends BaseView {
         } else {
             cardWrapper.classList.add('card-wrapper');
         }
-        main.appendChild(cardWrapper);
+        afterCard.appendChild(cardWrapper);
 
-        this._this = main;
 
         cards.forEach(item => {
             const userCard = createUserCard(item);

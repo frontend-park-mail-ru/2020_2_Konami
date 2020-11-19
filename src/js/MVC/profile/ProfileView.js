@@ -17,6 +17,7 @@ import {
     CLOSE_TAGS_MODAL,
     EDIT_SUCCESS
 } from "@/js/services/EventBus/EventTypes.js";
+import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 
 export default class ProfileView extends BaseView {
     constructor(parent, model) {
@@ -30,8 +31,10 @@ export default class ProfileView extends BaseView {
     }
 
     render(data) {
+        this._empty = createEmptyBlock();
+        this.parent.appendChild(this._empty);
         this.data = data;
-        this._this = createProfile(data, this.model.getUserId() === data.card.label.id);
+        this._this = createProfile(data, this.model.getUserId() === data.card.label.id, this.model.isMobile());
         this.parent.appendChild(this._this);
 
         this._addEventListeners();
@@ -43,19 +46,24 @@ export default class ProfileView extends BaseView {
         if (this._this !== null) {
             this._removeEventListeners();
             this._this.remove();
+            this._empty.remove();
         }
     }
 
     _addEventListeners() {
         const editTagsBtn = document.getElementById('editTagsBtn');
-        editTagsBtn.addEventListener('click', this._editTagsHandler.bind(this));
-        window.addEventListener('click', closeTagsModalDialog);
+        if (editTagsBtn !== undefined && editTagsBtn !== null) {
+            editTagsBtn.addEventListener('click', this._editTagsHandler.bind(this));
+            window.addEventListener('click', closeTagsModalDialog);
+        }
     }
 
     _removeEventListeners() {
         const editTagsBtn = document.getElementById('editTagsBtn');
-        editTagsBtn.removeEventListener('click', this._editTagsHandler.bind(this));
-        window.removeEventListener('click', closeTagsModalDialog);
+        if (editTagsBtn !== undefined && editTagsBtn !== null) {
+            editTagsBtn.addEventListener('click', this._editTagsHandler.bind(this));
+            window.addEventListener('click', closeTagsModalDialog);
+        }
     }
 
     _editTagsHandler() {

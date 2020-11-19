@@ -19,6 +19,7 @@ import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTi
 import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js";
 
 import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
+import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 
 export default class MeetingsView extends BaseView {
 
@@ -96,6 +97,8 @@ export default class MeetingsView extends BaseView {
         this.parent.appendChild(main);
         this._this = main;
 
+        main.appendChild(createEmptyBlock());
+
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
 
@@ -153,6 +156,8 @@ export default class MeetingsView extends BaseView {
         main.classList.add('meet-page__main'); 
         this.parent.appendChild(main);
         this._this = main;
+
+        main.appendChild(createEmptyBlock());
 
         // Заголовок
         main.appendChild(createMainTitle('Рекомендации для вас'));
