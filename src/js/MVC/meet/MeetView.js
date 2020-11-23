@@ -5,10 +5,16 @@ import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { patchMeeting } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
+import { createChatPopup } from "@/components/chat/chat.js";
+import { createIncomingMsg, createOutgoingMsg } from "@/components/chat/message.js";
+
+import {Ws} from "@/js/services/Ws/ws.js";
+
 import {
     OPEN_LOGIN_MODAL,
     REDIRECT,
-    PASS_MEET_DATA_TO_EDIT
+    PASS_MEET_DATA_TO_EDIT,
+    CHAT_MESSAGE
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class MeetView extends BaseView {
@@ -19,13 +25,40 @@ export default class MeetView extends BaseView {
         this.model = model;
         this._this = null;
         this._data = null;
+
+        this.wsConn = null;
+
+        this._initEventHandlers();
+
+    }
+
+    _initEventHandlers() {
+        this._eventHandlers = {
+
+            onChatMessage: (payload) => {
+                console.log(payload);
+                const {text, timestamp, meetId, authorId} = payload;
+                if (this.model.meetId === meetId) {
+                    const messagesHistory = document.getElementsByClassName('msg_history')[0];
+                    messagesHistory.appendChild(authorId === this.model.getUserId() ?
+                        createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, authorId));
+
+                    // messagesContainer.textContent += text;
+                }
+            },
+        }
     }
 
     render(data) {
+        this.wsConn = new Ws();
+
         this._data = data;
 
         this._this = createMeetPage(data);
+        this._this.appendChild(createChatPopup());
+
         this.parent.appendChild(this._this);
+        // this.parent.appendChild(chat);
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
@@ -64,6 +97,8 @@ export default class MeetView extends BaseView {
                     });
                 }
             }
+
+            this._addChatListeners();
         });
 
     }
@@ -73,6 +108,17 @@ export default class MeetView extends BaseView {
             this._this.remove();
             this._removeEventListeners();
         }
+    }
+
+    registerEvents() {
+        EventBus.onEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
+
+
+    }
+
+    unRegisterEvents() {
+        EventBus.offEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
+
     }
 
     _clickLikeHandler(evt, icon) {
@@ -95,7 +141,7 @@ export default class MeetView extends BaseView {
                 } else {
                     displayNotification("Вы убрали лайк");
                     icon.firstChild.src  = '/assets/heart.svg';
-                }   
+                }
             } else {
                 alert('Permission denied');
             }
@@ -153,5 +199,50 @@ export default class MeetView extends BaseView {
         if (editButton !== undefined) {
             editButton.removeEventListener('click', this._clickEditButtonHandler.bind(this));
         }
+    }
+
+    _addChatListeners() {
+        const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
+        const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
+        const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
+
+        const chatPopup = document.getElementById('chatPopup');
+
+        openChatBtn.onclick = () => {
+            chatPopup.style.display = 'block';
+            openChatBtn.style.display = 'none';
+            // scrollToBottom('app');
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+
+        closeChatBtn.onclick = () => {
+            chatPopup.style.display = 'none';
+            openChatBtn.style.display = 'block';
+        }
+
+        sendChatBtn.onclick = () => {
+            const msg = document.getElementsByName('message')[0];
+
+            const date = new Date();
+            if (msg.value !== '') {
+                this.wsConn.send(CHAT_MESSAGE, {
+                    text: msg.value,
+                    timestamp: date.toISOString(),
+                    meetId: this.model.meetId,
+                    authorId: this.model.getUserId()
+                });
+            }
+
+            msg.value = '';
+        }
+
+        function scrollToBottom (id) {
+            const div = document.getElementById(id);
+            div.scrollTop = div.scrollHeight - div.clientHeight;
+        }
+
     }
 }

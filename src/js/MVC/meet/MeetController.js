@@ -22,6 +22,7 @@ export default class MeetController extends Controller {
             EventBus.dispatchEvent(REDIRECT, 'meetings')
         }
 
+        this.model.meetId = meetId;
         getMeeting(meetId).then(response => {
             if (response.statusCode === 200) {
                 // kaef
@@ -32,9 +33,12 @@ export default class MeetController extends Controller {
             response.parsedJson.currentUserId = this.model.getUserId();
             this.view.render(response.parsedJson);
         });
+
+        this.view.registerEvents();
     }
 
     deactivate() {
         this.view.erase();
+        this.view.unRegisterEvents();
     }
 }

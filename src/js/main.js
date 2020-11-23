@@ -18,16 +18,16 @@ import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
 
-if (navigator.serviceWorker) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then((registration) => {
-            console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
-        })
-            .catch((err) => {
-                console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
-            });
-    });
-}
+// if (navigator.serviceWorker) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker.register('sw.js').then((registration) => {
+//             console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
+//         })
+//             .catch((err) => {
+//                 console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
+//             });
+//     });
+// }
 
 (() => {
     const application = document.getElementById('app');

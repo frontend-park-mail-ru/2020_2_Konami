@@ -5,6 +5,7 @@ import UserModel from "@/js/models/UserModel.js";
 export default class MeetModel {
     constructor() {
         this._user = UserModel.user;
+        this.meetId = null;
     }
 
     getUserId() {
