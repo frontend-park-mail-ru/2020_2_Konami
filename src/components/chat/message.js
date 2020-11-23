@@ -5,7 +5,7 @@ export function createIncomingMsg(text, timestamp, authorId) {
     div.classList.add('incoming_msg');
     div.innerHTML = `
         <div class="incoming_msg_img"> 
-            <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> 
+            <img src="https://ptetutorials.com/images/user-profile.png" class="message_icon" alt="sunil"> 
         </div>
         <div class="received_msg">
             <div class="received_withd_msg">
@@ -31,7 +31,31 @@ export function createOutgoingMsg(text, timestamp) {
 
 function parseTimestamp(ts) {
     const date = new Date(ts);
+    const todayDate = new Date();
 
-    const parsedStr = `${date.getHours()}:${date.getMinutes()}    |    ${date.getMonth()} ${date.getDate()}`
+    let dateStr;
+    if (date.getMonth() === todayDate.getMonth() &&
+        (date.getDate() === todayDate.getDate() || date.getDate() === todayDate.getDate() - 1)) {
+        dateStr = date.getDate() === todayDate.getDate() ? 'Сегодня' : 'Вчера';
+    } else {
+        dateStr = months[date.getMonth()] + ' ' + date.getDate();
+    }
+
+    const parsedStr = `${date.getHours()}:${date.getMinutes()}    |    ${dateStr}`
     return parsedStr;
+}
+
+const months = {
+    0: 'Январь',
+    1: 'Февраль',
+    2: 'Март',
+    3: 'Апрель',
+    4: 'Май',
+    5: 'Июнь',
+    6: 'Июль',
+    7: 'Август',
+    8: 'Сентябрь',
+    9: 'Октябрь',
+    10: 'Ноябрь',
+    11: 'Декабрь',
 }

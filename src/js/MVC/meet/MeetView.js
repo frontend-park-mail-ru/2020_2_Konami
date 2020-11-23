@@ -206,22 +206,33 @@ export default class MeetView extends BaseView {
         const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
         const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
 
+        const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];
+
         const chatPopup = document.getElementById('chatPopup');
 
         openChatBtn.onclick = () => {
-            chatPopup.style.display = 'block';
-            openChatBtn.style.display = 'none';
-            // scrollToBottom('app');
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: "smooth"
-            });
+            chevronDownIcon.classList.toggle('revert');
+
+            // CLOSE
+            if (chatPopup.style.display === 'block') {
+                chatPopup.style.display = 'none';
+            } else
+
+            // OPEN
+            if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                chatPopup.style.display = 'block';
+
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: "smooth"
+                });
+            }
         }
 
-        closeChatBtn.onclick = () => {
-            chatPopup.style.display = 'none';
-            openChatBtn.style.display = 'block';
-        }
+        // closeChatBtn.onclick = () => {
+        //     chatPopup.style.display = 'none';
+        //     openChatBtn.style.display = 'block';
+        // }
 
         sendChatBtn.onclick = () => {
             const msg = document.getElementsByName('message')[0];
@@ -237,11 +248,6 @@ export default class MeetView extends BaseView {
             }
 
             msg.value = '';
-        }
-
-        function scrollToBottom (id) {
-            const div = document.getElementById(id);
-            div.scrollTop = div.scrollHeight - div.clientHeight;
         }
 
     }
