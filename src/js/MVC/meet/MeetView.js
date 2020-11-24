@@ -5,7 +5,7 @@ import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { patchMeeting } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
-import { createChatPopup } from "@/components/chat/chat.js";
+import { createChatPopup, scrollTo } from "@/components/chat/chat.js";
 import { createIncomingMsg, createOutgoingMsg } from "@/components/chat/message.js";
 
 import {Ws} from "@/js/services/Ws/ws.js";
@@ -63,6 +63,9 @@ export default class MeetView extends BaseView {
         const likeIcon = this._this.getElementsByClassName('meet__like-icon')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
+        const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
+
+
         // тут нужно что то сделать с editbutton
         this.model.checkAuth().then(isAuth => {
             // снизу ж*па
@@ -80,6 +83,8 @@ export default class MeetView extends BaseView {
                 if (editButton !== undefined) {
                     editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
                 }
+
+                this._addChatListeners();
             } else {
                 if (likeIcon !== undefined) {
                     likeIcon.addEventListener('click', () => {
@@ -96,9 +101,14 @@ export default class MeetView extends BaseView {
                         EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
                     });
                 }
+                if (openChatBtn !== undefined) {
+                    openChatBtn.addEventListener('click', () => {
+                        EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    });
+                }
             }
 
-            this._addChatListeners();
+            // this._addChatListeners();
         });
 
     }
@@ -215,7 +225,10 @@ export default class MeetView extends BaseView {
 
             // CLOSE
             if (chatPopup.style.display === 'block') {
-                chatPopup.style.display = 'none';
+                scrollTo(openChatBtn.getBoundingClientRect().top, () => {
+                    chatPopup.style.display = 'none';
+                });
+
             } else
 
             // OPEN
@@ -228,11 +241,6 @@ export default class MeetView extends BaseView {
                 });
             }
         }
-
-        // closeChatBtn.onclick = () => {
-        //     chatPopup.style.display = 'none';
-        //     openChatBtn.style.display = 'block';
-        // }
 
         sendChatBtn.onclick = () => {
             const msg = document.getElementsByName('message')[0];
