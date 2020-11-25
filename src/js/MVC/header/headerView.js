@@ -50,6 +50,58 @@ export default class HeaderView extends BaseView {
 
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
+
+        const search = document.getElementsByClassName('search-block__search-input')[0];
+        search.addEventListener('keyup', () => {
+            const kek = [
+                {
+                    type: 'meeting',
+                    imgSrc: 'assets/like.svg',
+                    title: 'kokos',
+                    id: 9,
+                },
+                {
+                    type: 'user',
+                    imgSrc: 'assets/empty-avatar.jpeg',
+                    title: 'kokos',
+                    id: 25,
+                }
+            ];
+            if (search.value.length > 3) {
+                const offers = document.getElementsByClassName('search-block__offers')[0];
+                offers.innerHTML = '';
+                kek.forEach(item => {
+                    const offer = this._createSearchOffer(item);
+                    offers.appendChild(offer);
+                });
+            }
+        });
+    }
+
+    _createSearchOffer(data) {
+        const offer = document.createElement('div');
+        offer.classList.add('search-block__offer');
+        
+        const offerImg = document.createElement('img');
+        offerImg.classList.add('search-block__offer-img');
+        offerImg.src = data.imgSrc;
+
+        const offerTitle = document.createElement('span');
+        offerTitle.innerHTML = data.title;
+
+        offer.append(offerImg, offerTitle);
+
+        const modalSearch = document.getElementsByClassName('search-block')[0];
+        offer.addEventListener('click', () => {
+            if (data.type === 'meeting') {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${data.id}`});
+            } else {
+                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${data.id}`});
+            }
+            modalSearch.style.display = 'none';
+        });
+        
+        return offer;
     }
 
     registerEvents() {

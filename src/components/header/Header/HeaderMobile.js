@@ -29,9 +29,10 @@ export function createHeaderMobile(isMobile) {
                     <h4 class="search-block__offers-title">
                         Популярно сейчас
                     </h4>
-                    <span class="search-block__offer">Шахматы</span>
-                    <span class="search-block__offer">Шахматы</span>
-                    <span class="search-block__offer">Шахматы</span>
+                    <div class="search-block__offer">
+                        <img class="search-block__offer-img" src="/assets/empty-avatar.jpeg">
+                        <span class="search-block__offer-title">Супер Лукаш</span>
+                    </div>
                 </div>
             </div>
         </header>
