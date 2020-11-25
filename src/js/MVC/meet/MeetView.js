@@ -12,6 +12,7 @@ import {
     REDIRECT,
     PASS_MEET_DATA_TO_EDIT
 } from "@/js/services/EventBus/EventTypes.js";
+import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock.js";
 
 export default class MeetView extends BaseView {
 
@@ -26,6 +27,7 @@ export default class MeetView extends BaseView {
     render(data, simulars) {
         this._data = data;
         this._this = createMeetPage(data, this.model.isMobile());
+        this._this.insertBefore(createEmptyBlock(), this._this.firstChild);
         this.parent.appendChild(this._this);
 
         if (this.model.isMobile()) {

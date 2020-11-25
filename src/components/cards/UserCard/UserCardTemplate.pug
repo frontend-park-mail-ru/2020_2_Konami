@@ -1,14 +1,11 @@
-div(class='usercard usercard_margin' id=label.id)
-    img(src=label.imgSrc class='usercard__overlay')
-    div(class='usercard__overlay')
-    div(class='usercard__maincontent usercard__maincontent_top')
-        h2(class='usercard__name') #{label.name}
-        span(class='usercard__job') #{job}
-        h3(class='usercard__interestings') Интересы
-        div(class='tags')
+div(class='user-card' id=label.id)
+    div(class='user-card__image-wrapper')
+        img(src=label.imgSrc class='user-card__image')
+        div(class='user-card__tags')
             each val, index in interestTags
-                span(class='tags__chips')= val
-        h3(class='usercard__skills') Навыки
-        div(class='tags')
-            each val, index in skillTags
-                span(class='tags__chips')= val
+                span(class='user-card__tag') #{val}
+    div(class='user-card__text-wrapper')
+        h2(class='user-card__name') #{label.name}
+        div(class='user-card__icon-text')
+            img(class='user-card__icon' src='assets/job.svg')
+            span(class='user-card__job') #{job}

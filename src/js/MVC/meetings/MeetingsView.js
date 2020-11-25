@@ -1,6 +1,5 @@
 'use strict';
 
-import { createMeetCard } from "@/components/cards/MeetCard/MeetCard.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
@@ -12,7 +11,8 @@ import {
 } from "@/js/services/EventBus/EventTypes.js";
 
 import {
-    createSettings
+    createSettings,
+    createButton,
 } from "@/components/settings/Settings.js";
 
 import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
@@ -81,7 +81,9 @@ export default class MeetingsView extends BaseView {
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
         // Сами карточки выводятся сверху вниз
-        let cardsW = new CardWrapper(true, true);
+        let cardsW = new CardWrapper(true, true, () => {
+            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+        });
         afterCard.appendChild(cardsW.render());
         cards.forEach(item => {
             this._createCard(item, cardsW);
@@ -93,7 +95,7 @@ export default class MeetingsView extends BaseView {
     _renderWithQueryDesktop(cards) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('meet-page__main'); 
+        main.classList.add('desktop-page'); 
         this.parent.appendChild(main);
         this._this = main;
 
@@ -103,7 +105,9 @@ export default class MeetingsView extends BaseView {
         main.appendChild(this._createSettings(this._settingsButton));
 
         // Карточки 
-        let cardsW = new CardWrapper(false, false);
+        let cardsW = new CardWrapper(false, false, () => {
+            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+        });
         main.appendChild(cardsW.render());
         cards.forEach(item => {
             this._createCard(item, cardsW);
@@ -135,7 +139,9 @@ export default class MeetingsView extends BaseView {
         afterCard.appendChild(this._createSettings(this._settingsButton));
 
         // Карточки слево направо
-        let cards = new CardWrapper(true, false);
+        let cards = new CardWrapper(true, false, () => {
+            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+        });
         afterCard.appendChild(cards.render());
         soon.forEach(item => {
             this._createCard(item, cards);
@@ -153,7 +159,7 @@ export default class MeetingsView extends BaseView {
     _renderDesktop(soon, mostExpected) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('meet-page__main'); 
+        main.classList.add('desktop-page'); 
         this.parent.appendChild(main);
         this._this = main;
 
@@ -208,109 +214,84 @@ export default class MeetingsView extends BaseView {
     }
 
     _createSettings() {
-        /* const settings = createSettings(this._settingsButton, (obj) => {
-            if (obj.type === 'clear') {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
-                return;
-            }
-
-            for (let queryParam of obj.type) {
-                this.model._queryConfig[queryParam] = obj.value;
-            }
-
-            let result = '?';
-            for (let queryParam of Object.keys(this.model._queryConfig)) {
-                if (this.model._queryConfig[queryParam] === null) {
-                    continue;
-                }
-                result += `${queryParam}=${this.model._queryConfig[queryParam]}&`;
-            }
-            EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
-        });*/
-
-        const mymeetings = document.createElement('button');
-        mymeetings.classList.add('settings__button');
-        mymeetings.innerHTML = 'Мои мероприятия';
+        const mymeetings = createButton('Мои мероприятия');
 
         mymeetings.addEventListener('click', () => {
             this.model._queryConfig.filter = 'mymeetings';
-
-            this._renderCards();
+            this._parseWithRedirect();
         });
 
-        const favorites = document.createElement('button');
-        favorites.classList.add('settings__button');
-        favorites.innerHTML = 'Избранное';
+        const favorites = createButton('Избранное');
 
         favorites.addEventListener('click', () => {
             this.model._queryConfig.filter = 'favorites';
             
-            this._renderCards();
+            this._parseWithRedirect();
         });
 
         const settings = document.createElement('div');
         settings.classList.add('settings');
 
-        const today = document.createElement('button');
-        today.classList.add('settings__button');
-        today.innerHTML = 'Сегодня';
+        const today = createButton('Сегодня');
         today.addEventListener('click', () => {
-            this.model._queryConfig.startDate = new Date().toISOString().slice(0, 10);
-            this.model._queryConfig.endDate = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.dateEnd = new Date().toISOString().slice(0, 10);
 
-            this._renderCards();
+            this._parseWithRedirect();
         });
 
-        const tomorrow = document.createElement('button');
-        tomorrow.classList.add('settings__button');
-        tomorrow.innerHTML = 'Завтра';
+        const tomorrow = createButton('Завтра');
         tomorrow.addEventListener('click', () => {
-            this.model._queryConfig.startDate = new Date().toISOString().slice(0, 10);
-            this.model._queryConfig.endDate = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.dateEnd = new Date().toISOString().slice(0, 10);
 
-            this._renderCards();
+            this._parseWithRedirect();
         });
 
-        const endDate = document.createElement('input');
-        if (this.model._queryConfig.endDate !== undefined) {
-            endDate.value = this.model._queryConfig.endDate;
+        const dateEnd = document.createElement('input');
+        if (this.model._queryConfig.dateEnd !== undefined) {
+            dateEnd.value = this.model._queryConfig.dateEnd;
         }
-        endDate.type = 'date';
-        endDate.classList.add('settings__button');
-        endDate.min = new Date().toISOString().slice(0, 10);
-        endDate.addEventListener('change', () => {
-            this.model._queryConfig.endDate = endDate.value;
+        dateEnd.type = 'date';
+        dateEnd.classList.add('settings__button');
+        dateEnd.min = new Date().toISOString().slice(0, 10);
+        if (this.model._queryConfig.dateEnd !== null) {
+            dateEnd.value = this.model._queryConfig.dateEnd;
+        }
+        dateEnd.addEventListener('change', () => {
+            this.model._queryConfig.dateEnd = dateEnd.value;
 
-            this._renderCards();
+            this._parseWithRedirect();
         });
 
-        const startDate = document.createElement('input');
-        if (this.model._queryConfig.startDate !== undefined) {
-            startDate.value = this.model._queryConfig.startDate;
+        const dateStart = document.createElement('input');
+        if (this.model._queryConfig.dateStart !== undefined) {
+            dateStart.value = this.model._queryConfig.dateStart;
         }
-        startDate.type = 'date';
-        startDate.classList.add('settings__button');
-        startDate.min = new Date().toISOString().slice(0, 10);
-        startDate.addEventListener('change', () => {
-            if (endDate.value < startDate.value) {
-                endDate.value = startDate.value;
-                this.model._queryConfig.endDate = startDate.value;
+        dateStart.type = 'date';
+        dateStart.classList.add('settings__button');
+        dateStart.min = new Date().toISOString().slice(0, 10);
+        if (this.model._queryConfig.dateStart !== null) {
+            dateStart.value = this.model._queryConfig.dateStart;
+        }
+        dateStart.addEventListener('change', () => {
+            if (dateEnd.value < dateStart.value) {
+                dateEnd.value = dateStart.value;
+                this.model._queryConfig.dateEnd = dateStart.value;
             }
 
-            endDate.min = startDate.value;
+            dateEnd.min = dateStart.value;
 
-            this.model._queryConfig.startDate = startDate.value;
-            this._renderCards();
+            this.model._queryConfig.dateStart = dateStart.value;
+            this._parseWithRedirect();
         });
 
-        const clear = document.createElement('button');
-        clear.classList.add('settings__button');
-        clear.innerHTML = 'Убрать фильтры';
+        const clear = createButton('Убрать фильтры');
         clear.addEventListener('click', () => {
             EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
         });
 
-        settings.append(mymeetings, favorites, today, tomorrow, clear, startDate, endDate);
+        settings.append(mymeetings, favorites, today, tomorrow, clear, dateStart, dateEnd);
 
         return settings;
     }
@@ -337,10 +318,6 @@ export default class MeetingsView extends BaseView {
             result += `${item}=${this.model._queryConfig[item]}&`;
         }
         EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
-    }
-
-    _parseWithRequest() {
-        return getMeetings({pageNum: 1})
     }
 
     _likeEventListener(item, event) {

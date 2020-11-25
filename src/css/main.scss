@@ -1,15 +1,14 @@
 @import '@/sass_config.scss';
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
-@import '@/components/cards/UserCard/UserCardNew.scss';
 
 @import '@/components/cards/MeetSlides/MeetSlide.scss';
 @import '@/components/cards/MeetSlides/MeetSlideMobile.scss';
 @import '@/components/cards/MeetSlides/MeetSlides.scss';
 @import '@/components/cards/MeetSlides/MeetSlidesMobile.scss';
-@import '@/components/header/Header/header.scss';
 @import '@/components/header/Header/HeaderMobile.scss';
-@import '@/components/header/Header/HeaderMobileSearchBlock.scss';
+@import '@/components/header/Header/SearchBlock.scss';
+@import '@/components/header/Header/Navigation.scss';
 @import '@/components/header/HeaderLinksPopup/HeaderLinksPopup.scss';
 @import '@/components/meet/Meet.scss';
 @import '@/components/meet/MeetMobile.scss';
@@ -39,7 +38,7 @@ body {
     margin: 0px;
 }
 
-.meet-page__main {
+.desktop-page {
     width: $max-width;
     padding: 0 $padding;
 
@@ -89,7 +88,7 @@ body {
 }
 
 @media (max-width: 1280px) {
-    .meet-page__main {
+    .desktop-page {
         width: $min-width;
     }
 

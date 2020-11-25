@@ -23,6 +23,61 @@
         display: flex;
         margin: 0 auto;
     }
+
+    &__logo {
+        margin-right: auto;
+        width: 70px;
+        height: 70px;
+        margin-left: -10px;
+        margin-top: 5px;
+    }
+
+    &__logo-wrapper {
+        margin-top: 10px;
+        width: 40px;
+        height: 40px;
+        padding: 3px;
+        background-color: #f1f1f1;
+        border-radius: 50%;
+    }
+
+    &__icon {
+        width: 100%;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    &__pin {
+        margin-top: 10px;
+        width: 30px;
+        height: 30px;
+        padding: 3px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    
+    &__search {
+        width: 20px;
+        height: 20px;
+        margin-top: 10px;
+        filter: invert(1);
+        cursor: pointer;
+    
+        margin-left: auto;
+        margin-right: 15px;
+    }
+
+    &__new-meet-btn {
+        width: 30px;
+        height: 30px;
+        padding: 3px;
+        cursor: pointer;
+        background-color: #f1f1f1;
+        //border-radius: 30%;
+        margin-top: 10px;
+        margin-right: 15px;
+        margin-bottom: 5px;
+    }
 }
 
 .header-mobile_fix {
@@ -33,57 +88,3 @@
     margin: 0 auto;
 }
 
-.header-mobile__logo {
-    margin-right: auto;
-    width: 70px;
-    height: 70px;
-    margin-left: -10px;
-    margin-top: 5px;
-}
-
-.header-mobile__logo-wrapper {
-    margin-top: 10px;
-    width: 40px;
-    height: 40px;
-    padding: 3px;
-    background-color: #f1f1f1;
-    border-radius: 50%;
-}
-
-.header-mobile__icon {
-    width: 100%;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.header-mobile__new-meet-btn {
-    width: 30px;
-    height: 30px;
-    padding: 3px;
-    cursor: pointer;
-    background-color: #f1f1f1;
-    //border-radius: 30%;
-    margin-top: 10px;
-    margin-right: 15px;
-    margin-bottom: 5px;
-}
-
-.header-mobile__pin {
-    margin-top: 10px;
-    width: 30px;
-    height: 30px;
-    padding: 3px;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-.header-mobile__search {
-    width: 20px;
-    height: 20px;
-    margin-top: 10px;
-    filter: invert(1);
-    cursor: pointer;
-
-    margin-left: auto;
-    margin-right: 15px;
-}

@@ -39,6 +39,7 @@ export default class ProfileView extends BaseView {
 
         this._addEventListeners();
     }
+
     /**
      * Удаление модального окна со страницы
      */

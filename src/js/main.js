@@ -34,6 +34,9 @@ import {
 
     const user = UserModel.user;
     user.getUserGeolocation();
+    if (window.screen.width > 900) {
+        user._isMobile = false;
+    }
 
     const headerController = new HeaderController(application);
     headerController.activate();

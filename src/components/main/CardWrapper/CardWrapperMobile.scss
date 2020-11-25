@@ -1,10 +1,16 @@
 .card-wrapper-mobile {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-}
+    &__cards {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
 
-.card-wrapper-mobile_column {
-    display: flex;
-    flex-wrap: wrap;
+    &__cards_column {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__button {
+
+    }
 }
