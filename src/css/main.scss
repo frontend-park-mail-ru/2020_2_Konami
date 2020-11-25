@@ -136,4 +136,10 @@ body {
             height: 180px;
         }
     }
+    .user-card {
+        &__image-wrapper {
+            width: 315px;
+            height: 250px;
+        }
+    }
 }
