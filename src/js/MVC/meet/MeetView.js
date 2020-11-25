@@ -25,27 +25,10 @@ export default class MeetView extends BaseView {
     }
 
     render(data, simulars) {
-        this._data = data;
-        this._this = createMeetPage(data, this.model.isMobile());
-        this._this.insertBefore(createEmptyBlock(), this._this.firstChild);
-        this.parent.appendChild(this._this);
-
         if (this.model.isMobile()) {
-            const afterCard = this._this.getElementsByClassName('page-mobile__after-card')[0];
-            afterCard.appendChild(createMainTitle('Похожие:'));
-
-            const cardWrapper = new CardWrapper(true, false);
-            afterCard.appendChild(cardWrapper.render());
-
-            for (let item of simulars) {
-                cardWrapper.appendCard(
-                    item,
-                    () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-                    }, 
-                    this._clickLikeHandler.bind(this, item),
-                );
-            }
+            this._renderMobile(data, simulars);
+        } else {
+            this._renderDesktop(data, simulars);
         }
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] || 
@@ -62,6 +45,48 @@ export default class MeetView extends BaseView {
         }
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
+        }
+    }
+
+    _renderDesktop(data, simulars) {
+        this._data = data;
+        this._this = createMeetPage(data, false);
+        this.parent.appendChild(this._this);
+
+        const cardWrapper = new CardWrapper(true, false);
+
+        this._this.appendChild(cardWrapper.render());
+
+        for (let item of simulars) {
+            cardWrapper.appendCard(
+                item,
+                () => {
+                    EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+                }, 
+                this._clickLikeHandler.bind(this, item),
+            );
+        }
+    }
+    
+    _renderMobile(data, simulars) {
+        this._data = data;
+        this._this = createMeetPage(data, true);
+        this.parent.appendChild(this._this);
+
+        const afterCard = this._this.getElementsByClassName('page-mobile__after-card')[0];
+        afterCard.appendChild(createMainTitle('Похожие:'));
+
+        const cardWrapper = new CardWrapper(true, false);
+        afterCard.appendChild(cardWrapper.render());
+
+        for (let item of simulars) {
+            cardWrapper.appendCard(
+                item,
+                () => {
+                    EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+                }, 
+                this._clickLikeHandler.bind(this, item),
+            );
         }
     }
 
@@ -100,16 +125,20 @@ export default class MeetView extends BaseView {
                 if (item.isLiked) {
                     displayNotification("Вы оценили мероприятие");
                     if (event.target.src) {
-                        event.target.src = "/assets/like.svg";
+                        event.target.src = '/assets/like.svg';
+                    } else if (event.target.firstChild.src) {
+                        event.target.firstChild.src = '/assets/like.svg';
                     } else {
-                        event.target.firstElementChild.src = "/assets/like.svg";
+                        event.target.parentElement.firstChild.src = '/assets/like.svg'
                     }
                 } else {
                     displayNotification("Вы убрали лайк"); 
                     if (event.target.src) {
-                        event.target.src = "/assets/heart.svg";;
+                        event.target.src = '/assets/heart.svg';
+                    } else if (event.target.firstChild.src) {
+                        event.target.firstChild.src = '/assets/heart.svg';
                     } else {
-                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                        event.target.parentElement.firstChild.src = '/assets/heart.svg';
                     }
                 }
             });

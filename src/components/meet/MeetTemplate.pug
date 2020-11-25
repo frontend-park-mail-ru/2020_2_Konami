@@ -1,25 +1,29 @@
 div(class='meet')
-    div(class='meet__head')
-        div(class='meet__leftcolumn')
-            div(class='meet__title-status-wrapper')
-                h1(class='meet__title') #{card.label.title}
-                div(class=status.class) #{status.text}
-            div(class='meet__dateplace') #{card.city}, #{card.address}
-            div(class='meet__dateplace') #{dateStr}
-        div(class='meet__rightcolumn')
+    img(class='meet__image' src=card.label.imgSrc)
+
+    div(class='meet__text-wrapper')
+        div(class='meet__tags')
+            each val, index in card.tags
+                span(class='meet__tag') #{val.name}
+                span(class='meet__separator') •
+
+        h1(class='meet__title') #{card.label.title}
+        div(class='meet__date-place-wrapper')
+            span(class='meet__place') #{card.city}, #{card.address}
+            span(class='meet__separator') •  
+            span(class='meet__date') #{dateStr}
+
+        div(class='meet__buttons')
             if buttonStatus
                 button(class='meet__button '+buttonStatus.class) #{buttonStatus.text}
             div(class='meet__like-icon-wrapper')
                 if isLiked
-                    img(src='assets/like.svg')
+                    img(class='meet__like-icon' src='assets/like.svg')
                 else 
-                    img(src='assets/heart.svg')
-    img(class='meet__image' src=card.label.imgSrc)
-    div(class='meet__bottom')
-        div(class='meet__leftcolumn_bottom')
-            h1(class='meet__about-titile') #{card.label.title}
-            span #{card.text}
-        div(class='meet__vertical-separator')
-        div(class='meet__rightcolumn_bottom')
-            each val, index in card.tags
-                span(class='meet-tag meet-tag_margin5')= val.name
+                    img(class='meet__like-icon' src='assets/heart.svg')
+                span(class='meet__like-text') Хочу сходить
+
+        div(class='meet__about')
+            h1(class='main-title') О мероприятие:
+            span(class='meet__text') #{card.text}
+            h1(class='main-title') Похожие:
