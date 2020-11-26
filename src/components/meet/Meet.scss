@@ -117,18 +117,18 @@
         margin-top: 70px;
         display: flex;
 
-        align-items: center;
+        align-items: flex-start;
     }
 
     &__text-wrapper {
         display: flex;
-        flex: 0 0 70%;
+        flex: 0 0 80%;
         flex-direction: column;
     }
 
     &__author-wrapper {
         display: flex;
-        flex: 0 0 30%;
+        flex: 0 0 20%;
         flex-direction: column;
         align-items: center;
         
@@ -138,6 +138,8 @@
     &__author-avatar {
         height: 90px;
         width: 90px;
+
+        margin-top: 15px;
 
         object-fit: cover;
 
@@ -189,6 +191,7 @@
 
     &__member-name {
         margin-top: 10px;
+        width: 90px;
     }
 
 

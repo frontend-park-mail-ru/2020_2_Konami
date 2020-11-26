@@ -5,20 +5,20 @@ export function createIncomingMsg(text, timestamp, label) {
     div.classList.add('incoming_msg');
     div.innerHTML = `
         <div class="incoming_msg_img"> 
-<!--            <img src="https://ptetutorials.com/images/user-profile.png" class="message_icon" alt="sunil"> -->
+<!--        <img src="https://ptetutorials.com/images/user-profile.png" class="message_icon" alt="sunil"> -->
             <a style="text-decoration:none" href="/profile?userId=${label.id}">
                 <img src="${label.imgSrc}" class="message_icon" alt="sunil"> 
             </a>
         </div>
         <div class="received_msg">
             <div class="received_withd_msg">
-                  <p>
+                <p>
                     <a style="text-decoration:none" href="/profile?userId=${label.id}">
                         <span class="author_name"> ${label.name}</span>
                     </a>
-                    ${text}
-                  </p>
-                  <span class="time_date"> ${parseTimestamp(timestamp)}</span>
+                ${text}
+                </p>
+                <span class="time_date"> ${parseTimestamp(timestamp)}</span>
             </div>
         </div>
     `

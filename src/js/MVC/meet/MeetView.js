@@ -51,7 +51,6 @@ export default class MeetView extends BaseView {
                 });
             }
         });
-
     }
 
     _initEventHandlers() {
@@ -129,7 +128,34 @@ export default class MeetView extends BaseView {
         }
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
-        }
+        }   
+
+        const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
+                            document.getElementsByClassName('meet-mobile__members-wrapper')[0];
+        
+        data.members.forEach(item => {
+            const member = document.createElement('div');
+            member.classList.add('meet__member');
+
+            const memberImg = document.createElement('img');
+            memberImg.classList.add('meet__member-avatar');
+            memberImg.src = item.label.imgSrc;
+
+            const memberName = document.createElement('h3');
+            memberName.classList.add('meet__member-name');
+            memberName.innerHTML = item.label.name;
+
+
+            member.append(memberImg, memberName);
+
+            member.addEventListener('click', () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+            });
+
+            members.appendChild(member);
+        });
+
+
 
         this._addChatListeners();
 
@@ -143,6 +169,11 @@ export default class MeetView extends BaseView {
         const cardWrapper = new CardWrapper(true, false);
 
         this._this.appendChild(cardWrapper.render());
+
+        const author = document.getElementsByClassName('meet__author-wrapper')[0];
+        author.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${data.card.authorId}`})
+        });
 
         for (let item of simulars) {
             cardWrapper.appendCard(
