@@ -117,18 +117,18 @@
         margin-top: 70px;
         display: flex;
 
-        align-items: center;
+        align-items: flex-start;
     }
 
     &__text-wrapper {
         display: flex;
-        flex: 0 0 70%;
+        flex: 0 0 80%;
         flex-direction: column;
     }
 
     &__author-wrapper {
         display: flex;
-        flex: 0 0 30%;
+        flex: 0 0 20%;
         flex-direction: column;
         align-items: center;
         
