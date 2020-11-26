@@ -7,10 +7,18 @@ import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { createMainTitle } from "@/components/main/MainTitle/CreateMainTitle.js"
 import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js"
+import { createChatPopup, scrollTo } from "@/components/chat/chat.js";
+import { createIncomingMsg, createOutgoingMsg } from "@/components/chat/message.js";
+
+import {Ws} from "@/js/services/Ws/ws.js";
+
+import {getPeople} from "@/js/services/API/api.js";
+
 import {
     OPEN_LOGIN_MODAL,
     REDIRECT,
-    PASS_MEET_DATA_TO_EDIT
+    PASS_MEET_DATA_TO_EDIT,
+    CHAT_MESSAGE
 } from "@/js/services/EventBus/EventTypes.js";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock.js";
 
@@ -22,19 +30,65 @@ export default class MeetView extends BaseView {
         this.model = model;
         this._this = null;
         this._data = null;
+
+        this.wsConn = null;
+        this.users = new Map();
+
+        this._initEventHandlers();
+        this._loadData();
+
+    }
+
+    _loadData() {
+        getPeople(1).then(response => {
+            if (response.statusCode === 200) {
+
+                const allUsers = Object.values(response.parsedJson).forEach((user) => {
+                    this.users.set(user.label.id, user.label);
+                });
+            }
+        });
+
+    }
+
+    _initEventHandlers() {
+        this._eventHandlers = {
+
+            onChatMessage: (payload) => {
+                console.log(payload);
+                const {text, timestamp, meetId, authorId} = payload;
+
+                if (this.model.meetId === meetId) {
+                    const messagesHistory = document.getElementsByClassName('msg_history')[0];
+                    messagesHistory.appendChild(authorId === this.model.getUserId() ?
+                        createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, this.users.get(authorId)));
+
+                    // messagesContainer.textContent += text;
+                }
+            },
+        }
     }
 
     render(data, simulars) {
-        if (this.model.isMobile()) {
+        this.wsConn = new Ws();
+
+        const isMobile = this.model.isMobile();
+
+        if (isMobile) {
             this._renderMobile(data, simulars);
         } else {
             this._renderDesktop(data, simulars);
         }
 
-        const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] || 
+        this._this.appendChild(createChatPopup(isMobile));
+
+        const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] ||
                          this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
+        const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
+
+
         // тут нужно что то сделать с editbutton
 
         if (likeIcon !== undefined) {
@@ -46,6 +100,9 @@ export default class MeetView extends BaseView {
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
         }
+
+        this._addChatListeners();
+
     }
 
     _renderDesktop(data, simulars) {
@@ -62,12 +119,12 @@ export default class MeetView extends BaseView {
                 item,
                 () => {
                     EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-                }, 
+                },
                 this._clickLikeHandler.bind(this, item),
             );
         }
     }
-    
+
     _renderMobile(data, simulars) {
         this._data = data;
         this._this = createMeetPage(data, true);
@@ -84,7 +141,7 @@ export default class MeetView extends BaseView {
                 item,
                 () => {
                     EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
-                }, 
+                },
                 this._clickLikeHandler.bind(this, item),
             );
         }
@@ -95,6 +152,17 @@ export default class MeetView extends BaseView {
             this._this.remove();
             this._removeEventListeners();
         }
+    }
+
+    registerEvents() {
+        EventBus.onEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
+
+
+    }
+
+    unRegisterEvents() {
+        EventBus.offEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
+
     }
 
     _clickLikeHandler(item, event) {
@@ -132,7 +200,7 @@ export default class MeetView extends BaseView {
                         event.target.parentElement.firstChild.src = '/assets/like.svg'
                     }
                 } else {
-                    displayNotification("Вы убрали лайк"); 
+                    displayNotification("Вы убрали лайк");
                     if (event.target.src) {
                         event.target.src = '/assets/heart.svg';
                     } else if (event.target.firstChild.src) {
@@ -179,7 +247,7 @@ export default class MeetView extends BaseView {
                     alert('Permission denied');
                 }
             });
-            
+
         });
     }
 
@@ -205,5 +273,60 @@ export default class MeetView extends BaseView {
         if (editButton !== undefined) {
             editButton.removeEventListener('click', this._clickEditButtonHandler.bind(this));
         }
+    }
+
+    _addChatListeners() {
+        const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
+        const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
+        const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
+
+        const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];
+
+        const chatPopup = document.getElementById('chatPopup');
+
+        openChatBtn.onclick = () => {
+            chevronDownIcon.classList.toggle('revert');
+
+            // CLOSE
+            if (chatPopup.style.display === 'flex') {
+                scrollTo(openChatBtn.getBoundingClientRect().top, () => {
+                    chatPopup.style.display = 'none';
+                });
+
+            } else
+
+            // OPEN
+            if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                chatPopup.style.display = 'flex';
+
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: "smooth"
+                });
+            }
+        }
+        const msg = document.getElementsByName('message')[0];
+
+        sendChatBtn.onclick = () => {
+
+            const date = new Date();
+            if (msg.value !== '') {
+                this.wsConn.send(CHAT_MESSAGE, {
+                    text: msg.value,
+                    timestamp: date.toISOString(),
+                    meetId: this.model.meetId,
+                    authorId: this.model.getUserId()
+                });
+            }
+
+            msg.value = '';
+        }
+
+        msg.addEventListener('keyup', ({key}) => {
+            if (key === "Enter")  {
+                sendChatBtn.click()
+            }
+        })
+
     }
 }
