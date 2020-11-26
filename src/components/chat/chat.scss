@@ -70,6 +70,7 @@
       .msg_history {
         height: 400px;
         overflow-y: auto;
+        overflow-x: hidden;
       }
 
     }
@@ -188,15 +189,18 @@
 
     .incoming_msg_img {
       display: flex;
-      width: 6%;
+      //width: 6%;
       float: left;
-      padding: 0 10px 0 0;
+      //padding: 0 10px 0 0;
       margin-bottom: 5px;
+      margin-right: 8px;
     }
     .received_msg {
-      display: inline-block;
+      //display: inline-block;
+      display: flex;
       vertical-align: top;
       width: 92%;
+      max-width: 80%;
 
         .author_name {
           color: #3f80b3;
@@ -240,7 +244,8 @@
     .outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
     .sent_msg {
       float: right;
-      width: 46%;
+      //width: 46%;
+      max-width: 80%;
     }
     .input_msg_write input {
       background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
