@@ -91,12 +91,12 @@ app.get('/api/meetings', function (req, res) {
     let meets = [];
     for (let i = 0; i < 10; i++) {
         if (pageNum) {
-            meetCards[52].imgSrc = 'assets/beach.jpeg';
+            meetCards[1].imgSrc = 'assets/beach.jpeg';
         } else {
-            meetCards[52].imgSrc = 'assets/paris.jpg';
+            meetCards[1].imgSrc = 'assets/paris.jpg';
         }
 
-        meets.push(meetCards[52]);
+        meets.push(meetCards[1]);
     }
     res.status(200).json(meets);
 });
@@ -118,14 +118,14 @@ app.get('*', (req, res) => {
 
 
 const meetCards = {
-    '52': {
+    '1': {
         card: {
             address: "ул. Неверная, д.1",
             authorId: 52,
             city: "Москва",
             endDate: "2020-11-15T18:40:00.000Z",
             label: {id: 1, title: "Забив C++", imgSrc: "assets/paris.jpg"},
-            id: 52,
+            id: 1,
             imgSrc: "assets/paris.jpg",
             title: "Забив C++",
             seats: 1000000000,

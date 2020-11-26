@@ -42,3 +42,7 @@ export const INVALID_START_BIGGER_END = 'invalidStartDateBiggerThenEnd';
 export const PASS_MEET_DATA_TO_EDIT = 'passMeetDataToEdit'; // need pass data as argument
 // export const INVALID_END_DATE_INPUT = 'invalidEndDateInput';
 
+// Chat
+export const CHAT_MESSAGE = 'chatMessage';
+
+

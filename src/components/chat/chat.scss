@@ -1,0 +1,311 @@
+//{box-sizing: border-box;}
+
+.wrapper-mobile {
+  width: 100%;
+}
+
+.wrapper-desktop {
+  padding: 20px 10px 0px 10px;
+  width: 90%;
+}
+
+.chat-wrapper {
+
+  //display: flex;
+  //padding: 20px 10px 0px 10px;
+  //width: 100%;
+  min-width: 300px;
+
+  /* The popup chat - hidden by default */
+  .chat-popup {
+    display: none;
+    padding: 10px 15px;
+    position: relative;
+    bottom: 0;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .chat-popup-mobile {
+    display: none;
+    /* padding: 10px 15px; */
+    position: relative;
+    bottom: 0;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    //overflow: hidden;
+  }
+
+  .slide {
+    overflow: hidden;
+    /* display: flex; */
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  /* Add styles to the form container */
+  .chat-container {
+    box-sizing: border-box;
+    //max-width: 300px;
+    padding: 10px;
+    background-color: white;
+    width: 100%;
+
+
+
+    &__buttons {
+      display: flex;
+      height: 60px;
+    }
+
+    &__messages {
+      //float: left;
+      padding: 30px 15px 0 25px;
+
+      .msg_history {
+        height: 400px;
+        overflow-y: auto;
+      }
+
+    }
+
+    textarea {
+      width: 90%;
+      padding: 15px;
+      border: none;
+      background: #f1f1f1;
+      display: flex;
+      resize: none;
+
+        &:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+
+      }
+
+      .btn {
+        background-color: #4CAF50;
+        color: white;
+        /* padding: 16px 20px; */
+        border: none;
+        cursor: pointer;
+        width: 15%;
+        min-width: 45px;
+        /* margin-bottom: 10px; */
+        opacity: 0.8;
+      }
+
+      .close-chat-button {
+        background-color: red;
+      }
+
+      .btn:hover, .open-chat-button:hover {
+        opacity: 1;
+      }
+
+    }
+
+
+    .container{max-width:1170px; margin:auto;}
+    .message_icon{
+      max-width:100%;
+      min-width: 40px;
+      border-radius: 35%;
+      width: 50px;
+      height: 50px;
+      /* margin-right: 5px; */
+      object-fit: cover;
+    }
+    .inbox_people {
+      background: #f8f8f8 none repeat scroll 0 0;
+      float: left;
+      overflow: hidden;
+      width: 40%; border-right:1px solid #c4c4c4;
+    }
+    .inbox_msg {
+      border: 1px solid #c4c4c4;
+      clear: both;
+      overflow: hidden;
+    }
+    .top_spac{ margin: 20px 0 0;}
+
+
+    .recent_heading {float: left; width:40%;}
+    .srch_bar {
+      display: inline-block;
+      text-align: right;
+      width: 60%;
+    }
+    .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+
+    .recent_heading h4 {
+      color: #05728f;
+      font-size: 21px;
+      margin: auto;
+    }
+    .srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+    .srch_bar .input-group-addon button {
+      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+      border: medium none;
+      padding: 0;
+      color: #707070;
+      font-size: 18px;
+    }
+    .srch_bar .input-group-addon { margin: 0 0 0 -27px;}
+
+    .chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+    .chat_ib h5 span{ font-size:13px; float:right;}
+    .chat_ib p{ font-size:14px; color:#989898; margin:auto}
+    .chat_img {
+      float: left;
+      width: 11%;
+    }
+    .chat_ib {
+      float: left;
+      padding: 0 0 0 15px;
+      width: 88%;
+    }
+
+    .chat_people{ overflow:hidden; clear:both;}
+    .chat_list {
+      border-bottom: 1px solid #c4c4c4;
+      margin: 0;
+      padding: 18px 16px 10px;
+    }
+    .inbox_chat { height: 550px; overflow-y: scroll;}
+
+    .active_chat{ background:#ebebeb;}
+
+    .incoming_msg {
+      margin: 0 0 20px;
+    }
+
+    .incoming_msg_img {
+      display: flex;
+      width: 6%;
+      float: left;
+      padding: 0 10px 0 0;
+      margin-bottom: 5px;
+    }
+    .received_msg {
+      display: inline-block;
+      vertical-align: top;
+      width: 92%;
+
+        .author_name {
+          color: #3f80b3;
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          margin: 0px 0 6px 0;
+        }
+
+    }
+    .received_withd_msg p {
+      background: #ebebeb none repeat scroll 0 0;
+      border-radius: 3px;
+      color: #646464;
+      font-size: 14px;
+      margin: 0;
+      padding: 5px 10px 5px 12px;
+      width: 100%;
+    }
+    .time_date {
+      color: #747474;
+      display: block;
+      font-size: 12px;
+      margin: 8px 0 0;
+    }
+    .received_withd_msg { width: 57%;}
+    .mesgs {
+      float: left;
+      padding: 30px 15px 0 25px;
+      width: 60%;
+    }
+
+    .sent_msg p {
+      background: #05728f none repeat scroll 0 0;
+      border-radius: 3px;
+      font-size: 14px;
+      margin: 0; color:#fff;
+      padding: 5px 10px 5px 12px;
+      width:100%;
+    }
+    .outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+    .sent_msg {
+      float: right;
+      width: 46%;
+    }
+    .input_msg_write input {
+      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+      border: medium none;
+      color: #4c4c4c;
+      font-size: 15px;
+      min-height: 48px;
+      width: 100%;
+    }
+
+    .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+    .msg_send_btn {
+      background: #05728f none repeat scroll 0 0;
+      border: medium none;
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      font-size: 17px;
+      height: 33px;
+      position: absolute;
+      right: 0;
+      top: 11px;
+      width: 33px;
+    }
+
+  }
+
+  /* Button used to open the chat form - fixed at the bottom of the page */
+.open-chat-button {
+}
+
+.revert {
+  transform: scaleY(-1);
+}
+
+
+.panel-heading {
+  color: #111;
+  background-color: #428bca;
+  border-color: #428bca;
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  max-height: 30px;
+
+  .mt-5 {
+    position: relative;
+    top: 5px;
+  }
+
+  &__icon {
+    height: 20px;
+    &:hover {
+      transform: scale(1.2);
+    }
+
+  }
+
+  .pull-right {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    float: right;
+    cursor: pointer;
+    /* display: flex; */
+  }
+}
