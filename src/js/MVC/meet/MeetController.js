@@ -9,6 +9,7 @@ import {
 import MeetView from "./MeetView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { REDIRECT } from "@/js/services/EventBus/EventTypes.js";
+import { getPeople, getUser } from "../../services/API/api.js";
 
 export default class MeetController extends Controller {
 
@@ -34,15 +35,26 @@ export default class MeetController extends Controller {
                 return;
             }
             response.parsedJson.currentUserId = this.model.getUserId();
-            getMeetings({pageNum: 1}).then(respo => {
-                if (respo.statusCode === 200) {
+
+            const simular = getMeetings({pageNum: 1});
+
+            const author = getUser(response.parsedJson.card.authorId);
+
+            const members = getPeople(1);
+
+            Promise.all([simular, author, members]).then(values => {
+                /* if (respo.statusCode === 200) {
                     // kaef
                 } else {
                     // ne kaef
                     return;
-                }
-                this.view.render(response.parsedJson, respo.parsedJson);
-            });
+                }*/
+
+                response.parsedJson.author = values[1].parsedJson.card.label;
+                response.parsedJson.members = values[2].parsedJson.slice(0, 8);
+                
+                this.view.render(response.parsedJson, values[0].parsedJson);
+            }); 
         });
 
         this.view.registerEvents();
