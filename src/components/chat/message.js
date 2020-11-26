@@ -49,7 +49,10 @@ function parseTimestamp(ts) {
         dateStr = months[date.getMonth()] + ' ' + date.getDate();
     }
 
-    const parsedStr = `${date.getHours()}:${date.getMinutes()}    |    ${dateStr}`
+    let minutes = date.getMinutes();
+    minutes = parseInt(minutes, 10) < 10 ? '0' + minutes : minutes;
+
+    const parsedStr = `${date.getHours()}:${minutes}    |    ${dateStr}`
     return parsedStr;
 }
 

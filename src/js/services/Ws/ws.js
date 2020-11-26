@@ -1,9 +1,14 @@
 'use strict';
 
 import EventBus from "@/js/services/EventBus/EventBus.js";
+import {
+    CONNECT_CHAT,
+    DISCONNECT_CHAT
+} from "@/js/services/EventBus/EventTypes.js";
 
 export class Ws {
-    constructor() {
+    constructor(userId) {
+        this.userId = userId;
 
         const address = ['https', 'https:'].includes(location.protocol)
             ? `wss://${location.hostname}:3000/ws`
@@ -14,6 +19,10 @@ export class Ws {
         this.ws.onopen = (event) => {
             console.log(`WebSocket on address ${address} opened`);
             console.dir(this.ws);
+
+            this.send(CONNECT_CHAT, {
+                id: this.userId
+            });
 
             this.ws.onmessage = this.handleMessage.bind(this);
 
