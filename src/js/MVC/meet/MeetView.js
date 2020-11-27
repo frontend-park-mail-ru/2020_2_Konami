@@ -243,7 +243,6 @@ export default class MeetView extends BaseView {
                 */
             });
 
-
         this._addChatListeners();
 
     }
@@ -302,6 +301,9 @@ export default class MeetView extends BaseView {
 
             const userId = this.model.getUserId();
             if (userId !== null) {
+                if (this.wsConn === null) {
+                    return;
+                }
                 this.wsConn.send(DISCONNECT_CHAT, {
                     id: this.model.getUserId()
                 });
