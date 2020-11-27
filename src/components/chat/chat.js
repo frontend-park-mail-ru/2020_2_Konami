@@ -38,7 +38,10 @@ export function createChatPopup(isMobile=false) {
                 </div>
             </div>
             
-            ${stub}
+            
+            <div class="users-container ${isMobile ? 'slide' : ''}">
+            
+            </div>
             
         </div>
 `

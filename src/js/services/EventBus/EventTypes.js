@@ -44,5 +44,8 @@ export const PASS_MEET_DATA_TO_EDIT = 'passMeetDataToEdit'; // need pass data as
 
 // Chat
 export const CHAT_MESSAGE = 'chatMessage';
+export const CONNECT_CHAT = 'connectChat';
+export const DISCONNECT_CHAT = 'disconnectChat';
+
 
 

@@ -9,6 +9,7 @@ import { createMainTitle } from "@/components/main/MainTitle/CreateMainTitle.js"
 import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js"
 import { createChatPopup, scrollTo } from "@/components/chat/chat.js";
 import { createIncomingMsg, createOutgoingMsg } from "@/components/chat/message.js";
+import {createListUser} from "@/components/chat/user-list.js";
 
 import {Ws} from "@/js/services/Ws/ws.js";
 
@@ -18,7 +19,9 @@ import {
     OPEN_LOGIN_MODAL,
     REDIRECT,
     PASS_MEET_DATA_TO_EDIT,
-    CHAT_MESSAGE
+    CHAT_MESSAGE,
+    CONNECT_CHAT,
+    DISCONNECT_CHAT
 } from "@/js/services/EventBus/EventTypes.js";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock.js";
 
@@ -65,11 +68,38 @@ export default class MeetView extends BaseView {
                     // messagesContainer.textContent += text;
                 }
             },
+
+            onNewChatConnect: (payload) => {
+                const {id} = payload;
+                if (id === this.model.getUserId()) {
+                    return;
+                }
+
+                const userList = document.getElementsByClassName('users-container')[0];
+                userList.appendChild(createListUser(this.users.get(id)));
+                userList.innerHTML += `<hr>`;
+            },
+
+            onChatDisconnect: (payload) => {
+                const {id} = payload;
+                if (id === this.model.getUserId()) return;
+
+                const userList = document.getElementsByClassName('users-container')[0];
+                const listUser = document.getElementById('listUser' + id);
+                userList.removeChild(listUser);
+            }
+
         }
     }
 
     render(data, simulars) {
-        this.wsConn = new Ws();
+        // this.wsConn = new Ws(); // TODO сделать кнопку поверх чата CONNECT
+        // // EventBus.dispatchEvent(CONNECT_CHAT, this.model.getUserId());
+        // this.wsConn.ws.onopen = () => {
+        //     this.wsConn.send(CONNECT_CHAT, {
+        //         id: this.model.getUserId()
+        //     });
+        // }
 
         const isMobile = this.model.isMobile();
 
@@ -269,18 +299,28 @@ export default class MeetView extends BaseView {
         if (this._this !== null) {
             this._this.remove();
             this._removeEventListeners();
+
+            const userId = this.model.getUserId();
+            if (userId !== null) {
+                this.wsConn.send(DISCONNECT_CHAT, {
+                    id: this.model.getUserId()
+                });
+            }
         }
     }
 
     registerEvents() {
         EventBus.onEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
+        EventBus.onEvent(CONNECT_CHAT, this._eventHandlers.onNewChatConnect);
+        EventBus.onEvent(DISCONNECT_CHAT, this._eventHandlers.onChatDisconnect);
 
 
     }
 
     unRegisterEvents() {
         EventBus.offEvent(CHAT_MESSAGE, this._eventHandlers.onChatMessage);
-
+        EventBus.offEvent(CONNECT_CHAT, this._eventHandlers.onNewChatConnect);
+        EventBus.offEvent(DISCONNECT_CHAT, this._eventHandlers.onChatDisconnect);
     }
 
     _clickLikeHandler(item, event) {
@@ -403,25 +443,37 @@ export default class MeetView extends BaseView {
         const chatPopup = document.getElementById('chatPopup');
 
         openChatBtn.onclick = () => {
-            chevronDownIcon.classList.toggle('revert');
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
 
-            // CLOSE
-            if (chatPopup.style.display === 'flex') {
-                scrollTo(openChatBtn.getBoundingClientRect().top, () => {
-                    chatPopup.style.display = 'none';
-                });
+                if (this.wsConn === null) {
+                    this.wsConn = new Ws(this.model.getUserId()); // TODO сделать кнопку поверх чата CONNECT
+                }
 
-            } else
+                chevronDownIcon.classList.toggle('revert');
 
-            // OPEN
-            if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
-                chatPopup.style.display = 'flex';
+                // CLOSE
+                if (chatPopup.style.display === 'flex') {
+                    scrollTo(openChatBtn.getBoundingClientRect().top, () => {
+                        chatPopup.style.display = 'none';
+                    });
 
-                window.scrollTo({
-                    top: document.body.scrollHeight,
-                    behavior: "smooth"
-                });
-            }
+                } else
+
+                    // OPEN
+                if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                    chatPopup.style.display = 'flex';
+
+                    window.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: "smooth"
+                    });
+                }
+
+            });
         }
         const msg = document.getElementsByName('message')[0];
 
