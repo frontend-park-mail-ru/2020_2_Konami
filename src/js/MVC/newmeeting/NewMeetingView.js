@@ -159,6 +159,8 @@ export default class NewMeetingView extends BaseView {
             fieldMap.set('meet-description', document.getElementsByName('meet-description')[0].value);
             fieldMap.set('city', document.getElementsByName('city')[0].value);
             fieldMap.set('address', document.getElementsByName('address')[0].value);
+            fieldMap.set('seats', document.getElementsByName('seats')[0].value);
+
 
             const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
             fieldMap.set('meetingTags', selectedTags.map((tag) => {
