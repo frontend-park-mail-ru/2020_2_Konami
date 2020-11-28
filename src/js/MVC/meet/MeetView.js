@@ -76,8 +76,12 @@ export default class MeetView extends BaseView {
                 }
 
                 const userList = document.getElementsByClassName('users-container')[0];
-                userList.appendChild(createListUser(this.users.get(id)));
-                userList.innerHTML += `<hr>`;
+
+                const alreadyExist = document.getElementById('listUser' + id);
+                if (!alreadyExist) {
+                    userList.appendChild(createListUser(this.users.get(id)));
+                    userList.innerHTML += `<hr>`;
+                }
             },
 
             onChatDisconnect: (payload) => {
@@ -86,6 +90,7 @@ export default class MeetView extends BaseView {
 
                 const userList = document.getElementsByClassName('users-container')[0];
                 const listUser = document.getElementById('listUser' + id);
+                userList.removeChild(listUser.nextElementSibling);  // delete <hr>
                 userList.removeChild(listUser);
             }
 
@@ -128,11 +133,11 @@ export default class MeetView extends BaseView {
         }
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
-        }   
+        }
 
         const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
                             document.getElementsByClassName('meet-mobile__members-wrapper')[0];
-        
+
         data.members.forEach(item => {
             const member = document.createElement('div');
             member.classList.add('meet__member');
@@ -459,7 +464,7 @@ export default class MeetView extends BaseView {
 
                 // CLOSE
                 if (chatPopup.style.display === 'flex') {
-                    scrollTo(openChatBtn.getBoundingClientRect().top, () => {
+                    scrollTo(0, () => {
                         chatPopup.style.display = 'none';
                     });
 

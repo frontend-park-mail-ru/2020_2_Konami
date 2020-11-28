@@ -27,7 +27,7 @@ app.ws('/ws', (ws, req) => {
     });
 
     ws.on('close', function() {
-        console.log('соединение закрыто ' + id);
+        console.log('соединение закрыто ' + id); // TODO DISCONNECT_CHAT
         delete clients[id];
     });
 });
@@ -37,3 +37,6 @@ const port = process.env.PORT || 3000;
 app.listen(port, function () {
     console.log(`WS Server listening port ${port}`);
 });
+
+// TODO  - добавить количество посадочных мест
+// TODO  - добавить карту
