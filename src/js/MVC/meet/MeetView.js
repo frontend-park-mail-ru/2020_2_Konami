@@ -2,7 +2,7 @@
 
 import { createMeetPage } from "@/components/meet/meet.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
-import { patchMeeting } from "@/js/services/API/api.js";
+import { patchMeeting, postMessage, getMessages } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { createMainTitle } from "@/components/main/MainTitle/CreateMainTitle.js"
@@ -115,6 +115,19 @@ export default class MeetView extends BaseView {
         }
 
         this._this.appendChild(createChatPopup(isMobile));
+        const messagesHistory = document.getElementsByClassName('msg_history')[0];
+        getMessages(this.model.meetId).then(response => {
+            if (response.statusCode === 200) {
+
+                const chatMessages = Object.values(response.parsedJson).forEach((msg) => {
+                    // this.users.set(user.label.id, user.label);
+                    messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
+                        createOutgoingMsg(msg.text, msg.timestamp) :
+                        createIncomingMsg(msg.text, msg.timestamp, msg.authorId));
+                });
+            }
+        });
+
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] ||
                          this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
@@ -488,12 +501,20 @@ export default class MeetView extends BaseView {
 
             const date = new Date();
             if (msg.value !== '') {
-                this.wsConn.send(CHAT_MESSAGE, {
-                    text: msg.value,
-                    timestamp: date.toISOString(),
-                    meetId: this.model.meetId,
-                    authorId: this.model.getUserId()
+                postMessage({
+                   meetId: this.model.meetId,
+                   text: msg.value,
+                   timestamp: date.toISOString(),
                 });
+                // const messagesHistory = document.getElementsByClassName('msg_history')[0];
+                // messagesHistory.appendChild(createOutgoingMsg(msg.value, date.toISOString()));
+
+                // this.wsConn.send(CHAT_MESSAGE, {
+                //     text: msg.value,
+                //     timestamp: date.toISOString(),
+                //     meetId: this.model.meetId,
+                //     authorId: this.model.getUserId()
+                // });
             }
 
             msg.value = '';

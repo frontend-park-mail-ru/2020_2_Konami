@@ -275,6 +275,48 @@ function postMeeting(fields) {  // новый митинг
     });
 }
 
+function postMessage(payload) {
+    return getCSRF().then(obj => {
+        return fetch('/api/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: JSON.stringify(payload),
+        }).then(response => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(error => {
+            return {
+                error: error,
+            };
+        });
+    });
+}
+
+function getMessages(meetId) {
+    let statusCode;
+    return fetch(`/api/messages?meetId=${meetId}`, {
+        method: 'GET',
+        credentials: 'include',
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
+}
+
 export {
     postUser,
     getPeople,
@@ -287,5 +329,7 @@ export {
     getMe,
     postSignUp,
     postSignOut,
-    postMeeting
+    postMeeting,
+    postMessage,
+    getMessages
 };
