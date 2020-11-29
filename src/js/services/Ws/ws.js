@@ -11,7 +11,7 @@ export class Ws {
         this.userId = userId;
 
         const address = ['https', 'https:'].includes(location.protocol)
-            ? `ws://${location.hostname}:8001/ws`
+            ? `wss://${location.hostname}:8001/ws`
             : `ws://${location.hostname}:8001/ws`;
 
 
