@@ -57,6 +57,11 @@ export default class EditMeetingView extends NewMeetingView {
             cityInput.value = card.city;
             addressInput.value = card.address;
 
+            this.setYmapGeolocation({
+                city: card.city,
+                address: card.address
+            })
+
             const start = new Date(Date.parse(card.startDate));
             this._fillDateTime('start', start);
             const end = new Date(Date.parse(card.endDate));
