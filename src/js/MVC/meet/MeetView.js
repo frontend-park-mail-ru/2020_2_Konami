@@ -2,7 +2,7 @@
 
 import { createMeetPage } from "@/components/meet/meet.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
-import { patchMeeting } from "@/js/services/API/api.js";
+import { patchMeeting, postMessage, getMessages } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { createMainTitle } from "@/components/main/MainTitle/CreateMainTitle.js"
@@ -76,8 +76,12 @@ export default class MeetView extends BaseView {
                 }
 
                 const userList = document.getElementsByClassName('users-container')[0];
-                userList.appendChild(createListUser(this.users.get(id)));
-                userList.innerHTML += `<hr>`;
+
+                const alreadyExist = document.getElementById('listUser' + id);
+                if (!alreadyExist) {
+                    userList.appendChild(createListUser(this.users.get(id)));
+                    userList.innerHTML += `<hr>`;
+                }
             },
 
             onChatDisconnect: (payload) => {
@@ -86,6 +90,7 @@ export default class MeetView extends BaseView {
 
                 const userList = document.getElementsByClassName('users-container')[0];
                 const listUser = document.getElementById('listUser' + id);
+                userList.removeChild(listUser.nextElementSibling);  // delete <hr>
                 userList.removeChild(listUser);
             }
 
@@ -110,6 +115,19 @@ export default class MeetView extends BaseView {
         }
 
         this._this.appendChild(createChatPopup(isMobile));
+        const messagesHistory = document.getElementsByClassName('msg_history')[0];
+        getMessages(this.model.meetId).then(response => {
+            if (response.statusCode === 200) {
+
+                const chatMessages = Object.values(response.parsedJson).forEach((msg) => {
+                    // this.users.set(user.label.id, user.label);
+                    messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
+                        createOutgoingMsg(msg.text, msg.timestamp) :
+                        createIncomingMsg(msg.text, msg.timestamp, msg.authorId));
+                });
+            }
+        });
+
 
         const likeIcon = this._this.getElementsByClassName('meet__like-icon-wrapper')[0] ||
                          this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
@@ -130,7 +148,7 @@ export default class MeetView extends BaseView {
         }
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
-        }   
+        }
         if (members !== undefined) {
             this._createMembers(members, data.registrations);
         }
@@ -462,7 +480,7 @@ export default class MeetView extends BaseView {
 
                 // CLOSE
                 if (chatPopup.style.display === 'flex') {
-                    scrollTo(openChatBtn.getBoundingClientRect().top, () => {
+                    scrollTo(0, () => {
                         chatPopup.style.display = 'none';
                     });
 
@@ -486,12 +504,20 @@ export default class MeetView extends BaseView {
 
             const date = new Date();
             if (msg.value !== '') {
-                this.wsConn.send(CHAT_MESSAGE, {
-                    text: msg.value,
-                    timestamp: date.toISOString(),
-                    meetId: this.model.meetId,
-                    authorId: this.model.getUserId()
+                postMessage({
+                   meetId: this.model.meetId,
+                   text: msg.value,
+                   timestamp: date.toISOString(),
                 });
+                // const messagesHistory = document.getElementsByClassName('msg_history')[0];
+                // messagesHistory.appendChild(createOutgoingMsg(msg.value, date.toISOString()));
+
+                // this.wsConn.send(CHAT_MESSAGE, {
+                //     text: msg.value,
+                //     timestamp: date.toISOString(),
+                //     meetId: this.model.meetId,
+                //     authorId: this.model.getUserId()
+                // });
             }
 
             msg.value = '';
