@@ -29,34 +29,39 @@ export default class SignupModel {
         await this._user.edit({name: name});
     }
 
+    async applyTagsAfterSignup(fields) {
+        await this._user.edit(fields);
+    }
+
+
     validate(fields) {
         const errors = [];
-        const {name, login, password, repeatPassword} = fields;
-        if (password !== repeatPassword) {
-            EventBus.dispatchEvent(PASSWORDS_MISMATCH);
-            errors.push('Пароли не совпадают');
-            return errors;
-        }
-
-        // TODO (расскомменить потом)
-        let tmpErrors = [];
-        tmpErrors = this._validator.validatePassword(password);
-        if (tmpErrors.length > 0) {
-            EventBus.dispatchEvent(INVALID_PWD_INPUT);
-            errors.push(...tmpErrors);
-        }
-
-        tmpErrors = this._validator.validateLogin(login);
-        if (tmpErrors.length > 0) {
-            EventBus.dispatchEvent(INVALID_LOGIN_INPUT);
-            errors.push(...tmpErrors);
-        }
-
-        tmpErrors = this._validator.validateName(name);
-        if (tmpErrors.length > 0) {
-            EventBus.dispatchEvent(INVALID_NAME_INPUT);
-            errors.push(...tmpErrors);
-        }
+        // const {name, login, password, repeatPassword} = fields;
+        // if (password !== repeatPassword) {
+        //     EventBus.dispatchEvent(PASSWORDS_MISMATCH);
+        //     errors.push('Пароли не совпадают');
+        //     return errors;
+        // }
+        //
+        // // TODO (расскомменить потом)
+        // let tmpErrors = [];
+        // tmpErrors = this._validator.validatePassword(password);
+        // if (tmpErrors.length > 0) {
+        //     EventBus.dispatchEvent(INVALID_PWD_INPUT);
+        //     errors.push(...tmpErrors);
+        // }
+        //
+        // tmpErrors = this._validator.validateLogin(login);
+        // if (tmpErrors.length > 0) {
+        //     EventBus.dispatchEvent(INVALID_LOGIN_INPUT);
+        //     errors.push(...tmpErrors);
+        // }
+        //
+        // tmpErrors = this._validator.validateName(name);
+        // if (tmpErrors.length > 0) {
+        //     EventBus.dispatchEvent(INVALID_NAME_INPUT);
+        //     errors.push(...tmpErrors);
+        // }
 
         return errors;
     }

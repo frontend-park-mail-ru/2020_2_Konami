@@ -1,0 +1,10 @@
+.slide-container-mobile {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    min-width: 430px;
+
+    z-index: 0;
+    margin-bottom: -50px;
+}

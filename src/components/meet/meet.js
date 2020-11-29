@@ -1,8 +1,10 @@
 'use strict';
 
 const template = require('./MeetTemplate.pug');
+const mobileTemplate = require('./MeetMobileTemplate.pug');
 
-export function createMeetPage(data) {
+
+export function createMeetPage(data, isMobile) {
     let startDate = new Date(data.card.startDate);
     let endDate = new Date(data.card.endDate);
     let currentDate = Date.now();
@@ -10,52 +12,30 @@ export function createMeetPage(data) {
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
-    if (startDate > currentDate && data.seatsLeft > 0) {
-        data.status = {
-            class: 'meet__status status status_green',
-            text: 'Регистрация идет',
-        };
-    } else if (endDate < currentDate) {
-        data.status = {
-            class: 'meet__status status status_red',
-            text: 'Мероприятие закончилось',
-        };
-    } else if (data.seatsLeft <= 0) {
-        data.status = {
-            class: 'meet__status status status_red',
-            text: 'Места закончились',
-        };
-    } else if (startDate < currentDate && endDate > currentDate) {
-        data.status = {
-            class: 'meet__status status status_yellow',
-            text: 'Мероприятие идет',
-        };
-    } else if (data.seatsLeft < 10) {
-        data.status = {
-            class: 'meet__status status status_yellow',
-            text: 'Осталось мало мест',
-        };
-    }
 
     if (data.currentUserId === data.card.authorId) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_edit',
+            class: 'meet__button_edit',
             text: 'Редактировать',
         };
     } else if (data.isRegistered) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_go',
+            class: 'meet__button_go',
             text: 'Отменить',
         };
     } else if (data.card.seatsLeft > 0 && endDate > currentDate) {
         data.buttonStatus = {
-            class: 'meet__button meet__button_go',
+            class: 'meet__button_go',
             text: 'Пойти',
         };
     }
 
     const tmp = document.createElement('div');
-    tmp.innerHTML = template(data);
+    if (isMobile) {
+        tmp.innerHTML = mobileTemplate(data);
+    } else {
+        tmp.innerHTML = template(data);
+    }
 
     return tmp.firstElementChild;
 }

@@ -15,13 +15,8 @@ export default class PeopleController extends Controller {
         this.view = new PeopleView(parent, this.model);
     }
 
-    activate() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let pageNum = urlParams.get('pageNum');
-        if (pageNum === null) {
-            pageNum = 1;
-        }
-        getPeople(pageNum).then(response => {
+    activate(queryParams) {
+        getPeople(1).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {

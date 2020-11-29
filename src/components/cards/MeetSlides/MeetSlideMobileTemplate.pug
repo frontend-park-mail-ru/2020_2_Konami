@@ -1,0 +1,13 @@
+div(class='meet-slide-mobile')
+    img(class='meet-slide-mobile__image' src=card.label.imgSrc)
+    div(class='meet-slide-mobile__bottom')
+        div(class='meet-slide-mobile__text-wrapper')
+            h1(class='meet-slide-mobile__title') #{card.label.title}
+            div(class='meet-slide-mobile__date-place-wrapper')
+                span(class='meet-slide-mobile__place') #{card.city}, #{card.address}
+                span(class='meet-slide-mobile__separator') •
+                span(class='meet-slide-mobile__date') #{dateStr}
+        if isLiked
+            img(class='meet-slide-mobile__like-icon' src='assets/like.svg')
+        else
+            img(class='meet-slide-mobile__like-icon' src='assets/heart.svg')

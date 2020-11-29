@@ -6,6 +6,9 @@ import {createSignupFormLayout} from "@/components/auth/Form/FormLayout.js";
 import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
 import {closeSignupModal} from "@/js/utils/auth-modal/authModalUtils.js";
 import {displayNotification} from "@/components/auth/Notification/Notification.js";
+import {closeTagsModalDialog} from "@/components/auth/SelectedTag/SelectedTag.js";
+import {createTagsModal} from "@/components/auth/TagsModal/TagsModal.js";
+import {getSelectedTags} from "@/components/auth/TagsModal/TagsModal";
 
 import {
     REDIRECT,
@@ -18,7 +21,9 @@ import {
     INVALID_LOGIN_INPUT,
     INVALID_NAME_INPUT,
     USER_ALREADY_EXISTS,
-    CLOSE_SIGNUP_MODAL
+    CLOSE_SIGNUP_MODAL,
+    APPLY_TAGS_MODAL,
+    CLOSE_TAGS_MODAL
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class SignupView extends BaseView {
@@ -54,8 +59,28 @@ export default class SignupView extends BaseView {
             },
 
             onSignupPostName: () => {
+                // EventBus.dispatchEvent(CLOSE_SIGNUP_MODAL);
+                // EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
+                const authModal = document.getElementById('authModal');
+                authModal.style.display = 'none';
+
+                const tagsModalBlock = createTagsModal();
+                this.parent.appendChild(tagsModalBlock);
+                tagsModalBlock.style.display= 'block';
+
+            },
+
+            onApplyTags: () => {
+                const fieldMap = new Map();
+                fieldMap.set('meetingTags', getSelectedTags());
+                this.model.applyTagsAfterSignup(Object.fromEntries(fieldMap.entries()));
                 EventBus.dispatchEvent(CLOSE_SIGNUP_MODAL);
-                EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
+                displayNotification('Вы успешно применили тэги');
+            },
+
+            onExitApplyingTags: () => {
+                const tagsModal = document.getElementById('modalTags');
+                this.parent.removeChild(tagsModal);
             },
 
             onPasswordsMismatch: () => {
@@ -101,32 +126,39 @@ export default class SignupView extends BaseView {
     }
 
     erase() {
-        const modal = document.getElementById('authModal');
-        this.parent.removeChild(modal);
+        const authModal = document.getElementById('authModal');
+        const tagsModal = document.getElementById('modalTags');
+
+        this.parent.removeChild(authModal);
+        this.parent.removeChild(tagsModal);
 
         window.removeEventListener('click', closeSignupModal);
+        window.removeEventListener('click', closeTagsModalDialog);
     }
 
     registerEvents() {
         EventBus.onEvent(SUBMIT_SIGNUP, this._eventHandlers.onSubmitSignupForm);
         EventBus.onEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
-        EventBus.onEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
+        EventBus.onEvent(APPLY_TAGS_MODAL, this._eventHandlers.onApplyTags);
+        EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onExitApplyingTags);
 
+
+        EventBus.onEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
         EventBus.onEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
         EventBus.onEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
         EventBus.onEvent(INVALID_LOGIN_INPUT, this._eventHandlers.onInvalidLogin);
         EventBus.onEvent(INVALID_NAME_INPUT, this._eventHandlers.onInvalidName);
-
-
     }
 
     unRegisterEvents() {
         EventBus.offEvent(SUBMIT_LOGIN, this._eventHandlers.onSubmitSignupForm);
         EventBus.offEvent(SIGNUP_SUCCESS, this._eventHandlers.onSignupSuccess);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onSignupPostName);
-        EventBus.offEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
+        EventBus.offEvent(APPLY_TAGS_MODAL, this._eventHandlers.onApplyTags);
+        EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onExitApplyingTags);
 
+        EventBus.offEvent(USER_ALREADY_EXISTS, this._eventHandlers.onSignupError);
         EventBus.offEvent(PASSWORDS_MISMATCH, this._eventHandlers.onPasswordsMismatch);
         EventBus.offEvent(INVALID_PWD_INPUT, this._eventHandlers.onInvalidPassword);
         EventBus.offEvent(INVALID_LOGIN_INPUT, this._eventHandlers.onInvalidLogin);
@@ -156,6 +188,16 @@ export default class SignupView extends BaseView {
         });
 
         window.addEventListener('click', closeSignupModal);
+        window.addEventListener('click', closeTagsModalDialog);
+
+        // const appltTagsBtn = document.getElementById("closeTagsModal");
+        // appltTagsBtn.addEventListener('click', (evt) => {
+        //     evt.preventDefault();
+        //     const tagsModalBlock = document.getElementById('modalTags');
+        //     tagsModalBlock.style.display = "none";
+        //     EventBus.dispatchEvent(APPLY_TAGS_MODAL);
+        // });
+
     }
 
     _showErrorsTexts(errors) {

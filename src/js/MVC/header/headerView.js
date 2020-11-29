@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseView from "@/js/basics/BaseView/BaseView.js";
-import {createNavigation} from "@/components/header/Navigation/navigation.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     LOGIN_SUCCESS,
@@ -9,6 +8,9 @@ import {
     OPEN_LOGIN_MODAL,
     REDIRECT
 } from "@/js/services/EventBus/EventTypes.js";
+import { createHeaderMobile } from "@/components/header/Header/HeaderMobile";
+import {createHeaderLinksPopup} from "@/components/header/HeaderLinksPopup/HeaderLinksPopup";
+import { getSearchMeeting } from "@/js/services/API/api.js"
 
 export default class HeaderView extends BaseView {
 
@@ -17,8 +19,9 @@ export default class HeaderView extends BaseView {
         this.parent = parent;
         this.model = model;
 
-        this._initEventHandlers();
+        this._this = null;
 
+        this._initEventHandlers();
     }
 
     _initEventHandlers() {
@@ -30,81 +33,139 @@ export default class HeaderView extends BaseView {
             onLogoutUser: () => {
                 this._downHeader();
                 this.model.logout();
+            },
+
+            onRedirect: () => {
+                let popup = document.getElementById('popupLinksContainer');
+                if (popup && popup.classList.contains('show')) {
+                    popup.classList.toggle('show');
+                }
             }
         }
     }
 
     // TODO(template)
     render() {
-        const headerWrapper = document.createElement('div');
-        headerWrapper.innerHTML = `
-        <header class="header">
-            <img src="assets/google.png" data-section="meetings" class="header__logo">
-            <input type="search" placeholder="Люди, мероприятия" class="header__search-input">
-            <img src="assets/add-meet.svg" id="newMeet" class="header__icon icon square">
-            <img src="assets/pericon.svg" id="profileIcon" class="header__icon icon">
-        </header>
-        `;
-
-        this.parent.appendChild(headerWrapper.firstElementChild);
-        createNavigation(this.parent);
+        this._this = createHeaderMobile(this.model.isMobile());
+        this.parent.appendChild(this._this);
 
         let icon = document.getElementById('profileIcon');
         icon.addEventListener('click', this._onProfileIconClick);
 
-        // icon.dataset.section = 'profile';
+        const search = document.getElementsByClassName('search-block__search-input')[0];
+        search.addEventListener('keyup', () => {
+            if (search.value.length > 3) {
+                getSearchMeeting(search.value).then(result => {
+                    const offers = document.getElementsByClassName('search-block__offers')[0];
+                    offers.innerHTML = '';
+                    result.parsedJson.forEach(item => {
+                        const offer = this._createSearchOffer(item);
+                        offers.appendChild(offer);
+                    });
+                });
+            } else if (search.value.length < 3) {
+                const offers = document.getElementsByClassName('search-block__offers')[0];
+                offers.innerHTML = '';
+            }
+        });
+    }
 
-        icon = document.getElementById('newMeet');
-        icon.dataset.section = 'newMeeting';
-        icon.style.display = 'none';
+    _createSearchOffer(data) {
+        const offer = document.createElement('div');
+        offer.classList.add('search-block__offer');
+        
+        const offerImg = document.createElement('img');
+        offerImg.classList.add('search-block__offer-img');
+        offerImg.src = data.card.label.imgSrc;
+
+        const offerTitle = document.createElement('span');
+        offerTitle.innerHTML = data.card.label.title;
+
+        offer.append(offerImg, offerTitle);
+
+        const modalSearch = document.getElementsByClassName('search-block')[0];
+        offer.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${data.card.label.id}`});
+            /*if (data.type === 'meeting') {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${data.id}`});
+            } else {
+                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${data.id}`});
+            }*/
+            modalSearch.style.display = 'none';
+        });
+        
+        return offer;
     }
 
     registerEvents() {
         EventBus.onEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginedUser);
-        EventBus.onEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
+        EventBus.onEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser)
+        EventBus.onEvent(REDIRECT, this._eventHandlers.onRedirect);
+
     }
 
     unRegisterEvents() {
         EventBus.offEvent(LOGIN_SUCCESS, this._eventHandlers.onLoginedUser);
         EventBus.offEvent(LOGOUT_USER, this._eventHandlers.onLogoutUser);
+        EventBus.offEvent(REDIRECT, this._eventHandlers.onRedirect);
+
     }
 
     _updateHeader() {
         const profileIcon = document.getElementById('profileIcon');
         profileIcon.removeEventListener('click', this._onProfileIconClick);
-        profileIcon.dataset.section = 'profile';
+        // profileIcon.dataset.section = 'profile';
 
-        this._addExitLink();
-        const newMeetIcon = document.getElementById('newMeet');
-        newMeetIcon.style.display = 'block';
+        this._addProfileLinks();
     }
 
-    _addExitLink() {
-        const icon = document.getElementById('profileIcon');
-        const span = document.createElement('span');
-
-        const signout = document.createElement('a');
-        signout.textContent = 'Выйти';
-        signout.dataset.section = 'meetings';
-
-        span.appendChild(signout);
-        span.classList.add('popuptext');
-        span.id = 'signout';
+    _addProfileLinks() {
+        const profileIcon = document.getElementById('profileIcon');
+        const linksContainer = createHeaderLinksPopup();
 
         const wrapperIcon = document.createElement('div');
-        wrapperIcon.classList.add('popup');
-        wrapperIcon.append(icon, span);
+        wrapperIcon.classList.add('popup-links');
+        wrapperIcon.append(profileIcon, linksContainer);
 
-        document.getElementsByClassName('header')[0].appendChild(wrapperIcon);
+        document.getElementsByClassName('header-mobile__logo-wrapper')[0].appendChild(wrapperIcon);
 
-        icon.onmouseover = () => {
-            let popup = document.getElementById('signout');
-            popup.classList.toggle('show');
+        profileIcon.onclick = () => {
+            let popup = document.getElementById('popupLinksContainer');
+            if (popup) {
+                popup.classList.toggle('show');
+            }
         }
 
-        signout.addEventListener('click', (evt) => {
+        const profileLink = document.getElementById('profileLink');
+        profileLink.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
+        });
+
+        const locationLink = document.getElementById('locationLink');
+        this._setUserGeolocation();
+        // locationLink.addEventListener('click', (evt) => {
+        //     evt.preventDefault();
+        //     EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
+        // });
+
+        const editprofileLink = document.getElementById('editprofileLink');
+        editprofileLink.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            EventBus.dispatchEvent(REDIRECT, {url: '/editprofile'});
+        });
+
+        const signoutLink = document.getElementById('signoutLink');
+        signoutLink.addEventListener('click', (evt) => {
             evt.preventDefault();
             EventBus.dispatchEvent(LOGOUT_USER);
+            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
+        });
+
+        const newMeetLink = document.getElementById('newMeetLink');
+        newMeetLink.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            EventBus.dispatchEvent(REDIRECT, {url: '/new-meeting'});
         });
     }
 
@@ -113,16 +174,14 @@ export default class HeaderView extends BaseView {
         profileIcon.addEventListener('click', this._onProfileIconClick);
         profileIcon.removeAttribute('data-section');
 
-        this._deleteExitLink();
-        const icon = document.getElementById('newMeet');
-        icon.style.display = 'none';
+        this._deleteProfileLinks();
     }
 
-    _deleteExitLink() {
+    _deleteProfileLinks() {
         const icon = document.getElementById('profileIcon');
-        const wrapperIcon = document.getElementsByClassName('popup')[0];
+        const wrapperIcon = document.getElementsByClassName('popup-links')[0];
 
-        const header =document.getElementsByClassName('header')[0];
+        const header =document.getElementsByClassName('header-mobile__logo-wrapper')[0];
         header.removeChild(wrapperIcon);
 
         header.appendChild(icon);
@@ -130,6 +189,20 @@ export default class HeaderView extends BaseView {
 
     _onProfileIconClick() {
         EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+    }
+
+    _setUserGeolocation() {
+        const locationLink = document.getElementById('locationLinkText');
+
+        if (this.model._user.userCity === null) {
+            this.model._user.getUserGeolocation();
+
+            setTimeout(() => {
+                locationLink.textContent = this.model._user.userCity;
+            }, 2000);
+        } else {
+            locationLink.textContent = this.model._user.userCity;
+        }
     }
 
 }

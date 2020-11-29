@@ -6,4 +6,8 @@ export default class PeopleModel {
     constructor() {
         this._user = UserModel.user;
     }
+
+    isMobile() {
+        return this._user.isMobile();
+    }
 }

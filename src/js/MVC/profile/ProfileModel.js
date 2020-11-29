@@ -14,4 +14,12 @@ export default class ProfileModel {
     checkAuth() {
         return this._user.isAuthenticated();
     }
+
+    isMobile() {
+        return this._user.isMobile();
+    }
+
+    async applyTags(fields) {
+        await this._user.edit(fields);
+    }
 }

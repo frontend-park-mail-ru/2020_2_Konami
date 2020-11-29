@@ -6,7 +6,8 @@ import EventBus from "@/js/services/EventBus/EventBus.js";
 import Validator from "@/js/services/Validator/Validator.js";
 import {isEmpty} from "@/js/utils/validators/emptyFields.js";
 import {
-    CREATE_MEETING_SUCCESS
+    CREATE_MEETING_SUCCESS,
+    INVALID_START_BIGGER_END
 } from "@/js/services/EventBus/EventTypes.js";
 import {displayNotification} from "../../../components/auth/Notification/Notification";
 
@@ -25,6 +26,11 @@ export default class NewMeetingModel {
     createMeeting(fields) {
         (async () => {
                 if (!isEmpty(fields)) {
+                    if (!this.validator.dateIsLess(fields.start, fields.end)) {
+                        EventBus.dispatchEvent(INVALID_START_BIGGER_END);
+                        return;
+                    }
+
                     const {statusCode} = await postMeeting(fields);
                     switch (statusCode) {
                         case 201:

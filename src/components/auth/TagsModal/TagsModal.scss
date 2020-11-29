@@ -1,0 +1,26 @@
+.filters__tabs-container {
+  padding: 20px 0 20px;
+}
+
+.filters__tabs-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 30px;
+}
+
+.filters__tabs {
+  margin-right: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: #777;
+}
+
+.filters__tabs_active {
+  color: #000;
+}
+
+.tabTags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

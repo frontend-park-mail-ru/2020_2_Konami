@@ -2,7 +2,7 @@
 
 const template = require('./MeetCardTemplate.pug');
 
-export function createMeetCard(data) {
+export function createMeetCard(data, mobile) {
     let startDate = new Date(data.card.startDate);
     let endDate = new Date(data.card.endDate);
     let currentDate = Date.now();
@@ -11,38 +11,15 @@ export function createMeetCard(data) {
     const options = {weekday: 'long', month: 'long', day: 'numeric' };
     data.dateStr = startDate.toLocaleDateString('ru-RU', options);
 
-    if (startDate > currentDate && data.card.seatsLeft > 0) {
-        data.status = {
-            class: 'meetcard__status status status_green',
-            text: 'Регистрация идет',
-        };
-    } else if (endDate < currentDate) {
-        data.status = {
-            class: 'meetcard__status status status_red',
-            text: 'Мероприятие закончилось',
-        };
-    } else if (data.seatsLeft <= 0) {
-        data.status = {
-            class: 'meetcard__status status status_red',
-            text: 'Места закончились',
-        };
-    } else if (startDate < currentDate && endDate > currentDate) {
-        data.status = {
-            class: 'meetcard__status status status_yellow',
-            text: 'Мероприятие идет',
-        };
-    } else if (data.card.seatsLeft < 10) {
-        data.status = {
-            class: 'meetcard__status status status_yellow',
-            text: 'Осталось мало мест',
-        };
-    }
     data.seatsInfo = data.card.seatsLeft
     if (data.card.seatsLeft > 99) {
         data.seatsInfo = 'много'
     }
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
+    if (mobile) {
+        tmp.firstElementChild.classList.add('meet-card__margin-right');
+    }
 
     return tmp.firstElementChild;
 }
