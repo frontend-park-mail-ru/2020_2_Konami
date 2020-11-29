@@ -6,6 +6,7 @@ $new-meet-max-width: 750px;
     flex-wrap: wrap-reverse;
     justify-content: center;
     margin: 50px auto 0;
+    margin-top: 100px;
 
     min-width: $new-meet-min-width;
     max-width: $new-meet-max-width;
@@ -77,6 +78,7 @@ $new-meet-max-width: 750px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-top: 20px;
 
         label {
             margin: 0 0 20px 0px;

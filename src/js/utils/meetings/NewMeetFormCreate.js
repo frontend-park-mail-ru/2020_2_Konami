@@ -69,6 +69,9 @@ export function createNewMeetingForm() {
     const addressInput = createLabeledElements('Адрес проведения',
         createInput({required: 'true', name: "address", maxLength: '100'}));
 
+    const ymap = document.createElement('div');
+    ymap.id = 'map';
+
     const start = createLabeledElements('Начало', createDateTimeBlock('start'));
     //     createInput({required: 'true', classList: ['birthDay'], name: 'start-day', placeholder: 'ДД', maxLength: '2'}),
     //     createInput({required: 'true',classList: ['birthDay'], name: 'start-month', placeholder: 'ММ', maxLength: '2'}),
@@ -88,7 +91,7 @@ export function createNewMeetingForm() {
     dates.append(start, end);
 
     const rightCol = createColumn({classList: ['new-meet__rightcolumn']},
-        nameInput, descriptionInput, meetPhotoLabel, fileUploader, cityInput, addressInput, dates);
+        nameInput, descriptionInput, meetPhotoLabel, fileUploader, cityInput, addressInput, ymap, dates);
 
     const idInput = createLabeledElements('',
         createInput({required: 'false', name: "id", type: 'text'}));
