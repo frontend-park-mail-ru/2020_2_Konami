@@ -26,13 +26,6 @@ export function createHeaderMobile(isMobile) {
                     <button class="search-block__cancel-button">Отменить</button>
                 </div>
                 <div class="search-block__offers">
-                    <h4 class="search-block__offers-title">
-                        Популярно сейчас
-                    </h4>
-                    <div class="search-block__offer">
-                        <img class="search-block__offer-img" src="/assets/empty-avatar.jpeg">
-                        <span class="search-block__offer-title">Супер Лукаш</span>
-                    </div>
                 </div>
             </div>
         </header>

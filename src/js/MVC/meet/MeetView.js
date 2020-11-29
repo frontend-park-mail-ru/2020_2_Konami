@@ -116,6 +116,8 @@ export default class MeetView extends BaseView {
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
         const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
+        const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
+                            document.getElementsByClassName('meet-mobile__members-wrapper')[0];
 
 
         // тут нужно что то сделать с editbutton
@@ -129,31 +131,9 @@ export default class MeetView extends BaseView {
         if (editButton !== undefined) {
             editButton.addEventListener('click', this._clickEditButtonHandler.bind(this));
         }   
-
-        const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
-                            document.getElementsByClassName('meet-mobile__members-wrapper')[0];
-        
-        data.members.forEach(item => {
-            const member = document.createElement('div');
-            member.classList.add('meet__member');
-
-            const memberImg = document.createElement('img');
-            memberImg.classList.add('meet__member-avatar');
-            memberImg.src = item.label.imgSrc;
-
-            const memberName = document.createElement('h3');
-            memberName.classList.add('meet__member-name');
-            memberName.innerHTML = item.label.name;
-
-
-            member.append(memberImg, memberName);
-
-            member.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
-            });
-
-            members.appendChild(member);
-        });
+        if (members !== undefined) {
+            this._createMembers(members, data.registrations);
+        }
 
         let myMap = new ymaps.Map('map', {
             center: [55.753994, 37.622093],
@@ -292,6 +272,29 @@ export default class MeetView extends BaseView {
                 this._clickLikeHandler.bind(this, item),
             );
         }
+    }
+
+    _createMembers(members, registrations) {
+        registrations.forEach(item => {
+            const member = document.createElement('div');
+            member.classList.add('meet__member');
+
+            const memberImg = document.createElement('img');
+            memberImg.classList.add('meet__member-avatar');
+            memberImg.src = item.imgSrc;
+
+            const memberName = document.createElement('h3');
+            memberName.classList.add('meet__member-name');
+            memberName.innerHTML = item.name;
+
+            member.append(memberImg, memberName);
+
+            member.addEventListener('click', () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.id}`});
+            });
+
+            members.appendChild(member);
+        });
     }
 
     erase() {

@@ -77,6 +77,26 @@ function getMeeting(meetId) {
     });
 }
 
+function getSearchMeeting(queryString) {
+    let statusCode;
+    return fetch(`/api/meetings/search?query=${queryString}`, {
+        method: 'GET',
+        credentials: 'include',
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
+}
+
 function patchMeeting(editFields) { // редактирование митинга
     return getCSRF().then(obj => {
         return fetch('/api/meeting', {
@@ -280,6 +300,7 @@ export {
     getPeople,
     getUser,
     getMeeting,
+    getSearchMeeting,
     patchMeeting,
     getMeetings,
     postPhoto,

@@ -19,9 +19,8 @@ export default class MeetController extends Controller {
         this.view = new MeetView(parent, this.model);
     }
 
-    activate() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let meetId = urlParams.get('meetId');
+    activate(queryParams) {
+        let meetId = queryParams.get('meetId');
         if (meetId === null) {
             EventBus.dispatchEvent(REDIRECT, 'meetings')
         }
@@ -37,23 +36,21 @@ export default class MeetController extends Controller {
             response.parsedJson.currentUserId = this.model.getUserId();
 
             const simular = getMeetings({pageNum: 1});
+            response.parsedJson.registrations.forEach(element => {
+                if (element.id === response.parsedJson.card.authorId) {
+                    response.parsedJson.author = element;
+                }
+            });
 
-            const author = getUser(response.parsedJson.card.authorId);
-
-            const members = getPeople(1);
-
-            Promise.all([simular, author, members]).then(values => {
-                /* if (respo.statusCode === 200) {
+            simular.then(sim => {
+                if (sim.statusCode === 200) {
                     // kaef
                 } else {
                     // ne kaef
                     return;
-                }*/
-
-                response.parsedJson.author = values[1].parsedJson.card.label;
-                response.parsedJson.members = values[2].parsedJson.slice(0, 8);
+                }
                 
-                this.view.render(response.parsedJson, values[0].parsedJson);
+                this.view.render(response.parsedJson, sim.parsedJson);
             }); 
         });
 
