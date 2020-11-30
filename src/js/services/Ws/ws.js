@@ -11,8 +11,8 @@ export class Ws {
         this.userId = userId;
 
         const address = ['https', 'https:'].includes(location.protocol)
-            ? `wss://${location.hostname}:3000/ws`
-            : `ws://${location.hostname}:3000/ws`;
+            ? `wss://${location.hostname}:8001/api/ws`
+            : `ws://${location.hostname}:8001/api/ws`;
 
 
         this.ws = new WebSocket(address);
