@@ -18,22 +18,25 @@ import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
 
-if (navigator.serviceWorker) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js').then((registration) => {
-            console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
-        })
-            .catch((err) => {
-                console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
-            });
-    });
-}
+// if (navigator.serviceWorker) {
+//     window.addEventListener('load', () => {
+//         navigator.serviceWorker.register('sw.js').then((registration) => {
+//             console.log('Service worker is supported! Enjoy! Scope:', registration.scope);
+//         })
+//             .catch((err) => {
+//                 console.log('Na ja! Das ist nicht arbeiten! No SW!', err);
+//             });
+//     });
+// }
 
 (() => {
     const application = document.getElementById('app');
 
     const user = UserModel.user;
     user.getUserGeolocation();
+    if (window.screen.width > 900) {
+        user._isMobile = false;
+    }
 
     const headerController = new HeaderController(application);
     headerController.activate();
@@ -47,7 +50,7 @@ if (navigator.serviceWorker) {
     Router.register('/profile', new ProfileController(application));
     Router.register('/new-meeting', new NewMeetingController(application));
     Router.register('/edit-meeting', new EditMeetingController(application));
-    Router.register('/meet', new MeetController(application));
+    Router.register('/meeting', new MeetController(application));
 
     Router.route();
 

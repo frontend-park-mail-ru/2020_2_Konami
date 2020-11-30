@@ -18,7 +18,8 @@ export const CLOSE_SIGNUP_MODAL = 'closeSignupModalWindow';
 export const SUBMIT_EDIT = 'editUser';
 export const EDIT_SUCCESS = 'editUserSuccess';
 export const UPDATE_PHOTO_SUCCESS = 'updatePhotoUserSuccess';
-export const SELECT_TAGS = 'selectRecommendationTags';
+export const CLOSE_TAGS_MODAL = 'selectRecommendationTags';
+export const APPLY_TAGS_MODAL = 'applyRecommendationTags';
 
 // Validators
 export const PASSWORDS_MISMATCH = 'passwordsMismatch';
@@ -37,6 +38,14 @@ export const SUBMIT_CREATE_MEET = 'submitMeetingCreation';
 export const CREATE_MEETING_SUCCESS = 'successMeetingCreation';
 export const INVALID_DATE_INPUT = 'invalidDateInput';
 export const INVALID_TIME_INPUT = 'invalidTimeInput';
+export const INVALID_START_BIGGER_END = 'invalidStartDateBiggerThenEnd';
 export const PASS_MEET_DATA_TO_EDIT = 'passMeetDataToEdit'; // need pass data as argument
 // export const INVALID_END_DATE_INPUT = 'invalidEndDateInput';
+
+// Chat
+export const CHAT_MESSAGE = 'chatMessage';
+export const CONNECT_CHAT = 'connectChat';
+export const DISCONNECT_CHAT = 'disconnectChat';
+
+
 

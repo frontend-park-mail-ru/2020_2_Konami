@@ -9,13 +9,21 @@ $avatar-width: 400px;
     flex-wrap: wrap;
     justify-content: center;
 
-    min-width: $min-width;
+    min-width: 430px;
     // max-width: $max-width;
 
     margin-top: 40px;
     padding: 5px;
 
     font-family: $font;
+
+    &_fix {
+        width: $max-width;
+        min-width: $max-width;
+        max-width: $max-width;
+        padding: 0 $padding;
+        margin: 0 auto;
+    }
 
     &__leftcolumn,
     &__rightcolumn {
@@ -115,7 +123,7 @@ $avatar-width: 400px;
     width: 350px;
 }
 
-.popup {
+.popup-links {
     position: relative;
     display: inline-block;
     cursor: pointer;
@@ -124,20 +132,6 @@ $avatar-width: 400px;
     -ms-user-select: none;
     user-select: none;
 
-    .popuptext {
-        visibility: hidden;
-        width: 100px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px 0;
-        position: absolute;
-        z-index: 1;
-        left: 50%;
-        margin-left: -50px;
-        top: 100%;
-    }
 
     .show {
         visibility: visible;

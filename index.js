@@ -16,6 +16,12 @@ app.use(express.static(`${__dirname}/dist`));
 app.use(cookie());
 app.use(body.json());
 
+
+app.get('/api/csrf', function(req, res) {
+    // res.set('Csrf-Token', 'pupkpuk');
+    res.status(200).send('ok');
+});
+
 app.get('/api/user', function(req, res) {
     const userId = req.query.userId;
 
@@ -27,7 +33,7 @@ app.get('/api/user', function(req, res) {
     }
 });
 
-app.post('/api/user', function (req, res) {
+app.patch('/api/user', function (req, res) {
     console.log(req.body);
     console.log(req.body.field);
     console.log(req.body.text);
@@ -46,24 +52,25 @@ app.post('/api/user', function (req, res) {
     res.status(200).send('ok');
 });
 
+
 app.get('/api/people', function (req, res) {
     const pageNum = req.query.pageNum;
     console.log(pageNum);
 
     let users = [];
     Object.keys(usersProfiles).forEach(item => {
-        users.push(usersProfiles[item]);
+        users.push(usersProfiles[item].card);
     });
 
     res.status(200).json(users);
 });
 
-app.get('/api/meet', function (req, res) {
+app.get('/api/meeting', function (req, res) {
     const meetId = req.query.meetId
     res.status(200).json(meetCards[meetId]);
 });
 
-app.post('/api/meet', function (req, res) {
+app.patch('/api/meeting', function (req, res) {
     console.log(req.body.fields);
     console.log(req.body.meetId);
 
@@ -82,14 +89,14 @@ app.get('/api/meetings', function (req, res) {
     console.log(pageNum);
 
     let meets = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 10; i++) {
         if (pageNum) {
-            meetCards[52].imgSrc = 'assets/beach.jpeg';
+            meetCards[1].imgSrc = 'assets/beach.jpeg';
         } else {
-            meetCards[52].imgSrc = 'assets/paris.jpg';
+            meetCards[1].imgSrc = 'assets/paris.jpg';
         }
 
-        meets.push(meetCards[52]);
+        meets.push(meetCards[1]);
     }
     res.status(200).json(meets);
 });
@@ -111,25 +118,24 @@ app.get('*', (req, res) => {
 
 
 const meetCards = {
-    '52': {
-        id: 52,
-        text: `Lorem ipsum dolor sit amet,
-               consectetur adipiscing elit, sed
-               do eiusmod tempor incididunt ut
-               labore et dolore magna aliqua.
-               Ut enim ad minim veniam, quis
-               nostrud exercitation ullamco labori`,
-        imgSrc: 'assets/paris.jpg',
-        tags: ['Rust', 'Забив', 'В падике'],
-        title: 'Забив с++',
-        place: 'Дом Пушкина, улица Калатушкина',
-        seats: 5,
-        seatsLeft: 5,
-        isLiked: true,
-        isRegistered: true,
-        ownerId: 53,
-        startDate: '2020-12-17 07:37:16',
-        endDate: '2020-12-17 12:37:16',
+    '1': {
+        card: {
+            address: "ул. Неверная, д.1",
+            authorId: 52,
+            city: "Москва",
+            endDate: "2020-11-15T18:40:00.000Z",
+            label: {id: 1, title: "Забив C++", imgSrc: "assets/paris.jpg"},
+            id: 1,
+            imgSrc: "assets/paris.jpg",
+            title: "Забив C++",
+            seats: 1000000000,
+            seatsLeft: 1000000000,
+            startDate: "2020-11-15T15:40:00.000Z",
+            tags: [{tagId: 3, name: "C++"}],
+            text: "Встреча для обсуждения новых концепций розработки софта на C++",
+        },
+            isLiked: true,
+            isRegistered: true,
     },
 };
 
@@ -151,22 +157,46 @@ function createUserProfileTmpl() {
 
 const usersProfiles = {
     '52': {
-        id: 52,
-        imgSrc: 'assets/luckash.jpeg',
-        name: 'Александр Лукашенко',
+        card: {
+            label: {
+                id: 52,
+                name: 'Александр Лукашенко',
+                imgSrc: 'assets/luckash.jpeg',
+            },
+            job: 'MAIL GROUP до 2008',
+            interestTags: [
+                {name: 'Картофель', id: 1},
+                {name: 'Хоккей', id: 2},
+                {name: 'Картофель', id: 1},
+                {name: 'Хоккей', id: 2},
+            ],
+            skillTags: [
+                {name: 'Разгон митингов', id: 3},
+                {name: 'Сбор урожая', id: 4},
+            ],
+
+        },
         city: 'Пертрозаводск',
         telegram: '',
         vk: 'https://vk.com/id241926559',
         meetings: [
             {
-                imgSrc: 'assets/beach.jpeg',
-                link: '/meet?meetId=52',
-                text: 'Забив С++',
+                card: {
+                    label: {
+                        imgSrc: 'assets/beach.jpeg',
+                        id: 52,
+                        title: 'Забив С++',
+                    },
+                },
             },
             {
-                imgSrc: 'assets/paris.jpg',
-                link: '/meet?meetId=52',
-                text: 'Поиск в google поисковике',
+                card: {
+                    label: {
+                        imgSrc: 'assets/paris.jpg',
+                        id: 52,
+                        title: 'Поиск в google поисковике',
+                    },
+                },
             },
         ],
         interests: `
@@ -180,16 +210,17 @@ const usersProfiles = {
                 commodo consequat. Duis aute 
                 irure dolor in reprehenderit 
                 in voluptate velit esse cillum `,
-        interestTags: ['Картофель', 'Хоккей', 'Картофель', 'Хоккей', 'Картофель', 'Хоккей'],
         skills: `Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit, sed 
                 do eiusmod tempor incididunt ut 
                 labore et dolore magna aliqua. 
                 Ut enim ad minim veniam, quis 
                 nostrud exercitation ullamco`,
-        skillTags: ['Разгон митингов', 'Сбор урожая'],
+        meetingTags: [
+            {name: 'Хобби', id: 3},
+            {name: 'Еда', id: 4},
+        ],
         education: 'МГТУ им. Н. Э. Баумана до 2010',
-        job: 'MAIL GROUP до 2008',
         aims: 'Хочу от жизни всего',
     },
 };
@@ -216,16 +247,17 @@ app.post('/api/login', function (req, res) {
     const token = uuid.v4();
     userSessions[token] = userLoginPwdIdMap[login].id;
     res.cookie('authToken', token, {expires: new Date(Date.now() + 1000 * 60 * 10)});
-    res.status(200).json({token});
+    res.status(201).json({token});
 });
 
-app.post('/api/logout', function (req, res) {
+app.delete('/api/logout', function (req, res) {
     let token = req.cookies['authToken'];
     delete userSessions[token];
 
     res.cookie('authToken', token, {expires: new Date(Date.now() - 1000)});
     res.status(200).send('ok');
 });
+
 
 app.post('/api/signup', function (req, res) {
     const password = req.body.password;
@@ -241,7 +273,7 @@ app.post('/api/signup', function (req, res) {
     usersProfiles[newId] = createUserProfileTmpl();
     userLoginPwdIdMap[login] = {login: login, password: password, id: newId};
 
-    res.status(200).send('ok');
+    res.status(201).send('ok');
 });
 
 app.post('/api/images', function(req, res) {
@@ -264,7 +296,7 @@ app.post('/api/meeting', function(req, res) {
     return res.status(201).send('ok');
 });
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT ||  8000;
 
 app.listen(port, function () {
   console.log(`Server listening port ${port}`);

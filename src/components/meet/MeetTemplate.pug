@@ -1,25 +1,41 @@
 div(class='meet')
-    div(class='meet__head')
-        div(class='meet__leftcolumn')
-            div(class='meet__title-status-wrapper')
-                h1(class='meet__title') #{title}
-                div(class=status.class) #{status.text}
-            div(class='meet__dateplace') #{place}
-            div(class='meet__dateplace') #{dateStr}
-        div(class='meet__rightcolumn')
+    img(class='meet__image' src=card.label.imgSrc)
+
+    div(class='meet__text-wrapper')
+        div(class='meet__tags')
+            each val, index in card.tags
+                span(class='meet__tag') #{val.name}
+                span(class='meet__separator') •
+
+        h1(class='meet__title') #{card.label.title}
+        div(class='meet__date-place-wrapper')
+            span(class='meet__place') #{card.city}, #{card.address}
+            span(class='meet__separator') •  
+            span(class='meet__date') #{dateStr}
+
+        div(class='meet__buttons')
             if buttonStatus
-                button(class=buttonStatus.class) #{buttonStatus.text}
-            div(class='meet__like-icon')
+                button(class='meet__button '+buttonStatus.class) #{buttonStatus.text}
+            div(class='meet__like-icon-wrapper')
                 if isLiked
-                    img(src='/assets/like.svg')
+                    img(class='meet__like-icon' src='assets/like.svg')
                 else 
-                    img(src='/assets/heart.svg')
-    img(class='meet__image' src=imgSrc)
-    div(class='meet__bottom')
-        div(class='meet__leftcolumn_bottom')
-            h1(class='meet__about-titile') #{title}
-            span #{text}
-        div(class='meet__vertical-separator')
-        div(class='meet__rightcolumn_bottom')
-            each val, index in tags
-                span(class='meet-tag meet-tag_margin5')= val
+                    img(class='meet__like-icon' src='assets/heart.svg')
+                span(class='meet__like-text') Хочу сходить
+
+    div(class='meet__about')
+        div(class='meet__text-wrapper')
+            h1(class='meet__sub-title') О событие
+            span(class='meet__text') #{card.text}
+
+        div(class='meet__author-wrapper')
+            h1(class='meet__sub-title') Организатор
+            img(class='meet__author-avatar' src=author.imgSrc)
+    div(class='meet__members')
+        div(class='meet__members-title')
+            h1(class='meet__sub-title') Участники
+            h1(class='meet__members-count') #{registrations.length}
+        div(class='meet__members-wrapper')
+    div(id="map")
+    
+    h1(class='meet__sub-title') Похожие

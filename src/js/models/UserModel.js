@@ -9,6 +9,7 @@ import {
     EDIT_SUCCESS,
     INVALID_LOGIN,
     USER_ALREADY_EXISTS,
+    UPDATE_PHOTO_SUCCESS
 } from "../services/EventBus/EventTypes.js";
 
 class UserModel {
@@ -17,6 +18,8 @@ class UserModel {
         if (UserModel.__instance) {
             return UserModel.__instance;
         }
+
+        this._isMobile = true;
 
         this.userId = null;
         this._isAuthenticated = false;
@@ -29,6 +32,10 @@ class UserModel {
 
     get user() {
         return UserModel.__instance;
+    }
+
+    isMobile() {
+        return this._isMobile;
     }
 
     async isAuthenticated() {
@@ -54,7 +61,7 @@ class UserModel {
         case 401:
             EventBus.dispatchEvent(INVALID_LOGIN);
             break;
-        case 200:
+        case 201:
             this._isAuthenticated = true;
             const {statusCode, body} = await getMe();
             if (statusCode === 200) {
@@ -99,7 +106,7 @@ class UserModel {
             case 409:
                 EventBus.dispatchEvent(USER_ALREADY_EXISTS);
                 break;
-            case 200:
+            case 201:
                 EventBus.dispatchEvent(SIGNUP_SUCCESS, {name: name, login: login, password: password});
                 break;
 
@@ -135,7 +142,7 @@ class UserModel {
         switch (statusCode) {
             case 200:
                 // TODO (UPDATE_PHOTO_SUCCESS)
-                // EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
+                EventBus.dispatchEvent(UPDATE_PHOTO_SUCCESS);
                 break;
 
             case undefined:

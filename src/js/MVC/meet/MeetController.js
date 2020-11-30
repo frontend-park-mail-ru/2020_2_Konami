@@ -2,10 +2,14 @@
 
 import Controller from "@/js/basics/Controller/Controller.js";
 import MeetModel from "./MeetModel.js";
-import { getMeet } from "@/js/services/API/api.js";
+import { 
+    getMeeting,
+    getMeetings,
+} from "@/js/services/API/api.js";
 import MeetView from "./MeetView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { REDIRECT } from "@/js/services/EventBus/EventTypes.js";
+import { getPeople, getUser } from "../../services/API/api.js";
 
 export default class MeetController extends Controller {
 
@@ -15,14 +19,14 @@ export default class MeetController extends Controller {
         this.view = new MeetView(parent, this.model);
     }
 
-    activate() {
-        const urlParams = new URLSearchParams(window.location.search);
-        let meetId = urlParams.get('meetId');
+    activate(queryParams) {
+        let meetId = queryParams.get('meetId');
         if (meetId === null) {
             EventBus.dispatchEvent(REDIRECT, 'meetings')
         }
 
-        getMeet(meetId).then(response => {
+        this.model.meetId = meetId;
+        getMeeting(meetId).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {
@@ -30,11 +34,31 @@ export default class MeetController extends Controller {
                 return;
             }
             response.parsedJson.currentUserId = this.model.getUserId();
-            this.view.render(response.parsedJson);
+
+            const simular = getMeetings(); // тут пока пусть так будет, чтобы было видно что есть похожие мероприятия
+            response.parsedJson.registrations.forEach(element => {
+                if (element.id === response.parsedJson.card.authorId) {
+                    response.parsedJson.author = element;
+                }
+            });
+
+            simular.then(sim => {
+                if (sim.statusCode === 200) {
+                    // kaef
+                } else {
+                    // ne kaef
+                    return;
+                }
+                
+                this.view.render(response.parsedJson, sim.parsedJson);
+            }); 
         });
+
+        this.view.registerEvents();
     }
 
     deactivate() {
         this.view.erase();
+        this.view.unRegisterEvents();
     }
 }

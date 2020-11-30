@@ -1,14 +1,17 @@
 .settings {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
-    justify-content: center;
-    margin: 20px 0 5px 0;
+    overflow-x: auto;
+
+    padding: 10px 0;
 
     &__button {
         padding: 10px 16px;
     
         font-size: 15px;
+
+        flex: 0 0 auto;
         
         margin: 5px;
         border: none;

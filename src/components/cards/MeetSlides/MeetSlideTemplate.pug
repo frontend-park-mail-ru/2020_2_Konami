@@ -1,0 +1,24 @@
+div(class='meet-slide')
+    div(class='meet-slide__tags')
+        each val, index in card.tags
+            span(class="meet-slide__tag") #{val.name}
+            span(class="meet-slide__separator") •
+    img(class='meet-slide__image' src=card.label.imgSrc)
+    div(class='meet-slide__bottom')
+        div(class='meet-slide__text-wrapper')
+            h1(class='meet-slide__title') #{card.label.title}
+            div(class='meet-slide__date-place-wrapper')
+                span(class='meet-slide__place') #{card.city}, #{card.address}
+                span(class='meet-slide__separator') •
+                span(class='meet-slide__date') #{dateStr}
+        div(class='meet-slide__button')
+            if isRegistered
+                button(class='meet-slide__go-button') Отменить
+            else 
+                button(class='meet-slide__go-button') Пойти
+            div(class='meet-slide__like-icon-wrapper')
+                if isLiked
+                    img(class='meet-slide__like-icon' src='/assets/like.svg')
+                else
+                    img(class='meet-slide__like-icon' src='/assets/heart.svg')
+

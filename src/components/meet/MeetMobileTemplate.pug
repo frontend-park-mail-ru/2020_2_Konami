@@ -1,0 +1,39 @@
+div(class='page-mobile__main')
+    div(class='meet-mobile__top')
+        img(class='meet-mobile__image' src=card.label.imgSrc)
+        div(class='meet-mobile__bottom')
+            div(class='meet-mobile__text-wrapper')
+                h1(class='meet-mobile__title') #{card.label.title}
+                div(class='meet-mobile__tags-wrapper')
+                    each val, index in card.tags
+                        span(class='meet-mobile__tag') #{val.name}
+                        span(class='meet-mobile__separator') •
+            div(class='meet-mobile__like-icon-wrapper')
+                if isLiked
+                    img(class='meet-mobile__like-icon' src='assets/like.svg')
+                else
+                    img(class='meet-mobile__like-icon' src='assets/heart.svg')
+    
+    div(class='page-mobile__after-card')
+        if buttonStatus
+            button(class='meet-mobile__go-button '+buttonStatus.class) #{buttonStatus.text}
+
+        h1() О событие:
+        div(class='meet-mobile__info-wrapper')
+            img(class='meet-mobile__icon' src='assets/calendar.svg')
+            span() #{dateStr}
+
+        div(class='meet-mobile__info-wrapper')
+            img(class='meet-mobile__icon' src='assets/place.svg')
+            span() #{card.city}, #{card.address}
+
+        div(class='meet-mobile__info-wrapper')
+            img(class='meet-mobile__icon' src='assets/about.svg')
+            span() #{card.text}
+        div(class='meet__members')
+            div(class='meet__members-title')
+                h1(class='main-title') Участники
+                h1(class='meet__members-count') #{registrations.length}
+            div(class='meet-mobile__members-wrapper')
+        div(id="map")
+        

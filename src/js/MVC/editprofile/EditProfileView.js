@@ -16,11 +16,12 @@ import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 import {
     REDIRECT,
     SUBMIT_EDIT,
-    SELECT_TAGS,
+    CLOSE_TAGS_MODAL,
     EDIT_SUCCESS,
     USER_NOT_AUTHORIZED,
     OPEN_LOGIN_MODAL,
-    INVALID_DATE_INPUT
+    INVALID_DATE_INPUT,
+    UPDATE_PHOTO_SUCCESS
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class EditProfileView extends BaseView {
@@ -47,6 +48,10 @@ export default class EditProfileView extends BaseView {
                 EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
             },
 
+            onUpdatePhoto: () => {
+                displayNotification('Вы успешно обновили фотографию');
+            },
+
             onSelectTags: () => {
                 saveSelectedTags();
             },
@@ -68,6 +73,7 @@ export default class EditProfileView extends BaseView {
     render() {
         const form = createEditProfileForm();
         this.parent.appendChild(form);
+        this._fillEmptyFields();
 
         this._showTab(this.currentTab);
         this._addEventListeners();
@@ -86,7 +92,8 @@ export default class EditProfileView extends BaseView {
     registerEvents() {
         EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.onEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
-        EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(UPDATE_PHOTO_SUCCESS, this._eventHandlers.onUpdatePhoto);
+        EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
@@ -95,7 +102,8 @@ export default class EditProfileView extends BaseView {
     unRegisterEvents() {
         EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
         EventBus.offEvent(EDIT_SUCCESS, this._eventHandlers.onEditSuccess);
-        EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(UPDATE_PHOTO_SUCCESS, this._eventHandlers.onUpdatePhoto);
+        EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_EDIT, this._eventHandlers.onSubmitEditForm);
 
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
@@ -153,7 +161,8 @@ export default class EditProfileView extends BaseView {
             const fieldMap = new Map();
 
             fieldMap.set('name', document.getElementsByName('name')[0].value);
-            fieldMap.set('email', document.getElementsByName('email')[0].value);
+            fieldMap.set('telegram', document.getElementsByName('telegram')[0].value);
+            fieldMap.set('vk', document.getElementsByName('vk')[0].value);
             const dayValue = document.getElementsByName('day')[0].value;
             const monthValue = document.getElementsByName('month')[0].value;
             const yearValue = document.getElementsByName('year')[0].value;
@@ -201,5 +210,16 @@ export default class EditProfileView extends BaseView {
                 input.classList.toggle('invalid');
             }, 4000);
         })
+    }
+
+    _fillEmptyFields() {
+        (async () => {
+            const data = await this.model.getUserData();
+            const {card, city} = data.parsedJson;
+
+            const photoPoster = document.getElementsByClassName('photo-poster')[0];
+            photoPoster.src = card.label.imgSrc;
+
+        })()
     }
 }

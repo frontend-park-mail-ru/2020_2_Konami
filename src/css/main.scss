@@ -1,13 +1,23 @@
 @import '@/sass_config.scss';
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
-@import '@/components/cards/UserCard/UserCard.scss';
-@import '@/components/header/Header/header.scss';
-@import '@/components/header/Navigation/navigation.scss';
+
+@import '@/components/cards/MeetSlides/MeetSlide.scss';
+@import '@/components/cards/MeetSlides/MeetSlideMobile.scss';
+@import '@/components/cards/MeetSlides/MeetSlides.scss';
+@import '@/components/cards/MeetSlides/MeetSlidesMobile.scss';
+@import '@/components/header/Header/HeaderMobile.scss';
+@import '@/components/header/Header/SearchBlock.scss';
+@import '@/components/header/Header/Navigation.scss';
+@import '@/components/header/HeaderLinksPopup/HeaderLinksPopup.scss';
 @import '@/components/meet/Meet.scss';
+@import '@/components/meet/MeetMobile.scss';
 @import '@/components/profile/Profile.scss';
 @import '@/components/settings/Settings.scss';
-
+@import '@/components/main/MainTitle/MainTitle.scss';
+@import '@/components/main/CardWrapper/CardWrapper.scss';
+@import '@/components/main/CardWrapper/CardWrapperMobile.scss';
+@import '@/components/main/EmptyBlock/EmptyBlock.scss';
 
 @import '@/components/auth/Form/Form.scss';
 @import '@/components/auth/Button/Button.scss';
@@ -19,27 +29,141 @@
 @import '@/components/auth/Date-Time/Date-Time.scss';
 @import '@/components/auth/Notification/Notification.scss';
 @import '@/components/auth/SelectedTag/SelectedTag.scss';
+@import '@/components/auth/TagsModal/TagsModal.scss';
+
+@import '@/components/chat/chat.scss';
 
 
 @import '@/css/signup.scss';
 @import '@/css/new-meeting.scss';
 
-
-.main {
-    display: flex;
-    flex-direction: column;
-
-    max-width: $max-width;
-    min-width: $min-width;
-
-    padding: 10px;
-    margin: 0 auto;
-
-    font-family: $font;
+body {
+    margin: 0px;
 }
 
-.card-wrapper {
+#map {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.desktop-page {
+    width: $max-width;
+    padding: 0 $padding;
+
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.page-mobile__main {
+    min-width: 430px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.page-mobile__after-card {
+    position: relative;
+    border-radius: 20px;
+    background-color: white;
+
+    min-width: 390px;
+
+    z-index: 2;
+    padding: 20px;
+}
+
+.people-mobile {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    position: relative;
+
+    min-width: 430px;
+    height: 380px;
+
+    z-index: 0;
+    margin-bottom: -50px;
+}
+
+.people-mobile__top-image {
+    width: 100%;
+
+    object-fit: cover;
+}
+
+.main {
+    width: $max-width;
+    padding: 15px;
+
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media (max-width: 1280px) {
+    .desktop-page {
+        width: $min-width;
+    }
+
+    .header {
+        width: $min-width;
+    }
+
+    .navigation {
+        width: $min-width;
+    }
+
+    .slide-container {
+        width: $min-width;
+    }
+
+    .header-mobile_fix {
+        width: $min-width + 2 * $padding;
+        min-width: $min-width + 2 * $padding;
+        max-width: $min-width + 2 * $padding;
+        padding: 0 $padding;
+        margin: 0 auto;
+    }
+
+    .profile_fix {
+        width: $min-width;
+        min-width: $min-width;
+        max-width: $min-width;
+        padding: 0 $padding;
+        margin: 0 auto;
+    }
+
+    .meet-slide {
+        flex-basis: 780px;
+    }
+
+    .meet-card {
+        flex-basis: 315px;
+        height: 250px;
+
+        &__image-wrapper {
+            height: 180px;
+            min-height: 180px;
+        }
+
+        &__image {
+            height: 180px;
+        }
+    }
+
+    .user-card {
+        &__image-wrapper {
+            width: 315px;
+            height: 250px;
+        }
+    }
+
+    .meet {
+        width: $min-width;
+        min-width: $min-width;
+        max-width: $min-width;
+
+        &__image {
+            min-width: $min-width + 2 * $padding;
+        }
+    }
 }

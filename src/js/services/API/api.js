@@ -1,21 +1,39 @@
 'use strict';
 
-function postUser(editFields) {
-    return fetch('/api/user', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
+function getCSRF() {
+    return fetch(`/api/csrf`, {
+        method: 'GET',
         credentials: 'include',
-        body: JSON.stringify(editFields),
     }).then(response => {
         return {
-            statusCode: response.status,
+            csrf: response.headers.get('Csrf-Token'),
         };
-    }).catch((error) => {
+    }).catch(error => {
         return {
             error: error,
         };
+    });
+}
+
+function postUser(editFields) {
+    return getCSRF().then(obj => {
+        return fetch('/api/user', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: JSON.stringify(editFields),
+        }).then(response => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch((error) => {
+            return {
+                error: error,
+            };
+        });
     });
 }
 
@@ -39,9 +57,9 @@ function getUser(userId) {
     });
 }
 
-function getMeet(meetId) {
+function getMeeting(meetId) {
     let statusCode;
-    return fetch(`/api/meet?meetId=${meetId}`, {
+    return fetch(`/api/meeting?meetId=${meetId}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -59,19 +77,19 @@ function getMeet(meetId) {
     });
 }
 
-function postMeet(editFields) { // редактирование митинга
-    return fetch('/api/meet', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
+function getSearchMeeting(queryString, limit) {
+    let statusCode;
+    return fetch(`/api/meetings/search?query=${queryString}&limit=${limit}`, {
+        method: 'GET',
         credentials: 'include',
-        body: JSON.stringify(editFields),
-    }).then(
-        (response) => {
-            return {
-                statusCode: response.status,
-            };
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
     }).catch(error => {
         return {
             error: error,
@@ -79,11 +97,40 @@ function postMeet(editFields) { // редактирование митинга
     });
 }
 
-function getMeetings(obj) {
-    let params = '?';
-    Object.keys(obj).forEach(key => {
-        params += `${key}=${obj[key]}&`
+function patchMeeting(editFields) { // редактирование митинга
+    return getCSRF().then(obj => {
+        return fetch('/api/meeting', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: JSON.stringify(editFields),
+        }).then(
+            (response) => {
+                return {
+                    statusCode: response.status,
+                };
+        }).catch(error => {
+            return {
+                error: error,
+            };
+        });
     });
+}
+
+function getMeetings(queryParams, slug) {
+    let params = '?';
+    if (queryParams !== undefined) {
+        Object.keys(queryParams).forEach(key => {
+            if (queryParams[key] !== undefined && 
+                    queryParams[key] !== null && 
+                    queryParams[key] !== '') {
+                params += `${key}=${queryParams[key]}&`
+            }
+        });
+    }
 
     if (params === '?') {
         params = '';
@@ -91,8 +138,14 @@ function getMeetings(obj) {
         params = params.slice(0, params.length - 1);
     }
 
+    if (slug !== undefined && slug !== '' && slug !== null) {
+        slug = `/${slug}`;
+    } else {
+        slug = '';
+    }
+
     let statusCode;
-    return fetch(`/api/meetings${params}`, {
+    return fetch(`/api/meetings${slug}${params}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -131,18 +184,23 @@ function getPeople(pageNum) {
 }
 
 function postPhoto(data) {
-    return fetch('/api/images', {
-        method: 'POST',
-        credentials: 'include',
-        body: data,
-    }).then(response => {
-        return {
-            statusCode: response.status,
-        };
-    }).catch(error => {
-        return {
-            error: error
-        };
+    return getCSRF().then(obj => {
+        return fetch('/api/images', {
+            method: 'POST',
+            headers: {
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: data,
+        }).then(response => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(error => {
+            return {
+                error: error
+            };
+        });
     });
 }
 
@@ -193,7 +251,7 @@ function postSignUp(login, password) {
     return fetch('/api/signup', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8',
         },
         credentials: 'include',
         body: JSON.stringify({
@@ -214,7 +272,7 @@ function postSignUp(login, password) {
 
 function postSignOut() {
     return fetch('/api/logout', {
-        method: 'POST',
+        method: 'DELETE',
         credentials: 'include',
     }).then(response => {
         return {
@@ -228,16 +286,61 @@ function postSignOut() {
 }
 
 function postMeeting(fields) {  // новый митинг
-    return fetch('/api/meeting', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-        },
+    return getCSRF().then(obj => {
+        return fetch('/api/meeting', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: JSON.stringify(fields),
+        }).then(response => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(error => {
+            return {
+                error: error,
+            };
+        });
+    });
+}
+
+function postMessage(payload) {
+    return getCSRF().then(obj => {
+        return fetch('/api/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Csrf-Token': obj.csrf,
+            },
+            credentials: 'include',
+            body: JSON.stringify(payload),
+        }).then(response => {
+            return {
+                statusCode: response.status,
+            };
+        }).catch(error => {
+            return {
+                error: error,
+            };
+        });
+    });
+}
+
+function getMessages(meetId) {
+    let statusCode;
+    return fetch(`/api/messages?meetId=${meetId}`, {
+        method: 'GET',
         credentials: 'include',
-        body: JSON.stringify(fields),
     }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
         return {
-            statusCode: response.status,
+            statusCode,
+            parsedJson,
         };
     }).catch(error => {
         return {
@@ -250,13 +353,16 @@ export {
     postUser,
     getPeople,
     getUser,
-    getMeet,
-    postMeet,
+    getMeeting,
+    getSearchMeeting,
+    patchMeeting,
     getMeetings,
     postPhoto,
     postLogin,
     getMe,
     postSignUp,
     postSignOut,
-    postMeeting
+    postMeeting,
+    postMessage,
+    getMessages
 };

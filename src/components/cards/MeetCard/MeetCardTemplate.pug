@@ -1,12 +1,16 @@
-div(class='meetcard meetcard_margin' id=id)
-    img(src=imgSrc class='meetcard__image')
-    div(class='meetcard__swimblock meetcard__swimblock_top')
-        span(class='meetcard__text') #{text}
-        div(class='tags meetcard__tags_margin')
-            each val, index in tags
-                span(class='tags__chips')= val
-    h3(class='meetcard__title') #{title}
-    h4(class='meetcard__place') #{place}
-    h4(class='meetcard__date') #{dateStr}
 
-    div(class=status.class) #{status.text}
+div(class='meet-card' id=card.label.id)
+    dev(class='meet-card__image-wrapper')
+        img(src=card.label.imgSrc class='meet-card__image')
+        div(class='meet-card__rating') #{card.likesCount}
+        if isLiked
+            img(class='meet-card__like' src='/assets/like.svg')
+        else
+            img(class='meet-card__like' src='/assets/heart.svg')
+        div(class='meet-card__seats-left') Осталось мест: #{seatsInfo}
+    div(class='meet-card__text-wrapper')
+        h2(class='meet-card__title') #{card.label.title}
+        div(class='meet-card__date-place-wrapper')
+            span(class='meet-card__date') #{dateStr} 
+            span(class='meet-card__date-place-separator') •
+            span(class='meet-card__place') #{card.city}, #{card.address}

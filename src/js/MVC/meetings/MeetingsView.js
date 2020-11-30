@@ -1,16 +1,25 @@
 'use strict';
 
-import { createMeetCard } from "@/components/cards/MeetCard/MeetCard.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
+import { patchMeeting } from "@/js/services/API/api.js";
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { 
-    REDIRECT 
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
 
 import {
-    createSettings
+    createSettings,
+    createButton,
 } from "@/components/settings/Settings.js";
+
+import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
+import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.js";
+
+import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
+import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 
 export default class MeetingsView extends BaseView {
 
@@ -18,99 +27,432 @@ export default class MeetingsView extends BaseView {
         super(parent);
         this.parent = parent;
         this.model = model;
+
         this._this = null;
+        this._slider = null;
         this._cards = null;
+
+        let today = new Date();
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        console.log(tomorrow);
+
         this._settingsButton = [
-            {
-                view: 'Мои мероприятия',
-                param: 'mymeetings',
-            }, 
-            {
-                view: 'Избранное',
-                param: 'favorites'
-            },
-            {
-                view: 'Сегодня',
-                param: 'today',
-            },
-            {
-                view: 'Завтра',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Какие-то настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Eще какие-то настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'Возможно еще настройки',
-                param: 'tomorrow',
-            },
-            {
-                view: 'И еще',
-                param: 'tomorrow',
-            },
+            {view: 'Мои мероприятия', type: ['filter'], value: 'my',}, 
+            {view: 'Избранное', type: ['filter'], value: 'favorite',},
+            {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: today.toISOString().slice(0, 10),},
+            {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: tomorrow.toISOString().slice(0, 10),},
+            {view: 'Убрать фильтры', type: 'clear',}
         ];
     }
 
-    render(cards) {
-        const main = document.createElement('main');
-        main.classList.add('main');
-        this.parent.appendChild(main);
+    renderWithQuery(cards) {
+        if (this.model.isMobile()) {
+            this._renderWithQueryMobile(cards);
+        } else {
+            this._renderWithQueryDesktop(cards);
+        }
+    }
 
-        main.appendChild(this._createSettings(this._settingsButton));
-
-        const cardWrapper = document.createElement('div');
-        cardWrapper.classList.add('card-wrapper');
-        main.appendChild(cardWrapper);
-
-        this._this = main;
-        this._cards = cardWrapper;
-
-        cards.forEach(item => {
-            const meetCard = createMeetCard(item);
-            meetCard.addEventListener('click', () => {
-                EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
-            });
-
-            cardWrapper.appendChild(meetCard);
+    render(recomendation, soon, mostExpected) {
+        if (this.model.isMobile()) {
+            this._renderMobile(soon, mostExpected);
+        } else {
+            this._renderDesktop(soon, mostExpected);
+        }
+        recomendation.forEach(item => {
+            this._createSlide(item);
         });
     }
 
-    _createSettings() {
-        const settings = createSettings(this._settingsButton, (param) => {
-            if (this._cards === null) {
-                return;
-            }
-            this._cards.innerHTML = '';
-            
-            const p = {};
-            p[param] = 'true';
-    
-            getMeetings(p).then(obj => {
-                obj.parsedJson.forEach(item => {
-                    const meetCard = createMeetCard(item);
-                    meetCard.addEventListener('click', () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/meet?meetId=${item.id}`});
-                    });
-                    if (this._cards !== null) {
-                        this._cards.appendChild(meetCard);
-                    }
+    _renderWithQueryMobile(cards) {
+        const main = document.createElement('div');
+        main.classList.add('page-mobile__main');
+        this.parent.appendChild(main);
+        this._this = main;
+
+        this._slider = new Slider(true);
+        main.appendChild(this._slider.render());
+
+        cards.forEach(item => {
+            this._createSlide(item);
+        });
+
+        if (cards.length === 0) {
+            this._slider.appendEmptySlide();
+        }
+        
+        // Создаем контере для карточек, заголовков, настроек
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('page-mobile__after-card');
+        main.appendChild(afterCard);
+
+        afterCard.appendChild(this._createSettings(this._settingsButton));
+
+        // Сами карточки выводятся сверху вниз
+        let cardsW = new CardWrapper(true, true, () => {
+            getMeetings({
+                limit: 3, 
+                start: this.model._queryConfig.dateStart,
+                end: this.model._queryConfig.dateEnd,
+                tagId: this.model._queryConfig.tagId,
+                meetId: this.model._queryConfig.meetId,
+                prevId: cardsW.getLastItemId(),
+            }, this.model._queryConfig.filter).then(obj => {
+                obj.parsedJson.forEach(element => {
+                    this._createCard(element, cardsW);
                 });
             });
         });
-
-        this.model.checkAuth().then(isAuth => {
-            if (!isAuth) {
-                settings.getElementsByClassName('mymeetings')[0].remove();
-                settings.getElementsByClassName('favorites')[0].remove();
-            }
+        afterCard.appendChild(cardsW.render());
+        cards.forEach(item => {
+            this._createCard(item, cardsW);
         });
 
+        this._cards = cardsW;
+    }
+
+    _renderWithQueryDesktop(cards) {
+        // Создаем страницу
+        const main = document.createElement('div');
+        main.classList.add('desktop-page'); 
+        this.parent.appendChild(main);
+        this._this = main;
+
+        main.appendChild(createEmptyBlock());
+
+        // Настройки
+        main.appendChild(this._createSettings(this._settingsButton));
+
+        // Карточки 
+        let cardsW = new CardWrapper(false, false, () => {
+            getMeetings({
+                limit: 3, 
+                start: this.model._queryConfig.dateStart,
+                end: this.model._queryConfig.dateEnd,
+                tagId: this.model._queryConfig.tagId,
+                meetId: this.model._queryConfig.meetId,
+                prevId: cardsW.getLastItemId(),
+            }, this.model._queryConfig.filter).then(obj => {
+                obj.parsedJson.forEach(element => {
+                    this._createCard(element, cardsW);
+                });
+            });
+            console.log(cardsW.getLastItemId());
+        });
+        main.appendChild(cardsW.render());
+        cards.forEach(item => {
+            this._createCard(item, cardsW);
+        });
+
+        this._cards = cardsW;
+    }
+
+    _renderMobile(soon, mostExpected) {
+        // Создаем страницу
+        const main = document.createElement('div');
+        main.classList.add('page-mobile__main');
+        this.parent.appendChild(main);
+        this._this = main;
+
+        // Создаем слайдер
+        this._slider = new Slider(true);
+        main.appendChild(this._slider.render());
+
+        // Создаем контере для карточек, заголовков, настроек
+        const afterCard = document.createElement('div');
+        afterCard.classList.add('page-mobile__after-card');
+        main.appendChild(afterCard);
+
+        // Заголовок
+        afterCard.appendChild(createMainTitle('Митапы в ближайшее время'));
+
+        // Настройки
+        afterCard.appendChild(this._createSettings(this._settingsButton));
+
+        // Карточки слево направо
+        let cards = new CardWrapper(true, false, () => {
+            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+        });
+        afterCard.appendChild(cards.render());
+        soon.forEach(item => {
+            this._createCard(item, cards);
+        });
+
+        // Карточки слево направо
+        afterCard.appendChild(createMainTitle('Самые ожидаемые'));
+        cards = new CardWrapper(true, false);
+        afterCard.appendChild(cards.render());
+        mostExpected.forEach(item => {
+            this._createCard(item, cards);
+        });
+    }
+
+    _renderDesktop(soon, mostExpected) {
+        // Создаем страницу
+        const main = document.createElement('div');
+        main.classList.add('desktop-page'); 
+        this.parent.appendChild(main);
+        this._this = main;
+
+        main.appendChild(createEmptyBlock());
+
+
+        const recommended = createMainTitle('Рекомендации для вас');
+        /* recommended.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'recommended';
+            this._parseWithRedirect();
+        }); */
+        // Заголовок
+        main.appendChild(recommended);
+
+
+        // Настройки
+        main.appendChild(this._createSettings(this._settingsButton));
+
+        // Создаем слайдер
+        this._slider = new Slider(false);
+        main.appendChild(this._slider.render());
+    
+        const soonTitle = createMainTitle('Митапы в ближайшее время');
+        soonTitle.addEventListener('click', () => {
+            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
+            this._parseWithRedirect();
+        });
+        // Заголовок
+        main.appendChild(soonTitle);
+
+        // Карточки 
+        let cards = new CardWrapper(false, false);
+        main.appendChild(cards.render());
+        soon.forEach(item => {
+            this._createCard(item, cards);
+        });
+
+        const top = createMainTitle('Самые ожидаемые');
+        top.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'top';
+            this._parseWithRedirect();
+        });
+        main.appendChild(top);
+
+        cards = new CardWrapper(false, false);
+        main.appendChild(cards.render());
+        mostExpected.forEach(item => {
+            this._createCard(item, cards);
+        });
+    }
+
+    _createSlide(item) {
+        this._slider.appendSlide(
+            item, 
+            () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+            },
+            this._likeEventListener.bind(this, item),
+            this._goEventListener.bind(this, item),
+        );
+    }
+
+    _createCard(item, cards) {
+        cards.appendCard(
+            item,
+            () => {
+                EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
+            },
+            this._likeEventListener.bind(this, item),
+        );
+    }
+
+    _createSettings() {
+        const mymeetings = createButton('Мои мероприятия');
+
+        mymeetings.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'my';
+            this._parseWithRedirect();
+        });
+
+        const favorites = createButton('Избранное');
+
+        favorites.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'favorite';
+            this._parseWithRedirect();
+        });
+
+        const settings = document.createElement('div');
+        settings.classList.add('settings');
+
+        const today = createButton('Сегодня');
+        today.addEventListener('click', () => {
+            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
+            this.model._queryConfig.dateEnd = new Date().toISOString().slice(0, 10);
+
+            this._parseWithRedirect();
+        });
+
+        const tomorrow = createButton('Завтра');
+        tomorrow.addEventListener('click', () => {
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            this.model._queryConfig.dateStart = tomorrow.toISOString().slice(0, 10);
+            this.model._queryConfig.dateEnd = tomorrow.toISOString().slice(0, 10);
+
+            this._parseWithRedirect();
+        });
+
+        const dateEnd = document.createElement('input');
+        if (this.model._queryConfig.dateEnd !== undefined) {
+            dateEnd.value = this.model._queryConfig.dateEnd;
+        }
+        dateEnd.type = 'date';
+        dateEnd.classList.add('settings__button');
+        dateEnd.min = new Date().toISOString().slice(0, 10);
+        if (this.model._queryConfig.dateEnd !== null) {
+            dateEnd.value = this.model._queryConfig.dateEnd;
+        }
+        dateEnd.addEventListener('change', () => {
+            this.model._queryConfig.dateEnd = dateEnd.value;
+
+            this._parseWithRedirect();
+        });
+
+        const dateStart = document.createElement('input');
+        if (this.model._queryConfig.dateStart !== undefined) {
+            dateStart.value = this.model._queryConfig.dateStart;
+        }
+        dateStart.type = 'date';
+        dateStart.classList.add('settings__button');
+        dateStart.min = new Date().toISOString().slice(0, 10);
+        if (this.model._queryConfig.dateStart !== null) {
+            dateStart.value = this.model._queryConfig.dateStart;
+        }
+        dateStart.addEventListener('change', () => {
+            if (dateEnd.value < dateStart.value) {
+                dateEnd.value = dateStart.value;
+                this.model._queryConfig.dateEnd = dateStart.value;
+            }
+
+            dateEnd.min = dateStart.value;
+
+            this.model._queryConfig.dateStart = dateStart.value;
+            this._parseWithRedirect();
+        });
+
+        const clear = createButton('Убрать фильтры');
+        clear.addEventListener('click', () => {
+            EventBus.dispatchEvent(REDIRECT, {url: `/meetings`});
+        });
+
+        settings.append(mymeetings, favorites, today, tomorrow, clear, dateStart, dateEnd);
+
         return settings;
+    }
+
+    _renderCards() {
+        if (this._cards !== null) {
+            this._cards.clear();
+            this._parseWithRequest().then(obj => {
+                obj.parsedJson.forEach(item => {
+                    this._createCard(item, this._cards);
+                });
+            });
+            return;
+        }
+        this._parseWithRedirect();
+    }
+
+    _parseWithRedirect() {
+        let result = '?';
+        for (let item of Object.keys(this.model._queryConfig)) {
+            if (this.model._queryConfig[item] === null) {
+                continue;
+            }
+            result += `${item}=${this.model._queryConfig[item]}&`;
+        }
+        EventBus.dispatchEvent(REDIRECT, {url: `/meetings` + result.slice(0, -1)});
+    }
+
+    _likeEventListener(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+
+            if (item.isLiked) {
+                item.isLiked = false;
+            } else {
+                item.isLiked = true;
+            }
+
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isLiked: item.isLiked,
+                },
+            }).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
+                }
+                if (item.isLiked) {
+                    displayNotification("Вы оценили мероприятие");
+                    if (event.target.src) {
+                        event.target.src = "/assets/like.svg";
+                    } else {
+                        event.target.firstElementChild.src = "/assets/like.svg";
+                    }
+                } else {
+                    displayNotification("Вы убрали лайк"); 
+                    if (event.target.src) {
+                        event.target.src = "/assets/heart.svg";;
+                    } else {
+                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                    }
+                }
+            });
+        });
+    }
+
+    _goEventListener(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+            if (item.isRegistered) {
+                item.isRegistered = false;
+            } else {
+                item.isRegistered = true;
+            }
+
+            patchMeeting({
+                meetId: item.card.label.id,
+                fields: {
+                    isRegistered: item.isRegistered,
+                },
+            }).then(obj => {
+                if (obj.statusCode === 200) {
+                    if (item.isRegistered) {
+                        displayNotification("Зарегистрировалиь");
+                        event.target.innerHTML = 'Отменить';
+                    } else {
+                        displayNotification("Вы отменили регистрацию");
+                        event.target.innerHTML = 'Пойти';
+                    }
+                } else if (obj.statusCode === 409) {
+                    displayNotification("Мероприятие уже завершилось");
+                } else {
+                    alert('Permission denied');
+                }
+            });
+            
+        });
     }
 
     erase() {

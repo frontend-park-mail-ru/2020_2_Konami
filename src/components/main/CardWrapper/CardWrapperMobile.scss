@@ -1,0 +1,25 @@
+.card-wrapper-mobile {
+    &__cards {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+
+        overflow-y: hidden;
+    }
+
+    &__cards_column {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__button {
+        margin-top: 20px;
+        background-color: #fef339;
+        border-radius: 100px;
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+        outline: none;
+        border: none;
+    }
+}

@@ -13,13 +13,15 @@ import {newDate} from "@/components/auth/Date-Time/Date-Time.js";
 
 import {
     OPEN_LOGIN_MODAL, REDIRECT,
-    SELECT_TAGS,
+    CLOSE_TAGS_MODAL,
     USER_NOT_AUTHORIZED,
     SUBMIT_CREATE_MEET,
     CREATE_MEETING_SUCCESS,
     INVALID_DATE_INPUT,
     INVALID_TIME_INPUT,
-    BIG_FILE_SIZE
+    INVALID_START_BIGGER_END,
+    BIG_FILE_SIZE,
+    APPLY_TAGS_MODAL
 } from "@/js/services/EventBus/EventTypes.js";
 
 export default class NewMeetingView extends BaseView {
@@ -31,7 +33,20 @@ export default class NewMeetingView extends BaseView {
 
         this.needSetGeoposition = true;
 
+        this.myMap = null;
+
         this._initEventHandlers();
+    }
+
+    initYmap() {
+        this.myMap = new ymaps.Map('map', {
+            center: [55.753994, 37.622093],
+            zoom: 9
+        });
+
+        if (this.needSetGeoposition) {
+            this._setUserGeolocation.call(this);
+        }
     }
 
     _initEventHandlers() {
@@ -60,11 +75,25 @@ export default class NewMeetingView extends BaseView {
                 displayNotification('Файл превышает максимальный размер');
             },
 
+            onStartBiggerEnd: () => {
+                displayNotification('Дата начала мероприятия не может превышать дату окончания');
+                ['start', 'end'].forEach((prefix) => {
+                    let day = document.getElementsByName(`${prefix}-day`)[0];
+                    let month = document.getElementsByName(`${prefix}-month`)[0];
+                    let year = document.getElementsByName(`${prefix}-year`)[0];
+                    this._showInvalidInputs(day, month, year);
+                });
+            },
+
             onSelectTags: () => {
                 saveSelectedTags();
             },
 
             onSubmitForm: (fields) => {
+                if (fields.id) {
+                    delete fields.id;
+                }
+
                 this.model.createMeeting(fields);
             },
 
@@ -80,10 +109,12 @@ export default class NewMeetingView extends BaseView {
         const form = createNewMeetingForm();
         this.parent.appendChild(form);
 
+        ymaps.ready(this.initYmap.bind(this));
+
         this._initDefaultDateTimeInputValues();
-        if (this.needSetGeoposition) {
-            this._setUserGeolocation();
-        }
+        // if (this.needSetGeoposition) {
+        //     this._setUserGeolocation();
+        // }
         this._addEventListeners();
     }
 
@@ -98,23 +129,29 @@ export default class NewMeetingView extends BaseView {
 
     registerEvents() {
         EventBus.onEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
-        EventBus.onEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
+        EventBus.onEvent(APPLY_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.onEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.onEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.onEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
         EventBus.onEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
         EventBus.onEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
+        EventBus.onEvent(INVALID_START_BIGGER_END, this._eventHandlers.onStartBiggerEnd);
+
 
     }
 
     unRegisterEvents() {
         EventBus.offEvent(USER_NOT_AUTHORIZED, this._eventHandlers.onNotAuthorized);
-        EventBus.offEvent(SELECT_TAGS, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(CLOSE_TAGS_MODAL, this._eventHandlers.onSelectTags);
+        EventBus.offEvent(APPLY_TAGS_MODAL, this._eventHandlers.onSelectTags);
         EventBus.offEvent(SUBMIT_CREATE_MEET, this._eventHandlers.onSubmitForm);
         EventBus.offEvent(CREATE_MEETING_SUCCESS, this._eventHandlers.onCreateSuccess);
         EventBus.offEvent(INVALID_DATE_INPUT, this._eventHandlers.onInvalidDate);
         EventBus.offEvent(INVALID_TIME_INPUT, this._eventHandlers.onInvalidTime);
-        EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile);
+        EventBus.offEvent(BIG_FILE_SIZE, this._eventHandlers.onInvalidFile)
+        EventBus.offEvent(INVALID_START_BIGGER_END, this._eventHandlers.onStartBiggerEnd);
+
 
     }
 
@@ -123,6 +160,13 @@ export default class NewMeetingView extends BaseView {
 
         inputFileChangedEventListener();
         addTagsModalDialogEventListener();
+
+        const city = document.getElementsByName('city')[0];
+        const address = document.getElementsByName('address')[0];
+
+        city.addEventListener('input', this._onChangeAddress.bind(this));
+        address.addEventListener('input', this._onChangeAddress.bind(this));
+
         window.addEventListener('click', closeTagsModalDialog);
     }
 
@@ -137,6 +181,8 @@ export default class NewMeetingView extends BaseView {
             fieldMap.set('meet-description', document.getElementsByName('meet-description')[0].value);
             fieldMap.set('city', document.getElementsByName('city')[0].value);
             fieldMap.set('address', document.getElementsByName('address')[0].value);
+            fieldMap.set('seats', document.getElementsByName('seats')[0].value);
+
 
             const selectedTags = Array.from(document.getElementsByClassName('selectedTag'));
             fieldMap.set('meetingTags', selectedTags.map((tag) => {
@@ -186,9 +232,13 @@ export default class NewMeetingView extends BaseView {
                 fieldMap.set('end', end.toISOString());
             }
 
+            const id = document.getElementsByName('id')[0].value;
+            if (id !== undefined) {
+                fieldMap.set('id', id);
+            }
 
             const photos = document.getElementById('photoFileUploader').files;
-            if (photos.length > 0) { // TODO else { дефолтная фотка }
+            if (photos.length > 0) {
                 let reader = new FileReader();
                 reader.readAsDataURL(photos[0]);
 
@@ -244,6 +294,12 @@ export default class NewMeetingView extends BaseView {
 
                 input = document.getElementsByName('address')[0];
                 input.value = this.model._user.userAddress;
+
+                this.setYmapGeolocation.call(this, {
+                    city: this.model._user.userCity,
+                    address: this.model._user.userAddress
+                });
+
                 }, 3000);
         }
 
@@ -252,6 +308,112 @@ export default class NewMeetingView extends BaseView {
 
         input = document.getElementsByName('address')[0];
         input.value = this.model._user.userAddress;
+
+        this.setYmapGeolocation.call(this, {
+            city: this.model._user.userCity,
+            address: this.model._user.userAddress
+        });
+    }
+
+    setYmapGeolocation(geolocation) {
+        const { city, address } = geolocation;
+
+        const myMap = this.myMap;
+
+        ymaps.geocode(`${city}, ${address}`, {
+            /**
+             * Опции запроса
+             * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/geocode.xml
+             */
+            // Если нужен только один результат, экономим трафик пользователей.
+            results: 1
+        }).then(function (res) {
+            // Выбираем первый результат геокодирования.
+            let firstGeoObject = res.geoObjects.get(0),
+                // Координаты геообъекта.
+                coords = firstGeoObject.geometry.getCoordinates(),
+                // Область видимости геообъекта.
+                bounds = firstGeoObject.properties.get('boundedBy');
+
+            firstGeoObject.options.set('preset', 'islands#darkBlueDotIconWithCaption');
+            // Получаем строку с адресом и выводим в иконке геообъекта.
+            firstGeoObject.properties.set('iconCaption', firstGeoObject.getAddressLine());
+
+            // Добавляем первый найденный геообъект на карту.
+            myMap.geoObjects.add(firstGeoObject);
+            // Масштабируем карту на область видимости геообъекта.
+            myMap.setBounds(bounds, {
+                // Проверяем наличие тайлов на данном масштабе.
+                checkZoomRange: true
+            });
+
+            /**
+             * Все данные в виде javascript-объекта.
+             */
+            console.log('Все данные геообъекта: ', firstGeoObject.properties.getAll());
+            /**
+             * Метаданные запроса и ответа геокодера.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderResponseMetaData.xml
+             */
+            console.log('Метаданные ответа геокодера: ', res.metaData);
+            /**
+             * Метаданные геокодера, возвращаемые для найденного объекта.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/GeocoderMetaData.xml
+             */
+            console.log('Метаданные геокодера: ', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData'));
+            /**
+             * Точность ответа (precision) возвращается только для домов.
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/precision.xml
+             */
+            console.log('precision', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.precision'));
+            /**
+             * Тип найденного объекта (kind).
+             * @see https://api.yandex.ru/maps/doc/geocoder/desc/reference/kind.xml
+             */
+            console.log('Тип геообъекта: %s', firstGeoObject.properties.get('metaDataProperty.GeocoderMetaData.kind'));
+            console.log('Название объекта: %s', firstGeoObject.properties.get('name'));
+            console.log('Описание объекта: %s', firstGeoObject.properties.get('description'));
+            console.log('Полное описание объекта: %s', firstGeoObject.properties.get('text'));
+            /**
+             * Прямые методы для работы с результатами геокодирования.
+             * @see https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/reference/GeocodeResult-docpage/#getAddressLine
+             */
+            console.log('\nГосударство: %s', firstGeoObject.getCountry());
+            console.log('Населенный пункт: %s', firstGeoObject.getLocalities().join(', '));
+            console.log('Адрес объекта: %s', firstGeoObject.getAddressLine());
+            console.log('Наименование здания: %s', firstGeoObject.getPremise() || '-');
+            console.log('Номер здания: %s', firstGeoObject.getPremiseNumber() || '-');
+
+            /**
+             * Если нужно добавить по найденным геокодером координатам метку со своими стилями и контентом балуна, создаем новую метку по координатам найденной и добавляем ее на карту вместо найденной.
+             */
+            /**
+             var myPlacemark = new ymaps.Placemark(coords, {
+                 iconContent: 'моя метка',
+                balloonContent: 'Содержимое балуна <strong>моей метки</strong>'
+                }, {
+                preset: 'islands#violetStretchyIcon'
+                });
+
+             myMap.geoObjects.add(myPlacemark);
+             */
+        });
+
+    }
+
+    _onChangeAddress(evt) {
+        evt.preventDefault();
+
+        const city = document.getElementsByName('city')[0];
+        const address = document.getElementsByName('address')[0];
+
+        const myMap = this.myMap;
+        myMap.geoObjects.removeAll();
+
+        this.setYmapGeolocation.call(this, {
+            city: city.value,
+            address: address.value
+        })
     }
 
     _showInvalidInputs() {

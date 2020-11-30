@@ -63,15 +63,15 @@ function createTags(rightColumn, data) {
     tagsWrapper.innerHTML = '';
 
     // TODO в отдельную функцию
-    const tags =  data.interestTags.map((tagValue) => {
+    const tags =  data.meetingTags.map((tagValue) => {
         let lbl = document.createElement('label');
         let input = document.createElement('input');
         input.classList.add('btnLike');
         input.name = 'tags';
-        input.value = tagValue;
+        input.value = tagValue.name;
 
         let span = document.createElement('span');
-        span.textContent = tagValue;
+        span.textContent = tagValue.name;
 
         lbl.appendChild(input);
         lbl.appendChild(span);
@@ -80,7 +80,7 @@ function createTags(rightColumn, data) {
     });
     tagsWrapper.append(...tags);
 
-    const editProfileBtn = createBtn('Изменить тэги', {classList: ['stdBtn', 'secondary', 'activable']});
+    const editProfileBtn = createBtn('Изменить тэги', {id: 'editTagsBtn', classList: ['stdBtn', 'secondary', 'activable']});
 
     rightColumn.append(tagsWrapper, editProfileBtn);
 }
@@ -121,7 +121,7 @@ function createAvatarField(tmp) {
     }
 }
 
-function createProfile(data, isAuth) {
+function createProfile(data, isAuth, isMobile) {
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
 
@@ -154,7 +154,6 @@ function createProfile(data, isAuth) {
 
     createAvatarField(tmp);
     createTags(tmp.getElementsByClassName('profile__rightcolumn')[0], data);
-    
 
     if (!isAuth) {
         Array.from(tmp.getElementsByClassName('icon-with-text__editicon')).forEach(element => {
@@ -167,6 +166,11 @@ function createProfile(data, isAuth) {
             element.remove();
         });
 
+    }
+
+    if (!isMobile) {
+        const profile = tmp.getElementsByClassName('profile')[0];
+        profile.classList.add('profile_fix');
     }
 
     return tmp.firstElementChild;

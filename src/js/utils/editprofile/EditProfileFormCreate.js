@@ -4,20 +4,19 @@ import {createInput} from "@/components/auth/Input/Input.js";
 import {createRadioBtn} from "@/components/auth/RadioBtn/RadioBtn.js";
 import {createBtn} from "@/components/auth/Button/button.js";
 import {createLineSeparator} from "@/components/auth/LineSeparator/LineSeparator.js";
-import {createModalDialog} from "@/components/auth/ModalDialog/ModalDialog.js";
-import {createFileUploader} from "@/components/auth/FileUploader/FileUploader.js";
+import {createFileUploaderWithImg} from "@/components/auth/FileUploader/FileUploader.js";
 import {createColumn} from "@/components/auth/Fieldset/Fieldset.js";
+import {createTagsModal} from "@/components/auth/TagsModal/TagsModal.js";
 
-import {createDomTag, TAGS} from '@/js/config/tags.js'
 
 export function createEditProfileForm() {
     const form = document.createElement('form');
 
-    const tab1 = createTab1();
+    // const tab1 = createTab1();
     const tab2 = createTab2();
     const btnsBlock = createButtonsBlock();
 
-    form.append(tab1, tab2,  btnsBlock);
+    form.append(tab2,  btnsBlock);
 
     return form;
 }
@@ -32,14 +31,17 @@ function createTab2() {
     const nameInput = createLabeledElements('Имя', createInput(
         {type: 'text', placeholder: 'Полное имя', name: 'name', maxLength: '30'}));
 
-    const emailInput = createLabeledElements('Адрес электронной почты', createInput(
-        {type: 'email', placeholder: 'Электронная почта', name: 'email', maxLength: '250'}));
-
+    const emptyMeetImg = document.createElement('img');
+    emptyMeetImg.classList.add('photo-poster');
+    emptyMeetImg.src = 'assets/empty-event.png';
     const profilePhotoBtnLabel = createLabeledElements('Фото профиля');
-    const fileUploader = createFileUploader('photoFileUploader');
+    const fileUploader = createFileUploaderWithImg('photoFileUploader', emptyMeetImg);
+
+    // const profilePhotoBtnLabel = createLabeledElements('Фото профиля');
+    // const fileUploader = createFileUploader('photoFileUploader');
 
     const leftCol = createColumn({classList: ['leftcolumn', 'signup__col-2-3']},
-        nameInput, emailInput, profilePhotoBtnLabel, fileUploader);
+        nameInput, profilePhotoBtnLabel, fileUploader);
 
     formsBlock.appendChild(leftCol);
 
@@ -58,11 +60,16 @@ function createTab2() {
     );
 
     const cityInput = createLabeledElements('Город',
-        createInput({style: "width: 80%", name: "city", placeholder: "Ваш текущий город", maxLength: '30'}
+        createInput({style: "width: 70%", name: "city", placeholder: "Ваш текущий город", maxLength: '30'}
         ));
 
+    const vkInput = createLabeledElements('Социальные сети',
+        createInput({style: "width: 70%; margin-bottom: 5px", placeholder: 'Вконтакте', name: 'vk', maxLength: '50'}),
+        createInput({style: "width: 70%", placeholder: 'Телеграм', name: 'telegram', maxLength: '50'})
+    );
+
     const rightCol = createColumn({classList: ['rightcolumn', 'signup__col-1-3']},
-        sexSelectorLabel, birthDateLabel, cityInput);
+        sexSelectorLabel, birthDateLabel, cityInput, vkInput);
     formsBlock.appendChild(rightCol);
 
     tab1.appendChild(
@@ -89,44 +96,13 @@ function createTab1() {
 
 
     // TODO (заполнить нормльными тэгами)
-    const tags = document.createElement('div');
-    tags.classList.add('recommendationTagsWrapper');
-    tags.append(...TAGS.map((tagName) => createDomTag(tagName)));
-    // for (let i = 0; i < 10; i++) {
-    //     let lbl = document.createElement('label');
-    //     lbl.id = 'tag' + i;
-    //
-    //     let input = document.createElement('input');
-    //     input.classList.add('btnLike');
-    //     input.type = 'checkbox';
-    //     input.name = 'tags';
-    //     input.value = 'randomTag' + i;
-    //
-    //     let span = document.createElement('span');
-    //     span.textContent = 'randomTag';
-    //
-    //     lbl.appendChild(input);
-    //     lbl.appendChild(span);
-    //
-    //     tags.appendChild(lbl);
-    // }
-
-    const helperText = document.createElement('span');
-    helperText.classList.add('helpText');
-    helperText.textContent = 'Добавьте интересы в свой профиль, чтобы получать персональные рекомендации';
-
-    const applyTagsBtnWrap = document.createElement('div');
-    applyTagsBtnWrap.classList.add('footer__button');
-    applyTagsBtnWrap.appendChild(createBtn('Применить',
-        {id:'closeTagsModal', type:'button', classList: ['stdBtn', 'secondary', 'activable']}));
-
-    const modalBlock = createModalDialog({id:'modalTags', classList: ['modal']}, [helperText, tags, applyTagsBtnWrap]);
+    const tagsModalBlock = createTagsModal();
 
     tab2.appendChild(
         createLineSeparator('Вы можете указать сферы, в каких хотели бы получать рекомендации',
             {classList: ['signup']})
     )
-    tab2.append(persInfoBlock, modalBlock);
+    tab2.append(persInfoBlock, tagsModalBlock);
     return tab2;
 }
 
