@@ -97,7 +97,7 @@ export default class MeetingsView extends BaseView {
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
-                lastId: cardsW.getLastItemId(),
+                prevId: cardsW.getLastItemId(),
             }, this.model._queryConfig.filter).then(obj => {
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
@@ -132,7 +132,7 @@ export default class MeetingsView extends BaseView {
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
-                lastId: cardsW.getLastItemId(),
+                prevId: cardsW.getLastItemId(),
             }, this.model._queryConfig.filter).then(obj => {
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
