@@ -60,7 +60,7 @@ export default class MeetView extends BaseView {
                 console.log(payload);
                 const {text, timestamp, meetId, authorId} = payload;
 
-                if (this.model.meetId === meetId) {
+                if (parseInt(this.model.meetId, 10) === meetId) {
                     const messagesHistory = document.getElementsByClassName('msg_history')[0];
                     messagesHistory.appendChild(authorId === this.model.getUserId() ?
                         createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, this.users.get(authorId)));
