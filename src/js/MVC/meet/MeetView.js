@@ -64,8 +64,7 @@ export default class MeetView extends BaseView {
                     const messagesHistory = document.getElementsByClassName('msg_history')[0];
                     messagesHistory.appendChild(authorId === this.model.getUserId() ?
                         createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, this.users.get(authorId)));
-
-                    // messagesContainer.textContent += text;
+                    messagesHistory.lastChild.scrollIntoView();
                 }
             },
 
@@ -125,7 +124,7 @@ export default class MeetView extends BaseView {
                         createOutgoingMsg(msg.text, msg.timestamp) :
                         createIncomingMsg(msg.text, msg.timestamp, this.users.get(msg.authorId)));
                 });
-                messagesHistory.lastChild.scrollIntoView();
+                // messagesHistory.lastChild.scrollIntoView();
             }
         });
 
@@ -524,7 +523,7 @@ export default class MeetView extends BaseView {
                 // this.wsConn.send(CHAT_MESSAGE, {
                 //     text: msg.value,
                 //     timestamp: date.toISOString(),
-                //     meetId: this.model.meetId,
+                //     meetId: parseInt(this.model.meetId, 10),
                 //     authorId: this.model.getUserId()
                 // });
             }
