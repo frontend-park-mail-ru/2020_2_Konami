@@ -77,9 +77,9 @@ function getMeeting(meetId) {
     });
 }
 
-function getSearchMeeting(queryString) {
+function getSearchMeeting(queryString, limit) {
     let statusCode;
-    return fetch(`/api/meetings/search?query=${queryString}`, {
+    return fetch(`/api/meetings/search?query=${queryString}&limit=${limit}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -120,11 +120,17 @@ function patchMeeting(editFields) { // редактирование митинг
     });
 }
 
-function getMeetings(queryParams) {
+function getMeetings(queryParams, slug) {
     let params = '?';
-    Object.keys(queryParams).forEach(key => {
-        params += `${key}=${queryParams[key]}&`
-    });
+    if (queryParams !== undefined) {
+        Object.keys(queryParams).forEach(key => {
+            if (queryParams[key] !== undefined && 
+                    queryParams[key] !== null && 
+                    queryParams[key] !== '') {
+                params += `${key}=${queryParams[key]}&`
+            }
+        });
+    }
 
     if (params === '?') {
         params = '';
@@ -132,8 +138,14 @@ function getMeetings(queryParams) {
         params = params.slice(0, params.length - 1);
     }
 
+    if (slug !== undefined && slug !== '' && slug !== null) {
+        slug = `/${slug}`;
+    } else {
+        slug = '';
+    }
+
     let statusCode;
-    return fetch(`/api/meetings${params}`, {
+    return fetch(`/api/meetings${slug}${params}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {

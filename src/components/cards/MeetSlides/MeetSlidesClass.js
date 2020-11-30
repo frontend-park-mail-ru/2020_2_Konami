@@ -1,5 +1,7 @@
 'use strict';
 
+import { createMainTitle } from '../../main/MainTitle/CreateMainTitle';
+
 const template = require('./MeetSlideTemplate.pug');
 const mobileTemplate = require('./MeetSlideMobileTemplate.pug');
 
@@ -43,6 +45,19 @@ export default class MeetSlider {
         }
 
         this._slides.appendChild(newSlide);
+    }
+
+    appendEmptySlide() {
+        const newSlide = document.createElement('div');
+        newSlide.classList.add('meet-slide-mobile__empty');
+
+        const title = document.createElement('h1');
+        title.classList.add('meet-slide-mobile__empty-title');
+        title.innerHTML = 'Мы ничего не нашли все плохо';
+
+        newSlide.appendChild(title);
+
+        this._slides.appendChild(newSlide)
     }
 
     remove() {

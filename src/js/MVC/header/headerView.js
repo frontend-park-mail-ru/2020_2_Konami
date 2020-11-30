@@ -46,6 +46,7 @@ export default class HeaderView extends BaseView {
 
     // TODO(template)
     render() {
+        const searchLimit = 10;
         this._this = createHeaderMobile(this.model.isMobile());
         this.parent.appendChild(this._this);
 
@@ -55,7 +56,7 @@ export default class HeaderView extends BaseView {
         const search = document.getElementsByClassName('search-block__search-input')[0];
         search.addEventListener('keyup', () => {
             if (search.value.length > 3) {
-                getSearchMeeting(search.value).then(result => {
+                getSearchMeeting(search.value, searchLimit).then(result => {
                     const offers = document.getElementsByClassName('search-block__offers')[0];
                     offers.innerHTML = '';
                     result.parsedJson.forEach(item => {
@@ -63,7 +64,7 @@ export default class HeaderView extends BaseView {
                         offers.appendChild(offer);
                     });
                 });
-            } else if (search.value.length < 3) {
+            } else {
                 const offers = document.getElementsByClassName('search-block__offers')[0];
                 offers.innerHTML = '';
             }

@@ -10,6 +10,27 @@
     height: 380px;
     cursor: pointer;
 
+    &__empty {
+        overflow: hidden;
+        display: flex;
+
+        flex: 0 0 auto;
+        width: 100%;
+
+        position: relative;
+
+        height: 380px;
+        cursor: pointer;
+
+        background-color: rgb(158, 157, 157);
+
+        justify-content: center;
+    }
+
+    &__empty-title {
+        margin-top: 100px;
+    }
+
     &__image {
         object-fit: cover;
         width: 100%;

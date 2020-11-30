@@ -32,11 +32,16 @@ export default class MeetingsView extends BaseView {
         this._slider = null;
         this._cards = null;
 
+        let today = new Date();
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        console.log(tomorrow);
+
         this._settingsButton = [
-            {view: 'Мои мероприятия', type: ['filter'], value: 'mymeetings',}, 
-            {view: 'Избранное', type: ['filter'], value: 'favorites',},
-            {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: new Date().toISOString().slice(0, 10),},
-            {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: new Date().toISOString().slice(0, 10),},
+            {view: 'Мои мероприятия', type: ['filter'], value: 'my',}, 
+            {view: 'Избранное', type: ['filter'], value: 'favorite',},
+            {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: today.toISOString().slice(0, 10),},
+            {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: tomorrow.toISOString().slice(0, 10),},
             {view: 'Убрать фильтры', type: 'clear',}
         ];
     }
@@ -72,6 +77,10 @@ export default class MeetingsView extends BaseView {
         cards.forEach(item => {
             this._createSlide(item);
         });
+
+        if (cards.length === 0) {
+            this._slider.appendEmptySlide();
+        }
         
         // Создаем контере для карточек, заголовков, настроек
         const afterCard = document.createElement('div');
@@ -82,7 +91,18 @@ export default class MeetingsView extends BaseView {
 
         // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true, () => {
-            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+            getMeetings({
+                limit: 3, 
+                start: this.model._queryConfig.dateStart,
+                end: this.model._queryConfig.dateEnd,
+                tagId: this.model._queryConfig.tagId,
+                meetId: this.model._queryConfig.meetId,
+                lastId: cardsW.getLastItemId(),
+            }, this.model._queryConfig.filter).then(obj => {
+                obj.parsedJson.forEach(element => {
+                    this._createCard(element, cardsW);
+                });
+            });
         });
         afterCard.appendChild(cardsW.render());
         cards.forEach(item => {
@@ -106,7 +126,19 @@ export default class MeetingsView extends BaseView {
 
         // Карточки 
         let cardsW = new CardWrapper(false, false, () => {
-            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+            getMeetings({
+                limit: 3, 
+                start: this.model._queryConfig.dateStart,
+                end: this.model._queryConfig.dateEnd,
+                tagId: this.model._queryConfig.tagId,
+                meetId: this.model._queryConfig.meetId,
+                lastId: cardsW.getLastItemId(),
+            }, this.model._queryConfig.filter).then(obj => {
+                obj.parsedJson.forEach(element => {
+                    this._createCard(element, cardsW);
+                });
+            });
+            console.log(cardsW.getLastItemId());
         });
         main.appendChild(cardsW.render());
         cards.forEach(item => {
@@ -165,8 +197,15 @@ export default class MeetingsView extends BaseView {
 
         main.appendChild(createEmptyBlock());
 
+
+        const recommended = createMainTitle('Рекомендации для вас');
+        /* recommended.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'recommended';
+            this._parseWithRedirect();
+        }); */
         // Заголовок
-        main.appendChild(createMainTitle('Рекомендации для вас'));
+        main.appendChild(recommended);
+
 
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
@@ -175,8 +214,14 @@ export default class MeetingsView extends BaseView {
         this._slider = new Slider(false);
         main.appendChild(this._slider.render());
     
+        const soonTitle = createMainTitle('Митапы в ближайшее время');
+        soonTitle.addEventListener('click', () => {
+            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
+            this._parseWithRedirect();
+        });
         // Заголовок
-        main.appendChild(createMainTitle('Митапы в ближайшее время'));
+        main.appendChild(soonTitle);
+
         // Карточки 
         let cards = new CardWrapper(false, false);
         main.appendChild(cards.render());
@@ -184,7 +229,13 @@ export default class MeetingsView extends BaseView {
             this._createCard(item, cards);
         });
 
-        main.appendChild(createMainTitle('Самые ожидаемые'));
+        const top = createMainTitle('Самые ожидаемые');
+        top.addEventListener('click', () => {
+            this.model._queryConfig.filter = 'top';
+            this._parseWithRedirect();
+        });
+        main.appendChild(top);
+
         cards = new CardWrapper(false, false);
         main.appendChild(cards.render());
         mostExpected.forEach(item => {
@@ -217,15 +268,14 @@ export default class MeetingsView extends BaseView {
         const mymeetings = createButton('Мои мероприятия');
 
         mymeetings.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'mymeetings';
+            this.model._queryConfig.filter = 'my';
             this._parseWithRedirect();
         });
 
         const favorites = createButton('Избранное');
 
         favorites.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'favorites';
-            
+            this.model._queryConfig.filter = 'favorite';
             this._parseWithRedirect();
         });
 
@@ -242,8 +292,11 @@ export default class MeetingsView extends BaseView {
 
         const tomorrow = createButton('Завтра');
         tomorrow.addEventListener('click', () => {
-            this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
-            this.model._queryConfig.dateEnd = new Date().toISOString().slice(0, 10);
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            this.model._queryConfig.dateStart = tomorrow.toISOString().slice(0, 10);
+            this.model._queryConfig.dateEnd = tomorrow.toISOString().slice(0, 10);
 
             this._parseWithRedirect();
         });
