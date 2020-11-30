@@ -123,7 +123,7 @@ export default class MeetView extends BaseView {
                     // this.users.set(user.label.id, user.label);
                     messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
                         createOutgoingMsg(msg.text, msg.timestamp) :
-                        createIncomingMsg(msg.text, msg.timestamp, msg.authorId));
+                        createIncomingMsg(msg.text, msg.timestamp, this.users.get(msg.authorId)));
                 });
             }
         });
