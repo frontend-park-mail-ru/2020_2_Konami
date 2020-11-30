@@ -505,7 +505,7 @@ export default class MeetView extends BaseView {
             const date = new Date();
             if (msg.value !== '') {
                 postMessage({
-                   meetId: this.model.meetId,
+                   meetId: parseInt(this.model.meetId, 10),
                    text: msg.value,
                    timestamp: date.toISOString(),
                 });
