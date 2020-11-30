@@ -70,9 +70,9 @@ export default class MeetView extends BaseView {
                 // TODO it's STUB, to DELETE
                 const userList = document.getElementsByClassName('users-container')[0];
 
-                const alreadyExist = document.getElementById('listUser' + id);
+                const alreadyExist = document.getElementById('listUser' + authorId);
                 if (!alreadyExist) {
-                    userList.appendChild(createListUser(this.users.get(id)));
+                    userList.appendChild(createListUser(this.users.get(authorId)));
                     userList.innerHTML += `<hr>`;
                 }
             },
