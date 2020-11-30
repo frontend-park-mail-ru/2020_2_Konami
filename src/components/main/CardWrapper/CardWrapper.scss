@@ -1,4 +1,8 @@
 .card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     &__cards {
         display: flex;
         flex-wrap: wrap;
@@ -9,6 +13,12 @@
     }
 
     &__button {
-
+        background-color: #fef339;
+        border-radius: 100px;
+        width: 80%;
+        height: 40px;
+        cursor: pointer;
+        outline: none;
+        border: none;
     }
 }
