@@ -24,7 +24,7 @@
     padding: 10px 15px;
     position: relative;
     bottom: 0;
-    border: 3px solid #f1f1f1;
+    border: 1px solid #f1f1f1;
     z-index: 9;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -93,7 +93,7 @@
       }
 
       .btn {
-        background-color: #4CAF50;
+        background-color: #50ad90;
         color: white;
         /* padding: 16px 20px; */
         border: none;
@@ -244,7 +244,7 @@
       border-radius: 3px;
       font-size: 14px;
       margin: 0; color:#fff;
-      padding: 5px 0px 5px 12px;
+      padding: 5px 5px 5px 12px;
       width:100%;
     }
     .outgoing_msg{
@@ -256,7 +256,7 @@
       float: right;
       //width: 46%;
       max-width: 80%;
-      margin-right: 18px;
+      margin-right: 26px;
     }
     .input_msg_write input {
       background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
@@ -362,7 +362,7 @@ hr {
 
 .panel-heading {
   color: #111;
-  background-color: #428bca;
+  background-color: #4798bc;
   border-color: #428bca;
   padding: 10px 15px;
   border-bottom: 1px solid transparent;

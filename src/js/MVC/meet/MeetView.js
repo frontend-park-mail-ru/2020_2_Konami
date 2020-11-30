@@ -125,6 +125,7 @@ export default class MeetView extends BaseView {
                         createOutgoingMsg(msg.text, msg.timestamp) :
                         createIncomingMsg(msg.text, msg.timestamp, this.users.get(msg.authorId)));
                 });
+                messagesHistory.lastChild.scrollIntoView();
             }
         });
 
@@ -464,6 +465,7 @@ export default class MeetView extends BaseView {
         const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];
 
         const chatPopup = document.getElementById('chatPopup');
+        const messagesHistory = document.getElementsByClassName('msg_history')[0];
 
         openChatBtn.onclick = () => {
             this.model.checkAuth().then(isAuth => {
@@ -489,11 +491,18 @@ export default class MeetView extends BaseView {
                     // OPEN
                 if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
                     chatPopup.style.display = 'flex';
+                    messagesHistory.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: "smooth"
+                    });
 
                     window.scrollTo({
                         top: document.body.scrollHeight,
                         behavior: "smooth"
                     });
+                    // scrollTo(document.body.scrollHeight, () => {
+                    //     messagesHistory.lastChild.scrollIntoView();
+                    // });
                 }
 
             });
