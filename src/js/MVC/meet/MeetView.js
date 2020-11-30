@@ -66,6 +66,15 @@ export default class MeetView extends BaseView {
                         createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, this.users.get(authorId)));
                     messagesHistory.lastChild.scrollIntoView();
                 }
+
+                // TODO it's STUB, to DELETE
+                const userList = document.getElementsByClassName('users-container')[0];
+
+                const alreadyExist = document.getElementById('listUser' + id);
+                if (!alreadyExist) {
+                    userList.appendChild(createListUser(this.users.get(id)));
+                    userList.innerHTML += `<hr>`;
+                }
             },
 
             onNewChatConnect: (payload) => {
