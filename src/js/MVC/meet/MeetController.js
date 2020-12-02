@@ -35,7 +35,7 @@ export default class MeetController extends Controller {
             }
             response.parsedJson.currentUserId = this.model.getUserId();
 
-            const simular = getMeetings({pageNum: 1});
+            const simular = getMeetings(); // тут пока пусть так будет, чтобы было видно что есть похожие мероприятия
             response.parsedJson.registrations.forEach(element => {
                 if (element.id === response.parsedJson.card.authorId) {
                     response.parsedJson.author = element;

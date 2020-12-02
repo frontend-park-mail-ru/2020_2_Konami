@@ -25,13 +25,13 @@ export default class MeetingsController extends Controller {
         if (this.model._isQueryEmpty) {
             this.view._cards = null;
             // тут нужно будет получить рекомендации с ?filter=recomendations&limit=5
-            const recomendation = getMeetings({pageNum: 1});
+            const recomendation = getMeetings(); // пока что рекомендации не работают
 
-            // тут нужно будет получить рекомендации с ?startDate=now&endDate=now+7&limit=5
-            const soon = getMeetings({pageNum: 1});
+            // тут нужно будет получить с ?startDate=now&endDate=now+7&limit=3
+            const soon = getMeetings({limit: 3});
 
-            // тут нужно будет получить рекомендации с ?filter=mostexpected&limit=5
-            const mostExpected = getMeetings({pageNum: 1});
+            // тут нужно будет получить рекомендации с /meetings/top?limit=3
+            const mostExpected = getMeetings({limit: 3}, 'top');
 
             Promise.all([recomendation, soon, mostExpected]).then(values => {
                 /* C этим тоже нужно что-то сделать, но пока пусть так будут 
@@ -45,7 +45,13 @@ export default class MeetingsController extends Controller {
             });
         } else {
             this.view._cards = null;
-            getMeetings({pageNum: 1}).then(obj => {
+            getMeetings({
+                limit: 3, 
+                start: this.model._queryConfig.dateStart,
+                end: this.model._queryConfig.dateEnd,
+                tagId: this.model._queryConfig.tagId,
+                meetId: this.model._queryConfig.meetId,
+            }, this.model._queryConfig.filter).then(obj => {
                 this.view.renderWithQuery(obj.parsedJson);
             });
 

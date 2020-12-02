@@ -12,6 +12,8 @@ export default class MeetingsModel {
             dateStart: '',
             dateEnd: '',
             filter: '',
+            tagId: '',
+            meetId: '',
             type: '',
         };
     }

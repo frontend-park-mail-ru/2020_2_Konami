@@ -60,12 +60,20 @@ export default class MeetView extends BaseView {
                 console.log(payload);
                 const {text, timestamp, meetId, authorId} = payload;
 
-                if (this.model.meetId === meetId) {
+                if (parseInt(this.model.meetId, 10) === meetId) {
                     const messagesHistory = document.getElementsByClassName('msg_history')[0];
                     messagesHistory.appendChild(authorId === this.model.getUserId() ?
                         createOutgoingMsg(text, timestamp) : createIncomingMsg(text, timestamp, this.users.get(authorId)));
+                    messagesHistory.lastChild.scrollIntoView();
+                }
 
-                    // messagesContainer.textContent += text;
+                // TODO it's STUB, to DELETE
+                const userList = document.getElementsByClassName('users-container')[0];
+
+                const alreadyExist = document.getElementById('listUser' + authorId);
+                if (!alreadyExist) {
+                    userList.appendChild(createListUser(this.users.get(authorId)));
+                    userList.innerHTML += `<hr>`;
                 }
             },
 
@@ -123,8 +131,9 @@ export default class MeetView extends BaseView {
                     // this.users.set(user.label.id, user.label);
                     messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
                         createOutgoingMsg(msg.text, msg.timestamp) :
-                        createIncomingMsg(msg.text, msg.timestamp, msg.authorId));
+                        createIncomingMsg(msg.text, msg.timestamp, this.users.get(msg.authorId)));
                 });
+                // messagesHistory.lastChild.scrollIntoView();
             }
         });
 
@@ -464,6 +473,7 @@ export default class MeetView extends BaseView {
         const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];
 
         const chatPopup = document.getElementById('chatPopup');
+        const messagesHistory = document.getElementsByClassName('msg_history')[0];
 
         openChatBtn.onclick = () => {
             this.model.checkAuth().then(isAuth => {
@@ -489,11 +499,18 @@ export default class MeetView extends BaseView {
                     // OPEN
                 if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
                     chatPopup.style.display = 'flex';
+                    messagesHistory.scrollTo({
+                        top: document.body.scrollHeight,
+                        behavior: "smooth"
+                    });
 
                     window.scrollTo({
                         top: document.body.scrollHeight,
                         behavior: "smooth"
                     });
+                    // scrollTo(document.body.scrollHeight, () => {
+                    //     messagesHistory.lastChild.scrollIntoView();
+                    // });
                 }
 
             });
@@ -515,7 +532,7 @@ export default class MeetView extends BaseView {
                 // this.wsConn.send(CHAT_MESSAGE, {
                 //     text: msg.value,
                 //     timestamp: date.toISOString(),
-                //     meetId: this.model.meetId,
+                //     meetId: parseInt(this.model.meetId, 10),
                 //     authorId: this.model.getUserId()
                 // });
             }

@@ -64,9 +64,12 @@ export default class CardWrapper {
             button.classList.add('card-wrapper-mobile__button')
             button.innerHTML = 'Загрузить еще';
 
-            button.addEventListener('click', this._buttonAction);
+            cardWrapper.appendChild(cards);
 
-            cardWrapper.append(cards, button);
+            if (this._buttonAction !== null && this._buttonAction !== undefined) {
+                button.addEventListener('click', this._buttonAction);
+                cardWrapper.appendChild(button);
+            }
         } else {
             cards.classList.add('card-wrapper-mobile__cards');
             cardWrapper.append(cards);
@@ -87,9 +90,12 @@ export default class CardWrapper {
         button.classList.add('card-wrapper__button');
         button.innerHTML = 'Загрузить еще';
 
-        button.addEventListener('click', this._buttonAction);
+        cardWrapper.appendChild(cards);
 
-        cardWrapper.append(cards, button);
+        if (this._buttonAction !== null && this._buttonAction !== undefined) {
+            button.addEventListener('click', this._buttonAction);
+            cardWrapper.appendChild(button);
+        }
 
         this._cards = cards;
         this._this = cardWrapper;

@@ -130,7 +130,9 @@ export default class SignupView extends BaseView {
         const tagsModal = document.getElementById('modalTags');
 
         this.parent.removeChild(authModal);
-        this.parent.removeChild(tagsModal);
+        if (tagsModal !== undefined) {
+            this.parent.removeChild(tagsModal);
+        }
 
         window.removeEventListener('click', closeSignupModal);
         window.removeEventListener('click', closeTagsModalDialog);
