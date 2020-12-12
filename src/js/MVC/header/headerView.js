@@ -74,7 +74,7 @@ export default class HeaderView extends BaseView {
     _createSearchOffer(data) {
         const offer = document.createElement('div');
         offer.classList.add('search-block__offer');
-        
+
         const offerImg = document.createElement('img');
         offerImg.classList.add('search-block__offer-img');
         offerImg.src = data.card.label.imgSrc;
@@ -94,7 +94,7 @@ export default class HeaderView extends BaseView {
             }*/
             modalSearch.style.display = 'none';
         });
-        
+
         return offer;
     }
 
@@ -199,7 +199,7 @@ export default class HeaderView extends BaseView {
             this.model._user.getUserGeolocation();
 
             setTimeout(() => {
-                locationLink.textContent = this.model._user.userCity;
+                locationLink.textContent = this.model._user.userCity || 'Москва';
             }, 2000);
         } else {
             locationLink.textContent = this.model._user.userCity;
