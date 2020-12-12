@@ -23,6 +23,7 @@ import {
     BIG_FILE_SIZE,
     APPLY_TAGS_MODAL
 } from "@/js/services/EventBus/EventTypes.js";
+import {createEmptyBlock} from "@/components/main/EmptyBlock/EmptyBlock";
 
 export default class NewMeetingView extends BaseView {
 
@@ -106,6 +107,9 @@ export default class NewMeetingView extends BaseView {
     }
 
     render() {
+        this._empty = createEmptyBlock();
+        this.parent.appendChild(this._empty);
+
         const form = createNewMeetingForm();
         this.parent.appendChild(form);
 
@@ -124,6 +128,7 @@ export default class NewMeetingView extends BaseView {
             this.parent.removeChild(form);
         }
 
+        this._empty.remove();
         window.removeEventListener('click', closeTagsModalDialog);
     }
 
