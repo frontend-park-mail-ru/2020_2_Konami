@@ -53,6 +53,29 @@ module.exports = (env, argv) => {
                         },
                     },
                 },
+                {
+                    test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+                    use: [
+                        {
+                            loader: 'url-loader?limit=100000',
+                            options: {
+                                name: './fonts/[name].[ext]',
+                                outputPath: 'fonts/'
+                            }
+                        }
+                    ]
+                }
+                // {
+                // test: /\.ttf$/,
+                // use: [
+                //     {
+                //         loader: 'ttf-loader',
+                //         options: {
+                //             name: './fonts/[hash].[ext]',
+                //         },
+                //     },
+                //     ]
+                // }
             ]
        }
     }

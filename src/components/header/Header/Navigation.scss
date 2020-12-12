@@ -5,7 +5,7 @@
     width: $max-width;
 
     margin: 0 auto;
-    
+
     font-family: $font;
 
     &__choose-link {
@@ -17,13 +17,13 @@
         text-decoration: none;
 
         background-color: rgba(255, 255, 255, 0.1);
-    
+
         cursor: pointer;
 
         &:hover {
             background-color: rgba(255, 255, 255, 0.2);
         }
-        
+
         &:focus {
             background-color: rgba(255, 255, 255, 0.2);
         }
