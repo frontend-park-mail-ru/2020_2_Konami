@@ -3,7 +3,6 @@
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     CONNECT_CHAT,
-    DISCONNECT_CHAT
 } from "@/js/services/EventBus/EventTypes.js";
 
 export class Ws {
@@ -16,7 +15,7 @@ export class Ws {
 
 
         this.ws = new WebSocket(address);
-        this.ws.onopen = (event) => {
+        this.ws.onopen = () => {
             console.log(`WebSocket on address ${address} opened`);
             console.dir(this.ws);
 

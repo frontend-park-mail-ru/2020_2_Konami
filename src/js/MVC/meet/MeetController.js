@@ -9,7 +9,6 @@ import {
 import MeetView from "./MeetView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { REDIRECT } from "@/js/services/EventBus/EventTypes.js";
-import { getPeople, getUser } from "../../services/API/api.js";
 
 export default class MeetController extends Controller {
 

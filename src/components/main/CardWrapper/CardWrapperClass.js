@@ -100,4 +100,4 @@ export default class CardWrapper {
         this._cards = cards;
         this._this = cardWrapper;
     }
-};
+}

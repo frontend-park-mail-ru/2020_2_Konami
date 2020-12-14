@@ -9,11 +9,8 @@ import {createFileUploaderWithImg} from "../../../components/auth/FileUploader/F
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import {createDateTimeBlock} from "../../../components/auth/Date-Time/Date-Time.js";
 
-import {createDomTag, TAGS} from '@/js/config/tags.js'
 import {
-    createDomTab,
     createTabsAndTags,
-    createTagFilterTabsWrapper
 } from "../../../components/auth/TagsModal/TagsModal";
 
 export function createNewMeetingForm() {

@@ -6,7 +6,6 @@ import {createBtn} from "@/components/auth/Button/button.js";
 import {createLineSeparator} from "@/components/auth/LineSeparator/LineSeparator.js";
 import {createFileUploaderWithImg} from "@/components/auth/FileUploader/FileUploader.js";
 import {createColumn} from "@/components/auth/Fieldset/Fieldset.js";
-import {createTagsModal} from "@/components/auth/TagsModal/TagsModal.js";
 
 
 export function createEditProfileForm() {
@@ -78,7 +77,7 @@ function createTab2() {
     return tab1;
 }
 
-function createTab1() {
+/* function createTab1() {
     const tab2 = document.createElement('div');
     tab2.classList.add('tab');
 
@@ -104,7 +103,7 @@ function createTab1() {
     )
     tab2.append(persInfoBlock, tagsModalBlock);
     return tab2;
-}
+}*/
 
 // function createTab3() {
 //     const tab3 = document.createElement('div');

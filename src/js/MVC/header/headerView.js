@@ -143,7 +143,6 @@ export default class HeaderView extends BaseView {
             EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
         });
 
-        const locationLink = document.getElementById('locationLink');
         this._setUserGeolocation();
         // locationLink.addEventListener('click', (evt) => {
         //     evt.preventDefault();

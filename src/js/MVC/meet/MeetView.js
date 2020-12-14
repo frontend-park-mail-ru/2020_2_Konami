@@ -23,10 +23,8 @@ import {
     CONNECT_CHAT,
     DISCONNECT_CHAT
 } from "@/js/services/EventBus/EventTypes.js";
-import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock.js";
 
 export default class MeetView extends BaseView {
-
     constructor(parent, model) {
         super(parent);
         this.parent = parent;
@@ -45,8 +43,7 @@ export default class MeetView extends BaseView {
     _loadData() {
         getPeople(1).then(response => {
             if (response.statusCode === 200) {
-
-                const allUsers = Object.values(response.parsedJson).forEach((user) => {
+                Object.values(response.parsedJson).forEach((user) => {
                     this.users.set(user.label.id, user.label);
                 });
             }
@@ -127,7 +124,7 @@ export default class MeetView extends BaseView {
         getMessages(this.model.meetId).then(response => {
             if (response.statusCode === 200) {
 
-                const chatMessages = Object.values(response.parsedJson).forEach((msg) => {
+                Object.values(response.parsedJson).forEach((msg) => {
                     // this.users.set(user.label.id, user.label);
                     messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
                         createOutgoingMsg(msg.text, msg.timestamp) :
@@ -142,7 +139,7 @@ export default class MeetView extends BaseView {
                          this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
-        const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
+        // const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
         const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
                             document.getElementsByClassName('meet-mobile__members-wrapper')[0];
 
@@ -182,7 +179,7 @@ export default class MeetView extends BaseView {
                 // Выбираем первый результат геокодирования.
                 let firstGeoObject = res.geoObjects.get(0),
                     // Координаты геообъекта.
-                    coords = firstGeoObject.geometry.getCoordinates(),
+                    // coords = firstGeoObject.geometry.getCoordinates(),
                     // Область видимости геообъекта.
                     bounds = firstGeoObject.properties.get('boundedBy');
 
@@ -441,7 +438,7 @@ export default class MeetView extends BaseView {
         });
     }
 
-    _clickEditButtonHandler(evt) {
+    _clickEditButtonHandler() {
         EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});
         setTimeout(() => {
             EventBus.dispatchEvent(PASS_MEET_DATA_TO_EDIT, this._data);
@@ -467,7 +464,7 @@ export default class MeetView extends BaseView {
 
     _addChatListeners() {
         const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
-        const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
+        // const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
         const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
 
         const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];

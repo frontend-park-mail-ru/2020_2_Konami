@@ -1,6 +1,5 @@
 'use strict';
 
-import { createUserCard } from "@/components/cards/UserCard/UserCard.js";
 import { 
     createSettings,
     createButton,

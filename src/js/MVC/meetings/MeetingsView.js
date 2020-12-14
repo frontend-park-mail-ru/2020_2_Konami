@@ -408,9 +408,9 @@ export default class MeetingsView extends BaseView {
                 } else {
                     displayNotification("Вы убрали лайк"); 
                     if (event.target.src) {
-                        event.target.src = "/assets/heart.svg";;
+                        event.target.src = "/assets/heart.svg";
                     } else {
-                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                        event.target.firstElementChild.src = "/assets/heart.svg";
                     }
                 }
             });

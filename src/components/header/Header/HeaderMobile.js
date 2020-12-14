@@ -33,7 +33,7 @@ export function createHeaderMobile(isMobile) {
 
     const search = headerWrapper.getElementsByClassName('header-mobile__search')[0];
     const modalSearch = headerWrapper.getElementsByClassName('search-block')[0];
-    search.addEventListener('click', (evt) => {
+    search.addEventListener('click', () => {
         modalSearch.style.display = 'flex';
     });
 

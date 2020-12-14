@@ -12,7 +12,6 @@ import {createDomTag} from "@/js/config/tags.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
-    REDIRECT,
     APPLY_TAGS_MODAL,
     CLOSE_TAGS_MODAL,
     EDIT_SUCCESS
