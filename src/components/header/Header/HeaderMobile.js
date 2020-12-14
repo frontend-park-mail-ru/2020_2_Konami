@@ -11,7 +11,7 @@ export function createHeaderMobile(isMobile) {
     const headerWrapper = document.createElement('div');
     headerWrapper.innerHTML = `
         <header class="${headerClass}">
-            <img src="assets/google.png" data-section="meetings" class="header-mobile__logo">
+            <img src="assets/newlogo.png" data-section="meetings" class="header-mobile__logo">
             <nav class="header-mobile__navigation">
                 <a href="/meetings" data-section="meetings" class="navigation__choose-link navigation__choose-link_blue">Мероприятия</a>
                 <a href="/people" data-section="people" class="navigation__choose-link navigation__choose-link_green">Люди</a>

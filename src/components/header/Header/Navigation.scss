@@ -20,10 +20,16 @@
 
         &_green {
             background-color: rgba(97, 255, 150, 0.8);
+            &:hover {
+                background-color: rgba(97, 255, 150, 0.5);
+            }
         }
 
         &_blue {
             background-color: rgba(61, 255, 245, 0.8); 
+            &:hover {
+                background-color: rgba(61, 255, 245, 0.5); 
+            }
         }
     }
 
