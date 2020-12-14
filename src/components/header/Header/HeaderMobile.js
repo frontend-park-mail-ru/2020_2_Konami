@@ -13,8 +13,8 @@ export function createHeaderMobile(isMobile) {
         <header class="${headerClass}">
             <img src="assets/google.png" data-section="meetings" class="header-mobile__logo">
             <nav class="header-mobile__navigation">
-                <a href="/meetings" data-section="meetings" class="navigation__choose-link">Мероприятия</a>
-                <a href="/people" data-section="people" class="navigation__choose-link">Люди</a>
+                <a href="/meetings" data-section="meetings" class="navigation__choose-link navigation__choose-link_blue">Мероприятия</a>
+                <a href="/people" data-section="people" class="navigation__choose-link navigation__choose-link_green">Люди</a>
             </nav>
             <img src="assets/loupe.svg" class="header-mobile__search">
             <div class="header-mobile__logo-wrapper">

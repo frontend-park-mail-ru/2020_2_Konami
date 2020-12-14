@@ -12,20 +12,18 @@
         margin: 0 5px;
         border-radius: 100px;
         padding: 10px 15px;
-        color: rgb(197, 193, 193);
+        color: rgb(82, 82, 82);
         outline: none;
         text-decoration: none;
 
-        background-color: rgba(255, 255, 255, 0.1);
-
         cursor: pointer;
 
-        &:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+        &_green {
+            background-color: rgba(97, 255, 150, 0.8);
         }
 
-        &:focus {
-            background-color: rgba(255, 255, 255, 0.2);
+        &_blue {
+            background-color: rgba(61, 255, 245, 0.8); 
         }
     }
 
