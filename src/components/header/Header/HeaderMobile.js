@@ -1,5 +1,8 @@
 'use strict';
 
+import EventBus from "@/js/services/EventBus/EventBus";
+import {REDIRECT} from "@/js/services/EventBus/EventTypes";
+
 export function createHeaderMobile(isMobile) {
     let headerClass = null;
     if (isMobile) {
@@ -32,15 +35,16 @@ export function createHeaderMobile(isMobile) {
     `;
 
     const search = headerWrapper.getElementsByClassName('header-mobile__search')[0];
-    const modalSearch = headerWrapper.getElementsByClassName('search-block')[0];
+    // const modalSearch = headerWrapper.getElementsByClassName('search-block')[0];
     search.addEventListener('click', () => {
-        modalSearch.style.display = 'flex';
+        // modalSearch.style.display = 'flex';
+        EventBus.dispatchEvent(REDIRECT, {url: '/search'});
     });
-
-    const cancel = headerWrapper.getElementsByClassName('search-block__cancel-button')[0];
-    cancel.addEventListener('click', () => {
-        modalSearch.style.display = 'none';
-    });
+    //
+    // const cancel = headerWrapper.getElementsByClassName('search-block__cancel-button')[0];
+    // cancel.addEventListener('click', () => {
+    //     modalSearch.style.display = 'none';
+    // });
 
     return headerWrapper.firstElementChild;
 }

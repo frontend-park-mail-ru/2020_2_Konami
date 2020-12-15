@@ -44,7 +44,6 @@ export default class HeaderView extends BaseView {
         }
     }
 
-    // TODO(template)
     render() {
         const searchLimit = 10;
         this._this = createHeaderMobile(this.model.isMobile());

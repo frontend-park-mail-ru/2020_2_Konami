@@ -17,6 +17,7 @@ import MeetController from "./MVC/meet/MeetController.js";
 import {
     REDIRECT
 } from "./services/EventBus/EventTypes.js";
+import SearchController from "@/js/MVC/search-widget/SearchController";
 
 // if (navigator.serviceWorker) {
 //     window.addEventListener('load', () => {
@@ -51,6 +52,8 @@ import {
     Router.register('/new-meeting', new NewMeetingController(application));
     Router.register('/edit-meeting', new EditMeetingController(application));
     Router.register('/meeting', new MeetController(application));
+    Router.register('/search', new SearchController(application));
+
 
     Router.route();
 
