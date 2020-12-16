@@ -247,7 +247,7 @@ export default class MeetView extends BaseView {
                 */
             });
 
-        this._addChatListeners();
+        this._addChatListeners(isMobile);
 
     }
 
@@ -462,7 +462,8 @@ export default class MeetView extends BaseView {
         }
     }
 
-    _addChatListeners() {
+    _addChatListeners(isMobile) {
+        const panelHead = document.getElementsByClassName('panel-heading')[0];
         const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
         // const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
         const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
@@ -487,6 +488,10 @@ export default class MeetView extends BaseView {
 
                 // CLOSE
                 if (chatPopup.style.display === 'flex') {
+                    if (!isMobile) {
+                        panelHead.classList.toggle('mixin');
+                    }
+                    panelHead.classList.toggle('border-top-raduis');
                     scrollTo(0, () => {
                         chatPopup.style.display = 'none';
                     });
@@ -495,6 +500,10 @@ export default class MeetView extends BaseView {
 
                     // OPEN
                 if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                    if (!isMobile) {
+                        panelHead.classList.toggle('mixin');
+                    }
+                    panelHead.classList.toggle('border-top-raduis');
                     chatPopup.style.display = 'flex';
                     messagesHistory.scrollTo({
                         top: document.body.scrollHeight,
@@ -541,7 +550,19 @@ export default class MeetView extends BaseView {
             if (key === "Enter")  {
                 sendChatBtn.click()
             }
-        })
+        });
+
+        const rightButton = document.getElementsByClassName('pull-right')[0];
+        if (!isMobile) {
+            panelHead.onmouseenter = () => {
+                rightButton.style.display = 'inline-block';
+            }
+            panelHead.onmouseleave = () => {
+                rightButton.style.display = 'none';
+            }
+        } else {
+            rightButton.style.display = 'inline-block';
+        }
 
     }
 }
