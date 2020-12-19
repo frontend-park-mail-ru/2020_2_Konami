@@ -44,7 +44,7 @@ export default class CardWrapper {
     }
 
     appendCollection(key, action) {
-        const newCollection = createCollectionCard({name: key, imgSrc: TAGS_IMGS[key]});
+        const newCollection = createCollectionCard({name: key, imgSrc: TAGS_IMGS[key]}, this._isMobile);
         newCollection.addEventListener('click', action);
 
         this._cards.appendChild(newCollection);

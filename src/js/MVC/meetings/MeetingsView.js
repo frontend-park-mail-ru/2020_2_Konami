@@ -206,6 +206,17 @@ export class MeetingsView extends BaseView {
         mostExpected.forEach(item => {
             this._createCard(item, cards);
         });
+
+        const collectionsTitle = createMainTitle('Подборки');
+        afterCard.appendChild(collectionsTitle);
+
+        let collections = new CardWrapper(true, false);
+        afterCard.appendChild(collections.render());
+
+        const keys = Object.keys(TAGS);
+        keys.forEach(key => {
+            collections.appendCollection(key);
+        });
     }
 
     _renderDesktop(soon, mostExpected) {
@@ -266,9 +277,8 @@ export class MeetingsView extends BaseView {
         main.appendChild(collectionsTitle);
 
         let collections = new CardWrapper(false, false);
-        const collectionsDom = collections.render();
-        collectionsDom.classList.add('margin-left-right-30');
-        main.appendChild(collectionsDom);
+        main.appendChild(collections.render());
+
         const keys = Object.keys(TAGS);
         keys.forEach(key => {
             collections.appendCollection(key);

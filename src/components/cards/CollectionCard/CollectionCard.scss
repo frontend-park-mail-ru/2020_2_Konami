@@ -39,6 +39,10 @@
         object-fit: cover;
     }
 
+    &__margin-right {
+        margin-right: 20px;
+    }
+
     &:hover &__image {
         filter: brightness(0.5);
     }

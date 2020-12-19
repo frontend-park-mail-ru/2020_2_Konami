@@ -2,7 +2,7 @@
 
 const template = require('./CollectionCardTemplate.pug');
 
-export function createCollectionCard(data, mobile) {
+export function createCollectionCard(data, isMobile) {
     // let startDate = new Date(data.card.startDate);
 
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -15,6 +15,9 @@ export function createCollectionCard(data, mobile) {
     // }
     const tmp = document.createElement('div');
     tmp.innerHTML = template(data);
+    if (isMobile) {
+        tmp.firstElementChild.classList.add('collection-card__margin-right');
+    }
 
     return tmp.firstElementChild;
 }

@@ -164,16 +164,14 @@ body {
     }
 
     .collection-card {
-        flex-basis: 455px;
-        height: 260px;
+        flex-basis: 485px;
 
         &__image-wrapper {
-            height: 180px;
-            min-height: 180px;
+            height: 230px;
         }
 
         &__image {
-            height: 180px;
+            height: 230px;
         }
     }
 
