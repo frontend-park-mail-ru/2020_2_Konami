@@ -5,7 +5,7 @@ import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { patchMeeting } from "@/js/services/API/api.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
-import { 
+import {
     REDIRECT,
     OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
@@ -20,6 +20,7 @@ import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.j
 
 import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
+import {TAGS, TAGS_IMGS} from "@/js/config/tags";
 
 export const MEETINGSCOUNT = 9;
 
@@ -39,7 +40,7 @@ export class MeetingsView extends BaseView {
         console.log(tomorrow);
 
         this._settingsButton = [
-            {view: 'Мои мероприятия', type: ['filter'], value: 'my',}, 
+            {view: 'Мои мероприятия', type: ['filter'], value: 'my',},
             {view: 'Избранное', type: ['filter'], value: 'favorite',},
             {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: today.toISOString().slice(0, 10),},
             {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: tomorrow.toISOString().slice(0, 10),},
@@ -82,7 +83,7 @@ export class MeetingsView extends BaseView {
         if (cards.length === 0) {
             this._slider.appendEmptySlide();
         }
-        
+
         // Создаем контере для карточек, заголовков, настроек
         const afterCard = document.createElement('div');
         afterCard.classList.add('page-mobile__after-card');
@@ -93,7 +94,7 @@ export class MeetingsView extends BaseView {
         // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true, () => {
             getMeetings({
-                limit: MEETINGSCOUNT, 
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
@@ -125,7 +126,7 @@ export class MeetingsView extends BaseView {
     _renderWithQueryDesktop(cards) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this.parent.appendChild(main);
         this._this = main;
 
@@ -134,10 +135,10 @@ export class MeetingsView extends BaseView {
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
 
-        // Карточки 
+        // Карточки
         let cardsW = new CardWrapper(false, false, () => {
             getMeetings({
-                limit: MEETINGSCOUNT, 
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
@@ -210,7 +211,7 @@ export class MeetingsView extends BaseView {
     _renderDesktop(soon, mostExpected) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this.parent.appendChild(main);
         this._this = main;
 
@@ -232,7 +233,7 @@ export class MeetingsView extends BaseView {
         // Создаем слайдер
         this._slider = new Slider(false);
         main.appendChild(this._slider.render());
-    
+
         const soonTitle = createMainTitle('Митапы в ближайшее время');
         soonTitle.addEventListener('click', () => {
             this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
@@ -241,7 +242,7 @@ export class MeetingsView extends BaseView {
         // Заголовок
         main.appendChild(soonTitle);
 
-        // Карточки 
+        // Карточки
         let cards = new CardWrapper(false, false);
         main.appendChild(cards.render());
         soon.forEach(item => {
@@ -260,11 +261,24 @@ export class MeetingsView extends BaseView {
         mostExpected.forEach(item => {
             this._createCard(item, cards);
         });
+
+        const collectionsTitle = createMainTitle('Подборки');
+        main.appendChild(collectionsTitle);
+
+        let collections = new CardWrapper(false, false);
+        const collectionsDom = collections.render();
+        collectionsDom.classList.add('margin-left-right-30');
+        main.appendChild(collectionsDom);
+        const keys = Object.keys(TAGS);
+        keys.forEach(key => {
+            collections.appendCollection(key);
+        });
+
     }
 
     _createSlide(item) {
         this._slider.appendSlide(
-            item, 
+            item,
             () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
             },
@@ -425,7 +439,7 @@ export class MeetingsView extends BaseView {
                         event.target.firstElementChild.src = "/assets/like.svg";
                     }
                 } else {
-                    displayNotification("Вы убрали лайк"); 
+                    displayNotification("Вы убрали лайк");
                     if (event.target.src) {
                         event.target.src = "/assets/heart.svg";
                     } else {
@@ -470,7 +484,7 @@ export class MeetingsView extends BaseView {
                     alert('Permission denied');
                 }
             });
-            
+
         });
     }
 
