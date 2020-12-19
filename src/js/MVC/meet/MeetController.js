@@ -2,7 +2,7 @@
 
 import Controller from "@/js/basics/Controller/Controller.js";
 import MeetModel from "./MeetModel.js";
-import { 
+import {
     getMeeting,
     getMeetings,
 } from "@/js/services/API/api.js";
@@ -48,9 +48,9 @@ export default class MeetController extends Controller {
                     // ne kaef
                     return;
                 }
-                
+
                 this.view.render(response.parsedJson, sim.parsedJson);
-            }); 
+            });
         });
 
         this.view.registerEvents();

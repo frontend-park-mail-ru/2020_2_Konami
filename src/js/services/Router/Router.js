@@ -1,6 +1,8 @@
 'use strict';
 
 import appConfig from "../../config/appConfig.js";
+import EventBus from "@/js/services/EventBus/EventBus";
+import {REDIRECT} from "@/js/services/EventBus/EventTypes";
 
 /**
  * Router приложения
@@ -64,6 +66,11 @@ class Router {
             alert('ERROR 404');
         }
 
+        if (currentPath === '/search') {
+            this._handleSearchControllerMixin(controller);
+            return;
+        }
+
         if (this.currentController) {
             this.currentController.deactivate();
         }
@@ -74,6 +81,22 @@ class Router {
 
     redirectBack() {
         window.history.back();
+    }
+
+    redirectForward() {
+        window.history.forward();
+    }
+
+    _handleSearchControllerMixin(controller) {
+        if (this.currentController) {
+            // this.currentController.activate(new URLSearchParams(window.location.search));
+
+            const prevController = this.currentController;
+            this.currentController = controller;  // берем контролер поиска
+            this.currentController.activate(prevController);  // прокидываем в него предыдущий контроллер для его дальнейшей деактивации
+        } else {
+            EventBus.dispatchEvent(REDIRECT, {url: '/meetings'});
+        }
     }
 
 }

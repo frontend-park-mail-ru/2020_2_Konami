@@ -9,9 +9,12 @@ export class Ws {
     constructor(userId) {
         this.userId = userId;
 
+        // TODO uncomment
         const address = ['https', 'https:'].includes(location.protocol)
             ? `wss://${location.hostname}:8001/api/ws`
             : `ws://${location.hostname}:8001/api/ws`;
+            // ? `wss://${location.hostname}:3000/ws`
+            // : `ws://${location.hostname}:3000/ws`;
 
 
         this.ws = new WebSocket(address);

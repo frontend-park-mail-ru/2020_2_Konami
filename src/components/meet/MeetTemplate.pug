@@ -10,7 +10,7 @@ div(class='meet')
         h1(class='meet__title') #{card.label.title}
         div(class='meet__date-place-wrapper')
             span(class='meet__place') #{card.city}, #{card.address}
-            span(class='meet__separator') •  
+            span(class='meet__separator') •
             span(class='meet__date') #{dateStr}
 
         div(class='meet__buttons')
@@ -19,7 +19,7 @@ div(class='meet')
             div(class='meet__like-icon-wrapper')
                 if isLiked
                     img(class='meet__like-icon' src='assets/like.svg')
-                else 
+                else
                     img(class='meet__like-icon' src='assets/heart.svg')
                 span(class='meet__like-text') Хочу сходить
 
@@ -37,5 +37,5 @@ div(class='meet')
             h1(class='meet__members-count') #{registrations.length}
         div(class='meet__members-wrapper')
     div(id="map")
-    
+
     h1(class='meet__sub-title') Похожие
