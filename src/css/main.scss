@@ -192,3 +192,17 @@ body {
         }
     }
 }
+
+@media (max-width: 650px) {
+    .collection-card {
+        flex-basis: 380px;
+
+        &__image-wrapper {
+            height: 230px;
+        }
+
+        &__image {
+            height: 230px;
+        }
+    }
+}
