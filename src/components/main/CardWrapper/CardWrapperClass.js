@@ -31,9 +31,12 @@ export default class CardWrapper {
         this._cards.appendChild(newCard);
     }
 
-    appendUserCard(data, action) {
+    appendUserCard(data, action, likeAction) {
         const newCard = createUserCard(data);
         newCard.addEventListener('click', action);
+
+        const userCardLikeIcon = newCard.getElementsByClassName('user-card__like')[0];
+        userCardLikeIcon.addEventListener('click', likeAction);
 
         this._cards.appendChild(newCard);
     }

@@ -7,6 +7,8 @@ import {
 import PeopleModel from "./PeopleModel.js";
 import PeopleView from "./PeopleView.js";
 
+const PEOPLECOUNT = 9;
+
 export default class PeopleController extends Controller {
 
     constructor(parent) {
@@ -16,7 +18,7 @@ export default class PeopleController extends Controller {
     }
 
     activate(queryParams) {
-        getPeople(1).then(response => {
+        getPeople({limit: PEOPLECOUNT}).then(response => {
             if (response.statusCode === 200) {
                 // kaef
             } else {

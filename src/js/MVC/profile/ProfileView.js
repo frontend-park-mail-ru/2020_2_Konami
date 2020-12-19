@@ -9,6 +9,8 @@ import {getSelectedTags} from "@/components/auth/TagsModal/TagsModal";
 import {closeTagsModalDialog} from "@/components/auth/SelectedTag/SelectedTag.js";
 import {createDomTag} from "@/js/config/tags.js";
 
+import { postSubscribeUser } from "@/js/services/API/api.js";
+
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
@@ -35,6 +37,12 @@ export default class ProfileView extends BaseView {
         this.data = data;
         this._this = createProfile(data, this.model.getUserId() === data.card.label.id, this.model.isMobile());
         this.parent.appendChild(this._this);
+
+
+        if (this.model.getUserId !== data.card.label.id) {
+            const button = document.getElementsByClassName('profile__subscribe-button')[0];
+            button.addEventListener('click', this._likeEventListener.bind(this, data));
+        }
 
         this._addEventListeners();
     }
@@ -111,6 +119,37 @@ export default class ProfileView extends BaseView {
 
             }
         }
+    }
+
+    _likeEventListener(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+
+            if (item.card.isSubTarget) {
+                item.card.isSubTarget = false;
+            } else {
+                item.card.isSubTarget = true;
+            }
+
+            postSubscribeUser(item.card.label.id, item.card.isSubTarget).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
+                }
+                if (item.card.isSubTarget) {
+                    displayNotification("Вы отменили избрание"); 
+                    event.target.innerHTML = 'Избрать';
+                } else {
+                    displayNotification("Вы избрали пользователя");
+                    event.target.innerHTML = 'Отменить избрание';
+                }
+            });
+        });
     }
 
     registerEvents() {

@@ -10,4 +10,8 @@ export default class PeopleModel {
     isMobile() {
         return this._user.isMobile();
     }
+
+    checkAuth() {
+        return this._user.isAuthenticated();
+    }
 }
