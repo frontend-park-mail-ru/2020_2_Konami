@@ -1,6 +1,7 @@
 @import '@/sass_config.scss';
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
+@import '@/components/cards/CollectionCard/CollectionCard.scss';
 
 @import '@/components/cards/MeetSlides/MeetSlide.scss';
 @import '@/components/cards/MeetSlides/MeetSlideMobile.scss';
@@ -151,6 +152,20 @@ body {
     .meet-card {
         flex-basis: 315px;
         height: 250px;
+
+        &__image-wrapper {
+            height: 180px;
+            min-height: 180px;
+        }
+
+        &__image {
+            height: 180px;
+        }
+    }
+
+    .collection-card {
+        flex-basis: 455px;
+        height: 260px;
 
         &__image-wrapper {
             height: 180px;

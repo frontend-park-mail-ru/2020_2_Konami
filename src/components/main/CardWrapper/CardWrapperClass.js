@@ -2,6 +2,8 @@
 
 import { createMeetCard } from "../../cards/MeetCard/MeetCard.js";
 import { createUserCard } from "../../cards/UserCard/UserCard.js";
+import { createCollectionCard } from "@/components/cards/CollectionCard/CollectionCard";
+import {TAGS_IMGS} from "@/js/config/tags";
 
 
 export default class CardWrapper {
@@ -36,6 +38,13 @@ export default class CardWrapper {
         newCard.addEventListener('click', action);
 
         this._cards.appendChild(newCard);
+    }
+
+    appendCollection(key, action) {
+        const newCollection = createCollectionCard({name: key, imgSrc: TAGS_IMGS[key]});
+        newCollection.addEventListener('click', action);
+
+        this._cards.appendChild(newCollection);
     }
 
     getLastItemId() {
@@ -74,7 +83,7 @@ export default class CardWrapper {
             cards.classList.add('card-wrapper-mobile__cards');
             cardWrapper.append(cards);
         }
-    
+
         this._cards = cards;
         this._this = cardWrapper;
     }
