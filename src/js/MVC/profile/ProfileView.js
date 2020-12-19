@@ -38,10 +38,11 @@ export default class ProfileView extends BaseView {
         this._this = createProfile(data, this.model.getUserId() === data.card.label.id, this.model.isMobile());
         this.parent.appendChild(this._this);
 
+        const button = document.getElementsByClassName('profile__subscribe-button')[0];
+        button.addEventListener('click', this._likeEventListener.bind(this, data));
 
-        if (this.model.getUserId !== data.card.label.id) {
-            const button = document.getElementsByClassName('profile__subscribe-button')[0];
-            button.addEventListener('click', this._likeEventListener.bind(this, data));
+        if (this.model.getUserId() === data.card.label.id) {
+            button.remove();
         }
 
         this._addEventListeners();
