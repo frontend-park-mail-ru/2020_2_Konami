@@ -22,8 +22,9 @@ import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 import {TAGS, TAGS_IMGS} from "@/js/config/tags";
 
-export default class MeetingsView extends BaseView {
+export const MEETINGSCOUNT = 9;
 
+export class MeetingsView extends BaseView {
     constructor(parent, model) {
         super(parent);
         this.parent = parent;
@@ -93,19 +94,28 @@ export default class MeetingsView extends BaseView {
         // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true, () => {
             getMeetings({
-                limit: 3,
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
             }, this.model._queryConfig.filter).then(obj => {
+                if (obj.parsedJson.length < MEETINGSCOUNT) {
+                    cardsW.removeButton();
+                }
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
                 });
             });
         });
         afterCard.appendChild(cardsW.render());
+        if (cards.length < MEETINGSCOUNT) {
+            cardsW.removeButton();
+        }
+        if (cards.length === 0) {
+            cardsW.addEmptyBlock();
+        }
         cards.forEach(item => {
             this._createCard(item, cardsW);
         });
@@ -128,13 +138,16 @@ export default class MeetingsView extends BaseView {
         // Карточки
         let cardsW = new CardWrapper(false, false, () => {
             getMeetings({
-                limit: 3,
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
             }, this.model._queryConfig.filter).then(obj => {
+                if (obj.parsedJson.length < MEETINGSCOUNT) {
+                    cardsW.removeButton();
+                }
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
                 });
@@ -142,6 +155,12 @@ export default class MeetingsView extends BaseView {
             console.log(cardsW.getLastItemId());
         });
         main.appendChild(cardsW.render());
+        if (cards.length < MEETINGSCOUNT) {
+            cardsW.removeButton();
+        }
+        if (cards.length === 0) {
+            cardsW.addEmptyBlock();
+        }
         cards.forEach(item => {
             this._createCard(item, cardsW);
         });

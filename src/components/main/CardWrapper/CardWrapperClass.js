@@ -47,6 +47,18 @@ export default class CardWrapper {
         this._cards.appendChild(newCollection);
     }
 
+    removeButton() {
+        this._button.remove();
+    }
+
+    addEmptyBlock() {
+        const element = document.createElement('h1');
+        element.innerHTML = 'К сожалению ничего не нашлось :(';
+        element.classList.add();
+
+        this._cards.appendChild(element);
+    }
+
     getLastItemId() {
         if (this._cards.childElementCount !== 0) {
             return this._cards.lastElementChild.id;
@@ -76,6 +88,7 @@ export default class CardWrapper {
             cardWrapper.appendChild(cards);
 
             if (this._buttonAction !== null && this._buttonAction !== undefined) {
+                this._button = button;
                 button.addEventListener('click', this._buttonAction);
                 cardWrapper.appendChild(button);
             }
@@ -102,6 +115,7 @@ export default class CardWrapper {
         cardWrapper.appendChild(cards);
 
         if (this._buttonAction !== null && this._buttonAction !== undefined) {
+            this._button = button;
             button.addEventListener('click', this._buttonAction);
             cardWrapper.appendChild(button);
         }
