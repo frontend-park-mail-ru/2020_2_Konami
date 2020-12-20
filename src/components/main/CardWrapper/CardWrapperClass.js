@@ -70,7 +70,7 @@ export default class CardWrapper {
     }
 
     clear() {
-        this._this.innerHTML = '';
+        this._cards.innerHTML = '';
     }
 
     remove() {

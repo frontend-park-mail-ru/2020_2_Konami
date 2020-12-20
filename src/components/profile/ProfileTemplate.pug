@@ -7,9 +7,9 @@ main(class='profile')
                 button(class='profile__save-button' hidden) Сохранить
             img(class='profile__avatar' src=card.label.imgSrc)
         if card.isSubTarget
-            button(class='profile__subscribe-button') Избрать
-        else 
             button(class='profile__subscribe-button') Отменить избрание
+        else 
+            button(class='profile__subscribe-button') Избрать
         div(class='icon-with-text')
             h2(class='profile__name icon-with-text__text') #{card.label.name}
             img(src='assets/pen.svg' class='icon-with-text__editicon profile__name-editicon') 

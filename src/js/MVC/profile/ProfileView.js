@@ -143,11 +143,11 @@ export default class ProfileView extends BaseView {
                     return;
                 }
                 if (item.card.isSubTarget) {
-                    displayNotification("Вы отменили избрание"); 
-                    event.target.innerHTML = 'Избрать';
-                } else {
                     displayNotification("Вы избрали пользователя");
                     event.target.innerHTML = 'Отменить избрание';
+                } else {
+                    displayNotification("Вы отменили избрание"); 
+                    event.target.innerHTML = 'Избрать';
                 }
             });
         });

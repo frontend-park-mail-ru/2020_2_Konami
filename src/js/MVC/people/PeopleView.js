@@ -13,7 +13,7 @@ import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
-import { getPeople, postSubscribeUser } from "../../services/API/api";
+import { getPeople, getSubscriptions, postSubscribeUser } from "../../services/API/api";
 
 const PEOPLECOUNT = 9;
 
@@ -150,10 +150,25 @@ export default class PeopleView extends BaseView {
     _createSettings() {
         const settings = createSettings();
 
-        const myPeople = createButton('Moи люди');
         const favoritePeople = createButton('Избранные люди');
+        favoritePeople.addEventListener('click', () => {
+            this._cards.clear();
+            getSubscriptions().then(obj => {
+                obj.parsedJson.forEach(item => {
+                    this._cards.appendUserCard(item, () => {
+                        EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+                    }, this._likeEventListener.bind(this, item));
+                });
+                if (obj.parsedJson.length < PEOPLECOUNT) {
+                    this._cards.removeButton();
+                }
+                if (obj.parsedJson.length === 0) {
+                    this._cards.addEmptyBlock();
+                }
+            });
+        });
 
-        settings.append(myPeople, favoritePeople);
+        settings.append(favoritePeople);
 
         return settings;
     }
@@ -179,11 +194,11 @@ export default class PeopleView extends BaseView {
                     return;
                 }
                 if (item.isSubTarget) {
-                    displayNotification("Вы отменили избрание"); 
-                    event.target.src = "/assets/heart.svg";
-                } else {
                     displayNotification("Вы избрали пользователя");
                     event.target.src = "/assets/like.svg";
+                } else {
+                    displayNotification("Вы отменили избрание"); 
+                    event.target.src = "/assets/heart.svg";
                 }
             });
         });

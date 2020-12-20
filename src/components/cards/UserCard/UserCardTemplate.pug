@@ -2,9 +2,9 @@ div(class='user-card' id=label.id)
     div(class='user-card__image-wrapper')
         img(src=label.imgSrc class='user-card__image')
         if isSubTarget
-            img(class='user-card__like' src='assets/heart.svg')
-        else 
             img(class='user-card__like' src='assets/like.svg')
+        else 
+            img(class='user-card__like' src='assets/heart.svg')
 
         div(class='user-card__tags')
             each val, index in interestTags

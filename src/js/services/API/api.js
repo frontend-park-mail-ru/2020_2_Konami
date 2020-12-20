@@ -167,6 +167,26 @@ function getMeetings(queryParams, slug) {
     });
 }
 
+function getSubscriptions() {
+    let statusCode;
+    return fetch(`/api/subscriptions`, {
+        method: 'GET',
+        credentials: 'include',
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
+}
+
 function getPeople(queryParams) {
     let params = '?';
     if (queryParams !== undefined) {
@@ -429,4 +449,5 @@ export {
     postMessage,
     getMessages,
     postSubscribeUser,
+    getSubscriptions,
 };
