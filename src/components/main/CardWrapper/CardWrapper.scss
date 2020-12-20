@@ -1,7 +1,7 @@
 .card-wrapper {
     display: flex;
     flex-direction: column;
-    //align-items: center;
+    align-items: center;
 
     &__cards {
         display: flex;
@@ -14,8 +14,8 @@
 
     &__button {
         background-color: #fef339;
-        border-radius: 100px;
-        width: 80%;
+        border-radius: 5px;
+        width: 100%;
         height: 40px;
         cursor: pointer;
         outline: none;

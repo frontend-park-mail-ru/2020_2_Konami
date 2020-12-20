@@ -215,7 +215,11 @@ export class MeetingsView extends BaseView {
 
         const keys = Object.keys(TAGS);
         keys.forEach(key => {
-            collections.appendCollection(key);
+            collections.appendCollection(key, () => {
+                this.model._queryConfig.collectionId = key;
+                this.model._queryConfig.filter = 'tagged';
+                this._parseWithRedirect();
+            });
         });
     }
 
@@ -281,7 +285,11 @@ export class MeetingsView extends BaseView {
 
         const keys = Object.keys(TAGS);
         keys.forEach(key => {
-            collections.appendCollection(key);
+            collections.appendCollection(key, () => {
+                this.model._queryConfig.collectionId = key;
+                this.model._queryConfig.filter = 'tagged';
+                this._parseWithRedirect();
+            });
         });
 
     }

@@ -126,6 +126,9 @@ export default class PeopleView extends BaseView {
                         EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
                     });
                 });
+                if (response.parsedJson.length < PEOPLECOUNT) {
+                    cardWrapper.removeButton();
+                }
             });
         });
         this._cards = cardWrapper;

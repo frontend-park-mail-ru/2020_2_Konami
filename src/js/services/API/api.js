@@ -124,7 +124,9 @@ function getMeetings(queryParams, slug) {
     let params = '?';
     if (queryParams !== undefined) {
         Object.keys(queryParams).forEach(key => {
-            if (queryParams[key] !== undefined && 
+            if (key === 'meta') {
+                params += `${queryParams[key]}`;
+            } else if (queryParams[key] !== undefined && 
                     queryParams[key] !== null && 
                     queryParams[key] !== '') {
                 params += `${key}=${queryParams[key]}&`
@@ -143,6 +145,8 @@ function getMeetings(queryParams, slug) {
     } else {
         slug = '';
     }
+
+    console.log(params);
 
     let statusCode;
     return fetch(`/api/meetings${slug}${params}`, {

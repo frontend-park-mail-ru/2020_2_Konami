@@ -8,6 +8,8 @@ import {
     MEETINGSCOUNT,
 } from "./MeetingsView.js";
 
+import {TAGS, TAGS_IMGS} from "@/js/config/tags";
+
 const MEETINGSCOUNTWITHOUTQUERY = 3;
 
 export default class MeetingsController extends Controller {
@@ -56,12 +58,21 @@ export default class MeetingsController extends Controller {
             });
         } else {
             this.view._cards = null;
+            let collectionQuery = '';
+            if (this.model._queryConfig.collectionId !== '') {
+                TAGS[this.model._queryConfig.collectionId].forEach(item => {
+                    collectionQuery += `tag=${item}&`;
+                });
+                console.log(collectionQuery);
+            }
+            
             getMeetings({
                 limit: MEETINGSCOUNT, 
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
+                meta: collectionQuery,
             }, this.model._queryConfig.filter).then(obj => {
                 this.view.renderWithQuery(obj.parsedJson);
             });
