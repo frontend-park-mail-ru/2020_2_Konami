@@ -191,6 +191,10 @@ body {
             min-width: $min-width + 2 * $padding;
         }
     }
+
+    .wrapper-desktop {
+        width: 70%;
+    }
 }
 
 @media (max-width: 650px) {
