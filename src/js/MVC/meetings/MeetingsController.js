@@ -59,7 +59,9 @@ export default class MeetingsController extends Controller {
         } else {
             this.view._cards = null;
             let collectionQuery = '';
-            if (this.model._queryConfig.collectionId !== '') {
+            if (this.model._queryConfig.collectionId !== '' &&
+                        this.model._queryConfig.collectionId !== undefined && 
+                        this.model._queryConfig.collectionId !== null) {
                 TAGS[this.model._queryConfig.collectionId].forEach(item => {
                     collectionQuery += `tag=${item}&`;
                 });
