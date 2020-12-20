@@ -43,6 +43,9 @@ export default class EditMeetingView extends NewMeetingView {
             // const {card, startDate, endDate, text, title, place, tags, imgSrc} = data;
             const {card, isLiked, isRegistered} = data;
 
+            const seatsCountInput = document.getElementsByName('seats')[0];
+            seatsCountInput.value = card.seats
+
             const titleInput = document.getElementsByName('name')[0];
             titleInput.value = card.label.title;
 
@@ -89,7 +92,7 @@ export default class EditMeetingView extends NewMeetingView {
         const minutes = document.getElementsByName(`${prefix}-minutes`)[0];
 
         day.value = datetime.getDate();
-        month.value = datetime.getMonth();
+        month.value = datetime.getMonth() + 1;
         year.value = datetime.getFullYear();
         hours.value = datetime.getHours();
         minutes.value = datetime.getMinutes();

@@ -22,7 +22,7 @@ export function createNewMeetingForm() {
     divWrapper.classList.add('new-meet');
 
     const maxSeatsInput = createLabeledElements('Количество мест',
-        createInput({style: "width: 70px;", type:'number', required: 'true', name: "seats", maxLength: '6'}));
+        createInput({style: "width: 70px;", type:'number', required: 'true', name: "seats", maxLength: '6', min:"1"}));
 
     const addTagsBtn = createLabeledElements(
         ' Теги мероприятия',
