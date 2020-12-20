@@ -1,5 +1,7 @@
 'use strict';
 
+import {sanitizeHTML} from "@/js/utils/validators/simpleSanitize";
+
 const template = require('./ProfileTemplate.pug');
 
 import {
@@ -138,7 +140,7 @@ function createProfile(data, isAuth, isMobile) {
         }
 
         addListener(editIcon, editedField, input, () => {
-            editedField.innerHTML = input.value;
+            editedField.innerHTML = sanitizeHTML(input.value);
             editedField.href = input.value;
             const obj = {};
             obj[item.name] = editedField.innerHTML;
