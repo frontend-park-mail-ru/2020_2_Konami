@@ -373,10 +373,11 @@ hr {
   border-radius: 50%;
 
   &:hover {
-    width: 800px;
+    width: 100%;
+    //width: 800px;
     margin-left: auto;
     //margin-right: auto;
-    animation: growUp 900ms ease-in-out forwards;
+    animation: growUp 600ms ease-in-out forwards;
     transform-origin: right;
     border-radius: 5px;
   }
@@ -427,7 +428,7 @@ hr {
 
 @keyframes growUp {
   0% {
-    transform: scaleX(0.15)
+    transform: scaleX(0.2)
   }
   //80% {
   //  transform: scaleX(1.1)
