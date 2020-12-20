@@ -7,7 +7,7 @@ import {
 import PeopleModel from "./PeopleModel.js";
 import PeopleView from "./PeopleView.js";
 
-const PEOPLECOUNT = 9;
+const PEOPLECOUNT = 6;
 
 export default class PeopleController extends Controller {
 

@@ -54,6 +54,13 @@ export default class MeetingsController extends Controller {
                     // ne kaef
                     return;
                 }*/
+
+                if (values[0].parsedJson.length === 0 || values[0].statusCode === 401) {
+                    getMeetings({limit: MEETINGSCOUNTWITHOUTQUERY}).then(response => {
+                        this.view.render(response.parsedJson, values[1].parsedJson, values[2].parsedJson);
+                    });
+                    return;
+                }
                 this.view.render(values[0].parsedJson, values[1].parsedJson, values[2].parsedJson);
             });
         } else {

@@ -6,8 +6,10 @@ import {
 } from "@/components/settings/Settings.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
+
 import { 
-    REDIRECT 
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
 import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
@@ -15,7 +17,7 @@ import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTi
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 import { getPeople, getSubscriptions, postSubscribeUser } from "../../services/API/api";
 
-const PEOPLECOUNT = 9;
+const PEOPLECOUNT = 6;
 
 export default class PeopleView extends BaseView {
 

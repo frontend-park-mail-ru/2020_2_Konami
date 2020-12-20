@@ -8,6 +8,10 @@ import {displayNotification} from "@/components/auth/Notification/Notification";
 import {getSelectedTags} from "@/components/auth/TagsModal/TagsModal";
 import {closeTagsModalDialog} from "@/components/auth/SelectedTag/SelectedTag.js";
 import {createDomTag} from "@/js/config/tags.js";
+import {
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
+} from "@/js/services/EventBus/EventTypes.js";
 
 import { postSubscribeUser } from "@/js/services/API/api.js";
 

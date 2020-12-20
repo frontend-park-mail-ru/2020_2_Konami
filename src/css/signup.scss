@@ -81,9 +81,11 @@ $signup-max-width: 900px;
         max-width: 100%;
         min-height: 250px;
         max-height: 300px;
+        object-fit: cover;
         display: block;
         margin: 8px 0;
         border: 1px solid #f2f2f2;
+        border-radius: 4px;
 
         &:focus + label,
         & + label:hover {
