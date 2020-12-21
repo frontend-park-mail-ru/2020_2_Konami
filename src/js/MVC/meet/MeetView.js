@@ -119,7 +119,7 @@ export default class MeetView extends BaseView {
             this._renderDesktop(data, simulars);
         }
 
-        this._this.appendChild(createChatPopup(isMobile));
+        this._this.appendChild(createChatPopup(data.card.label.title, isMobile));
         const messagesHistory = document.getElementsByClassName('msg_history')[0];
         getMessages(this.model.meetId).then(response => {
             if (response.statusCode === 200) {
@@ -472,6 +472,19 @@ export default class MeetView extends BaseView {
 
         const chatPopup = document.getElementById('chatPopup');
         const messagesHistory = document.getElementsByClassName('msg_history')[0];
+        const chatTitle = document.getElementsByClassName('chat-title')[0];
+
+        const chatPanelOnMouseHandler = () => {
+            rightButton.style.display = 'inline-block';
+            chatTitle.style.display = 'inline-block';
+        }
+
+        const chatPanelOnMouseLeaveHandler = () => {
+            rightButton.style.display = 'none';
+            chatTitle.style.display = 'none';
+        }
+
+        chatTitle.style.display = 'none';
 
         openChatBtn.onclick = () => {
             this.model.checkAuth().then(isAuth => {
@@ -488,23 +501,31 @@ export default class MeetView extends BaseView {
 
                 // CLOSE
                 if (chatPopup.style.display === 'flex') {
+                    panelHead.addEventListener('mouseenter', chatPanelOnMouseHandler);
+                    panelHead.addEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
                     if (!isMobile) {
                         panelHead.classList.toggle('mixin');
                     }
                     panelHead.classList.toggle('border-top-raduis');
                     scrollTo(0, () => {
                         chatPopup.style.display = 'none';
+                        // chatTitle.style.display = 'none';
                     });
 
                 } else
 
                     // OPEN
                 if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                    panelHead.removeEventListener('mouseenter', chatPanelOnMouseHandler);
+                    panelHead.removeEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
                     if (!isMobile) {
                         panelHead.classList.toggle('mixin');
                     }
                     panelHead.classList.toggle('border-top-raduis');
                     chatPopup.style.display = 'flex';
+                    chatTitle.style.display = 'inline-block';
                     messagesHistory.scrollTo({
                         top: document.body.scrollHeight,
                         behavior: "smooth"
@@ -554,14 +575,20 @@ export default class MeetView extends BaseView {
 
         const rightButton = document.getElementsByClassName('pull-right')[0];
         if (!isMobile) {
-            panelHead.onmouseenter = () => {
-                rightButton.style.display = 'inline-block';
-            }
-            panelHead.onmouseleave = () => {
-                rightButton.style.display = 'none';
-            }
+            panelHead.addEventListener('mouseenter', chatPanelOnMouseHandler);
+            panelHead.addEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
+            // panelHead.onmouseenter = () => {
+            //     rightButton.style.display = 'inline-block';
+            //     chatTitle.style.display = 'inline-block';
+            // }
+            // panelHead.onmouseleave = () => {
+            //     rightButton.style.display = 'none';
+            //     chatTitle.style.display = 'none';
+            // }
         } else {
             rightButton.style.display = 'inline-block';
+            chatTitle.style.display = 'inline-block';
         }
 
     }
