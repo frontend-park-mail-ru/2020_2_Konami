@@ -112,7 +112,7 @@ function createAvatarField(tmp) {
         let blobFile = fileChooser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
-        postPhoto(formData, 'userId', window.userId).then((obj) => {
+        postPhoto(formData).then((obj) => {
             if (obj.statusCode === 200) {
                 displayNotification("Вы изменили фотографию");
                 saveButton.hidden = true;
