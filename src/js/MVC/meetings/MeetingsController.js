@@ -10,7 +10,7 @@ import {
 
 import {TAGS, TAGS_IMGS} from "@/js/config/tags";
 
-const MEETINGSCOUNTWITHOUTQUERY = 3;
+const MEETINGSCOUNTWITHOUTQUERY = 15;
 
 export default class MeetingsController extends Controller {
 
