@@ -69,6 +69,12 @@ export default class CardWrapper {
         return -1;
     }
 
+    getLastItemDate() {
+        if (this._cards.childElementCount !== 0) {
+            return this._cards.lastElementChild.date;
+        }
+    }
+
     clear() {
         this._cards.innerHTML = '';
     }

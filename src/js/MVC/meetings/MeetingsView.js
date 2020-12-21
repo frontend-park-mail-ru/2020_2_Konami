@@ -100,6 +100,7 @@ export class MeetingsView extends BaseView {
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
+                prevStart: cardsW.getLastItemDate(),
             }, this.model._queryConfig.filter).then(obj => {
                 if (obj.parsedJson.length < MEETINGSCOUNT) {
                     cardsW.removeButton();
@@ -144,6 +145,7 @@ export class MeetingsView extends BaseView {
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
+                prevStart: cardsW.getLastItemDate(),
             }, this.model._queryConfig.filter).then(obj => {
                 if (obj.parsedJson.length < MEETINGSCOUNT) {
                     cardsW.removeButton();
@@ -152,7 +154,6 @@ export class MeetingsView extends BaseView {
                     this._createCard(element, cardsW);
                 });
             });
-            console.log(cardsW.getLastItemId());
         });
         main.appendChild(cardsW.render());
         if (cards.length < MEETINGSCOUNT) {

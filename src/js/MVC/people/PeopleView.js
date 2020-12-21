@@ -154,19 +154,25 @@ export default class PeopleView extends BaseView {
 
         const favoritePeople = createButton('Избранные люди');
         favoritePeople.addEventListener('click', () => {
-            this._cards.clear();
-            getSubscriptions().then(obj => {
-                obj.parsedJson.forEach(item => {
-                    this._cards.appendUserCard(item, () => {
-                        EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
-                    }, this._likeEventListener.bind(this, item));
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this._cards.clear();
+                getSubscriptions().then(obj => {
+                    obj.parsedJson.forEach(item => {
+                        this._cards.appendUserCard(item, () => {
+                            EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+                        }, this._likeEventListener.bind(this, item));
+                    });
+                    if (obj.parsedJson.length < PEOPLECOUNT) {
+                        this._cards.removeButton();
+                    }
+                    if (obj.parsedJson.length === 0) {
+                        this._cards.addEmptyBlock();
+                    }
                 });
-                if (obj.parsedJson.length < PEOPLECOUNT) {
-                    this._cards.removeButton();
-                }
-                if (obj.parsedJson.length === 0) {
-                    this._cards.addEmptyBlock();
-                }
             });
         });
 
