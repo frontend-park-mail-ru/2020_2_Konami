@@ -93,6 +93,7 @@ export class MeetingsView extends BaseView {
 
         // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true, () => {
+            console.log(cardsW.getLastItemDate());
             getMeetings({
                 limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
@@ -138,6 +139,7 @@ export class MeetingsView extends BaseView {
 
         // Карточки
         let cardsW = new CardWrapper(false, false, () => {
+            console.log(cardsW.getLastItemDate());
             getMeetings({
                 limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,

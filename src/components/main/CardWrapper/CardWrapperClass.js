@@ -71,7 +71,7 @@ export default class CardWrapper {
 
     getLastItemDate() {
         if (this._cards.childElementCount !== 0) {
-            return this._cards.lastElementChild.date;
+            return this._cards.lastElementChild.getAttributeNode('date').value;
         }
     }
 
