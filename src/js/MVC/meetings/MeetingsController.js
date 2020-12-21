@@ -10,7 +10,9 @@ import {
 
 import {TAGS, TAGS_IMGS} from "@/js/config/tags";
 
-const MEETINGSCOUNTWITHOUTQUERY = 15;
+const MEETINGSCOUNTWITHOUTQUERY = 3;
+const RECOMMENDEDMEETINGSCOUNTWITHOUTQUERY = 15;
+
 
 export default class MeetingsController extends Controller {
 
@@ -32,7 +34,7 @@ export default class MeetingsController extends Controller {
         if (this.model._isQueryEmpty) {
             this.view._cards = null;
             // тут нужно будет получить рекомендации с ?filter=recomendations&limit=5
-            const recomendation = getMeetings({limit: MEETINGSCOUNTWITHOUTQUERY}, 'recommended'); // пока что рекомендации не работают
+            const recomendation = getMeetings({limit: RECOMMENDEDMEETINGSCOUNTWITHOUTQUERY}, 'recommended'); // пока что рекомендации не работают
 
             // тут нужно будет получить с ?startDate=now&endDate=now+7&limit=3
             let date = new Date();
