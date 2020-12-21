@@ -1,7 +1,5 @@
 'use strict';
 
-import { createMainTitle } from '../../main/MainTitle/CreateMainTitle';
-
 const template = require('./MeetSlideTemplate.pug');
 const mobileTemplate = require('./MeetSlideMobileTemplate.pug');
 
@@ -106,7 +104,7 @@ export default class MeetSlider {
 
         let counter = 0;
         const nextButton = wrapper.getElementsByClassName('slide-container__prev-button')[0];
-        nextButton.addEventListener('click', evt => {
+        nextButton.addEventListener('click', () => {
             counter++;
             if (counter >= slides.length) {
                 counter = 0;
@@ -117,7 +115,7 @@ export default class MeetSlider {
         });
 
         const prevButton = wrapper.getElementsByClassName('slide-container__next-button')[0];
-        prevButton.addEventListener('click', evt => {
+        prevButton.addEventListener('click', () => {
             counter--;
             if (counter < 0) {
                 counter = slides.length - 1;
@@ -130,4 +128,4 @@ export default class MeetSlider {
 
         this._this = wrapper.firstElementChild;
     }
-};
+}

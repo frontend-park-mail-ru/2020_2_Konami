@@ -124,7 +124,9 @@ function getMeetings(queryParams, slug) {
     let params = '?';
     if (queryParams !== undefined) {
         Object.keys(queryParams).forEach(key => {
-            if (queryParams[key] !== undefined && 
+            if (key === 'meta') {
+                params += `${queryParams[key]}`;
+            } else if (queryParams[key] !== undefined && 
                     queryParams[key] !== null && 
                     queryParams[key] !== '') {
                 params += `${key}=${queryParams[key]}&`
@@ -143,6 +145,8 @@ function getMeetings(queryParams, slug) {
     } else {
         slug = '';
     }
+
+    console.log(params);
 
     let statusCode;
     return fetch(`/api/meetings${slug}${params}`, {
@@ -163,9 +167,46 @@ function getMeetings(queryParams, slug) {
     });
 }
 
-function getPeople(pageNum) {
+function getSubscriptions() {
     let statusCode;
-    return fetch(`/api/people?pageNum=${pageNum}`, {
+    return fetch(`/api/subscriptions`, {
+        method: 'GET',
+        credentials: 'include',
+    }).then(response => {
+        statusCode = response.status;
+        return response.json();
+    }).then(parsedJson => {
+        return {
+            statusCode,
+            parsedJson,
+        };
+    }).catch(error => {
+        return {
+            error: error,
+        };
+    });
+}
+
+function getPeople(queryParams) {
+    let params = '?';
+    if (queryParams !== undefined) {
+        Object.keys(queryParams).forEach(key => {
+            if (queryParams[key] !== undefined && 
+                    queryParams[key] !== null && 
+                    queryParams[key] !== '') {
+                params += `${key}=${queryParams[key]}&`
+            }
+        });
+    }
+
+    if (params === '?') {
+        params = '';
+    } else {
+        params = params.slice(0, params.length - 1);
+    }
+
+    let statusCode;
+    return fetch(`/api/people${params}`, {
         method: 'GET',
         credentials: 'include',
     }).then(response => {
@@ -201,6 +242,48 @@ function postPhoto(data) {
                 error: error
             };
         });
+    });
+}
+
+function postSubscribeUser(targetId, isSubscribe) {
+    const obj = {targetId};
+    console.log(obj);
+    return getCSRF().then(obj => {
+        if (isSubscribe) {
+            return fetch('/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Csrf-Token': obj.csrf,
+                },
+                credentials: 'include',
+                body: JSON.stringify({targetId}),
+            }).then(response => {
+                return {
+                    statusCode: response.status,
+                };
+            }).catch(error => {
+                return {
+                    error: error
+                };
+            });
+        } else {
+            return fetch('/api/unsubscribe', {
+                method: 'DELETE',
+                headers: {
+                    'Csrf-Token': obj.csrf,
+                },
+                credentials: 'include',
+                body: JSON.stringify({targetId}),
+            }).then(response => {
+                return {
+                    statusCode: response.status,
+                };
+            }).catch(error => {
+                return {
+                    error: error
+                };
+            });
+        }
     });
 }
 
@@ -364,5 +447,7 @@ export {
     postSignOut,
     postMeeting,
     postMessage,
-    getMessages
+    getMessages,
+    postSubscribeUser,
+    getSubscriptions,
 };

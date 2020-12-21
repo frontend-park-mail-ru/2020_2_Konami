@@ -1,18 +1,23 @@
 'use strict';
 
-import { createUserCard } from "@/components/cards/UserCard/UserCard.js";
-import { 
+import {
     createSettings,
     createButton,
 } from "@/components/settings/Settings.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
-import { 
-    REDIRECT 
+
+import {
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
 import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
 import { createMainTitle } from "../../../components/main/MainTitle/CreateMainTitle";
+import { displayNotification } from "@/components/auth/Notification/Notification.js";
+import { getPeople, getSubscriptions, postSubscribeUser } from "../../services/API/api";
+
+const PEOPLECOUNT = 6;
 
 export default class PeopleView extends BaseView {
 
@@ -34,33 +39,57 @@ export default class PeopleView extends BaseView {
 
     _renderDesktop(cards) {
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this._this = main;
         this.parent.appendChild(main);
 
         main.appendChild(createEmptyBlock());
 
-        main.appendChild(createMainTitle('Людишечки'));
+        main.appendChild(createMainTitle('Люди'));
 
         // Добавляем немного настроечек
         main.appendChild(this._createSettings());
 
         const cardWrapper = new CardWrapper(this.model.isMobile(), true, () => {
-            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+            getPeople({
+                limit: PEOPLECOUNT,
+                prevId: cardWrapper.getLastItemId(),
+            }).then(response => {
+                if (response.statusCode === 200) {
+                    // kaef
+                } else {
+                    // ne kaef
+                    return;
+                }
+                response.parsedJson.forEach(item => {
+                    cardWrapper.appendUserCard(item, () => {
+                        EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+                    });
+                });
+                if (response.parsedJson.length < PEOPLECOUNT) {
+                    cardWrapper.removeButton();
+                }
+            });
         });
         this._cards = cardWrapper;
 
         main.appendChild(cardWrapper.render());
+        if (cards.length === 0) {
+            cardWrapper.addEmptyBlock();
+        }
+        if (cards.length < PEOPLECOUNT) {
+            cardWrapper.removeButton();
+        }
         cards.forEach(item => {
             cardWrapper.appendUserCard(item, () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
-            });
+            }, this._likeEventListener.bind(this, item));
         });
     }
 
     _renderMobile(cards) {
         const main = document.createElement('div');
-        main.classList.add('page-mobile__main'); 
+        main.classList.add('page-mobile__main');
         this._this = main;
         this.parent.appendChild(main);
 
@@ -84,27 +113,103 @@ export default class PeopleView extends BaseView {
         afterCard.appendChild(this._createSettings());
 
         const cardWrapper = new CardWrapper(this.model.isMobile(), true, () => {
-            // тут нужно описать действие которое будет выполненино при нажатие на кнопку загрузить еще
+            getPeople({
+                limit: PEOPLECOUNT,
+                prevId: cardWrapper.getLastItemId(),
+            }).then(response => {
+                if (response.statusCode === 200) {
+                    // kaef
+                } else {
+                    // ne kaef
+                    return;
+                }
+                response.parsedJson.forEach(item => {
+                    cardWrapper.appendUserCard(item, () => {
+                        EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+                    });
+                });
+                if (response.parsedJson.length < PEOPLECOUNT) {
+                    cardWrapper.removeButton();
+                }
+            });
         });
         this._cards = cardWrapper;
 
         afterCard.appendChild(cardWrapper.render());
+        if (cards.length === 0) {
+            cardWrapper.addEmptyBlock();
+        }
+        if (cards.length < PEOPLECOUNT) {
+            cardWrapper.removeButton();
+        }
         cards.forEach(item => {
             cardWrapper.appendUserCard(item, () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
-            });
+            }, this._likeEventListener.bind(this, item));
         });
     }
 
     _createSettings() {
         const settings = createSettings();
 
-        const myPeople = createButton('Moи люди');
         const favoritePeople = createButton('Избранные люди');
+        favoritePeople.addEventListener('click', () => {
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this._cards.clear();
+                getSubscriptions().then(obj => {
+                    obj.parsedJson.forEach(item => {
+                        this._cards.appendUserCard(item, () => {
+                            EventBus.dispatchEvent(REDIRECT, {url: `/profile?userId=${item.label.id}`});
+                        }, this._likeEventListener.bind(this, item));
+                    });
+                    if (obj.parsedJson.length < PEOPLECOUNT) {
+                        this._cards.removeButton();
+                    }
+                    if (obj.parsedJson.length === 0) {
+                        this._cards.addEmptyBlock();
+                    }
+                });
+            });
+        });
 
-        settings.append(myPeople, favoritePeople);
+        settings.append(favoritePeople);
 
         return settings;
+    }
+
+    _likeEventListener(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+
+            if (item.isSubTarget) {
+                item.isSubTarget = false;
+            } else {
+                item.isSubTarget = true;
+            }
+
+            postSubscribeUser(item.label.id, item.isSubTarget).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
+                }
+                if (item.isSubTarget) {
+                    displayNotification(`Вы подписались на пользователя ${item.label.name}`);
+                    event.target.src = "/assets/like.svg";
+                } else {
+                    displayNotification(`Вы отменили подписку на пользователя ${item.label.name}`);
+                    event.target.src = "/assets/heart.svg";
+                }
+            });
+        });
     }
 
     erase() {

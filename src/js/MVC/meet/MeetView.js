@@ -23,10 +23,8 @@ import {
     CONNECT_CHAT,
     DISCONNECT_CHAT
 } from "@/js/services/EventBus/EventTypes.js";
-import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock.js";
 
 export default class MeetView extends BaseView {
-
     constructor(parent, model) {
         super(parent);
         this.parent = parent;
@@ -43,10 +41,10 @@ export default class MeetView extends BaseView {
     }
 
     _loadData() {
+        // TODO fucking stub
         getPeople(1).then(response => {
             if (response.statusCode === 200) {
-
-                const allUsers = Object.values(response.parsedJson).forEach((user) => {
+                Object.values(response.parsedJson).forEach((user) => {
                     this.users.set(user.label.id, user.label);
                 });
             }
@@ -68,13 +66,7 @@ export default class MeetView extends BaseView {
                 }
 
                 // TODO it's STUB, to DELETE
-                const userList = document.getElementsByClassName('users-container')[0];
-
-                const alreadyExist = document.getElementById('listUser' + authorId);
-                if (!alreadyExist) {
-                    userList.appendChild(createListUser(this.users.get(authorId)));
-                    userList.innerHTML += `<hr>`;
-                }
+                this._appendUserList(authorId);
             },
 
             onNewChatConnect: (payload) => {
@@ -122,12 +114,12 @@ export default class MeetView extends BaseView {
             this._renderDesktop(data, simulars);
         }
 
-        this._this.appendChild(createChatPopup(isMobile));
+        this._this.appendChild(createChatPopup(data.card.label.title, isMobile));
         const messagesHistory = document.getElementsByClassName('msg_history')[0];
         getMessages(this.model.meetId).then(response => {
             if (response.statusCode === 200) {
 
-                const chatMessages = Object.values(response.parsedJson).forEach((msg) => {
+                Object.values(response.parsedJson).forEach((msg) => {
                     // this.users.set(user.label.id, user.label);
                     messagesHistory.appendChild(msg.authorId === this.model.getUserId() ?
                         createOutgoingMsg(msg.text, msg.timestamp) :
@@ -142,7 +134,7 @@ export default class MeetView extends BaseView {
                          this._this.getElementsByClassName('meet-mobile__like-icon-wrapper')[0];
         const goButton = this._this.getElementsByClassName('meet__button_go')[0];
         const editButton = this._this.getElementsByClassName('meet__button_edit')[0];
-        const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
+        // const openChatBtn = this._this.getElementsByClassName('open-chat-button')[0];
         const members = document.getElementsByClassName('meet__members-wrapper')[0] ||
                             document.getElementsByClassName('meet-mobile__members-wrapper')[0];
 
@@ -182,7 +174,7 @@ export default class MeetView extends BaseView {
                 // Выбираем первый результат геокодирования.
                 let firstGeoObject = res.geoObjects.get(0),
                     // Координаты геообъекта.
-                    coords = firstGeoObject.geometry.getCoordinates(),
+                    // coords = firstGeoObject.geometry.getCoordinates(),
                     // Область видимости геообъекта.
                     bounds = firstGeoObject.properties.get('boundedBy');
 
@@ -250,7 +242,7 @@ export default class MeetView extends BaseView {
                 */
             });
 
-        this._addChatListeners();
+        this._addChatListeners(isMobile);
 
     }
 
@@ -441,7 +433,7 @@ export default class MeetView extends BaseView {
         });
     }
 
-    _clickEditButtonHandler(evt) {
+    _clickEditButtonHandler() {
         EventBus.dispatchEvent(REDIRECT, {url: '/edit-meeting'});
         setTimeout(() => {
             EventBus.dispatchEvent(PASS_MEET_DATA_TO_EDIT, this._data);
@@ -465,15 +457,31 @@ export default class MeetView extends BaseView {
         }
     }
 
-    _addChatListeners() {
+    _addChatListeners(isMobile) {
+        this._appendUserList(this.model.getUserId());
+
+        const panelHead = document.getElementsByClassName('panel-heading')[0];
         const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
-        const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
+        // const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
         const sendChatBtn = document.getElementsByClassName('send-chat-button')[0];
 
         const chevronDownIcon = document.getElementsByClassName('panel-heading__icon')[1];
 
         const chatPopup = document.getElementById('chatPopup');
         const messagesHistory = document.getElementsByClassName('msg_history')[0];
+        const chatTitle = document.getElementsByClassName('chat-title')[0];
+
+        const chatPanelOnMouseHandler = () => {
+            rightButton.style.display = 'inline-block';
+            chatTitle.style.display = 'inline-block';
+        }
+
+        const chatPanelOnMouseLeaveHandler = () => {
+            rightButton.style.display = 'none';
+            chatTitle.style.display = 'none';
+        }
+
+        chatTitle.style.display = 'none';
 
         openChatBtn.onclick = () => {
             this.model.checkAuth().then(isAuth => {
@@ -490,6 +498,13 @@ export default class MeetView extends BaseView {
 
                 // CLOSE
                 if (chatPopup.style.display === 'flex') {
+                    panelHead.addEventListener('mouseenter', chatPanelOnMouseHandler);
+                    panelHead.addEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
+                    if (!isMobile) {
+                        panelHead.classList.toggle('mixin');
+                    }
+                    panelHead.classList.toggle('border-top-raduis');
                     scrollTo(0, () => {
                         chatPopup.style.display = 'none';
                     });
@@ -498,7 +513,15 @@ export default class MeetView extends BaseView {
 
                     // OPEN
                 if (chatPopup.style.display.length === 0 || chatPopup.style.display === 'none') {
+                    panelHead.removeEventListener('mouseenter', chatPanelOnMouseHandler);
+                    panelHead.removeEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
+                    if (!isMobile) {
+                        panelHead.classList.toggle('mixin');
+                    }
+                    panelHead.classList.toggle('border-top-raduis');
                     chatPopup.style.display = 'flex';
+                    chatTitle.style.display = 'inline-block';
                     messagesHistory.scrollTo({
                         top: document.body.scrollHeight,
                         behavior: "smooth"
@@ -544,7 +567,28 @@ export default class MeetView extends BaseView {
             if (key === "Enter")  {
                 sendChatBtn.click()
             }
-        })
+        });
 
+        const rightButton = document.getElementsByClassName('pull-right')[0];
+        if (!isMobile) {
+            panelHead.addEventListener('mouseenter', chatPanelOnMouseHandler);
+            panelHead.addEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
+
+        } else {
+            rightButton.style.display = 'inline-block';
+            chatTitle.style.display = 'inline-block';
+        }
+
+    }
+
+    _appendUserList(userId) {
+        // TODO it's STUB, to DELETE
+        const userList = document.getElementsByClassName('users-container')[0];
+
+        const alreadyExist = document.getElementById('listUser' + userId);
+        if (!alreadyExist) {
+            userList.appendChild(createListUser(this.users.get(userId)));
+            userList.innerHTML += `<hr>`;
+        }
     }
 }

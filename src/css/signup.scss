@@ -6,6 +6,7 @@ $signup-max-width: 900px;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0 auto;
+    margin-top: 20px;
 
     max-width: $signup-max-width;
 
@@ -45,14 +46,14 @@ $signup-max-width: 900px;
         color: #648880;
         cursor: pointer;
         font-weight: 550;
-        font-family: monospace, Helvetica, sans-serif;
+        font-family: "Ubuntu Mono", sans-serif;
     }
 
     input {
         height: 44px;
         font-size: 15px;
         padding: 0 10px;
-        font-family: monospace;
+        font-family: "Ubuntu Mono", sans-serif;;
         background: #f1f1f1;
 
         border-radius: 3px;
@@ -80,9 +81,11 @@ $signup-max-width: 900px;
         max-width: 100%;
         min-height: 250px;
         max-height: 300px;
+        object-fit: cover;
         display: block;
         margin: 8px 0;
         border: 1px solid #f2f2f2;
+        border-radius: 4px;
 
         &:focus + label,
         & + label:hover {

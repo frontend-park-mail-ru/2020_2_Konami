@@ -32,6 +32,11 @@ export const TAGS = {
     ]
 }
 
+export const TAGS_IMGS = {
+    Разработка: 'assets/development.png',
+    Исскуство: 'assets/art.jpg'
+}
+
 export function createDomTag(tagName, checkable = true) {
     let lbl = document.createElement('label');
     let input = document.createElement('input');

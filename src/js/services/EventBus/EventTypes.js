@@ -47,5 +47,9 @@ export const CHAT_MESSAGE = 'chatMessage';
 export const CONNECT_CHAT = 'connectChat';
 export const DISCONNECT_CHAT = 'disconnectChat';
 
+// SearchWidget
+export const CLOSE_SEARCH_TAB = 'closeSearchTab';
+
+
 
 

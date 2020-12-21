@@ -5,7 +5,7 @@ import { getMeetings } from "@/js/services/API/api.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import { patchMeeting } from "@/js/services/API/api.js";
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
-import { 
+import {
     REDIRECT,
     OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
@@ -20,9 +20,11 @@ import CardWrapper from "../../../components/main/CardWrapper/CardWrapperClass.j
 
 import Slider from "../../../components/cards/MeetSlides/MeetSlidesClass.js";
 import { createEmptyBlock } from "../../../components/main/EmptyBlock/EmptyBlock";
+import {TAGS, TAGS_IMGS} from "@/js/config/tags";
 
-export default class MeetingsView extends BaseView {
+export const MEETINGSCOUNT = 9;
 
+export class MeetingsView extends BaseView {
     constructor(parent, model) {
         super(parent);
         this.parent = parent;
@@ -38,7 +40,7 @@ export default class MeetingsView extends BaseView {
         console.log(tomorrow);
 
         this._settingsButton = [
-            {view: 'Мои мероприятия', type: ['filter'], value: 'my',}, 
+            {view: 'Мои мероприятия', type: ['filter'], value: 'my',},
             {view: 'Избранное', type: ['filter'], value: 'favorite',},
             {view: 'Сегодня', type: ['dateStart', 'dateEnd'], value: today.toISOString().slice(0, 10),},
             {view: 'Завтра', type: ['dateStart', 'dateEnd'], value: tomorrow.toISOString().slice(0, 10),},
@@ -81,30 +83,46 @@ export default class MeetingsView extends BaseView {
         if (cards.length === 0) {
             this._slider.appendEmptySlide();
         }
-        
+
         // Создаем контере для карточек, заголовков, настроек
         const afterCard = document.createElement('div');
         afterCard.classList.add('page-mobile__after-card');
         main.appendChild(afterCard);
 
         afterCard.appendChild(this._createSettings(this._settingsButton));
+        if (this.model._queryConfig.collectionId !== undefined && 
+                this.model._queryConfig.collectionId !== null && 
+                this.model._queryConfig.collectionId !== '') {
+            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
+        }
 
         // Сами карточки выводятся сверху вниз
         let cardsW = new CardWrapper(true, true, () => {
+            console.log(cardsW.getLastItemDate());
             getMeetings({
-                limit: 3, 
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
+                prevStart: cardsW.getLastItemDate(),
             }, this.model._queryConfig.filter).then(obj => {
+                if (obj.parsedJson.length < MEETINGSCOUNT) {
+                    cardsW.removeButton();
+                }
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
                 });
             });
         });
         afterCard.appendChild(cardsW.render());
+        if (cards.length < MEETINGSCOUNT) {
+            cardsW.removeButton();
+        }
+        if (cards.length === 0) {
+            cardsW.addEmptyBlock();
+        }
         cards.forEach(item => {
             this._createCard(item, cardsW);
         });
@@ -115,7 +133,7 @@ export default class MeetingsView extends BaseView {
     _renderWithQueryDesktop(cards) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this.parent.appendChild(main);
         this._this = main;
 
@@ -123,24 +141,39 @@ export default class MeetingsView extends BaseView {
 
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
+        if (this.model._queryConfig.collectionId !== undefined && 
+                this.model._queryConfig.collectionId !== null && 
+                this.model._queryConfig.collectionId !== '') {
+            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
+        }
 
-        // Карточки 
+        // Карточки
         let cardsW = new CardWrapper(false, false, () => {
+            console.log(cardsW.getLastItemDate());
             getMeetings({
-                limit: 3, 
+                limit: MEETINGSCOUNT,
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
                 prevId: cardsW.getLastItemId(),
+                prevStart: cardsW.getLastItemDate(),
             }, this.model._queryConfig.filter).then(obj => {
+                if (obj.parsedJson.length < MEETINGSCOUNT) {
+                    cardsW.removeButton();
+                }
                 obj.parsedJson.forEach(element => {
                     this._createCard(element, cardsW);
                 });
             });
-            console.log(cardsW.getLastItemId());
         });
         main.appendChild(cardsW.render());
+        if (cards.length < MEETINGSCOUNT) {
+            cardsW.removeButton();
+        }
+        if (cards.length === 0) {
+            cardsW.addEmptyBlock();
+        }
         cards.forEach(item => {
             this._createCard(item, cardsW);
         });
@@ -169,6 +202,11 @@ export default class MeetingsView extends BaseView {
 
         // Настройки
         afterCard.appendChild(this._createSettings(this._settingsButton));
+        if (this.model._queryConfig.collectionId !== undefined && 
+                this.model._queryConfig.collectionId !== null && 
+                this.model._queryConfig.collectionId !== '') {
+            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
+        }
 
         // Карточки слево направо
         let cards = new CardWrapper(true, false, () => {
@@ -186,12 +224,27 @@ export default class MeetingsView extends BaseView {
         mostExpected.forEach(item => {
             this._createCard(item, cards);
         });
+
+        const collectionsTitle = createMainTitle('Подборки');
+        afterCard.appendChild(collectionsTitle);
+
+        let collections = new CardWrapper(true, false);
+        afterCard.appendChild(collections.render());
+
+        const keys = Object.keys(TAGS);
+        keys.forEach(key => {
+            collections.appendCollection(key, () => {
+                this.model._queryConfig.collectionId = key;
+                this.model._queryConfig.filter = 'tagged';
+                this._parseWithRedirect();
+            });
+        });
     }
 
     _renderDesktop(soon, mostExpected) {
         // Создаем страницу
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this.parent.appendChild(main);
         this._this = main;
 
@@ -209,11 +262,16 @@ export default class MeetingsView extends BaseView {
 
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
+        if (this.model._queryConfig.collectionId !== undefined && 
+                this.model._queryConfig.collectionId !== null && 
+                this.model._queryConfig.collectionId !== '') {
+            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
+        }
 
         // Создаем слайдер
         this._slider = new Slider(false);
         main.appendChild(this._slider.render());
-    
+
         const soonTitle = createMainTitle('Митапы в ближайшее время');
         soonTitle.addEventListener('click', () => {
             this.model._queryConfig.dateStart = new Date().toISOString().slice(0, 10);
@@ -222,7 +280,7 @@ export default class MeetingsView extends BaseView {
         // Заголовок
         main.appendChild(soonTitle);
 
-        // Карточки 
+        // Карточки
         let cards = new CardWrapper(false, false);
         main.appendChild(cards.render());
         soon.forEach(item => {
@@ -241,11 +299,27 @@ export default class MeetingsView extends BaseView {
         mostExpected.forEach(item => {
             this._createCard(item, cards);
         });
+
+        const collectionsTitle = createMainTitle('Подборки');
+        main.appendChild(collectionsTitle);
+
+        let collections = new CardWrapper(false, false);
+        main.appendChild(collections.render());
+
+        const keys = Object.keys(TAGS);
+        keys.forEach(key => {
+            collections.appendCollection(key, () => {
+                this.model._queryConfig.collectionId = key;
+                this.model._queryConfig.filter = 'tagged';
+                this._parseWithRedirect();
+            });
+        });
+
     }
 
     _createSlide(item) {
         this._slider.appendSlide(
-            item, 
+            item,
             () => {
                 EventBus.dispatchEvent(REDIRECT, {url: `/meeting?meetId=${item.card.label.id}`});
             },
@@ -266,17 +340,35 @@ export default class MeetingsView extends BaseView {
 
     _createSettings() {
         const mymeetings = createButton('Мои мероприятия');
+        if (this.model._queryConfig.filter === 'my') {
+            mymeetings.style.backgroundColor = '#e5e5e5';
+        }
 
         mymeetings.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'my';
-            this._parseWithRedirect();
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this.model._queryConfig.filter = 'my';
+                this._parseWithRedirect();
+            });
         });
 
         const favorites = createButton('Избранное');
+        if (this.model._queryConfig.filter === 'favorite') {
+            favorites.style.backgroundColor = '#e5e5e5';
+        }
 
         favorites.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'favorite';
-            this._parseWithRedirect();
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this.model._queryConfig.filter = 'favorite';
+                this._parseWithRedirect();
+            });
         });
 
         const settings = document.createElement('div');
@@ -302,14 +394,20 @@ export default class MeetingsView extends BaseView {
         });
 
         const dateEnd = document.createElement('input');
-        if (this.model._queryConfig.dateEnd !== undefined) {
+        if (this.model._queryConfig.dateEnd !== undefined && 
+                this.model._queryConfig.dateEnd !== null &&
+                this.model._queryConfig.dateEnd !== '') {
             dateEnd.value = this.model._queryConfig.dateEnd;
+            dateEnd.style.backgroundColor = '#e5e5e5';
         }
         dateEnd.type = 'date';
         dateEnd.classList.add('settings__button');
         dateEnd.min = new Date().toISOString().slice(0, 10);
-        if (this.model._queryConfig.dateEnd !== null) {
+        if (this.model._queryConfig.dateEnd !== undefined && 
+                this.model._queryConfig.dateEnd !== null && 
+                this.model._queryConfig.dateEnd !== '') {
             dateEnd.value = this.model._queryConfig.dateEnd;
+            dateEnd.style.backgroundColor = '#e5e5e5';;
         }
         dateEnd.addEventListener('change', () => {
             this.model._queryConfig.dateEnd = dateEnd.value;
@@ -318,14 +416,20 @@ export default class MeetingsView extends BaseView {
         });
 
         const dateStart = document.createElement('input');
-        if (this.model._queryConfig.dateStart !== undefined) {
+        if (this.model._queryConfig.dateStart !== null && 
+                this.model._queryConfig.dateStart !== undefined && 
+                    this.model._queryConfig.dateStart !== '') {
             dateStart.value = this.model._queryConfig.dateStart;
+            dateStart.style.backgroundColor = '#e5e5e5';;
         }
         dateStart.type = 'date';
         dateStart.classList.add('settings__button');
         dateStart.min = new Date().toISOString().slice(0, 10);
-        if (this.model._queryConfig.dateStart !== null) {
+        if (this.model._queryConfig.dateStart !== null && 
+                this.model._queryConfig.dateStart !== '' && 
+                this.model._queryConfig.dateStart !== undefined) {
             dateStart.value = this.model._queryConfig.dateStart;
+            dateStart.style.backgroundColor = '#e5e5e5';;
         }
         dateStart.addEventListener('change', () => {
             if (dateEnd.value < dateStart.value) {
@@ -406,11 +510,11 @@ export default class MeetingsView extends BaseView {
                         event.target.firstElementChild.src = "/assets/like.svg";
                     }
                 } else {
-                    displayNotification("Вы убрали лайк"); 
+                    displayNotification("Вы убрали лайк");
                     if (event.target.src) {
-                        event.target.src = "/assets/heart.svg";;
+                        event.target.src = "/assets/heart.svg";
                     } else {
-                        event.target.firstElementChild.src = "/assets/heart.svg";;
+                        event.target.firstElementChild.src = "/assets/heart.svg";
                     }
                 }
             });
@@ -451,7 +555,7 @@ export default class MeetingsView extends BaseView {
                     alert('Permission denied');
                 }
             });
-            
+
         });
     }
 

@@ -1,5 +1,7 @@
 'use strict';
 
+import {sanitizeHTML} from "@/js/utils/validators/simpleSanitize";
+
 export function createIncomingMsg(text, timestamp, label) {
     const div = document.createElement('div');
     div.classList.add('incoming_msg');
@@ -16,7 +18,7 @@ export function createIncomingMsg(text, timestamp, label) {
                     <a style="text-decoration:none" href="/profile?userId=${label.id}">
                         <span class="author_name"> ${label.name}</span>
                     </a>
-                ${text}
+                ${sanitizeHTML(text)}
                 </p>
                 <span class="time_date"> ${parseTimestamp(timestamp)}</span>
             </div>
@@ -30,7 +32,7 @@ export function createOutgoingMsg(text, timestamp) {
     div.classList.add('outgoing_msg');
     div.innerHTML = `
         <div class="sent_msg">
-                  <p>${text}</p>
+                  <p>${sanitizeHTML(text)}</p>
                   <span class="time_date"> ${parseTimestamp(timestamp)}</span>
         </div>
     `

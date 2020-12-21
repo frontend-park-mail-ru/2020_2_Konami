@@ -1,6 +1,6 @@
 'use strict';
 
-export function createListUser(label, info) {
+export function createListUser(label) { // , info) {
     const div = document.createElement('div');
     // div.classList.add('list_user');
     // div.id = 'listUser' + label.id;

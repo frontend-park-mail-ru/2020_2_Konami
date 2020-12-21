@@ -11,7 +11,6 @@ import {createTagsModal} from "@/components/auth/TagsModal/TagsModal.js";
 import {getSelectedTags} from "@/components/auth/TagsModal/TagsModal";
 
 import {
-    REDIRECT,
     SUBMIT_LOGIN,
     SUBMIT_SIGNUP,
     SIGNUP_SUCCESS,

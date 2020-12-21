@@ -37,11 +37,11 @@
     &__prev-button {
         left: -23px;
     }
-    
+
     &__next-button {
         right: -23px;
     }
-    
+
     &__next-button:hover,
     &__prev-button:hover {
         transform: scale(1.1);
@@ -53,7 +53,7 @@
         width: 30px;
         filter: invert(1);
     }
-    
+
     &__prev {
         margin: 15px;
         height: 30px;

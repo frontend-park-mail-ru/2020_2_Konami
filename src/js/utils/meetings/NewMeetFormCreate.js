@@ -9,11 +9,8 @@ import {createFileUploaderWithImg} from "../../../components/auth/FileUploader/F
 import {createModalDialog} from "../../../components/auth/ModalDialog/ModalDialog.js";
 import {createDateTimeBlock} from "../../../components/auth/Date-Time/Date-Time.js";
 
-import {createDomTag, TAGS} from '@/js/config/tags.js'
 import {
-    createDomTab,
     createTabsAndTags,
-    createTagFilterTabsWrapper
 } from "../../../components/auth/TagsModal/TagsModal";
 
 export function createNewMeetingForm() {
@@ -25,7 +22,7 @@ export function createNewMeetingForm() {
     divWrapper.classList.add('new-meet');
 
     const maxSeatsInput = createLabeledElements('Количество мест',
-        createInput({style: "width: 70px;", type:'number', required: 'true', name: "seats", maxLength: '6'}));
+        createInput({style: "width: 70px;", type:'number', required: 'true', name: "seats", maxLength: '6', min:"1"}));
 
     const addTagsBtn = createLabeledElements(
         ' Теги мероприятия',

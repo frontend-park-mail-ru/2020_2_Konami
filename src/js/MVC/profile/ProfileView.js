@@ -8,11 +8,16 @@ import {displayNotification} from "@/components/auth/Notification/Notification";
 import {getSelectedTags} from "@/components/auth/TagsModal/TagsModal";
 import {closeTagsModalDialog} from "@/components/auth/SelectedTag/SelectedTag.js";
 import {createDomTag} from "@/js/config/tags.js";
+import {
+    REDIRECT,
+    OPEN_LOGIN_MODAL,
+} from "@/js/services/EventBus/EventTypes.js";
+
+import { postSubscribeUser } from "@/js/services/API/api.js";
 
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
-    REDIRECT,
     APPLY_TAGS_MODAL,
     CLOSE_TAGS_MODAL,
     EDIT_SUCCESS
@@ -36,6 +41,13 @@ export default class ProfileView extends BaseView {
         this.data = data;
         this._this = createProfile(data, this.model.getUserId() === data.card.label.id, this.model.isMobile());
         this.parent.appendChild(this._this);
+
+        const button = document.getElementsByClassName('profile__subscribe-button')[0];
+        button.addEventListener('click', this._likeEventListener.bind(this, data));
+
+        if (this.model.getUserId() === data.card.label.id) {
+            button.remove();
+        }
 
         this._addEventListeners();
     }
@@ -112,6 +124,37 @@ export default class ProfileView extends BaseView {
 
             }
         }
+    }
+
+    _likeEventListener(item, event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.model.checkAuth().then(isAuth => {
+            if (!isAuth) {
+                EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                return;
+            }
+
+            if (item.card.isSubTarget) {
+                item.card.isSubTarget = false;
+            } else {
+                item.card.isSubTarget = true;
+            }
+
+            postSubscribeUser(item.card.label.id, item.card.isSubTarget).then(obj => {
+                if (obj.statusCode !== 200) {
+                    alert('Permission denied');
+                    return;
+                }
+                if (item.card.isSubTarget) {
+                    displayNotification(`Вы подписались на пользователя ${item.card.label.name}`);
+                    event.target.innerHTML = 'Отменить подписку';
+                } else {
+                    displayNotification(`Вы отменили подписку на пользователя ${item.card.label.name}`);
+                    event.target.innerHTML = 'Подписаться';
+                }
+            });
+        });
     }
 
     registerEvents() {

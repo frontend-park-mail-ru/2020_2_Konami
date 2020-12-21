@@ -1,5 +1,7 @@
 'use strict';
 
+import {sanitizeHTML} from "@/js/utils/validators/simpleSanitize";
+
 const template = require('./ProfileTemplate.pug');
 
 import {
@@ -19,7 +21,7 @@ import {
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 
 const conf = [
-    {
+ /*   {
         name: 'name',
         inputType: 'input',
     },
@@ -34,7 +36,7 @@ const conf = [
     {
         name: 'telegram',
         inputType: 'input',
-    },
+    },*/
     {
         name: 'skills',
         inputType: 'textarea',
@@ -110,7 +112,7 @@ function createAvatarField(tmp) {
         let blobFile = fileChooser.files[0];
         let formData = new FormData();
         formData.append("fileToUpload", blobFile);
-        postPhoto(formData, 'userId', window.userId).then((obj) => {
+        postPhoto(formData).then((obj) => {
             if (obj.statusCode === 200) {
                 displayNotification("Вы изменили фотографию");
                 saveButton.hidden = true;
@@ -138,7 +140,7 @@ function createProfile(data, isAuth, isMobile) {
         }
 
         addListener(editIcon, editedField, input, () => {
-            editedField.innerHTML = input.value;
+            editedField.innerHTML = sanitizeHTML(input.value);
             editedField.href = input.value;
             const obj = {};
             obj[item.name] = editedField.innerHTML;

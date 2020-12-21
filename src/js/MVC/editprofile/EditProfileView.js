@@ -23,6 +23,7 @@ import {
     INVALID_DATE_INPUT,
     UPDATE_PHOTO_SUCCESS
 } from "@/js/services/EventBus/EventTypes.js";
+import {createEmptyBlock} from "@/components/main/EmptyBlock/EmptyBlock";
 
 export default class EditProfileView extends BaseView {
 
@@ -71,6 +72,8 @@ export default class EditProfileView extends BaseView {
     }
 
     render() {
+        this._empty = createEmptyBlock();
+        this.parent.appendChild(this._empty);
         const form = createEditProfileForm();
         this.parent.appendChild(form);
         this._fillEmptyFields();
@@ -85,6 +88,7 @@ export default class EditProfileView extends BaseView {
             this.parent.removeChild(form);
         }
 
+        this._empty.remove();
         this.currentTab = 0;
         window.removeEventListener('click', closeTagsModalDialog);
     }

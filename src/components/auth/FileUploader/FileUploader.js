@@ -1,5 +1,6 @@
 import EventBus from "../../../js/services/EventBus/EventBus.js";
 import {BIG_FILE_SIZE} from "../../../js/services/EventBus/EventTypes.js";
+import {sanitizeHTML} from "@/js/utils/validators/simpleSanitize";
 
 const MAX_INPUT_FILE_SIZE = 8;
 
@@ -52,7 +53,7 @@ export function inputFileChangedEventListener() {
                     img.src = reader.result;
                 }
 
-                label.querySelector( 'span' ).innerHTML = fileName;
+                label.querySelector( 'span' ).innerHTML = sanitizeHTML(fileName);
 
             } else
                 label.innerHTML = labelVal;

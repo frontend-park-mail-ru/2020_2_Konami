@@ -6,7 +6,7 @@ $new-meet-max-width: 750px;
     flex-wrap: wrap-reverse;
     justify-content: center;
     margin: 50px auto 0;
-    margin-top: 100px;
+    margin-top: 30px;
 
     min-width: $new-meet-min-width;
     max-width: $new-meet-max-width;
@@ -31,7 +31,7 @@ $new-meet-max-width: 750px;
         color: #648880;
         cursor: pointer;
         font-weight: 550;
-        font-family: monospace, Helvetica, sans-serif;
+        font-family: "Ubuntu Mono", sans-serif;
     }
 
     input,
@@ -44,7 +44,7 @@ $new-meet-max-width: 750px;
         height: 44px;
         font-size: 15px;
         padding: 0 10px;
-        font-family: monospace;
+        font-family: "Ubuntu Mono", sans-serif;;
         background: #f1f1f1;
         border-radius: 3px;
         border: none;

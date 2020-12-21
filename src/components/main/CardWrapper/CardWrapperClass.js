@@ -2,6 +2,8 @@
 
 import { createMeetCard } from "../../cards/MeetCard/MeetCard.js";
 import { createUserCard } from "../../cards/UserCard/UserCard.js";
+import { createCollectionCard } from "@/components/cards/CollectionCard/CollectionCard";
+import {TAGS_IMGS} from "@/js/config/tags";
 
 
 export default class CardWrapper {
@@ -31,11 +33,33 @@ export default class CardWrapper {
         this._cards.appendChild(newCard);
     }
 
-    appendUserCard(data, action) {
+    appendUserCard(data, action, likeAction) {
         const newCard = createUserCard(data);
         newCard.addEventListener('click', action);
 
+        const userCardLikeIcon = newCard.getElementsByClassName('user-card__like')[0];
+        userCardLikeIcon.addEventListener('click', likeAction);
+
         this._cards.appendChild(newCard);
+    }
+
+    appendCollection(key, action) {
+        const newCollection = createCollectionCard({name: key, imgSrc: TAGS_IMGS[key]}, this._isMobile);
+        newCollection.addEventListener('click', action);
+
+        this._cards.appendChild(newCollection);
+    }
+
+    removeButton() {
+        this._button.remove();
+    }
+
+    addEmptyBlock() {
+        const element = document.createElement('h1');
+        element.innerHTML = 'К сожалению ничего не нашлось :(';
+        element.classList.add();
+
+        this._cards.appendChild(element);
     }
 
     getLastItemId() {
@@ -45,8 +69,14 @@ export default class CardWrapper {
         return -1;
     }
 
+    getLastItemDate() {
+        if (this._cards.childElementCount !== 0) {
+            return this._cards.lastElementChild.getAttributeNode('date').value;
+        }
+    }
+
     clear() {
-        this._this.innerHTML = '';
+        this._cards.innerHTML = '';
     }
 
     remove() {
@@ -67,6 +97,7 @@ export default class CardWrapper {
             cardWrapper.appendChild(cards);
 
             if (this._buttonAction !== null && this._buttonAction !== undefined) {
+                this._button = button;
                 button.addEventListener('click', this._buttonAction);
                 cardWrapper.appendChild(button);
             }
@@ -74,7 +105,7 @@ export default class CardWrapper {
             cards.classList.add('card-wrapper-mobile__cards');
             cardWrapper.append(cards);
         }
-    
+
         this._cards = cards;
         this._this = cardWrapper;
     }
@@ -93,6 +124,7 @@ export default class CardWrapper {
         cardWrapper.appendChild(cards);
 
         if (this._buttonAction !== null && this._buttonAction !== undefined) {
+            this._button = button;
             button.addEventListener('click', this._buttonAction);
             cardWrapper.appendChild(button);
         }
@@ -100,4 +132,4 @@ export default class CardWrapper {
         this._cards = cards;
         this._this = cardWrapper;
     }
-};
+}

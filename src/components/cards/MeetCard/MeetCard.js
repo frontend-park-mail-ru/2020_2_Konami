@@ -4,8 +4,6 @@ const template = require('./MeetCardTemplate.pug');
 
 export function createMeetCard(data, mobile) {
     let startDate = new Date(data.card.startDate);
-    let endDate = new Date(data.card.endDate);
-    let currentDate = Date.now();
 
     // const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const options = {weekday: 'long', month: 'long', day: 'numeric' };

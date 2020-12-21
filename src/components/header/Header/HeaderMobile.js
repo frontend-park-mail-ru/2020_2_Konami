@@ -1,5 +1,8 @@
 'use strict';
 
+import EventBus from "@/js/services/EventBus/EventBus";
+import {REDIRECT} from "@/js/services/EventBus/EventTypes";
+
 export function createHeaderMobile(isMobile) {
     let headerClass = null;
     if (isMobile) {
@@ -11,10 +14,10 @@ export function createHeaderMobile(isMobile) {
     const headerWrapper = document.createElement('div');
     headerWrapper.innerHTML = `
         <header class="${headerClass}">
-            <img src="assets/google.png" data-section="meetings" class="header-mobile__logo">
+            <img src="assets/newlogo.png" data-section="meetings" class="header-mobile__logo">
             <nav class="header-mobile__navigation">
-                <a href="/meetings" data-section="meetings" class="navigation__choose-link">Мероприятия</a>
-                <a href="/people" data-section="people" class="navigation__choose-link">Люди</a>
+                <a href="/meetings" data-section="meetings" class="navigation__choose-link navigation__choose-link_blue">Мероприятия</a>
+                <a href="/people" data-section="people" class="navigation__choose-link navigation__choose-link_green">Люди</a>
             </nav>
             <img src="assets/loupe.svg" class="header-mobile__search">
             <div class="header-mobile__logo-wrapper">
@@ -32,15 +35,16 @@ export function createHeaderMobile(isMobile) {
     `;
 
     const search = headerWrapper.getElementsByClassName('header-mobile__search')[0];
-    const modalSearch = headerWrapper.getElementsByClassName('search-block')[0];
-    search.addEventListener('click', (evt) => {
-        modalSearch.style.display = 'flex';
+    // const modalSearch = headerWrapper.getElementsByClassName('search-block')[0];
+    search.addEventListener('click', () => {
+        // modalSearch.style.display = 'flex';
+        EventBus.dispatchEvent(REDIRECT, {url: '/search'});
     });
-
-    const cancel = headerWrapper.getElementsByClassName('search-block__cancel-button')[0];
-    cancel.addEventListener('click', () => {
-        modalSearch.style.display = 'none';
-    });
+    //
+    // const cancel = headerWrapper.getElementsByClassName('search-block__cancel-button')[0];
+    // cancel.addEventListener('click', () => {
+    //     modalSearch.style.display = 'none';
+    // });
 
     return headerWrapper.firstElementChild;
 }

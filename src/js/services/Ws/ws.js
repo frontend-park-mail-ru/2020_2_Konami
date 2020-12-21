@@ -3,20 +3,22 @@
 import EventBus from "@/js/services/EventBus/EventBus.js";
 import {
     CONNECT_CHAT,
-    DISCONNECT_CHAT
 } from "@/js/services/EventBus/EventTypes.js";
 
 export class Ws {
     constructor(userId) {
         this.userId = userId;
 
+        // TODO uncomment
         const address = ['https', 'https:'].includes(location.protocol)
             ? `wss://${location.hostname}:8001/api/ws`
             : `ws://${location.hostname}:8001/api/ws`;
+            // ? `wss://${location.hostname}:3000/ws`
+            // : `ws://${location.hostname}:3000/ws`;
 
 
         this.ws = new WebSocket(address);
-        this.ws.onopen = (event) => {
+        this.ws.onopen = () => {
             console.log(`WebSocket on address ${address} opened`);
             console.dir(this.ws);
 

@@ -3,7 +3,14 @@
 import Controller from "@/js/basics/Controller/Controller.js";
 import MeetingsModel from "./MeetingsModel.js";
 import { getMeetings } from "@/js/services/API/api.js";
-import MeetingsView from "./MeetingsView.js";
+import {
+    MeetingsView, 
+    MEETINGSCOUNT,
+} from "./MeetingsView.js";
+
+import {TAGS, TAGS_IMGS} from "@/js/config/tags";
+
+const MEETINGSCOUNTWITHOUTQUERY = 3;
 
 export default class MeetingsController extends Controller {
 
@@ -25,13 +32,19 @@ export default class MeetingsController extends Controller {
         if (this.model._isQueryEmpty) {
             this.view._cards = null;
             // тут нужно будет получить рекомендации с ?filter=recomendations&limit=5
-            const recomendation = getMeetings(); // пока что рекомендации не работают
+            const recomendation = getMeetings({limit: MEETINGSCOUNTWITHOUTQUERY}, 'recommended'); // пока что рекомендации не работают
 
             // тут нужно будет получить с ?startDate=now&endDate=now+7&limit=3
-            const soon = getMeetings({limit: 3});
+            let date = new Date();
+            date.setDate(date.getDate() + 7);
+            const soon = getMeetings({
+                limit: MEETINGSCOUNTWITHOUTQUERY,
+                startDate: Date.now(),
+                endDate: date,
+            });
 
             // тут нужно будет получить рекомендации с /meetings/top?limit=3
-            const mostExpected = getMeetings({limit: 3}, 'top');
+            const mostExpected = getMeetings({limit: MEETINGSCOUNTWITHOUTQUERY}, 'top');
 
             Promise.all([recomendation, soon, mostExpected]).then(values => {
                 /* C этим тоже нужно что-то сделать, но пока пусть так будут 
@@ -41,16 +54,34 @@ export default class MeetingsController extends Controller {
                     // ne kaef
                     return;
                 }*/
+
+                if (values[0].parsedJson.length === 0 || values[0].statusCode === 401) {
+                    getMeetings({limit: MEETINGSCOUNTWITHOUTQUERY}).then(response => {
+                        this.view.render(response.parsedJson, values[1].parsedJson, values[2].parsedJson);
+                    });
+                    return;
+                }
                 this.view.render(values[0].parsedJson, values[1].parsedJson, values[2].parsedJson);
             });
         } else {
             this.view._cards = null;
+            let collectionQuery = '';
+            if (this.model._queryConfig.collectionId !== '' &&
+                        this.model._queryConfig.collectionId !== undefined && 
+                        this.model._queryConfig.collectionId !== null) {
+                TAGS[this.model._queryConfig.collectionId].forEach(item => {
+                    collectionQuery += `tag=${item}&`;
+                });
+                console.log(collectionQuery);
+            }
+            
             getMeetings({
-                limit: 3, 
+                limit: MEETINGSCOUNT, 
                 start: this.model._queryConfig.dateStart,
                 end: this.model._queryConfig.dateEnd,
                 tagId: this.model._queryConfig.tagId,
                 meetId: this.model._queryConfig.meetId,
+                meta: collectionQuery,
             }, this.model._queryConfig.filter).then(obj => {
                 this.view.renderWithQuery(obj.parsedJson);
             });

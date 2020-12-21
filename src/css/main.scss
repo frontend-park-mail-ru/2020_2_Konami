@@ -1,6 +1,7 @@
 @import '@/sass_config.scss';
 @import '@/components/cards/MeetCard/MeetCard.scss';
 @import '@/components/cards/UserCard/UserCard.scss';
+@import '@/components/cards/CollectionCard/CollectionCard.scss';
 
 @import '@/components/cards/MeetSlides/MeetSlide.scss';
 @import '@/components/cards/MeetSlides/MeetSlideMobile.scss';
@@ -36,6 +37,18 @@
 
 @import '@/css/signup.scss';
 @import '@/css/new-meeting.scss';
+
+@font-face {
+    font-family: 'Ubuntu Mono';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/ubuntu-mono-v10-latin-regular.eot'), /* IE9 Compat Modes */
+    url('../fonts/ubuntu-mono-v10-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/ubuntu-mono-v10-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../fonts/ubuntu-mono-v10-latin-regular.woff') format('woff'), /* Modern Browsers */
+    url('../fonts/ubuntu-mono-v10-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../fonts/ubuntu-mono-v10-latin-regular.svg#UbuntuMono') format('svg'); /* Legacy iOS */
+}
 
 body {
     margin: 0px;
@@ -150,6 +163,18 @@ body {
         }
     }
 
+    .collection-card {
+        flex-basis: 485px;
+
+        &__image-wrapper {
+            height: 230px;
+        }
+
+        &__image {
+            height: 230px;
+        }
+    }
+
     .user-card {
         &__image-wrapper {
             width: 315px;
@@ -164,6 +189,24 @@ body {
 
         &__image {
             min-width: $min-width + 2 * $padding;
+        }
+    }
+
+    .wrapper-desktop {
+        width: 70%;
+    }
+}
+
+@media (max-width: 650px) {
+    .collection-card {
+        flex-basis: 380px;
+
+        &__image-wrapper {
+            height: 230px;
+        }
+
+        &__image {
+            height: 230px;
         }
     }
 }

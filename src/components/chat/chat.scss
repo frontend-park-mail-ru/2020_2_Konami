@@ -6,9 +6,14 @@
 
 .wrapper-desktop {
   padding: 20px 10px 0px 10px;
-  width: 90%;
+  //width: 90%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
+
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
 }
 
 .chat-wrapper {
@@ -16,11 +21,12 @@
   //display: flex;
   //padding: 20px 10px 0px 10px;
   //width: 100%;
-  min-width: 300px;
+  //min-width: 300px;
 
   /* The popup chat - hidden by default */
   .chat-popup {
     display: none;
+    background-color: white;
     padding: 10px 15px;
     position: relative;
     bottom: 0;
@@ -361,35 +367,96 @@ hr {
 }
 
 
+.mixin {
+  width: 20px;
+  margin-left: auto;
+  border-radius: 50%;
+
+  &:hover {
+    width: 100%;
+    //width: 800px;
+    margin-left: auto;
+    //margin-right: auto;
+    animation: growUp 600ms ease-in-out forwards;
+    transform-origin: right;
+    border-radius: 5px;
+  }
+}
+
+.border-top-raduis {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
 .panel-heading {
   color: #111;
-  background-color: #4798bc;
+  background-color: #69d9d1;
   border-color: #428bca;
   padding: 10px 15px;
   border-bottom: 1px solid transparent;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
   max-height: 30px;
+  //cursor: move;
+  //border-radius: 50%;
+  //width: 6%;
+  //margin-left: auto;
+  //animation: growDown 900ms ease-in-out forwards;
+  //transform-origin: right;
 
   .mt-5 {
     position: relative;
-    top: 5px;
+    top: 4px;
+    left: -3px;
   }
 
   &__icon {
-    height: 20px;
+    height: 25px;
     &:hover {
       transform: scale(1.2);
     }
 
   }
 
+  .chat-title {
+    //font-family: "Ubuntu Mono", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
   .pull-right {
     position: relative;
-    display: inline-block;
+    //display: inline-block;
     vertical-align: middle;
     float: right;
     cursor: pointer;
-    /* display: flex; */
+    display: none;
   }
 }
+
+@keyframes growUp {
+  0% {
+    transform: scaleX(0.2)
+  }
+  //80% {
+  //  transform: scaleX(1.1)
+  //}
+  100% {
+    transform: scaleX(1)
+  }
+}
+
+@keyframes growDown {
+  from {
+      transform: scaleX(1.9)
+  }
+  to {
+      transform: scaleX(1)
+  }
+}
+
+//.dropdown {
+//  width: 90%;
+//  margin-left: auto;
+//  margin-right: auto;
+//  animation: growDown 900ms ease-in-out forwards;
+//  transform-origin: right;
+//}
