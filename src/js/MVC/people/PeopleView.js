@@ -205,7 +205,7 @@ export default class PeopleView extends BaseView {
                     displayNotification(`Вы подписались на пользователя ${item.label.name}`);
                     event.target.src = "/assets/like.svg";
                 } else {
-                    displayNotification(`Вы отменили подписку на пользователя ${item.card.label.name}`);
+                    displayNotification(`Вы отменили подписку на пользователя ${item.label.name}`);
                     event.target.src = "/assets/heart.svg";
                 }
             });
