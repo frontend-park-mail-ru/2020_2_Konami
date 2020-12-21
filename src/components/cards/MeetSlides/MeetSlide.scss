@@ -14,6 +14,27 @@
     margin-right: 25px;
 
     border-radius: 20px;
+    transition: all 1s;
+
+    //transition: all 300ms ease-in-out;
+    //z-index: -1;
+    //opacity: 0;
+
+    &__prev {
+        z-index: 2;
+        opacity: 0.25;
+    }
+
+    &__active {
+        opacity: 1;
+        z-index: 99;
+        box-shadow: 0px 0px 105px -35px rgba(0, 0, 0, 0.75);
+    }
+
+    &__next {
+        z-index: 2;
+        opacity: 0.25;
+    }
 
     &__tags {
         position: absolute;
@@ -27,7 +48,7 @@
         object-fit: cover;
         width: 100%;
         height: 100%;
-    
+
         transition: 0.4s ease 0s;
         filter: brightness(0.6);
         object-fit: cover;
@@ -37,15 +58,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-    
+
         position: absolute;
-    
+
         width: 95%;
-    
+
         left: 0px;
         bottom: 0px;
         padding: 20px 25px;
-    
+
         color: white;
     }
 
@@ -58,7 +79,7 @@
     &__date-place-wrapper {
         color: #e3e3e3;
     }
-    
+
     &__button {
         margin-left: auto;
         display: flex;
@@ -68,18 +89,18 @@
     &__go-button {
         outline: none;
         border: none;
-    
+
         font-size: large;
-    
+
         background-color: yellow;
         border-radius: 100px;
         height: 40px;
         width: 100px;
         margin-right: 5px;
-    
+
         cursor: pointer;
     }
-    
+
     &__go-button:hover {
         filter: brightness(0.9);
     }
@@ -90,14 +111,14 @@
         margin-top: 7px;
         margin-left: 6px;
     }
-    
+
     &__like-icon-wrapper {
         background-color: yellow;
         border-radius: 100px;
         padding: 3px;
         height: 37px;
         width: 37px;
-    
+
         transition: 0.2s ease 0s;
 
         &:hover {

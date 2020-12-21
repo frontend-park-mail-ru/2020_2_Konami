@@ -1,65 +1,79 @@
-.slide-container {
+.shifting {
+    transition: left .6s ease-out;
+}
+
+.slides-wrapper {
     position: relative;
-
     display: flex;
-    justify-content: center;
-    align-items: center;
 
-    height: 380px;
-    width: 1200px;
-
-    margin: 15px 0;
-    font-family: 'Roboto', sans-serif;
-
-    &__slides {
+    .slide-container {
+        position: relative;
         overflow: hidden;
+
         display: flex;
-    }
+        justify-content: center;
+        align-items: center;
 
-    &__next-button,
-    &__prev-button {
-        width: 60px;
-        height: 60px;
-        position: absolute;
-        top: 170px;
+        height: 380px;
+        width: 1200px;
 
-        z-index: 2;
+        margin: 15px 0;
+        font-family: 'Roboto', sans-serif;
 
-        cursor: pointer;
+        &__slides {
+            //overflow: hidden;
+            display: flex;
+            position: relative;
+            top: 0;
+            left: -965px;  // 940 - width of meet-slide
+            width: 10000px;
+        }
 
-        transition: 0.2s ease 0s;
+        &__next-button,
+        &__prev-button {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 170px;
 
-        /*box-shadow: 1px 2px 10px 0px grey;*/
-        border-radius: 100px;
-        background-color: rgb(41, 37, 37);
-    }
+            z-index: 100;
 
-    &__prev-button {
-        left: -23px;
-    }
+            cursor: pointer;
 
-    &__next-button {
-        right: -23px;
-    }
+            transition: 0.2s ease 0s;
 
-    &__next-button:hover,
-    &__prev-button:hover {
-        transform: scale(1.1);
-    }
+            /*box-shadow: 1px 2px 10px 0px grey;*/
+            border-radius: 100px;
+            background-color: rgb(41, 37, 37);
+        }
 
-    &__next {
-        margin: 15px;
-        height: 30px;
-        width: 30px;
-        filter: invert(1);
-    }
+        &__prev-button {
+            left: -23px;
+        }
 
-    &__prev {
-        margin: 15px;
-        height: 30px;
-        width: 30px;
-        filter: invert(1);
-        transform: scaleX(-1);
+        &__next-button {
+            right: -23px;
+        }
+
+        &__next-button:hover,
+        &__prev-button:hover {
+            transform: scale(1.1);
+        }
+
+        &__next {
+            margin: 15px;
+            height: 30px;
+            width: 30px;
+            filter: invert(1);
+        }
+
+        &__prev {
+            margin: 15px;
+            height: 30px;
+            width: 30px;
+            filter: invert(1);
+            transform: scaleX(-1);
+        }
     }
 }
 

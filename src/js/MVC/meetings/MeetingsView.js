@@ -65,6 +65,13 @@ export class MeetingsView extends BaseView {
         recomendation.forEach(item => {
             this._createSlide(item);
         });
+
+        const slider = document.getElementsByClassName('slide-container')[0];
+        const sliderItems = document.getElementsByClassName('slide-container__slides')[0];
+        const prev = document.getElementsByClassName('slide-container__prev-button')[0];
+        const next = document.getElementsByClassName('slide-container__next-button')[0];
+
+        this._slider.slide(slider, sliderItems, prev, next);
     }
 
     _renderWithQueryMobile(cards) {
@@ -90,8 +97,8 @@ export class MeetingsView extends BaseView {
         main.appendChild(afterCard);
 
         afterCard.appendChild(this._createSettings(this._settingsButton));
-        if (this.model._queryConfig.collectionId !== undefined && 
-                this.model._queryConfig.collectionId !== null && 
+        if (this.model._queryConfig.collectionId !== undefined &&
+                this.model._queryConfig.collectionId !== null &&
                 this.model._queryConfig.collectionId !== '') {
             main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
         }
@@ -141,8 +148,8 @@ export class MeetingsView extends BaseView {
 
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
-        if (this.model._queryConfig.collectionId !== undefined && 
-                this.model._queryConfig.collectionId !== null && 
+        if (this.model._queryConfig.collectionId !== undefined &&
+                this.model._queryConfig.collectionId !== null &&
                 this.model._queryConfig.collectionId !== '') {
             main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
         }
@@ -202,8 +209,8 @@ export class MeetingsView extends BaseView {
 
         // Настройки
         afterCard.appendChild(this._createSettings(this._settingsButton));
-        if (this.model._queryConfig.collectionId !== undefined && 
-                this.model._queryConfig.collectionId !== null && 
+        if (this.model._queryConfig.collectionId !== undefined &&
+                this.model._queryConfig.collectionId !== null &&
                 this.model._queryConfig.collectionId !== '') {
             main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
         }
@@ -262,8 +269,8 @@ export class MeetingsView extends BaseView {
 
         // Настройки
         main.appendChild(this._createSettings(this._settingsButton));
-        if (this.model._queryConfig.collectionId !== undefined && 
-                this.model._queryConfig.collectionId !== null && 
+        if (this.model._queryConfig.collectionId !== undefined &&
+                this.model._queryConfig.collectionId !== null &&
                 this.model._queryConfig.collectionId !== '') {
             main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
         }
@@ -394,7 +401,7 @@ export class MeetingsView extends BaseView {
         });
 
         const dateEnd = document.createElement('input');
-        if (this.model._queryConfig.dateEnd !== undefined && 
+        if (this.model._queryConfig.dateEnd !== undefined &&
                 this.model._queryConfig.dateEnd !== null &&
                 this.model._queryConfig.dateEnd !== '') {
             dateEnd.value = this.model._queryConfig.dateEnd;
@@ -403,8 +410,8 @@ export class MeetingsView extends BaseView {
         dateEnd.type = 'date';
         dateEnd.classList.add('settings__button');
         dateEnd.min = new Date().toISOString().slice(0, 10);
-        if (this.model._queryConfig.dateEnd !== undefined && 
-                this.model._queryConfig.dateEnd !== null && 
+        if (this.model._queryConfig.dateEnd !== undefined &&
+                this.model._queryConfig.dateEnd !== null &&
                 this.model._queryConfig.dateEnd !== '') {
             dateEnd.value = this.model._queryConfig.dateEnd;
             dateEnd.style.backgroundColor = '#e5e5e5';;
@@ -416,8 +423,8 @@ export class MeetingsView extends BaseView {
         });
 
         const dateStart = document.createElement('input');
-        if (this.model._queryConfig.dateStart !== null && 
-                this.model._queryConfig.dateStart !== undefined && 
+        if (this.model._queryConfig.dateStart !== null &&
+                this.model._queryConfig.dateStart !== undefined &&
                     this.model._queryConfig.dateStart !== '') {
             dateStart.value = this.model._queryConfig.dateStart;
             dateStart.style.backgroundColor = '#e5e5e5';;
@@ -425,8 +432,8 @@ export class MeetingsView extends BaseView {
         dateStart.type = 'date';
         dateStart.classList.add('settings__button');
         dateStart.min = new Date().toISOString().slice(0, 10);
-        if (this.model._queryConfig.dateStart !== null && 
-                this.model._queryConfig.dateStart !== '' && 
+        if (this.model._queryConfig.dateStart !== null &&
+                this.model._queryConfig.dateStart !== '' &&
                 this.model._queryConfig.dateStart !== undefined) {
             dateStart.value = this.model._queryConfig.dateStart;
             dateStart.style.backgroundColor = '#e5e5e5';;
