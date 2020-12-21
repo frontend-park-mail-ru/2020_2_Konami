@@ -1,13 +1,13 @@
 'use strict';
 
-import { 
+import {
     createSettings,
     createButton,
 } from "@/components/settings/Settings.js";
 import BaseView from "@/js/basics/BaseView/BaseView.js";
 import EventBus from "@/js/services/EventBus/EventBus.js";
 
-import { 
+import {
     REDIRECT,
     OPEN_LOGIN_MODAL,
 } from "@/js/services/EventBus/EventTypes.js";
@@ -39,7 +39,7 @@ export default class PeopleView extends BaseView {
 
     _renderDesktop(cards) {
         const main = document.createElement('div');
-        main.classList.add('desktop-page'); 
+        main.classList.add('desktop-page');
         this._this = main;
         this.parent.appendChild(main);
 
@@ -89,7 +89,7 @@ export default class PeopleView extends BaseView {
 
     _renderMobile(cards) {
         const main = document.createElement('div');
-        main.classList.add('page-mobile__main'); 
+        main.classList.add('page-mobile__main');
         this._this = main;
         this.parent.appendChild(main);
 
@@ -202,10 +202,10 @@ export default class PeopleView extends BaseView {
                     return;
                 }
                 if (item.isSubTarget) {
-                    displayNotification("Вы избрали пользователя");
+                    displayNotification(`Вы подписались на пользователя ${item.label.name}`);
                     event.target.src = "/assets/like.svg";
                 } else {
-                    displayNotification("Вы отменили избрание"); 
+                    displayNotification(`Вы отменили подписку на пользователя ${item.card.label.name}`);
                     event.target.src = "/assets/heart.svg";
                 }
             });

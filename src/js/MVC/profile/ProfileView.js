@@ -147,11 +147,11 @@ export default class ProfileView extends BaseView {
                     return;
                 }
                 if (item.card.isSubTarget) {
-                    displayNotification("Вы избрали пользователя");
-                    event.target.innerHTML = 'Отменить избрание';
+                    displayNotification(`Вы подписались на пользователя ${item.card.label.name}`);
+                    event.target.innerHTML = 'Отменить подписку';
                 } else {
-                    displayNotification("Вы отменили избрание"); 
-                    event.target.innerHTML = 'Избрать';
+                    displayNotification(`Вы отменили подписку на пользователя ${item.card.label.name}`);
+                    event.target.innerHTML = 'Подписаться';
                 }
             });
         });
