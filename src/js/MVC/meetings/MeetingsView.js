@@ -320,15 +320,27 @@ export class MeetingsView extends BaseView {
         const mymeetings = createButton('Мои мероприятия');
 
         mymeetings.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'my';
-            this._parseWithRedirect();
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this.model._queryConfig.filter = 'my';
+                this._parseWithRedirect();
+            });
         });
 
         const favorites = createButton('Избранное');
 
         favorites.addEventListener('click', () => {
-            this.model._queryConfig.filter = 'favorite';
-            this._parseWithRedirect();
+            this.model.checkAuth().then(isAuth => {
+                if (!isAuth) {
+                    EventBus.dispatchEvent(OPEN_LOGIN_MODAL);
+                    return;
+                }
+                this.model._queryConfig.filter = 'favorite';
+                this._parseWithRedirect();
+            });
         });
 
         const settings = document.createElement('div');
