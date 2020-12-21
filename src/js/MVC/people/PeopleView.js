@@ -45,7 +45,7 @@ export default class PeopleView extends BaseView {
 
         main.appendChild(createEmptyBlock());
 
-        main.appendChild(createMainTitle('Людишечки'));
+        main.appendChild(createMainTitle('Люди'));
 
         // Добавляем немного настроечек
         main.appendChild(this._createSettings());
