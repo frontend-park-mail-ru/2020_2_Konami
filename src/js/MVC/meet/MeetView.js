@@ -41,6 +41,7 @@ export default class MeetView extends BaseView {
     }
 
     _loadData() {
+        // TODO fucking stub
         getPeople(1).then(response => {
             if (response.statusCode === 200) {
                 Object.values(response.parsedJson).forEach((user) => {
@@ -65,13 +66,7 @@ export default class MeetView extends BaseView {
                 }
 
                 // TODO it's STUB, to DELETE
-                const userList = document.getElementsByClassName('users-container')[0];
-
-                const alreadyExist = document.getElementById('listUser' + authorId);
-                if (!alreadyExist) {
-                    userList.appendChild(createListUser(this.users.get(authorId)));
-                    userList.innerHTML += `<hr>`;
-                }
+                this._appendUserList(authorId);
             },
 
             onNewChatConnect: (payload) => {
@@ -463,6 +458,8 @@ export default class MeetView extends BaseView {
     }
 
     _addChatListeners(isMobile) {
+        this._appendUserList(this.model.getUserId());
+
         const panelHead = document.getElementsByClassName('panel-heading')[0];
         const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
         // const closeChatBtn = document.getElementsByClassName('close-chat-button')[0];
@@ -510,7 +507,6 @@ export default class MeetView extends BaseView {
                     panelHead.classList.toggle('border-top-raduis');
                     scrollTo(0, () => {
                         chatPopup.style.display = 'none';
-                        // chatTitle.style.display = 'none';
                     });
 
                 } else
@@ -578,18 +574,21 @@ export default class MeetView extends BaseView {
             panelHead.addEventListener('mouseenter', chatPanelOnMouseHandler);
             panelHead.addEventListener('mouseleave', chatPanelOnMouseLeaveHandler);
 
-            // panelHead.onmouseenter = () => {
-            //     rightButton.style.display = 'inline-block';
-            //     chatTitle.style.display = 'inline-block';
-            // }
-            // panelHead.onmouseleave = () => {
-            //     rightButton.style.display = 'none';
-            //     chatTitle.style.display = 'none';
-            // }
         } else {
             rightButton.style.display = 'inline-block';
             chatTitle.style.display = 'inline-block';
         }
 
+    }
+
+    _appendUserList(userId) {
+        // TODO it's STUB, to DELETE
+        const userList = document.getElementsByClassName('users-container')[0];
+
+        const alreadyExist = document.getElementById('listUser' + userId);
+        if (!alreadyExist) {
+            userList.appendChild(createListUser(this.users.get(userId)));
+            userList.innerHTML += `<hr>`;
+        }
     }
 }
