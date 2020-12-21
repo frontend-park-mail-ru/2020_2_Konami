@@ -21,7 +21,7 @@ import {
 import { displayNotification } from "@/components/auth/Notification/Notification.js";
 
 const conf = [
-    {
+ /*   {
         name: 'name',
         inputType: 'input',
     },
@@ -36,7 +36,7 @@ const conf = [
     {
         name: 'telegram',
         inputType: 'input',
-    },
+    },*/
     {
         name: 'skills',
         inputType: 'textarea',
