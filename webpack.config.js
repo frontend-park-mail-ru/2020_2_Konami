@@ -2,6 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = (env, argv) => {
     const config = {
@@ -45,6 +48,9 @@ module.exports = (env, argv) => {
                     loader: 'buble-loader',
                     include: path.join(__dirname, 'src'),
                     options: {
+                        presets: [
+                            ["es2015"]
+                        ],
                         objectAssign: 'Object.assign',
                         transforms: {
                             modules: false,
@@ -77,7 +83,15 @@ module.exports = (env, argv) => {
                 //     ]
                 // }
             ]
-       }
+       },
+       optimization: {
+        minimize: true,
+        minimizer: [
+          new HtmlMinimizerPlugin(),
+          new CssMinimizerPlugin(),
+          // new UglifyJsPlugin(),
+        ],
+      },
     }
 
     if (argv.mode === 'development') {
