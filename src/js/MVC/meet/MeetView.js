@@ -458,7 +458,11 @@ export default class MeetView extends BaseView {
     }
 
     _addChatListeners(isMobile) {
-        this._appendUserList(this.model.getUserId());
+
+        const userId = this.model.getUserId();
+        if (userId !== null) {
+            this._appendUserList(userId);
+        }
 
         const panelHead = document.getElementsByClassName('panel-heading')[0];
         const openChatBtn = document.getElementsByClassName('open-chat-button')[0];
