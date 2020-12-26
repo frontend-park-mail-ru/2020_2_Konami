@@ -89,7 +89,11 @@ class Router {
 
     _handleSearchControllerMixin(controller) {
         if (this.currentController) {
-            // this.currentController.activate(new URLSearchParams(window.location.search));
+            const searchInput = document.getElementsByClassName('search-block__search-input')[0];
+            const searchResults = document.getElementsByClassName('search-block__offer');
+            if (searchInput.value === '' && searchResults.length === 0) {
+                this.redirectBack();
+            }
 
             const prevController = this.currentController;
             this.currentController = controller;  // берем контролер поиска

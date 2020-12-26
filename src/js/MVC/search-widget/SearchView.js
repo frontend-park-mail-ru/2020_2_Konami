@@ -33,11 +33,17 @@ export default class SearchView extends BaseView {
     }
 
     render() {
+        const searchInput = document.getElementsByClassName('search-block__search-input')[0];
+        if (searchInput.value === '.') {
+            searchInput.value = ''
+        }
+
         const modalSearch = document.getElementsByClassName('search-block')[0];
         modalSearch.style.display = 'flex';
 
         const cancel = document.getElementsByClassName('search-block__cancel-button')[0];
         cancel.addEventListener('click', this._closeSearchTab);
+        window.addEventListener('click', this._hideSearchTab);
     }
 
     erase() {
@@ -46,6 +52,7 @@ export default class SearchView extends BaseView {
 
         const cancel = document.getElementsByClassName('search-block__cancel-button')[0];
         cancel.removeEventListener('click', this._closeSearchTab);
+        window.removeEventListener('click', this._hideSearchTab);
     }
 
     registerEvents() {
@@ -69,6 +76,15 @@ export default class SearchView extends BaseView {
         const modalSearch = document.getElementsByClassName('search-block')[0];
         modalSearch.style.display = 'none';
         EventBus.dispatchEvent(CLOSE_SEARCH_TAB);
+    }
+
+    _hideSearchTab(evt) {
+        const searchBlock = document.getElementsByClassName('search-block')[0];
+        const searchBtn = document.getElementsByClassName('header-mobile__search')[0];
+
+        if (evt.target !== searchBtn && !(searchBlock.contains(evt.target))) {
+            searchBlock.style.display = "none";
+        }
     }
 
 }

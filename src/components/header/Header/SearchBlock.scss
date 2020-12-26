@@ -2,18 +2,30 @@
 
 .search-block {
     display: none;
+    margin-top: 10px;
     flex-direction: column;
 
     position: absolute;
 
-    left: 0;
+    left: 50%;
     top: 0;
     right: 0;
 
     background-color: white;
     z-index: 999999999;
-    height: 500px;
-    width: 100%;
+    min-height: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+    width: 50%;
+
+    -webkit-transform: translate(-50%);
+    -moz-transform: translate(-50%);
+    -ms-transform: translate(-50%);
+    -o-transform: translate(-50%);
+    transform: translate(-50%);
+
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 40px;
+    border-radius: 12px;
 
     &__search-input-wrapper {
         display: flex;
@@ -24,12 +36,12 @@
 
     &__search-input {
         width: 100%;
-    
+
         outline: none;
         border: none;
-    
+
         margin-left: 10px;
-        
+
         border-radius: 100px;
         padding-left: 20px;
         background-color: rgb(226, 225, 223)
@@ -40,12 +52,13 @@
         flex-direction: column;
 
         margin-left: 15px;
+        margin-top: 15px;
     }
 
     &__offers-title {
         color: grey;
         margin-bottom: 0px;
-    }  
+    }
 
     &__offer {
         display: flex;
@@ -65,7 +78,7 @@
 
         margin-right: 15px;
     }
-    
+
     &__cancel-button {
         background-color: white;
         border: none;
