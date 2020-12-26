@@ -143,10 +143,11 @@ export default class HeaderView extends BaseView {
         });
 
         this._setUserGeolocation();
-        // locationLink.addEventListener('click', (evt) => {
-        //     evt.preventDefault();
-        //     EventBus.dispatchEvent(REDIRECT, {url: '/profile'});
-        // });
+        const locationLink = document.getElementById('locationLink');
+        locationLink.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this.model._user.getUserGeolocation();
+        });
 
         const editprofileLink = document.getElementById('editprofileLink');
         editprofileLink.addEventListener('click', (evt) => {
