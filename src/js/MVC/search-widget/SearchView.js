@@ -70,8 +70,11 @@ export default class SearchView extends BaseView {
     }
 
     _closeSearchTab() {
-        const search = document.getElementsByClassName('search-block__search-input')[0];
-        search.value = '';
+        const searchInput = document.getElementsByClassName('search-block__search-input')[0];
+        searchInput.value = '';
+
+        const searchResults = document.getElementsByClassName('search-block__offers')[0];
+        searchResults.innerHTML = '';
 
         const modalSearch = document.getElementsByClassName('search-block')[0];
         modalSearch.style.display = 'none';
