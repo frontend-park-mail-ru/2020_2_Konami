@@ -258,6 +258,14 @@ export class MeetingsView extends BaseView {
         main.appendChild(createEmptyBlock());
 
 
+        // Настройки
+        main.appendChild(this._createSettings(this._settingsButton));
+        if (this.model._queryConfig.collectionId !== undefined &&
+            this.model._queryConfig.collectionId !== null &&
+            this.model._queryConfig.collectionId !== '') {
+            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
+        }
+
         const recommended = createMainTitle('Рекомендации для вас');
         /* recommended.addEventListener('click', () => {
             this.model._queryConfig.filter = 'recommended';
@@ -266,14 +274,6 @@ export class MeetingsView extends BaseView {
         // Заголовок
         main.appendChild(recommended);
 
-
-        // Настройки
-        main.appendChild(this._createSettings(this._settingsButton));
-        if (this.model._queryConfig.collectionId !== undefined &&
-                this.model._queryConfig.collectionId !== null &&
-                this.model._queryConfig.collectionId !== '') {
-            main.appendChild(createMainTitle(this.model._queryConfig.collectionId));
-        }
 
         // Создаем слайдер
         this._slider = new Slider(false);

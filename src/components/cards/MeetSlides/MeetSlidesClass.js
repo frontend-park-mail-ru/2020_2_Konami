@@ -3,6 +3,8 @@
 const template = require('./MeetSlideTemplate.pug');
 const mobileTemplate = require('./MeetSlideMobileTemplate.pug');
 
+const SLIDER_DELAY_MS = 5500;
+
 export default class MeetSlider {
     constructor(isMobile) {
         this._isMobile = isMobile;
@@ -11,6 +13,8 @@ export default class MeetSlider {
         } else {
             this._createDesktop();
         }
+
+        this.timerId = null;
     }
 
     render() {
@@ -141,9 +145,28 @@ export default class MeetSlider {
         items.insertBefore(cloneLast, firstSlide);
         // wrapper.classList.add('loaded');
 
+        this.timerId = setInterval(shiftSlide, SLIDER_DELAY_MS, 1);
+
         // Click events
-        prev.addEventListener('click', function () { shiftSlide(-1) });
-        next.addEventListener('click', function () { shiftSlide(1) });
+        prev.addEventListener('click', () => {
+            clearInterval(this.timerId);
+            shiftSlide(-1);
+            this.timerId = setInterval(shiftSlide, SLIDER_DELAY_MS, 1);
+        });
+        next.addEventListener('click', () => {
+            clearInterval(this.timerId);
+            shiftSlide(1);
+            this.timerId = setInterval(shiftSlide, SLIDER_DELAY_MS, 1);
+        });
+
+        for (const slide of slides) {
+            slide.onmouseenter = () => {
+                clearInterval(this.timerId);
+            }
+            slide.onmouseleave = () => {
+                this.timerId = setInterval(shiftSlide, SLIDER_DELAY_MS, 1);
+            }
+        }
 
         // Transition events
         items.addEventListener('transitionend', checkIndex);
