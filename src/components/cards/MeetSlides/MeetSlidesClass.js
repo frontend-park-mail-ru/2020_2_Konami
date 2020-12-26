@@ -3,7 +3,7 @@
 const template = require('./MeetSlideTemplate.pug');
 const mobileTemplate = require('./MeetSlideMobileTemplate.pug');
 
-const SLIDER_DELAY_MS = 5500;
+const SLIDER_DELAY_MS = 5000;
 
 export default class MeetSlider {
     constructor(isMobile) {
