@@ -1,18 +1,8 @@
 @import '../../../sass_config.scss';
 
-.search-block {
-    display: none;
+.search-block__desktop {
     margin-top: 10px;
-    flex-direction: column;
-
-    position: absolute;
-
     left: 50%;
-    top: 0;
-    right: 0;
-
-    background-color: white;
-    z-index: 999999999;
     min-height: 300px;
     max-height: 600px;
     overflow-y: auto;
@@ -23,6 +13,26 @@
     -ms-transform: translate(-50%);
     -o-transform: translate(-50%);
     transform: translate(-50%);
+}
+
+.search-block__mobile {
+    left: 0;
+    height: 500px;
+    width: 100%;
+}
+
+.search-block {
+    display: none;
+    flex-direction: column;
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    background-color: white;
+    z-index: 999999999;
+    overflow-y: auto;
 
     box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 40px;
     border-radius: 12px;

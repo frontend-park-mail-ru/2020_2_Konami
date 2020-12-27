@@ -5,10 +5,13 @@ import {REDIRECT} from "@/js/services/EventBus/EventTypes";
 
 export function createHeaderMobile(isMobile) {
     let headerClass = null;
+    let searchBlockMixinClass;
     if (isMobile) {
         headerClass = 'header-mobile';
+        searchBlockMixinClass = 'search-block__mobile';
     } else {
         headerClass = 'header-mobile header-mobile_fix';
+        searchBlockMixinClass = 'search-block__desktop';
     }
 
     const headerWrapper = document.createElement('div');
@@ -23,7 +26,7 @@ export function createHeaderMobile(isMobile) {
             <div class="header-mobile__logo-wrapper">
                 <img src="assets/logo-new.png" id="profileIcon" class="header-mobile__icon">
             </div>
-            <div class="search-block">
+            <div class="search-block ${searchBlockMixinClass}">
                 <div class="search-block__search-input-wrapper">
                     <input class="search-block__search-input">
                     <button class="search-block__cancel-button">Отменить</button>
