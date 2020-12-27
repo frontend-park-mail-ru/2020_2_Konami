@@ -238,7 +238,7 @@ export class MeetingsView extends BaseView {
         let collections = new CardWrapper(true, false);
         afterCard.appendChild(collections.render());
 
-        const keys = Object.keys(TAGS);
+        const keys = Object.keys(TAGS_IMGS);
         keys.forEach(key => {
             collections.appendCollection(key, () => {
                 this.model._queryConfig.collectionId = key;
@@ -313,7 +313,7 @@ export class MeetingsView extends BaseView {
         let collections = new CardWrapper(false, false);
         main.appendChild(collections.render());
 
-        const keys = Object.keys(TAGS);
+        const keys = Object.keys(TAGS_IMGS);
         keys.forEach(key => {
             collections.appendCollection(key, () => {
                 this.model._queryConfig.collectionId = key;

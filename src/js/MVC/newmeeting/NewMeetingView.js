@@ -273,6 +273,7 @@ export default class NewMeetingView extends BaseView {
                 ['minutes', Date.prototype.getMinutes]];
 
         const startDate = new Date();
+        startDate.setMonth(startDate.getMonth() + 1);
         arr.forEach((tok) => {
             let input = document.getElementsByName(`start-${tok[0]}`)[0];
             let val = tok[0] === 'month' ? tok[1].call(startDate) + 1 : tok[1].call(startDate);
@@ -280,6 +281,7 @@ export default class NewMeetingView extends BaseView {
         });
 
         const endDate = new Date(startDate.getTime() + 3 * 60 * 60 * 1000); // plus 3 hours;
+        endDate.setMonth(endDate.getMonth() + 1);
         arr.forEach((tok) => {
             let input = document.getElementsByName(`end-${tok[0]}`)[0];
             let val = tok[0] === 'month' ? tok[1].call(endDate) + 1 : tok[1].call(endDate);

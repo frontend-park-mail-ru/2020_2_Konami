@@ -49,7 +49,9 @@ export const TAGS = {
 
 export const TAGS_IMGS = {
     Разработка: 'assets/development.png',
-    Исскуство: 'assets/art.jpg'
+    Исскуство: 'assets/art.jpg',
+    Бизнес: 'assets/buisness.jpg',
+    Развлечения: 'assets/paris.jpg',
 }
 
 export function createDomTag(tagName, checkable = true) {
