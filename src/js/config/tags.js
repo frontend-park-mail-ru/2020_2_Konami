@@ -20,7 +20,7 @@ export const TAGS = {
 
     ],
 
-    Исскуство: [
+    Искусство: [
         'Творчество',
         'Театры',
         'Искусство',
@@ -49,7 +49,7 @@ export const TAGS = {
 
 export const TAGS_IMGS = {
     Разработка: 'assets/development.png',
-    Исскуство: 'assets/art.jpg',
+    Искусство: 'assets/art.jpg',
     Бизнес: 'assets/buisness.jpg',
     Развлечения: 'assets/paris.jpg',
 }
