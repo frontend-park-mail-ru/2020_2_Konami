@@ -3,6 +3,7 @@
 import UserModel from "@/js/models/UserModel.js";
 import Validator from "@/js/services/Validator/Validator.js";
 import EventBus from "@/js/services/EventBus/EventBus";
+import {INVALID_NAME_INPUT, PASSWORDS_MISMATCH, INVALID_LOGIN_INPUT, INVALID_PWD_INPUT} from "@/js/services/EventBus/EventTypes";
 
 
 export default class SignupModel {
