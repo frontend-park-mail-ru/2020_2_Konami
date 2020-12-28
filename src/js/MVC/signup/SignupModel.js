@@ -2,6 +2,8 @@
 
 import UserModel from "@/js/models/UserModel.js";
 import Validator from "@/js/services/Validator/Validator.js";
+import EventBus from "@/js/services/EventBus/EventBus";
+
 
 export default class SignupModel {
 
